@@ -1,13 +1,13 @@
-import { MetadataRoute } from 'next';
+import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = 'https://gtss.co.ke'; // Replace with actual domain when known, using a placeholder for now or process.env.NEXT_PUBLIC_APP_URL
+  const baseUrl = "https://gtss.vercel.app"; // Replace with actual domain when known, using a placeholder for now or process.env.NEXT_PUBLIC_APP_URL
 
   return {
     rules: {
-      userAgent: '*',
-      allow: '/',
-      disallow: ['/dashboard/', '/api/'],
+      userAgent: "*",
+      allow: "/",
+      disallow: ["/dashboard/", "/api/"],
     },
     sitemap: `${baseUrl}/sitemap.xml`,
   };

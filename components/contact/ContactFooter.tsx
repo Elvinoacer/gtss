@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { Layers, Globe, MessageSquare, Rss } from 'lucide-react';
-import Link from 'next/link';
+import { Layers, Globe, MessageSquare, Rss } from "lucide-react";
+import Link from "next/link";
 
 export function ContactFooter() {
   return (
@@ -15,19 +15,49 @@ export function ContactFooter() {
             <span className="font-bold text-lg">GTSS Product</span>
           </div>
           <div className="flex flex-wrap justify-center gap-8">
-            <Link className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors" href="/privacy">Privacy Policy</Link>
-            <Link className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors" href="/terms">Terms of Service</Link>
-            <Link className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors" href="/cookies">Cookie Settings</Link>
-            <Link className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors" href="/accessibility">Accessibility</Link>
+            <Link
+              className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors"
+              href="/privacy"
+            >
+              Privacy Policy
+            </Link>
+            <Link
+              className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors"
+              href="/terms"
+            >
+              Terms of Service
+            </Link>
+            <Link
+              className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors"
+              href="/cookies"
+            >
+              Cookie Settings
+            </Link>
+            <Link
+              className="text-sm text-gray-500 hover:text-[#1337ec] transition-colors"
+              href="/accessibility"
+            >
+              Accessibility
+            </Link>
           </div>
           <div className="flex gap-4">
-            <Link className="text-gray-400 hover:text-[#1337ec] transition-colors" href="https://gtss.co.ke" target="_blank">
+            <Link
+              className="text-gray-400 hover:text-[#1337ec] transition-colors"
+              href="https://gtss.vercel.app"
+              target="_blank"
+            >
               <Globe className="w-5 h-5" />
             </Link>
-            <Link className="text-gray-400 hover:text-[#1337ec] transition-colors" href="/contact">
+            <Link
+              className="text-gray-400 hover:text-[#1337ec] transition-colors"
+              href="/contact"
+            >
               <MessageSquare className="w-5 h-5" />
             </Link>
-            <Link className="text-gray-400 hover:text-[#1337ec] transition-colors" href="/blog">
+            <Link
+              className="text-gray-400 hover:text-[#1337ec] transition-colors"
+              href="/blog"
+            >
               <Rss className="w-5 h-5" />
             </Link>
           </div>

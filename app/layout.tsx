@@ -13,13 +13,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL('https://gtss.co.ke'),
+  metadataBase: new URL("https://gtss.vercel.app"),
   title: {
     default: "GTSS - Great Thumbs Software Solutions",
     template: "%s | GTSS",
   },
-  description: "Practical, scalable software products for real-world local problems. Empowering businesses across Africa with digital infrastructure.",
-  keywords: ["Software Solutions", "Africa", "Kenya", "Business Software", "SaaS", "E-commerce", "Church Management", "Hotel System", "Local Business"],
+  description:
+    "Practical, scalable software products for real-world local problems. Empowering businesses across Africa with digital infrastructure.",
+  keywords: [
+    "Software Solutions",
+    "Africa",
+    "Kenya",
+    "Business Software",
+    "SaaS",
+    "E-commerce",
+    "Church Management",
+    "Hotel System",
+    "Local Business",
+  ],
   authors: [{ name: "GTSS Team" }, { name: "Elvin Omondi" }],
   creator: "GTSS",
   publisher: "GTSS",
@@ -35,11 +46,12 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: "GTSS - Great Thumbs Software Solutions",
-    description: "Practical, scalable software products for real-world local problems.",
-    url: 'https://gtss.co.ke',
-    siteName: 'GTSS',
-    locale: 'en_US',
-    type: 'website',
+    description:
+      "Practical, scalable software products for real-world local problems.",
+    url: "https://gtss.vercel.app",
+    siteName: "GTSS",
+    locale: "en_US",
+    type: "website",
     images: [
       {
         url: "/images/GTSS-logo.png",
@@ -50,11 +62,12 @@ export const metadata: Metadata = {
     ],
   },
   twitter: {
-    card: 'summary_large_image',
+    card: "summary_large_image",
     title: "GTSS - Great Thumbs Software Solutions",
-    description: "Practical, scalable software products for real-world local problems.",
+    description:
+      "Practical, scalable software products for real-world local problems.",
     images: ["/images/GTSS-logo.png"],
-    creator: "@gtss_africa", // Placeholder handle
+    creator: "@Elvinoace",
   },
   robots: {
     index: true,
@@ -62,9 +75,9 @@ export const metadata: Metadata = {
     googleBot: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
     },
   },
 };
