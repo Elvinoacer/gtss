@@ -1,0 +1,9 @@
+export { Sidebar } from './Sidebar';
+export { DashboardHeader } from './DashboardHeader';
+export { DashboardLayout } from './DashboardLayout';
+export { StatCard } from './StatCard';
+export { RevenueChart } from './RevenueChart';
+export { SystemStatus } from './SystemStatus';
+export { ProductsTable } from './ProductsTable';
+export { MemberActivity } from './MemberActivity';
+export { DashboardClient } from './DashboardClient';
