@@ -2,7 +2,11 @@ import { MetadataRoute } from "next";
 import { getProducts } from "@/lib/actions/products";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = "https://gtss.vercel.app"; // Replace with actual domain
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL 
+    ? process.env.NEXT_PUBLIC_APP_URL 
+    : process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : "https://gtss.vercel.app";
 
   // 1. Static Routes
   const staticRoutes = [

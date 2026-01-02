@@ -1,7 +1,11 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://gtss.vercel.app"; // Replace with actual domain when known, using a placeholder for now or process.env.NEXT_PUBLIC_APP_URL
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL 
+    ? process.env.NEXT_PUBLIC_APP_URL 
+    : process.env.VERCEL_URL 
+      ? `https://${process.env.VERCEL_URL}` 
+      : "https://gtss.vercel.app";
 
   return {
     rules: {

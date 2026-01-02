@@ -60,10 +60,10 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/images/GTSS-logo.png",
-        width: 800,
-        height: 600,
-        alt: "GTSS Logo",
+        url: "/images/gtss-banner.png",
+        width: 1200,
+        height: 630,
+        alt: "GTSS - Great Thumbs Software Solutions",
       },
     ],
   },
@@ -72,7 +72,7 @@ export const metadata: Metadata = {
     title: "GTSS - Great Thumbs Software Solutions",
     description:
       "Practical, scalable software products for real-world local problems.",
-    images: ["/images/GTSS-logo.png"],
+    images: ["/images/gtss-banner.png"],
     creator: "@Elvinoace",
   },
   robots: {
