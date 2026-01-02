@@ -1,5 +1,6 @@
 import { landingHowItWorks } from '@/data/landing';
 import { Check, ArrowRight } from 'lucide-react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 
 export function HowItWorks() {
@@ -45,10 +46,10 @@ export function HowItWorks() {
                 </ul>
               )}
               {row.cta && (
-                <button className="w-fit mt-4 text-[#3f65e4] font-bold hover:text-blue-700 transition-colors flex items-center gap-1">
+                <Link href={(row as any).ctaHref || '#'} className="w-fit mt-4 text-[#3f65e4] font-bold hover:text-blue-700 transition-colors flex items-center gap-1">
                   {row.cta}
                   <ArrowRight className="w-4 h-4" />
-                </button>
+                </Link>
               )}
             </motion.div>
           </div>

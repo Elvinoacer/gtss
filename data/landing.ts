@@ -58,6 +58,7 @@ export const landingHowItWorks = [
     image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop',
     items: [],
     cta: 'See our deployment process',
+    ctaHref: '/about',
     reverse: true,
   },
 ];
@@ -97,12 +98,12 @@ export const landingHero = {
   title: 'Practical Software for Local Businesses',
   description: 'GTSS builds scalable software products that empower local businesses, institutions, and communities. From hotel ordering systems to e-commerce platforms — we solve real-world problems.',
   primaryCta: { label: 'Explore Products', href: '/products' },
-  secondaryCta: { label: 'Request Demo', href: '/demo' },
+  secondaryCta: { label: 'Request Demo', href: '/contact' },
   features: [
     { text: 'Works offline' },
     { text: 'Built for Africa' },
   ],
-  image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=800&auto=format&fit=crop',
+  image: '/images/gtss-banner.png',
 };
 
 export const landingCTA = {

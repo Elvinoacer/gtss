@@ -1,6 +1,7 @@
 'use client';
 
 import { PlayCircle, CheckCircle } from 'lucide-react';
+import Link from 'next/link';
 import { motion } from 'framer-motion';
 import { landingHero } from '@/data/landing';
 
@@ -22,13 +23,13 @@ export function Hero() {
               {landingHero.description}
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <button className="flex items-center justify-center rounded-lg h-12 px-6 bg-[#3f65e4] hover:bg-blue-700 text-white text-base font-bold transition-all shadow-lg shadow-[#3f65e4]/25">
+              <Link href={landingHero.primaryCta.href} className="flex items-center justify-center rounded-lg h-12 px-6 bg-[#3f65e4] hover:bg-blue-700 text-white text-base font-bold transition-all shadow-lg shadow-[#3f65e4]/25">
                 {landingHero.primaryCta.label}
-              </button>
-              <button className="flex items-center justify-center rounded-lg h-12 px-6 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[#111317] dark:text-white text-base font-bold transition-all">
+              </Link>
+              <Link href={landingHero.secondaryCta.href} className="flex items-center justify-center rounded-lg h-12 px-6 bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-[#111317] dark:text-white text-base font-bold transition-all">
                 <PlayCircle className="mr-2 w-5 h-5" />
                 {landingHero.secondaryCta.label}
-              </button>
+              </Link>
             </div>
             <div className="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400 pt-2">
               {landingHero.features.map((feature, index) => (

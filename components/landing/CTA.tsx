@@ -1,6 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Link from 'next/link';
 import { landingCTA } from '@/data/landing';
 
 export function CTA() {
@@ -32,12 +33,12 @@ export function CTA() {
           transition={{ delay: 0.2 }}
           className="flex flex-col sm:flex-row gap-4 justify-center"
         >
-          <button className="bg-white text-[#3f65e4] hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg">
+          <Link href={landingCTA.primaryCta.href} className="bg-white text-[#3f65e4] hover:bg-gray-100 px-8 py-4 rounded-lg font-bold text-lg transition-colors shadow-lg">
             {landingCTA.primaryCta.label}
-          </button>
-          <button className="bg-blue-800 text-white hover:bg-blue-900 px-8 py-4 rounded-lg font-bold text-lg transition-colors border border-blue-400/30">
+          </Link>
+          <Link href={landingCTA.secondaryCta.href} className="bg-blue-800 text-white hover:bg-blue-900 px-8 py-4 rounded-lg font-bold text-lg transition-colors border border-blue-400/30">
             {landingCTA.secondaryCta.label}
-          </button>
+          </Link>
         </motion.div>
       </div>
     </section>
