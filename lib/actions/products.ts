@@ -216,6 +216,9 @@ export async function updateProduct(id: string, data: any) {
         },
       });
 
+    }, {
+      maxWait: 10000, // wait up to 10s for connection
+      timeout: 20000, // allow up to 20s for transaction to finish
     });
 
     revalidatePath('/dashboard/products');

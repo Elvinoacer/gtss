@@ -50,20 +50,30 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
       <div id="scroll-marker" className="h-px w-full" />
 
       {/* Initial Static Search Trigger */}
-      <div className="py-4 px-4 md:px-6">
+      <div className="py-4">
         <button 
           onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className="w-full flex items-center gap-3 px-4 py-3 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl shadow-sm hover:border-blue-500/50 transition-all group"
+          className="w-full flex items-center gap-4 px-5 py-4 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-2xl shadow-sm hover:border-blue-500/50 hover:shadow-xl hover:shadow-blue-500/5 transition-all group text-left"
         >
-          <Search className="w-5 h-5 text-slate-400 group-hover:text-blue-500 transition-colors" />
-          <span className="text-sm font-medium text-slate-500 dark:text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white">
-            Search and filter products...
-          </span>
-          <div className="ml-auto flex items-center gap-2">
-            <span className="text-xs font-bold px-2 py-1 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400">
-              {categories.length} Categories
+          <div className="flex items-center justify-center size-10 rounded-xl bg-slate-50 dark:bg-slate-900 group-hover:bg-blue-500 group-hover:text-white transition-all">
+            <Search className="w-5 h-5 text-slate-400 group-hover:text-white transition-colors" />
+          </div>
+          
+          <div className="flex-1 min-w-0">
+            <span className="text-sm md:text-base font-bold text-slate-400 dark:text-slate-500 group-hover:text-slate-900 dark:group-hover:text-white transition-colors block truncate">
+              Search and filter products...
             </span>
-            <SlidersHorizontal className="w-4 h-4 text-slate-400" />
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-lg bg-slate-50 dark:bg-slate-900 border border-slate-100 dark:border-slate-800">
+               <span className="text-xs font-black text-slate-600 dark:text-slate-400 uppercase tracking-tight">
+                  {categories.length - 1} Categories
+               </span>
+            </div>
+            <div className="p-2 rounded-lg bg-slate-50 dark:bg-slate-900 group-hover:bg-slate-100 dark:group-hover:bg-slate-800 transition-colors">
+              <SlidersHorizontal className="w-5 h-5 text-slate-400 group-hover:text-slate-900 dark:group-hover:text-white" />
+            </div>
           </div>
         </button>
 
@@ -76,31 +86,35 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
-              <div className="pt-4 space-y-4">
-                <div className="relative">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+              <div className="pt-6 space-y-6">
+                <div className="relative group">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
                   <input
                     type="text"
-                    placeholder="Search products..."
+                    placeholder="Search for solutions, features, or keywords..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-white dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+                    className="w-full pl-12 pr-6 py-4 bg-slate-50 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500 transition-all font-medium text-slate-900 dark:text-white"
                   />
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  {categories.map((category) => (
-                    <button
-                      key={category}
-                      onClick={() => setSelectedCategory(category)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all ${
-                        selectedCategory === category
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-white dark:bg-[#0F172A] text-slate-500 border border-slate-200 dark:border-slate-800 hover:border-blue-500/30'
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  ))}
+                
+                <div className="space-y-3">
+                   <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 dark:text-slate-500 ml-1">Filter by Category</h4>
+                   <div className="flex flex-wrap gap-2">
+                     {categories.map((category) => (
+                       <button
+                         key={category}
+                         onClick={() => setSelectedCategory(category)}
+                         className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all border ${
+                           selectedCategory === category
+                             ? 'bg-blue-600 border-blue-600 text-white shadow-lg shadow-blue-600/20'
+                             : 'bg-white dark:bg-[#0F172A] text-slate-500 border-slate-200 dark:border-slate-800 hover:border-blue-500/30 hover:text-slate-900 dark:hover:text-white'
+                         }`}
+                       >
+                         {category}
+                       </button>
+                     ))}
+                   </div>
                 </div>
               </div>
             </motion.div>
@@ -115,36 +129,40 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
             initial={{ y: -100 }}
             animate={{ y: 0 }}
             exit={{ y: -100 }}
-            className="fixed top-0 left-0 right-0 z-[60] bg-white/90 dark:bg-[#020617]/90 backdrop-blur-xl border-b border-slate-200/60 dark:border-slate-800/50 shadow-lg"
+            className="fixed top-0 left-0 right-0 z-[60] py-4 bg-white/80 dark:bg-[#020617]/80 backdrop-blur-2xl border-b border-slate-200/50 dark:border-white/5 shadow-2xl"
           >
-            <div className="max-w-7xl mx-auto px-4 md:px-6 py-3">
-              <div className="flex items-center gap-4">
-                <div className="relative flex-1">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <div className="max-w-7xl mx-auto px-4 md:px-10 flex items-center gap-6">
+                <div className="relative flex-1 group">
+                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-blue-500 transition-colors" />
                   <input
                     type="text"
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-4 py-2 bg-slate-50 dark:bg-[#0F172A] border border-slate-200 dark:border-slate-800 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all text-sm"
+                    className="w-full pl-11 pr-4 py-2.5 bg-slate-100 dark:bg-slate-900 border-transparent focus:bg-white dark:focus:bg-slate-950 border focus:border-blue-500 rounded-xl focus:outline-none transition-all text-sm font-bold"
                   />
                 </div>
-                <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide max-w-[50%] md:max-w-none">
-                  {categories.map((category) => (
+                
+                <div className="hidden lg:flex items-center gap-2 overflow-x-auto scrollbar-hide py-1">
+                  {categories.slice(0, 6).map((category) => (
                     <button
                       key={category}
                       onClick={() => setSelectedCategory(category)}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold whitespace-nowrap transition-all ${
+                      className={`px-4 py-2 rounded-lg text-[10px] font-black uppercase tracking-widest whitespace-nowrap transition-all border ${
                         selectedCategory === category
-                          ? 'bg-blue-600 text-white'
-                          : 'bg-slate-50 dark:bg-[#0F172A] text-slate-500 border border-slate-200 dark:border-slate-800 hover:border-blue-500/30'
+                          ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900 border-transparent'
+                          : 'bg-transparent text-slate-400 border-transparent hover:text-slate-900 dark:hover:text-white'
                       }`}
                     >
                       {category}
                     </button>
                   ))}
                 </div>
-              </div>
+
+                <div className="shrink-0 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-blue-50 dark:bg-blue-500/10 border border-blue-100/50 dark:border-blue-500/20">
+                   <div className="size-1.5 rounded-full bg-blue-500 animate-pulse" />
+                   <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase">{filteredProducts.length} Live</span>
+                </div>
             </div>
           </motion.div>
         )}

@@ -4,6 +4,7 @@ import { ProductDetailClient } from "@/components/products/ProductDetailClient";
 import { StickyCTA } from "@/components/products/StickyCTA";
 import { ViewTracker } from "@/components/analytics/ViewTracker";
 import { Metadata } from "next";
+import { auth } from "@/auth";
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -38,13 +39,17 @@ export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
   const { id } = await params;
-  const response = await getProductById(id);
+  const [response, session] = await Promise.all([
+    getProductById(id),
+    auth()
+  ]);
 
   if (!response.success || !response.data) {
     notFound();
   }
 
   const product = response.data;
+  const isAuthenticated = !!session?.user;
 
   // JSON-LD Structured Data
   const jsonLd = {
@@ -67,9 +72,10 @@ export default async function ProductDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <StickyCTA productName={product.name} externalLink={product.websiteUrl} />
+      <StickyCTA productName={product.name} externalLink={product.websiteUrl} priceUSD={product.priceUSD} priceKES={product.priceKES} />
       <ViewTracker productId={product.id} />
-      <ProductDetailClient product={product} />
+      <ProductDetailClient product={product} isAuthenticated={isAuthenticated} />
     </div>
   );
 }
+

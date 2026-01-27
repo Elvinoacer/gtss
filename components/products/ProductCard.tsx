@@ -18,6 +18,7 @@ interface ProductCardProps {
   status: 'live' | 'beta' | 'deprecated' | 'draft';
   icon: string;
   iconColor: string;
+  logoUrl?: string;
   index: number;
   onDelete?: () => void;
 }
@@ -34,6 +35,7 @@ export function ProductCard({
   status,
   icon,
   iconColor,
+  logoUrl,
   index,
   onDelete,
 }: ProductCardProps) {
@@ -55,39 +57,45 @@ export function ProductCard({
     switch (status) {
       case 'live':
         return {
-          bg: 'bg-[#0bda62]/10',
-          text: 'text-[#0bda62]',
-          dot: 'bg-[#0bda62]',
-          pulse: 'animate-pulse',
+          bg: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
+          dot: 'bg-emerald-500',
+          label: 'Live'
         };
       case 'beta':
         return {
-          bg: 'bg-amber-100 dark:bg-amber-900/40',
-          text: 'text-amber-700 dark:text-amber-400',
-          dot: 'bg-amber-500',
-          pulse: '',
+          bg: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
+          dot: 'bg-purple-500',
+          label: 'Beta'
         };
       case 'deprecated':
         return {
-          bg: 'bg-red-100 dark:bg-red-900/40',
-          text: 'text-red-700 dark:text-red-400',
+          bg: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
           dot: 'bg-red-500',
-          pulse: '',
+          label: 'Deprecated'
         };
       case 'draft':
       default:
         return {
-          bg: 'bg-gray-100 dark:bg-gray-800',
-          text: 'text-gray-600 dark:text-gray-400',
-          dot: 'bg-gray-400',
-          pulse: '',
+          bg: 'bg-slate-500/10 text-slate-600 dark:text-slate-400 border-slate-500/20',
+          dot: 'bg-slate-500',
+          label: 'Draft'
         };
     }
   };
 
-  const statusConfig = getStatusStyles();
+  const statusStyle = getStatusStyles();
   const isDeprecated = status === 'deprecated';
-  const borderColor = status === 'beta' ? 'hover:border-amber-400/40' : status === 'deprecated' ? 'hover:border-red-400/40' : 'hover:border-[#0bda62]/40';
+
+  // Generate a consistent gradient based on the first character of the name
+  const gradients = [
+    'from-blue-500 to-violet-600',
+    'from-emerald-400 to-cyan-500',
+    'from-orange-400 to-rose-500',
+    'from-pink-500 to-purple-600',
+    'from-indigo-400 to-cyan-400',
+  ];
+  const gradientIndex = name.charCodeAt(0) % gradients.length;
+  const gradientClass = gradients[gradientIndex];
 
   return (
     <motion.div
@@ -95,97 +103,111 @@ export function ProductCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4, delay: index * 0.05 }}
       whileHover={{ y: -4 }}
-      className={`group flex flex-col justify-between gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm hover:shadow-lg ${borderColor} transition-all dark:bg-[#1e293b] dark:border-gray-700`}
+      className="group relative flex flex-col justify-between overflow-hidden rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:shadow-xl hover:shadow-slate-200/50 dark:border-slate-800 dark:bg-slate-900 dark:hover:shadow-slate-900/50"
     >
+      {/* Background Gradient Blob */}
+      <div className={`absolute -right-20 -top-20 h-40 w-40 rounded-full bg-gradient-to-br ${gradientClass} opacity-0 blur-3xl transition-opacity duration-500 group-hover:opacity-10`} />
+
       <div>
-        <div className="flex items-start justify-between mb-4">
-          <div className={`flex items-center justify-center size-12 rounded-lg ${iconColor}`}>
-            <Icon className="w-6 h-6" />
+        <div className="flex items-start justify-between mb-6">
+          <div className="relative">
+             {logoUrl ? (
+                <div className="relative h-14 w-14 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
+                  <img src={logoUrl} alt={name} className="h-full w-full object-cover" />
+                </div>
+             ) : (
+                <div className={`flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${isDeprecated ? 'from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 grayscale' : gradientClass} text-white shadow-inner`}>
+                  <Icon className="h-7 w-7" />
+                </div>
+             )}
+             
+             {/* Status Badge */}
+             <div className={`absolute -bottom-2 -right-2 flex items-center gap-1 rounded-full border px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider backdrop-blur-sm ${statusStyle.bg}`}>
+                <div className={`h-1.5 w-1.5 rounded-full ${statusStyle.dot}`} />
+                {statusStyle.label}
+             </div>
           </div>
+
           <div className="relative" ref={menuRef}>
-            <motion.button
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+            <button
               onClick={() => setShowMenu(!showMenu)}
-              className="text-gray-400 hover:text-slate-900 dark:hover:text-white rounded-full p-1 hover:bg-gray-100 dark:hover:bg-white/10 transition-colors"
+              className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800 dark:hover:text-slate-300 transition-colors"
             >
-              <MoreVertical className="w-5 h-5" />
-            </motion.button>
+              <MoreVertical className="h-5 w-5" />
+            </button>
             
             {showMenu && (
-              <div className="absolute right-0 top-8 z-10 w-36 bg-white dark:bg-gray-800 rounded-lg shadow-lg border border-gray-200 dark:border-gray-700 py-1">
+              <div className="absolute right-0 top-10 z-20 w-40 origin-top-right rounded-xl border border-slate-200 bg-white p-1 shadow-lg ring-1 ring-black/5 focus:outline-none dark:border-slate-700 dark:bg-slate-800">
                 <Link
                   href={`/dashboard/products/${id}/edit`}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-700 hover:bg-slate-50 dark:text-slate-300 dark:hover:bg-slate-700/50 transition-colors"
                 >
-                  <Pencil className="w-4 h-4" />
-                  Edit
+                  <Pencil className="h-4 w-4" />
+                  Edit Details
                 </Link>
+                <div className="my-1 h-px bg-slate-100 dark:bg-slate-700" />
                 <button
                   onClick={() => {
                     setShowMenu(false);
                     onDelete?.();
                   }}
-                  className="flex items-center gap-2 px-3 py-2 text-sm text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors w-full"
+                  className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-rose-600 hover:bg-rose-50 dark:text-rose-400 dark:hover:bg-rose-900/20 transition-colors"
                 >
-                  <Trash2 className="w-4 h-4" />
-                  Delete
+                  <Trash2 className="h-4 w-4" />
+                  Delete Product
                 </button>
               </div>
             )}
           </div>
         </div>
-        <h3 className={`text-lg font-bold mb-1 ${isDeprecated ? 'text-gray-500 dark:text-gray-400 line-through decoration-red-500/50' : 'text-slate-900 dark:text-white'}`}>
-          {name}
-        </h3>
-        <p className="text-xs text-gray-500 dark:text-gray-400 font-mono mb-4">
-          ID: {productId}
-        </p>
-        <div className="flex flex-col gap-2 border-t border-dashed border-gray-200 dark:border-gray-700 pt-3">
-          <div className="flex justify-between items-center text-sm">
-            <span className={isDeprecated ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}>Category</span>
-            <span className={`font-medium ${isDeprecated ? 'text-gray-500 dark:text-gray-400' : 'text-slate-900 dark:text-gray-200'}`}>
-              {category}
-            </span>
+
+        <div className="mb-4">
+          <h3 className={`text-xl font-bold tracking-tight ${isDeprecated ? 'text-slate-500 line-through decoration-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-white'}`}>
+            {name}
+          </h3>
+          <p className="mt-1 font-mono text-xs font-medium uppercase tracking-wider text-slate-500 dark:text-slate-400">
+            {productId}
+          </p>
+        </div>
+
+        <div className="flex flex-col gap-2.5">
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-slate-500 dark:text-slate-400">Category</span>
+            <span className="font-medium text-slate-900 dark:text-slate-200">{category}</span>
           </div>
-          <div className="flex justify-between items-center text-sm">
-            <span className={isDeprecated ? 'text-gray-400' : 'text-gray-500 dark:text-gray-400'}>Pricing</span>
-            <span className={`font-medium ${isDeprecated ? 'text-gray-500 dark:text-gray-400' : 'text-slate-900 dark:text-gray-200'}`}>
-              {pricing}
-            </span>
+          <div className="h-px w-full bg-slate-100 dark:bg-slate-800" />
+          <div className="flex items-center justify-between text-sm">
+            <span className="text-slate-500 dark:text-slate-400">Model</span>
+            <span className="font-medium text-slate-900 dark:text-slate-200">{pricing}</span>
           </div>
-          {priceUSD && (
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-gray-500 dark:text-gray-400">Price</span>
-              <span className="font-medium text-slate-900 dark:text-gray-200">${priceUSD}</span>
-            </div>
-          )}
+           {priceUSD && (
+            <>
+              <div className="h-px w-full bg-slate-100 dark:bg-slate-800" />
+              <div className="flex items-center justify-between text-sm">
+                <span className="text-slate-500 dark:text-slate-400">Price</span>
+                <span className="font-bold text-slate-900 dark:text-white">${priceUSD.toLocaleString()}</span>
+              </div>
+            </>
+           )}
         </div>
       </div>
-      <div className="mt-2 flex items-center justify-between">
-        <div className={`flex items-center gap-1.5 rounded-full px-2.5 py-1 ${statusConfig.bg}`}>
-          <div className={`size-2 rounded-full ${statusConfig.dot} ${statusConfig.pulse}`}></div>
-          <span className={`text-xs font-bold uppercase tracking-wider ${statusConfig.text}`}>
-            {status === 'live' ? 'Live' : status === 'beta' ? 'Beta' : status === 'deprecated' ? 'Deprecated' : 'Draft'}
-          </span>
-        </div>
+
+      <div className="mt-6 pt-4 border-t border-slate-100 dark:border-slate-800">
         <Link
           href={`/dashboard/products/${id}`}
-          className={`text-sm font-bold transition-colors flex items-center gap-1 ${
+          className={`group/btn flex items-center justify-center gap-2 rounded-xl py-2.5 text-sm font-semibold transition-all ${
             isDeprecated
-              ? 'text-gray-400 hover:text-red-600 dark:hover:text-red-400'
-              : status === 'beta'
-              ? 'text-gray-500 hover:text-amber-600 dark:text-gray-400 dark:hover:text-amber-400'
-              : 'text-gray-500 hover:text-[#0bda62] dark:text-gray-400 dark:hover:text-[#0bda62]'
+              ? 'bg-slate-100 text-slate-400 cursor-not-allowed dark:bg-slate-800 dark:text-slate-500'
+              : 'bg-slate-900 text-white shadow-lg shadow-slate-900/20 hover:bg-slate-800 hover:scale-[1.02] dark:bg-white dark:text-slate-900 dark:shadow-white/10 dark:hover:bg-slate-100'
           }`}
         >
           {isDeprecated ? (
             <>
-              Archive <Archive className="w-4 h-4" />
+              Archived <Archive className="h-4 w-4" />
             </>
           ) : (
             <>
-              Manage <ArrowRight className="w-4 h-4" />
+              Manage Product <ArrowRight className="h-4 w-4 transition-transform group-hover/btn:translate-x-0.5" />
             </>
           )}
         </Link>
