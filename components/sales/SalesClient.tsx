@@ -65,6 +65,7 @@ export function SalesClient({ initialData }: SalesClientProps) {
           <motion.button
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
+            onClick={() => window.open('/api/dashboard/export-transactions', '_blank')}
             className="flex h-10 items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-white px-5 text-sm font-bold transition-colors shadow-sm shadow-accent/30 min-w-[120px]"
           >
             <Download className="w-5 h-5" />
@@ -81,8 +82,8 @@ export function SalesClient({ initialData }: SalesClientProps) {
       </div>
       {/* Main Dashboard Content Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <PerformanceChart />
-        <TopPerformers />
+        <PerformanceChart data={data.performanceData} />
+        <TopPerformers data={data.topPerformers} />
       </div>
 
       {/* Recent Transactions Table */}

@@ -1,7 +1,10 @@
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { SettingsClient } from '@/components/settings';
 
+import { getCompanySettings } from '@/lib/actions/settings';
+
 export default async function CompanySettingsPage() {
+  const settings = await getCompanySettings();
   const user = {
     name: 'Alex Morgan',
     email: 'alex@gtss.com',
@@ -10,7 +13,7 @@ export default async function CompanySettingsPage() {
 
   return (
     <DashboardLayout user={user}>
-      <SettingsClient />
+      <SettingsClient initialSettings={settings} />
     </DashboardLayout>
   );
 }

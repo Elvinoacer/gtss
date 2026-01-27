@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-
+import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Eye, Package } from "lucide-react";
 
 export default async function AnalyticsPage() {
@@ -43,8 +43,15 @@ export default async function AnalyticsPage() {
 
   const productMap = new Map(productDetails.map((p) => [p.id, p.name]));
 
+  const user = {
+    name: 'Alex Morgan',
+    email: 'alex@gtss.com',
+    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+  };
+
   return (
-    <div className="flex flex-col gap-6 p-6">
+    <DashboardLayout user={user}>
+      <div className="flex flex-col gap-6 p-6">
       <h1 className="text-3xl font-bold tracking-tight">Analytics Dashboard</h1>
       
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2">
@@ -99,6 +106,7 @@ export default async function AnalyticsPage() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </DashboardLayout>
   );
 }

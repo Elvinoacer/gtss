@@ -139,3 +139,8 @@ export type PageView = Prisma.PageViewModel
  * 
  */
 export type ProductView = Prisma.ProductViewModel
+/**
+ * Model CompanySettings
+ * 
+ */
+export type CompanySettings = Prisma.CompanySettingsModel

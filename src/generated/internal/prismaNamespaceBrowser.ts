@@ -70,7 +70,8 @@ export const ModelName = {
   Doc: 'Doc',
   DocErrorCode: 'DocErrorCode',
   PageView: 'PageView',
-  ProductView: 'ProductView'
+  ProductView: 'ProductView',
+  CompanySettings: 'CompanySettings'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -380,6 +381,23 @@ export const ProductViewScalarFieldEnum = {
 } as const
 
 export type ProductViewScalarFieldEnum = (typeof ProductViewScalarFieldEnum)[keyof typeof ProductViewScalarFieldEnum]
+
+
+export const CompanySettingsScalarFieldEnum = {
+  id: 'id',
+  companyName: 'companyName',
+  website: 'website',
+  description: 'description',
+  logoUrl: 'logoUrl',
+  brandingColor: 'brandingColor',
+  contactEmail: 'contactEmail',
+  address: 'address',
+  currency: 'currency',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CompanySettingsScalarFieldEnum = (typeof CompanySettingsScalarFieldEnum)[keyof typeof CompanySettingsScalarFieldEnum]
 
 
 export const SortOrder = {

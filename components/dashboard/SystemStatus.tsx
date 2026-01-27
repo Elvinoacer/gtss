@@ -1,9 +1,23 @@
 'use client';
 
-import { systemServices, type SystemService } from '@/data/dashboard';
+import { systemServices } from '@/data/dashboard';
 import { motion } from 'framer-motion';
 
-export function SystemStatus() {
+interface SystemService {
+  name: string;
+  status: 'operational' | 'warning' | 'error';
+  statusLabel: string;
+}
+
+interface SystemStatusProps {
+  data?: SystemService[];
+}
+
+export function SystemStatus({ data }: SystemStatusProps) {
+  // Use data if available and not empty, otherwise fallback to systemServices
+  // We need to cast systemServices to compatible type or ensure data structure matches
+  const services = (data && data.length > 0 ? data : systemServices) as SystemService[];
+
   const getStatusColor = (status: SystemService['status']) => {
     switch (status) {
       case 'operational':
@@ -21,6 +35,11 @@ export function SystemStatus() {
           dot: 'bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.6)] animate-pulse',
           text: 'text-red-500',
         };
+      default:
+        return {
+          dot: 'bg-gray-400',
+          text: 'text-gray-400',
+        };
     }
   };
 
@@ -36,8 +55,8 @@ export function SystemStatus() {
       </h2>
 
       <div className="flex flex-col gap-4">
-        {systemServices.map((service, index) => {
-          const colors = getStatusColor(service.status);
+        {services.map((service, index) => {
+          const colors = getStatusColor(service.status as any); // Type assertion if needed or ensure types match
 
           return (
             <motion.div

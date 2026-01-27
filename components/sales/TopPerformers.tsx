@@ -1,9 +1,23 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { topPerformers } from '@/data/sales';
 
-export function TopPerformers() {
+
+interface Performer {
+  name: string;
+  amount: string;
+  progress: number;
+  avatar: string;
+  isTop?: boolean;
+}
+
+interface TopPerformersProps {
+  data?: Performer[];
+}
+
+export function TopPerformers({ data }: TopPerformersProps) {
+  const performances = data || [];
+
   return (
     <motion.div
       initial={{ opacity: 0, x: 20 }}
@@ -13,7 +27,7 @@ export function TopPerformers() {
     >
       <h3 className="text-lg font-bold text-[#111814] dark:text-white mb-6">Top Performers</h3>
       <div className="flex-1 flex flex-col gap-5 overflow-y-auto no-scrollbar pr-2">
-        {topPerformers.map((rep, index) => (
+        {performances.map((rep, index) => (
           <div key={rep.name} className="flex items-center gap-3">
             <div
               className="size-10 rounded-full bg-cover bg-center border-2 border-accent/20"

@@ -2,6 +2,7 @@
 
 import { prisma } from '@/lib/prisma';
 import { headers } from 'next/headers';
+import { revalidatePath } from 'next/cache';
 
 // Generate QR code URL using external QR API with dynamic host
 async function generateQRCodeUrl(id: string): Promise<string> {
@@ -132,6 +133,9 @@ export async function createProduct(data: any) {
       data: { qrCodeUrl },
     });
 
+    revalidatePath('/dashboard/products');
+    revalidatePath('/products');
+
     return { success: true, data: updatedProduct };
   } catch (error) {
     console.error('Error creating product:', error);
@@ -211,7 +215,13 @@ export async function updateProduct(id: string, data: any) {
           },
         },
       });
+
     });
+
+    revalidatePath('/dashboard/products');
+    revalidatePath('/products');
+    revalidatePath(`/dashboard/products/${id}`);
+    revalidatePath(`/products/${id}`);
 
     return { success: true, data: product };
   } catch (error) {
@@ -238,6 +248,9 @@ export async function regenerateQRCode(id: string) {
       data: { qrCodeUrl },
     });
 
+    revalidatePath('/dashboard/products');
+    revalidatePath(`/dashboard/products/${id}`);
+
     return { success: true, data: updatedProduct };
   } catch (error) {
     console.error('Error regenerating QR code:', error);
@@ -256,6 +269,9 @@ export async function deleteProduct(id: string) {
     await prisma.product.delete({
       where: { id },
     });
+    
+    revalidatePath('/dashboard/products');
+    revalidatePath('/products');
     return { success: true };
   } catch (error) {
     console.error('Error deleting product:', error);

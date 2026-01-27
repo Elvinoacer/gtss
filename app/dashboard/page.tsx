@@ -1,10 +1,16 @@
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { DashboardClient } from '@/components/dashboard';
 import { getProducts } from '@/lib/actions/products';
+import { getDashboardStats } from '@/lib/actions/analytics';
 
 export default async function DashboardPage() {
-  const response = await getProducts();
-  const initialProducts = response.success ? response.data : [];
+  const [productsRes, statsRes] = await Promise.all([
+    getProducts(),
+    getDashboardStats()
+  ]);
+
+  const initialProducts = productsRes.success ? productsRes.data : [];
+  const dashboardStats = statsRes.success ? statsRes.data : null;
 
   const user = {
     name: 'Alex Founder',
@@ -15,7 +21,10 @@ export default async function DashboardPage() {
 
   return (
     <DashboardLayout user={user}>
-      <DashboardClient initialProducts={initialProducts as any[]} />
+      <DashboardClient 
+        initialProducts={initialProducts as any[]} 
+        dashboardStats={dashboardStats}
+      />
     </DashboardLayout>
   );
 }

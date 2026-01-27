@@ -15,8 +15,8 @@ const navItems = [
   { id: 'integrations', label: 'Integrations', icon: Puzzle, href: '#' },
 ];
 
-export function SettingsSidebar() {
-  const pathname = usePathname();
+export function SettingsSidebar({ activeTab, setActiveTab }: { activeTab: string, setActiveTab: (tab: string) => void }) {
+  // const pathname = usePathname(); // Not used for now as we are doing client-side tabs
 
   return (
     <aside className="hidden w-64 flex-col border-r border-gray-100 dark:border-gray-800 bg-white dark:bg-[#1a2e22] md:flex overflow-y-auto">
@@ -30,12 +30,12 @@ export function SettingsSidebar() {
         </div>
         <nav className="flex flex-col gap-1">
           {navItems.map((item) => {
-            const isActive = pathname === item.href;
+            const isActive = activeTab === item.id;
             return (
-              <Link
+              <button
                 key={item.id}
-                href={item.href}
-                className={`flex items-center gap-3 px-3 py-2.5 rounded-lg transition-all border-l-4 ${
+                onClick={() => setActiveTab(item.id)}
+                className={`flex w-full items-center gap-3 px-3 py-2.5 rounded-lg transition-all border-l-4 ${
                   isActive
                     ? 'bg-accent/10 text-accent border-accent font-semibold'
                     : 'text-text-subtle hover:bg-gray-50 dark:hover:bg-gray-800 hover:text-navy dark:hover:text-white border-transparent'
@@ -43,7 +43,7 @@ export function SettingsSidebar() {
               >
                 <item.icon className="w-5 h-5" />
                 <span className="text-sm">{item.label}</span>
-              </Link>
+              </button>
             );
           })}
         </nav>

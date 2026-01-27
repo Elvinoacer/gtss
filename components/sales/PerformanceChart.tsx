@@ -1,9 +1,15 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { performanceData } from '@/data/sales';
 
-export function PerformanceChart() {
+
+interface PerformanceChartProps {
+  data?: any[];
+}
+
+export function PerformanceChart({ data }: PerformanceChartProps) {
+  const chartData = data || [];
+
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -26,7 +32,7 @@ export function PerformanceChart() {
       </div>
 
       <div className="flex-1 flex items-end justify-between gap-2 sm:gap-4 pb-4 border-b border-gray-100 dark:border-gray-800">
-        {performanceData.map((item, index) => (
+        {chartData.map((item: any, index: number) => (
           <div key={item.month} className="flex flex-col items-center gap-2 w-full group cursor-pointer">
             <div className="relative w-full max-w-[40px] h-[240px] bg-gray-100 dark:bg-gray-800 rounded-t-sm overflow-hidden flex items-end">
               <motion.div

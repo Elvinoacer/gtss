@@ -47,9 +47,14 @@ export function SalesKPICard({
       icon: Minus,
       className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
     },
+    neutral: {
+      icon: Minus,
+      className: 'bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400',
+    },
   };
 
-  const { icon: TrendIcon, className: trendClassName } = trendConfig[trend.direction];
+  const currentTrend = trendConfig[trend.direction as keyof typeof trendConfig] || trendConfig.stable;
+  const { icon: TrendIcon, className: trendClassName } = currentTrend;
 
   return (
     <motion.div

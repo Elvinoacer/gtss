@@ -11,7 +11,7 @@ import { qrCodesList } from '../data/qr';
 import { ticketsList } from '../data/support';
 import { mediaAssetsList } from '../data/media';
 import { docContentData, docErrorCodes } from '../data/docs';
-import { docContentData, docErrorCodes } from '../data/docs';
+
 
 const connectionString = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString });
@@ -120,6 +120,29 @@ async function main() {
     });
   }
   console.log('Seeded customers.');
+
+  // Seed Transactions
+  console.log('Seeding transactions...');
+  const customers = await prisma.customer.findMany();
+  const statuses = ['Completed', 'Pending', 'Failed', 'Closed Won', 'Negotiation', 'Proposal Sent'];
+  const products = ['Enterprise License Q3', 'Cloud Migration Service', 'Platform Audit', 'SaaS Renewal 2024', 'Consulting Package'];
+
+  for (const customer of customers) {
+    // Create 1-3 transactions per customer
+    const numTransactions = Math.floor(Math.random() * 3) + 1;
+    for (let i = 0; i < numTransactions; i++) {
+        await prisma.transaction.create({
+            data: {
+                customerId: customer.id,
+                amount: Math.floor(Math.random() * 50000) + 5000,
+                status: statuses[Math.floor(Math.random() * statuses.length)],
+                product: products[Math.floor(Math.random() * products.length)],
+                date: new Date(Date.now() - Math.floor(Math.random() * 1000 * 60 * 60 * 24 * 60)), // Last 60 days
+            }
+        });
+    }
+  }
+  console.log('Seeded transactions.');
 
   // Seed Team Members
   for (const m of membersList) {

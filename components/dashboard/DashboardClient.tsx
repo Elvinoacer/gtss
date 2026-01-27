@@ -7,9 +7,17 @@ import { getProducts } from '@/lib/actions/products';
 
 interface DashboardClientProps {
   initialProducts: any[];
+  dashboardStats: any;
 }
 
-export function DashboardClient({ initialProducts }: DashboardClientProps) {
+const iconMap: Record<string, any> = {
+  DollarSign,
+  Package,
+  Users,
+  Server,
+};
+
+export function DashboardClient({ initialProducts, dashboardStats }: DashboardClientProps) {
   const { data: products = initialProducts } = useQuery({
     queryKey: ['dashboard-products'],
     queryFn: async () => {
@@ -18,6 +26,33 @@ export function DashboardClient({ initialProducts }: DashboardClientProps) {
     },
     initialData: initialProducts,
   });
+
+  const kpis = dashboardStats?.kpis || [
+    {
+      label: 'Total Revenue (MRR)',
+      value: '$0',
+      trend: { value: '0%', type: 'neutral' },
+      iconName: 'DollarSign',
+    },
+    {
+      label: 'Active Products',
+      value: '0',
+      trend: { value: '0 New', type: 'neutral' },
+      iconName: 'Package',
+    },
+    {
+      label: 'Team Utilization',
+      value: '0',
+      trend: { value: '0%', type: 'neutral' },
+      iconName: 'Users',
+    },
+    {
+      label: 'Server Uptime',
+      value: '99.9%',
+      trend: { value: 'Stable', type: 'neutral' },
+      iconName: 'Server',
+    },
+  ];
 
   return (
     <div className="max-w-7xl mx-auto space-y-8">
@@ -28,7 +63,7 @@ export function DashboardClient({ initialProducts }: DashboardClientProps) {
             Welcome back, Founder
           </h1>
           <p className="text-gray-500 dark:text-slate-400 mt-1">
-            Here is your company overview for October 24, 2023
+            Here is your company overview
           </p>
         </div>
         <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-slate-400 bg-white dark:bg-[#1e293b] px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
@@ -40,42 +75,35 @@ export function DashboardClient({ initialProducts }: DashboardClientProps) {
 
       {/* KPI Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard
-          title="Total Revenue (MRR)"
-          value="$1.2M"
-          change={{ value: '12%', type: 'increase' }}
-          icon={DollarSign}
-          index={0}
-        />
-        <StatCard
-          title="Active Products"
-          value={products.length.toString()}
-          change={{ value: '2 New', type: 'increase', label: '+ 2 New' }}
-          icon={Package}
-          index={1}
-        />
-        <StatCard
-          title="Team Utilization"
-          value="42"
-          change={{ value: '5%', type: 'increase' }}
-          icon={Users}
-          index={2}
-        />
-        <StatCard
-          title="Server Uptime"
-          value="99.9%"
-          change={{ value: 'Stable', type: 'neutral', label: 'Stable' }}
-          icon={Server}
-          index={3}
-        />
+        {kpis.map((kpi: any, index: number) => {
+          const Icon = iconMap[kpi.iconName] || DollarSign;
+             // trend from backend might differ slightly in structure, adapting here
+           const trendType = kpi.trend.direction === 'up' ? 'increase' : kpi.trend.direction === 'down' ? 'decrease' : 'neutral';
+           const change = {
+             value: kpi.trend.value,
+             type: trendType as 'increase' | 'decrease' | 'neutral',
+             label: kpi.trend.label
+           };
+
+          return (
+            <StatCard
+              key={index}
+              title={kpi.label}
+              value={kpi.value}
+              change={change}
+              icon={Icon}
+              index={index}
+            />
+          );
+        })}
       </div>
 
       {/* Middle Section: Charts & Health */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2">
-          <RevenueChart />
+          <RevenueChart data={dashboardStats?.revenueChart || []} />
         </div>
-        <SystemStatus />
+        <SystemStatus data={dashboardStats?.systemStatus} />
       </div>
 
       {/* Bottom Section: Active Products Table & Member Activity */}
@@ -83,7 +111,7 @@ export function DashboardClient({ initialProducts }: DashboardClientProps) {
         <div className="lg:col-span-2">
           <ProductsTable initialProducts={products} />
         </div>
-        <MemberActivity />
+        <MemberActivity data={dashboardStats?.recentActivity} />
       </div>
     </div>
   );

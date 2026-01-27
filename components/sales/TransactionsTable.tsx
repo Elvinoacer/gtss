@@ -1,6 +1,6 @@
 import { Filter, CheckCircle, Clock, Send, LucideIcon } from 'lucide-react';
 import { motion } from 'framer-motion';
-import { recentTransactions } from '@/data/sales';
+
 
 interface TransactionsTableProps {
   initialTransactions?: any[];
@@ -13,9 +13,7 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 export function TransactionsTable({ initialTransactions }: TransactionsTableProps) {
-  const transactions = initialTransactions && initialTransactions.length > 0 
-    ? initialTransactions 
-    : recentTransactions;
+  const transactions = initialTransactions || [];
 
   const getStatusInfo = (status: string) => {
     switch (status.toLowerCase()) {
