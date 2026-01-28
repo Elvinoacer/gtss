@@ -79,8 +79,6 @@ export const landingFooterLinks = {
   ],
   company: [
     { label: 'About Us', href: '/about' },
-    { label: 'Careers', href: '/careers' },
-    { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' },
   ],
   legal: [

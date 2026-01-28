@@ -47,7 +47,9 @@ export async function getProductById(id: string) {
     const product = await prisma.product.findUnique({
       where: { id },
       include: {
-        features: true,
+        features: {
+          orderBy: { priority: 'asc' },
+        },
         health: true,
         assets: true,
         reviews: true,
@@ -94,11 +96,12 @@ export async function createProduct(data: any) {
         leadTeam: data.leadTeam,
         priority: data.priority ? parseInt(data.priority) : 100,
         features: {
-          create: (data.features || []).map((f: any) => ({
+          create: (data.features || []).map((f: any, index: number) => ({
             title: f.title,
             description: f.description || '',
             icon: f.icon || 'star',
             iconColor: f.iconColor || 'bg-blue-100 text-blue-600',
+            priority: f.priority ?? (index + 1) * 10,
           })),
         },
         health: {
@@ -184,11 +187,12 @@ export async function updateProduct(id: string, data: any) {
           leadTeam: data.leadTeam,
           priority: data.priority ? parseInt(data.priority) : undefined,
           features: {
-            create: (data.features || []).map((f: any) => ({
+            create: (data.features || []).map((f: any, index: number) => ({
               title: f.title,
               description: f.description || '',
               icon: f.icon || 'star',
               iconColor: f.iconColor || 'bg-blue-100 text-blue-600',
+              priority: f.priority ?? (index + 1) * 10,
             })),
           },
           health: {

@@ -3,7 +3,7 @@
 import {
   FormSection,
   RichTextEditor,
-  EditableFeatureList,
+  DraggableFeatureList,
 } from "@/components/forms";
 import { FileUpload } from "@/components/wizard/FileUpload";
 import Link from "next/link";
@@ -83,7 +83,12 @@ export function ProductEditClient({
     priority: product?.priority || 100,
   });
 
-  const [features, setFeatures] = useState(product?.features || []);
+  const [features, setFeatures] = useState(
+    (product?.features || []).map((f: any, index: number) => ({
+      ...f,
+      priority: f.priority ?? (index + 1) * 10,
+    }))
+  );
   const [health, setHealth] = useState(product?.health || []);
   const [assets, setAssets] = useState(product?.assets || []);
   const [reviews, setReviews] = useState(product?.reviews || []);
@@ -284,7 +289,7 @@ export function ProductEditClient({
                 </div>
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">Features & Capabilities</h2>
              </div>
-             <EditableFeatureList features={features} onChange={setFeatures} />
+             <DraggableFeatureList features={features} onChange={setFeatures} />
           </div>
 
           {/* Technical Architecture */}

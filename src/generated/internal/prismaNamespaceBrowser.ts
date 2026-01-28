@@ -130,7 +130,8 @@ export const ProductFeatureScalarFieldEnum = {
   icon: 'icon',
   iconColor: 'iconColor',
   title: 'title',
-  description: 'description'
+  description: 'description',
+  priority: 'priority'
 } as const
 
 export type ProductFeatureScalarFieldEnum = (typeof ProductFeatureScalarFieldEnum)[keyof typeof ProductFeatureScalarFieldEnum]

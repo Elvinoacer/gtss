@@ -5,3 +5,4 @@ export * from './DemoFeatures';
 export * from './DemoReviews';
 export * from './DemoCTA';
 export * from './DemoFooter';
+export * from './DemoPageClient';

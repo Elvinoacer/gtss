@@ -41,6 +41,7 @@ import {
   Quote,
 } from "lucide-react";
 import { getIcon } from "@/lib/icons";
+import { FeaturesSection } from "./FeaturesSection";
 
 interface ProductDetailClientProps {
   product: any;
@@ -354,25 +355,14 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                   </motion.section>
                )}
 
-              {/* Features Grid */}
-              {product.features && product.features.length > 0 && (
-                 <motion.section variants={itemAnimation} className="space-y-4 md:space-y-6">
-                    <h2 className="text-lg md:text-2xl font-bold text-slate-900 dark:text-white px-1 md:px-2">Key Features</h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
-                       {product.features.map((feature: any) => (
-                          <div key={feature.id} className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl p-4 md:p-6 rounded-xl md:rounded-2xl border border-slate-200/50 dark:border-slate-700/50 shadow-sm hover:border-blue-500/30 transition-all group hover:-translate-y-0.5">
-                             <div className="w-8 h-8 md:w-10 md:h-10 rounded-full bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center mb-3 md:mb-4 group-hover:scale-110 transition-transform">
-                                <CheckCircle className="w-4 h-4 md:w-5 md:h-5 text-blue-600 dark:text-blue-400" />
-                             </div>
-                             <h3 className="text-base md:text-lg font-bold text-slate-900 dark:text-white mb-1 md:mb-2">{feature.title}</h3>
-                             {feature.description && (
-                                <p className="text-xs md:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">{feature.description}</p>
-                             )}
-                          </div>
-                       ))}
-                    </div>
-                 </motion.section>
-              )}
+               {/* Features Section - Using new scalable component */}
+               {product.features && product.features.length > 0 && (
+                  <FeaturesSection
+                    features={product.features}
+                    productName={product.name}
+                    initialCount={6}
+                  />
+               )}
 
               {/* Health Metrics */}
               {product.health && product.health.length > 0 && (

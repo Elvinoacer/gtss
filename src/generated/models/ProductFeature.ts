@@ -20,8 +20,18 @@ export type ProductFeatureModel = runtime.Types.Result.DefaultSelection<Prisma.$
 
 export type AggregateProductFeature = {
   _count: ProductFeatureCountAggregateOutputType | null
+  _avg: ProductFeatureAvgAggregateOutputType | null
+  _sum: ProductFeatureSumAggregateOutputType | null
   _min: ProductFeatureMinAggregateOutputType | null
   _max: ProductFeatureMaxAggregateOutputType | null
+}
+
+export type ProductFeatureAvgAggregateOutputType = {
+  priority: number | null
+}
+
+export type ProductFeatureSumAggregateOutputType = {
+  priority: number | null
 }
 
 export type ProductFeatureMinAggregateOutputType = {
@@ -31,6 +41,7 @@ export type ProductFeatureMinAggregateOutputType = {
   iconColor: string | null
   title: string | null
   description: string | null
+  priority: number | null
 }
 
 export type ProductFeatureMaxAggregateOutputType = {
@@ -40,6 +51,7 @@ export type ProductFeatureMaxAggregateOutputType = {
   iconColor: string | null
   title: string | null
   description: string | null
+  priority: number | null
 }
 
 export type ProductFeatureCountAggregateOutputType = {
@@ -49,9 +61,18 @@ export type ProductFeatureCountAggregateOutputType = {
   iconColor: number
   title: number
   description: number
+  priority: number
   _all: number
 }
 
+
+export type ProductFeatureAvgAggregateInputType = {
+  priority?: true
+}
+
+export type ProductFeatureSumAggregateInputType = {
+  priority?: true
+}
 
 export type ProductFeatureMinAggregateInputType = {
   id?: true
@@ -60,6 +81,7 @@ export type ProductFeatureMinAggregateInputType = {
   iconColor?: true
   title?: true
   description?: true
+  priority?: true
 }
 
 export type ProductFeatureMaxAggregateInputType = {
@@ -69,6 +91,7 @@ export type ProductFeatureMaxAggregateInputType = {
   iconColor?: true
   title?: true
   description?: true
+  priority?: true
 }
 
 export type ProductFeatureCountAggregateInputType = {
@@ -78,6 +101,7 @@ export type ProductFeatureCountAggregateInputType = {
   iconColor?: true
   title?: true
   description?: true
+  priority?: true
   _all?: true
 }
 
@@ -119,6 +143,18 @@ export type ProductFeatureAggregateArgs<ExtArgs extends runtime.Types.Extensions
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: ProductFeatureAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: ProductFeatureSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: ProductFeatureMinAggregateInputType
@@ -149,6 +185,8 @@ export type ProductFeatureGroupByArgs<ExtArgs extends runtime.Types.Extensions.I
   take?: number
   skip?: number
   _count?: ProductFeatureCountAggregateInputType | true
+  _avg?: ProductFeatureAvgAggregateInputType
+  _sum?: ProductFeatureSumAggregateInputType
   _min?: ProductFeatureMinAggregateInputType
   _max?: ProductFeatureMaxAggregateInputType
 }
@@ -160,7 +198,10 @@ export type ProductFeatureGroupByOutputType = {
   iconColor: string
   title: string
   description: string
+  priority: number
   _count: ProductFeatureCountAggregateOutputType | null
+  _avg: ProductFeatureAvgAggregateOutputType | null
+  _sum: ProductFeatureSumAggregateOutputType | null
   _min: ProductFeatureMinAggregateOutputType | null
   _max: ProductFeatureMaxAggregateOutputType | null
 }
@@ -190,6 +231,7 @@ export type ProductFeatureWhereInput = {
   iconColor?: Prisma.StringFilter<"ProductFeature"> | string
   title?: Prisma.StringFilter<"ProductFeature"> | string
   description?: Prisma.StringFilter<"ProductFeature"> | string
+  priority?: Prisma.IntFilter<"ProductFeature"> | number
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }
 
@@ -200,6 +242,7 @@ export type ProductFeatureOrderByWithRelationInput = {
   iconColor?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   product?: Prisma.ProductOrderByWithRelationInput
 }
 
@@ -213,6 +256,7 @@ export type ProductFeatureWhereUniqueInput = Prisma.AtLeast<{
   iconColor?: Prisma.StringFilter<"ProductFeature"> | string
   title?: Prisma.StringFilter<"ProductFeature"> | string
   description?: Prisma.StringFilter<"ProductFeature"> | string
+  priority?: Prisma.IntFilter<"ProductFeature"> | number
   product?: Prisma.XOR<Prisma.ProductScalarRelationFilter, Prisma.ProductWhereInput>
 }, "id">
 
@@ -223,9 +267,12 @@ export type ProductFeatureOrderByWithAggregationInput = {
   iconColor?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   _count?: Prisma.ProductFeatureCountOrderByAggregateInput
+  _avg?: Prisma.ProductFeatureAvgOrderByAggregateInput
   _max?: Prisma.ProductFeatureMaxOrderByAggregateInput
   _min?: Prisma.ProductFeatureMinOrderByAggregateInput
+  _sum?: Prisma.ProductFeatureSumOrderByAggregateInput
 }
 
 export type ProductFeatureScalarWhereWithAggregatesInput = {
@@ -238,6 +285,7 @@ export type ProductFeatureScalarWhereWithAggregatesInput = {
   iconColor?: Prisma.StringWithAggregatesFilter<"ProductFeature"> | string
   title?: Prisma.StringWithAggregatesFilter<"ProductFeature"> | string
   description?: Prisma.StringWithAggregatesFilter<"ProductFeature"> | string
+  priority?: Prisma.IntWithAggregatesFilter<"ProductFeature"> | number
 }
 
 export type ProductFeatureCreateInput = {
@@ -246,6 +294,7 @@ export type ProductFeatureCreateInput = {
   iconColor: string
   title: string
   description: string
+  priority?: number
   product: Prisma.ProductCreateNestedOneWithoutFeaturesInput
 }
 
@@ -256,6 +305,7 @@ export type ProductFeatureUncheckedCreateInput = {
   iconColor: string
   title: string
   description: string
+  priority?: number
 }
 
 export type ProductFeatureUpdateInput = {
@@ -264,6 +314,7 @@ export type ProductFeatureUpdateInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   product?: Prisma.ProductUpdateOneRequiredWithoutFeaturesNestedInput
 }
 
@@ -274,6 +325,7 @@ export type ProductFeatureUncheckedUpdateInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductFeatureCreateManyInput = {
@@ -283,6 +335,7 @@ export type ProductFeatureCreateManyInput = {
   iconColor: string
   title: string
   description: string
+  priority?: number
 }
 
 export type ProductFeatureUpdateManyMutationInput = {
@@ -291,6 +344,7 @@ export type ProductFeatureUpdateManyMutationInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductFeatureUncheckedUpdateManyInput = {
@@ -300,6 +354,7 @@ export type ProductFeatureUncheckedUpdateManyInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductFeatureListRelationFilter = {
@@ -319,6 +374,11 @@ export type ProductFeatureCountOrderByAggregateInput = {
   iconColor?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+}
+
+export type ProductFeatureAvgOrderByAggregateInput = {
+  priority?: Prisma.SortOrder
 }
 
 export type ProductFeatureMaxOrderByAggregateInput = {
@@ -328,6 +388,7 @@ export type ProductFeatureMaxOrderByAggregateInput = {
   iconColor?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
 }
 
 export type ProductFeatureMinOrderByAggregateInput = {
@@ -337,6 +398,11 @@ export type ProductFeatureMinOrderByAggregateInput = {
   iconColor?: Prisma.SortOrder
   title?: Prisma.SortOrder
   description?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
+}
+
+export type ProductFeatureSumOrderByAggregateInput = {
+  priority?: Prisma.SortOrder
 }
 
 export type ProductFeatureCreateNestedManyWithoutProductInput = {
@@ -387,6 +453,7 @@ export type ProductFeatureCreateWithoutProductInput = {
   iconColor: string
   title: string
   description: string
+  priority?: number
 }
 
 export type ProductFeatureUncheckedCreateWithoutProductInput = {
@@ -395,6 +462,7 @@ export type ProductFeatureUncheckedCreateWithoutProductInput = {
   iconColor: string
   title: string
   description: string
+  priority?: number
 }
 
 export type ProductFeatureCreateOrConnectWithoutProductInput = {
@@ -433,6 +501,7 @@ export type ProductFeatureScalarWhereInput = {
   iconColor?: Prisma.StringFilter<"ProductFeature"> | string
   title?: Prisma.StringFilter<"ProductFeature"> | string
   description?: Prisma.StringFilter<"ProductFeature"> | string
+  priority?: Prisma.IntFilter<"ProductFeature"> | number
 }
 
 export type ProductFeatureCreateManyProductInput = {
@@ -441,6 +510,7 @@ export type ProductFeatureCreateManyProductInput = {
   iconColor: string
   title: string
   description: string
+  priority?: number
 }
 
 export type ProductFeatureUpdateWithoutProductInput = {
@@ -449,6 +519,7 @@ export type ProductFeatureUpdateWithoutProductInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductFeatureUncheckedUpdateWithoutProductInput = {
@@ -457,6 +528,7 @@ export type ProductFeatureUncheckedUpdateWithoutProductInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 export type ProductFeatureUncheckedUpdateManyWithoutProductInput = {
@@ -465,6 +537,7 @@ export type ProductFeatureUncheckedUpdateManyWithoutProductInput = {
   iconColor?: Prisma.StringFieldUpdateOperationsInput | string
   title?: Prisma.StringFieldUpdateOperationsInput | string
   description?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
 }
 
 
@@ -476,6 +549,7 @@ export type ProductFeatureSelect<ExtArgs extends runtime.Types.Extensions.Intern
   iconColor?: boolean
   title?: boolean
   description?: boolean
+  priority?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productFeature"]>
 
@@ -486,6 +560,7 @@ export type ProductFeatureSelectCreateManyAndReturn<ExtArgs extends runtime.Type
   iconColor?: boolean
   title?: boolean
   description?: boolean
+  priority?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productFeature"]>
 
@@ -496,6 +571,7 @@ export type ProductFeatureSelectUpdateManyAndReturn<ExtArgs extends runtime.Type
   iconColor?: boolean
   title?: boolean
   description?: boolean
+  priority?: boolean
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["productFeature"]>
 
@@ -506,9 +582,10 @@ export type ProductFeatureSelectScalar = {
   iconColor?: boolean
   title?: boolean
   description?: boolean
+  priority?: boolean
 }
 
-export type ProductFeatureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "icon" | "iconColor" | "title" | "description", ExtArgs["result"]["productFeature"]>
+export type ProductFeatureOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "productId" | "icon" | "iconColor" | "title" | "description" | "priority", ExtArgs["result"]["productFeature"]>
 export type ProductFeatureInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   product?: boolean | Prisma.ProductDefaultArgs<ExtArgs>
 }
@@ -531,6 +608,7 @@ export type $ProductFeaturePayload<ExtArgs extends runtime.Types.Extensions.Inte
     iconColor: string
     title: string
     description: string
+    priority: number
   }, ExtArgs["result"]["productFeature"]>
   composites: {}
 }
@@ -961,6 +1039,7 @@ export interface ProductFeatureFieldRefs {
   readonly iconColor: Prisma.FieldRef<"ProductFeature", 'String'>
   readonly title: Prisma.FieldRef<"ProductFeature", 'String'>
   readonly description: Prisma.FieldRef<"ProductFeature", 'String'>
+  readonly priority: Prisma.FieldRef<"ProductFeature", 'Int'>
 }
     
 
