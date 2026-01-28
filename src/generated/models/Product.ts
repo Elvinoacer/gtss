@@ -27,11 +27,13 @@ export type AggregateProduct = {
 }
 
 export type ProductAvgAggregateOutputType = {
+  priority: number | null
   priceUSD: number | null
   priceKES: number | null
 }
 
 export type ProductSumAggregateOutputType = {
+  priority: number | null
   priceUSD: number | null
   priceKES: number | null
 }
@@ -40,6 +42,7 @@ export type ProductMinAggregateOutputType = {
   id: string | null
   name: string | null
   productId: string | null
+  priority: number | null
   category: string | null
   pricing: string | null
   status: string | null
@@ -69,6 +72,7 @@ export type ProductMaxAggregateOutputType = {
   id: string | null
   name: string | null
   productId: string | null
+  priority: number | null
   category: string | null
   pricing: string | null
   status: string | null
@@ -98,6 +102,7 @@ export type ProductCountAggregateOutputType = {
   id: number
   name: number
   productId: number
+  priority: number
   category: number
   pricing: number
   status: number
@@ -127,11 +132,13 @@ export type ProductCountAggregateOutputType = {
 
 
 export type ProductAvgAggregateInputType = {
+  priority?: true
   priceUSD?: true
   priceKES?: true
 }
 
 export type ProductSumAggregateInputType = {
+  priority?: true
   priceUSD?: true
   priceKES?: true
 }
@@ -140,6 +147,7 @@ export type ProductMinAggregateInputType = {
   id?: true
   name?: true
   productId?: true
+  priority?: true
   category?: true
   pricing?: true
   status?: true
@@ -169,6 +177,7 @@ export type ProductMaxAggregateInputType = {
   id?: true
   name?: true
   productId?: true
+  priority?: true
   category?: true
   pricing?: true
   status?: true
@@ -198,6 +207,7 @@ export type ProductCountAggregateInputType = {
   id?: true
   name?: true
   productId?: true
+  priority?: true
   category?: true
   pricing?: true
   status?: true
@@ -315,6 +325,7 @@ export type ProductGroupByOutputType = {
   id: string
   name: string
   productId: string
+  priority: number
   category: string
   pricing: string
   status: string
@@ -368,6 +379,7 @@ export type ProductWhereInput = {
   id?: Prisma.StringFilter<"Product"> | string
   name?: Prisma.StringFilter<"Product"> | string
   productId?: Prisma.StringFilter<"Product"> | string
+  priority?: Prisma.IntFilter<"Product"> | number
   category?: Prisma.StringFilter<"Product"> | string
   pricing?: Prisma.StringFilter<"Product"> | string
   status?: Prisma.StringFilter<"Product"> | string
@@ -404,6 +416,7 @@ export type ProductOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   category?: Prisma.SortOrder
   pricing?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -443,6 +456,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   OR?: Prisma.ProductWhereInput[]
   NOT?: Prisma.ProductWhereInput | Prisma.ProductWhereInput[]
   name?: Prisma.StringFilter<"Product"> | string
+  priority?: Prisma.IntFilter<"Product"> | number
   category?: Prisma.StringFilter<"Product"> | string
   pricing?: Prisma.StringFilter<"Product"> | string
   status?: Prisma.StringFilter<"Product"> | string
@@ -479,6 +493,7 @@ export type ProductOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   category?: Prisma.SortOrder
   pricing?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -517,6 +532,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Product"> | string
   name?: Prisma.StringWithAggregatesFilter<"Product"> | string
   productId?: Prisma.StringWithAggregatesFilter<"Product"> | string
+  priority?: Prisma.IntWithAggregatesFilter<"Product"> | number
   category?: Prisma.StringWithAggregatesFilter<"Product"> | string
   pricing?: Prisma.StringWithAggregatesFilter<"Product"> | string
   status?: Prisma.StringWithAggregatesFilter<"Product"> | string
@@ -547,6 +563,7 @@ export type ProductCreateInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -583,6 +600,7 @@ export type ProductUncheckedCreateInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -619,6 +637,7 @@ export type ProductUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -655,6 +674,7 @@ export type ProductUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -691,6 +711,7 @@ export type ProductCreateManyInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -721,6 +742,7 @@ export type ProductUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -751,6 +773,7 @@ export type ProductUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -789,6 +812,7 @@ export type ProductCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   category?: Prisma.SortOrder
   pricing?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -816,6 +840,7 @@ export type ProductCountOrderByAggregateInput = {
 }
 
 export type ProductAvgOrderByAggregateInput = {
+  priority?: Prisma.SortOrder
   priceUSD?: Prisma.SortOrder
   priceKES?: Prisma.SortOrder
 }
@@ -824,6 +849,7 @@ export type ProductMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   category?: Prisma.SortOrder
   pricing?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -853,6 +879,7 @@ export type ProductMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   name?: Prisma.SortOrder
   productId?: Prisma.SortOrder
+  priority?: Prisma.SortOrder
   category?: Prisma.SortOrder
   pricing?: Prisma.SortOrder
   status?: Prisma.SortOrder
@@ -879,6 +906,7 @@ export type ProductMinOrderByAggregateInput = {
 }
 
 export type ProductSumOrderByAggregateInput = {
+  priority?: Prisma.SortOrder
   priceUSD?: Prisma.SortOrder
   priceKES?: Prisma.SortOrder
 }
@@ -899,6 +927,14 @@ export type ProductCreateimagesInput = {
 
 export type StringFieldUpdateOperationsInput = {
   set?: string
+}
+
+export type IntFieldUpdateOperationsInput = {
+  set?: number
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -1016,6 +1052,7 @@ export type ProductCreateWithoutFeaturesInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1051,6 +1088,7 @@ export type ProductUncheckedCreateWithoutFeaturesInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1102,6 +1140,7 @@ export type ProductUpdateWithoutFeaturesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1137,6 +1176,7 @@ export type ProductUncheckedUpdateWithoutFeaturesInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1172,6 +1212,7 @@ export type ProductCreateWithoutHealthInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1207,6 +1248,7 @@ export type ProductUncheckedCreateWithoutHealthInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1258,6 +1300,7 @@ export type ProductUpdateWithoutHealthInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1293,6 +1336,7 @@ export type ProductUncheckedUpdateWithoutHealthInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1328,6 +1372,7 @@ export type ProductCreateWithoutAssetsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1363,6 +1408,7 @@ export type ProductUncheckedCreateWithoutAssetsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1414,6 +1460,7 @@ export type ProductUpdateWithoutAssetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1449,6 +1496,7 @@ export type ProductUncheckedUpdateWithoutAssetsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1484,6 +1532,7 @@ export type ProductCreateWithoutReviewsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1519,6 +1568,7 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1570,6 +1620,7 @@ export type ProductUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1605,6 +1656,7 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1640,6 +1692,7 @@ export type ProductCreateWithoutTicketsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1675,6 +1728,7 @@ export type ProductUncheckedCreateWithoutTicketsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1726,6 +1780,7 @@ export type ProductUpdateWithoutTicketsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1761,6 +1816,7 @@ export type ProductUncheckedUpdateWithoutTicketsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1796,6 +1852,7 @@ export type ProductCreateWithoutViewsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1831,6 +1888,7 @@ export type ProductUncheckedCreateWithoutViewsInput = {
   id?: string
   name: string
   productId: string
+  priority?: number
   category: string
   pricing: string
   status: string
@@ -1882,6 +1940,7 @@ export type ProductUpdateWithoutViewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -1917,6 +1976,7 @@ export type ProductUncheckedUpdateWithoutViewsInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
   productId?: Prisma.StringFieldUpdateOperationsInput | string
+  priority?: Prisma.IntFieldUpdateOperationsInput | number
   category?: Prisma.StringFieldUpdateOperationsInput | string
   pricing?: Prisma.StringFieldUpdateOperationsInput | string
   status?: Prisma.StringFieldUpdateOperationsInput | string
@@ -2028,6 +2088,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   id?: boolean
   name?: boolean
   productId?: boolean
+  priority?: boolean
   category?: boolean
   pricing?: boolean
   status?: boolean
@@ -2065,6 +2126,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   name?: boolean
   productId?: boolean
+  priority?: boolean
   category?: boolean
   pricing?: boolean
   status?: boolean
@@ -2095,6 +2157,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   id?: boolean
   name?: boolean
   productId?: boolean
+  priority?: boolean
   category?: boolean
   pricing?: boolean
   status?: boolean
@@ -2125,6 +2188,7 @@ export type ProductSelectScalar = {
   id?: boolean
   name?: boolean
   productId?: boolean
+  priority?: boolean
   category?: boolean
   pricing?: boolean
   status?: boolean
@@ -2151,7 +2215,7 @@ export type ProductSelectScalar = {
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "productId" | "category" | "pricing" | "status" | "icon" | "iconColor" | "description" | "version" | "demoVideoUrl" | "instructions" | "pricingModel" | "priceUSD" | "priceKES" | "qrCodeUrl" | "logoUrl" | "images" | "tagline" | "websiteUrl" | "technicalArchitecture" | "releaseDate" | "activeUsers" | "uptime" | "leadTeam" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "productId" | "priority" | "category" | "pricing" | "status" | "icon" | "iconColor" | "description" | "version" | "demoVideoUrl" | "instructions" | "pricingModel" | "priceUSD" | "priceKES" | "qrCodeUrl" | "logoUrl" | "images" | "tagline" | "websiteUrl" | "technicalArchitecture" | "releaseDate" | "activeUsers" | "uptime" | "leadTeam" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
   health?: boolean | Prisma.Product$healthArgs<ExtArgs>
@@ -2178,6 +2242,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     id: string
     name: string
     productId: string
+    priority: number
     category: string
     pricing: string
     status: string
@@ -2634,6 +2699,7 @@ export interface ProductFieldRefs {
   readonly id: Prisma.FieldRef<"Product", 'String'>
   readonly name: Prisma.FieldRef<"Product", 'String'>
   readonly productId: Prisma.FieldRef<"Product", 'String'>
+  readonly priority: Prisma.FieldRef<"Product", 'Int'>
   readonly category: Prisma.FieldRef<"Product", 'String'>
   readonly pricing: Prisma.FieldRef<"Product", 'String'>
   readonly status: Prisma.FieldRef<"Product", 'String'>

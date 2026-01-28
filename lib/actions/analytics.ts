@@ -52,7 +52,10 @@ export async function getDashboardStats() {
     // 5. System Status (From top products health)
     const systemHealthParams = {
       take: 4,
-      orderBy: { updatedAt: 'desc' as const },
+      orderBy: [
+        { priority: 'asc' as const },
+        { updatedAt: 'desc' as const }
+      ],
       include: { health: true },
       where: { status: 'live' }
     };

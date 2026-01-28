@@ -469,14 +469,6 @@ export type ProductReviewUncheckedUpdateManyWithoutProductNestedInput = {
   deleteMany?: Prisma.ProductReviewScalarWhereInput | Prisma.ProductReviewScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type ProductReviewCreateWithoutProductInput = {
   id?: string
   authorName: string

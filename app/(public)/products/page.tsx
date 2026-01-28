@@ -3,6 +3,8 @@ import { PublicProductsClient } from '@/components/products/PublicProductsClient
 import { ProductHeader } from '@/components/products/ProductHeader';
 import { Metadata } from 'next';
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "Product Directory",
   description: "Explore our suite of practical software solutions designed for local businesses, from hotel management to e-commerce platforms.",

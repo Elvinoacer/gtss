@@ -30,9 +30,10 @@ export async function getProducts() {
         assets: true,
         reviews: true,
       },
-      orderBy: {
-        createdAt: 'desc',
-      },
+      orderBy: [
+        { priority: 'asc' },
+        { createdAt: 'desc' },
+      ],
     });
     return { success: true, data: products };
   } catch (error) {
@@ -91,6 +92,7 @@ export async function createProduct(data: any) {
         activeUsers: data.activeUsers,
         uptime: data.uptime,
         leadTeam: data.leadTeam,
+        priority: data.priority ? parseInt(data.priority) : 100,
         features: {
           create: (data.features || []).map((f: any) => ({
             title: f.title,
@@ -180,6 +182,7 @@ export async function updateProduct(id: string, data: any) {
           activeUsers: data.activeUsers,
           uptime: data.uptime,
           leadTeam: data.leadTeam,
+          priority: data.priority ? parseInt(data.priority) : undefined,
           features: {
             create: (data.features || []).map((f: any) => ({
               title: f.title,

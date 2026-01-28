@@ -30,6 +30,7 @@ import {
   Tag,
   Calendar,
   Zap,
+  ArrowUpDown,
 } from "lucide-react";
 import { useState } from "react";
 import { getProductById, updateProduct } from "@/lib/actions/products";
@@ -79,6 +80,7 @@ export function ProductEditClient({
     icon: product?.icon || "box",
     iconColor: product?.iconColor || "bg-blue-50 text-blue-600",
     technicalArchitecture: product?.technicalArchitecture || "",
+    priority: product?.priority || 100,
   });
 
   const [features, setFeatures] = useState(product?.features || []);
@@ -319,6 +321,22 @@ export function ProductEditClient({
                             <option value="live">Live / Production</option>
                             <option value="deprecated">Deprecated</option>
                         </select>
+                    </div>
+
+                    <div>
+                        <label className="block text-sm font-bold text-slate-700 dark:text-slate-300 mb-2">Display Priority</label>
+                        <div className="relative">
+                            <ArrowUpDown className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                            <input
+                                type="number"
+                                min="1"
+                                className="w-full rounded-xl border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-900/50 pl-11 pr-5 py-3 outline-none focus:ring-2 focus:ring-blue-500"
+                                value={formData.priority}
+                                onChange={(e) => setFormData({ ...formData, priority: parseInt(e.target.value) || 100 })}
+                                placeholder="100"
+                            />
+                        </div>
+                        <p className="text-xs text-slate-400 mt-1">Lower values appear first (1 = top)</p>
                     </div>
 
                     <div className="flex items-center justify-between p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50">

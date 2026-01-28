@@ -17,6 +17,7 @@ model Product {
   id          String   @id @default(cuid())
   name        String
   productId   String   @unique
+  priority    Int      @default(100)  // Lower value = higher priority in listings
   category    String
   pricing     String
   status      String   // live, beta, deprecated
