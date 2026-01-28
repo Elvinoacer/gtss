@@ -78,7 +78,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 leading-[1.1]"
+                  className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 leading-[1.1] text-balance"
                 >
                   Building Africa's{" "}
                   <span className="relative inline-block">
@@ -95,7 +95,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mb-8 font-medium leading-relaxed mx-auto lg:mx-0"
+                  className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mb-8 font-medium leading-relaxed mx-auto lg:mx-0 text-pretty"
                 >
                   We design, build, and deploy enterprise-grade software systems
                   that empower businesses and drive sustainable growth across

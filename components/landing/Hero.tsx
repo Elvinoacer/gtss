@@ -16,10 +16,10 @@ export function Hero() {
             transition={{ duration: 0.6 }}
             className="flex flex-col gap-6 lg:gap-8 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black leading-[1.1] sm:leading-tight tracking-[-0.033em] text-[#111317] dark:text-white">
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black leading-[1.1] sm:leading-tight tracking-[-0.033em] text-[#111317] dark:text-white text-balance">
               {landingHero.title}
             </h1>
-            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg mx-auto lg:mx-0">
+            <p className="text-base sm:text-lg lg:text-xl text-gray-600 dark:text-gray-300 leading-relaxed max-w-lg mx-auto lg:mx-0 text-pretty">
               {landingHero.description}
             </p>
             <div className="flex flex-col sm:flex-row flex-wrap gap-4 pt-2 justify-center lg:justify-start w-full sm:w-auto">

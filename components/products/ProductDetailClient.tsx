@@ -152,7 +152,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
   const itemAnimation = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.4, ease: "easeOut" } }
-  };
+  } as const;
 
   const getAssetIcon = (type: string) => {
     switch (type?.toLowerCase()) {
@@ -242,7 +242,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
                   <motion.h1 
                     variants={itemAnimation}
-                    className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-tight"
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-tight text-balance"
                   >
                     {product.name}
                   </motion.h1>
