@@ -168,35 +168,35 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
       variants={containerAnimation}
       initial="hidden"
       animate="show"
-      className="pb-16 md:pb-20"
+      className="pb-16 md:pb-24"
     >
       {/* Dynamic Header Background */}
-      <div className="relative -mx-4 sm:-mx-6 lg:-mx-10 -mt-4 sm:-mt-6 lg:-mt-10 mb-6 md:mb-8 pt-8 md:pt-12 lg:pt-16 pb-20 md:pb-24 lg:pb-32 overflow-hidden bg-slate-900">
+      <div className="relative -mx-4 sm:-mx-6 lg:-mx-10 -mt-4 sm:-mt-6 lg:-mt-10 mb-6 md:mb-10 pt-20 md:pt-24 lg:pt-32 pb-24 md:pb-32 lg:pb-40 overflow-hidden bg-slate-900">
          {/* Background Gradients */}
          <div className={`absolute inset-0 bg-gradient-to-br ${gradientClass} opacity-20`} />
-         <div className="absolute top-0 right-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-         <div className="absolute bottom-0 left-0 w-[300px] md:w-[500px] h-[300px] md:h-[500px] bg-black/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
+         <div className="absolute top-0 right-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-white/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+         <div className="absolute bottom-0 left-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-black/20 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3" />
          
          {/* Grid Pattern */}
          <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:30px_30px] md:bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_20%,transparent_100%)]" />
 
          <div className="container mx-auto px-4 md:px-6 relative z-10">
             {/* Breadcrumb & Actions */}
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4 mb-6 md:mb-10">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 md:gap-4 mb-8 md:mb-12">
               <Link
                 href="/products"
-                className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-colors text-xs md:text-sm font-medium group"
+                className="inline-flex items-center gap-2 text-slate-300 hover:text-white transition-colors text-xs md:text-sm font-medium group w-fit"
               >
-                <div className="p-1 md:p-1.5 rounded-lg bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
+                <div className="p-1.5 rounded-lg bg-white/5 border border-white/10 group-hover:bg-white/10 transition-colors">
                   <ArrowLeft className="w-3.5 h-3.5 md:w-4 md:h-4" />
                 </div>
                 Back to Products
               </Link>
 
-              <div className="flex items-center gap-2 md:gap-3">
+              <div className="flex items-center gap-2 md:gap-3 self-end sm:self-auto">
                 <button
                   onClick={handleShare}
-                  className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs md:text-sm font-medium text-white transition-all"
+                  className="inline-flex items-center gap-2 px-3 md:px-4 py-2 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-xs md:text-sm font-medium text-white transition-all"
                 >
                   {copied ? <Check className="w-3.5 h-3.5 md:w-4 md:h-4 text-emerald-400" /> : <Share2 className="w-3.5 h-3.5 md:w-4 md:h-4" />}
                   {copied ? "Copied" : "Share"}
@@ -204,7 +204,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                 {isAuthenticated && (
                   <Link
                      href={`/dashboard/products/${product.id}/edit`}
-                     className="inline-flex items-center gap-1.5 md:gap-2 px-3 md:px-4 py-1.5 md:py-2 bg-white text-slate-900 hover:bg-slate-100 rounded-lg text-xs md:text-sm font-bold shadow-lg shadow-black/10 transition-all"
+                     className="inline-flex items-center gap-2 px-3 md:px-4 py-2 bg-white text-slate-900 hover:bg-slate-100 rounded-lg text-xs md:text-sm font-bold shadow-lg shadow-black/10 transition-all"
                   >
                      <span className="hidden sm:inline">Edit Product</span>
                      <span className="sm:hidden">Edit</span>
@@ -215,49 +215,49 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
             </div>
 
             {/* Hero Content */}
-            <div className="flex flex-col md:flex-row gap-5 md:gap-8 items-start">
+            <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start">
                {/* Logo */}
                <motion.div 
                  variants={itemAnimation}
-                 className="relative shrink-0"
+                 className="relative shrink-0 mx-auto md:mx-0"
                >
-                  <div className={`w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 rounded-2xl md:rounded-3xl bg-gradient-to-br ${gradientClass} p-0.5 md:p-1 shadow-2xl shadow-black/30`}>
+                  <div className={`w-24 h-24 md:w-32 md:h-32 lg:w-40 lg:h-40 rounded-2xl md:rounded-3xl bg-gradient-to-br ${gradientClass} p-0.5 md:p-1 shadow-2xl shadow-black/30`}>
                      <div className="w-full h-full bg-slate-900 rounded-[0.9rem] md:rounded-[1.3rem] flex items-center justify-center overflow-hidden">
                        {product.logoUrl ? (
                          <img src={product.logoUrl} alt={product.name} className="w-full h-full object-cover" />
                        ) : (
-                         <ProductIcon className="w-10 h-10 md:w-12 md:h-12 text-white" />
+                         <ProductIcon className="w-10 h-10 md:w-16 md:h-16 text-white" />
                        )}
                      </div>
                   </div>
                   {/* Floating Status Badge */}
                   <div className={`absolute -bottom-2 -right-2 md:-bottom-3 md:-right-3 px-2 md:px-3 py-0.5 md:py-1 rounded-full border border-white/10 shadow-lg backdrop-blur-md ${statusStyle.bg}`}>
-                     <div className="flex items-center gap-1 md:gap-1.5">
-                       <span className={`w-1 h-1 md:w-1.5 md:h-1.5 rounded-full ${statusStyle.dot} animate-pulse`} />
+                     <div className="flex items-center gap-1.5">
+                       <span className={`w-1.5 h-1.5 rounded-full ${statusStyle.dot} animate-pulse`} />
                        <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider">{statusStyle.label}</span>
                      </div>
                   </div>
                </motion.div>
 
-               <div className="flex-1 space-y-3 md:space-y-4">
+               <div className="flex-1 space-y-4 md:space-y-6 text-center md:text-left">
                   <motion.h1 
                     variants={itemAnimation}
-                    className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-black text-white tracking-tight leading-tight"
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-black text-white tracking-tight leading-tight"
                   >
                     {product.name}
                   </motion.h1>
                   
-                  <motion.div variants={itemAnimation} className="flex flex-wrap items-center gap-2 md:gap-3">
-                     <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-white/10 border border-white/10 text-white/90 text-xs md:text-sm font-medium backdrop-blur-sm">
+                  <motion.div variants={itemAnimation} className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3">
+                     <div className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full bg-white/10 border border-white/10 text-white/90 text-xs md:text-sm font-medium backdrop-blur-sm">
                         <Tag className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-70" />
                         {product.category}
                      </div>
-                     <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-white/10 border border-white/10 text-white/90 text-xs md:text-sm font-mono backdrop-blur-sm">
+                     <div className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full bg-white/10 border border-white/10 text-white/90 text-xs md:text-sm font-mono backdrop-blur-sm">
                         <QrCode className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-70" />
                         {product.productId}
                      </div>
                      {product.version && (
-                       <div className="flex items-center gap-1.5 md:gap-2 px-2 md:px-3 py-1 md:py-1.5 rounded-full bg-white/10 border border-white/10 text-white/90 text-xs md:text-sm font-medium backdrop-blur-sm">
+                       <div className="flex items-center gap-1.5 md:gap-2 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full bg-white/10 border border-white/10 text-white/90 text-xs md:text-sm font-medium backdrop-blur-sm">
                           <Layers className="w-3 h-3 md:w-3.5 md:h-3.5 opacity-70" />
                           v{product.version}
                        </div>
@@ -265,7 +265,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                   </motion.div>
 
                   {product.tagline && (
-                     <motion.p variants={itemAnimation} className="text-sm md:text-base lg:text-lg text-slate-300 font-medium max-w-2xl leading-relaxed">
+                     <motion.p variants={itemAnimation} className="text-base md:text-lg lg:text-xl text-slate-300 font-medium max-w-2xl leading-relaxed mx-auto md:mx-0">
                         {product.tagline}
                      </motion.p>
                   )}

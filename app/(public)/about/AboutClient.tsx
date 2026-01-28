@@ -25,24 +25,24 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
   return (
     <main className="flex-1 bg-gradient-to-b from-white to-slate-50/50 dark:from-[#020617] dark:to-[#0B1120]">
       {/* 1. ENHANCED HERO: More dynamic with better visual hierarchy */}
-      <section className="relative pt-20 pb-16 md:pt-24 md:pb-20 overflow-hidden">
+      <section className="relative pt-12 pb-16 md:pt-24 md:pb-20 overflow-hidden">
         {/* Animated background gradient and Watermark Logo */}
         {/* Animated background gradient and Watermark Logo */}
         <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 -left-20 w-96 h-96 bg-blue-500/10 blur-[120px] rounded-full animate-pulse" />
-          <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-purple-500/5 blur-[120px] rounded-full" />
+          <div className="absolute top-1/4 -left-20 w-64 h-64 md:w-96 md:h-96 bg-blue-500/10 blur-[80px] md:blur-[120px] rounded-full animate-pulse" />
+          <div className="absolute bottom-1/4 -right-20 w-64 h-64 md:w-96 md:h-96 bg-purple-500/5 blur-[80px] md:blur-[120px] rounded-full" />
           
           {/* Large Watermark Logo - Refined Version */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 0.1, scale: 1 }}
             transition={{ duration: 2, ease: "easeOut" }}
-            className="absolute top-0 -right-20 md:right-0 w-[600px] md:w-[1000px] h-auto"
+            className="absolute top-0 -right-20 md:right-0 w-[400px] md:w-[1000px] h-auto"
           >
             <motion.img
               src="/images/GTSS-logo.png"
               alt=""
-              className="w-full h-auto object-contain dark:brightness-200"
+              className="w-full h-full object-contain dark:brightness-200"
               animate={{ 
                 rotate: [0, 2, 0, -2, 0],
                 y: [0, 40, 0, -40, 0],
@@ -59,17 +59,17 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
 
         <div className="container mx-auto px-4 sm:px-6 relative z-10">
           <div className="max-w-5xl mx-auto">
-            <div className="flex flex-col lg:flex-row items-start justify-between gap-8">
+            <div className="flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-8 text-center lg:text-left">
               {/* Left content */}
-              <div className="flex-1 relative z-10">
+              <div className="flex-1 relative z-10 font-medium">
 
                 <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
-                  className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/60 mb-6"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 md:px-4 md:py-2 rounded-full bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20 border border-blue-100 dark:border-blue-800/60 mb-6 mx-auto lg:mx-0"
                 >
-                  <Sparkles className="w-4 h-4 text-blue-600" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
+                  <Sparkles className="w-3.5 h-3.5 md:w-4 md:h-4 text-blue-600" />
+                  <span className="text-[10px] md:text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
                     Transforming African Tech
                   </span>
                 </motion.div>
@@ -78,15 +78,15 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 }}
-                  className="text-4xl md:text-5xl lg:text-6xl font-black text-slate-900 dark:text-white tracking-tight mb-6 leading-[1.1]"
+                  className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tighter mb-6 leading-[1.1]"
                 >
                   Building Africa's{" "}
-                  <span className="relative">
+                  <span className="relative inline-block">
                     <span className="relative z-10">Digital</span>
                     <span className="absolute bottom-2 left-0 w-full h-3 bg-gradient-to-r from-blue-500/20 to-blue-500/10 dark:from-blue-500/30 dark:to-blue-500/10 -z-0" />
                   </span>
-                  <br />
-                  <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+                  <br className="hidden md:block" />
+                  <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent block md:inline mt-2 md:mt-0">
                     Infrastructure Engine
                   </span>
                 </motion.h1>
@@ -95,7 +95,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.2 }}
-                  className="text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mb-8 font-medium leading-relaxed"
+                  className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mb-8 font-medium leading-relaxed mx-auto lg:mx-0"
                 >
                   We design, build, and deploy enterprise-grade software systems
                   that empower businesses and drive sustainable growth across
@@ -106,18 +106,18 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.3 }}
-                  className="flex flex-wrap gap-4"
+                  className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4"
                 >
                   <Link
                     href="/solutions"
-                    className="group px-6 py-3 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-semibold rounded-xl hover:shadow-lg transition-all duration-300 flex items-center gap-2 shadow-md hover:shadow-blue-500/25"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-blue-500/25 hover:-translate-y-0.5"
                   >
                     Explore Solutions
                     <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
                   </Link>
                   <Link
                     href="/contact"
-                    className="px-6 py-3 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 transition-colors"
+                    className="w-full sm:w-auto px-8 py-3.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 transition-colors flex items-center justify-center"
                   >
                     Get in Touch
                   </Link>
@@ -129,7 +129,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.4 }}
-                className="lg:w-80 grid grid-cols-2 gap-4"
+                className="w-full sm:w-auto lg:w-80 grid grid-cols-2 gap-3 md:gap-4 mt-8 lg:mt-0"
               >
                 {[
                   { value: "50+", label: "Projects Delivered", icon: Rocket },
@@ -139,15 +139,15 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                 ].map((stat, i) => (
                   <div
                     key={i}
-                    className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-100 dark:border-slate-700/50"
+                    className="p-4 bg-white/50 dark:bg-slate-800/50 backdrop-blur-sm rounded-xl border border-slate-100 dark:border-slate-700/50 flex flex-col items-center lg:items-start text-center lg:text-left"
                   >
                     <div className="flex items-center gap-2 mb-2">
                       <stat.icon className="w-4 h-4 text-blue-500" />
-                      <div className="text-2xl font-black text-slate-900 dark:text-white">
+                      <div className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">
                         {stat.value}
                       </div>
                     </div>
-                    <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
+                    <div className="text-xs text-slate-500 dark:text-slate-400 font-medium leading-tight">
                       {stat.label}
                     </div>
                   </div>
