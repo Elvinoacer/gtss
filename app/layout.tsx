@@ -53,26 +53,26 @@ export const metadata: Metadata = {
   openGraph: {
     title: "GTSS - Great Thumbs Software Solutions",
     description:
-      "Practical, scalable software products for real-world local problems.",
+      "Practical, scalable software products for real-world local problems. Building the digital foundation for Africa's growth.",
     url: "https://gtss.vercel.app",
     siteName: "GTSS",
     locale: "en_US",
     type: "website",
     images: [
       {
-        url: "/images/gtss-og.jpg",
-        width: 1200,
-        height: 630,
-        alt: "GTSS - Great Thumbs Software Solutions",
+        url: "/images/marketing_banner.png",
+        width: 1456,
+        height: 816,
+        alt: "GTSS - Software That Means Business",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GTSS - Great Thumbs Software Solutions",
+    title: "GTSS - Software That Means Business",
     description:
-      "Practical, scalable software products for real-world local problems.",
-    images: ["/images/gtss-og.jpg"],
+      "Practical. Scalable. Trusted. Building the digital foundation for Africa's growth.",
+    images: ["/images/marketing_banner.png"],
     creator: "@Elvinoace",
   },
   robots: {
