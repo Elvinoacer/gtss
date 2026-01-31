@@ -1,63 +1,113 @@
 'use client';
 
-import { Twitter, Github } from 'lucide-react';
+import { Twitter, Github, Linkedin, Mail } from 'lucide-react';
 import Link from 'next/link';
 import { landingFooterLinks } from '@/data/landing';
 
+const iconMap: Record<string, any> = {
+  Twitter,
+  Github,
+  Linkedin,
+  Mail,
+};
+
 export function Footer() {
   return (
-    <footer className="bg-[#111317] text-white pt-12 md:pt-16 pb-8 border-t border-gray-800">
+    <footer className="relative pt-16 pb-8">
+      {/* Top gradient border */}
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#007AFF]/50 to-transparent" />
+      
       <div className="max-w-[1280px] mx-auto px-4">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-          <div className="col-span-2 md:col-span-1 flex flex-col gap-4">
-            <Link href="/" className="flex items-center gap-2">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 mb-16">
+          {/* Logo & Description */}
+          <div className="col-span-2 md:col-span-1 flex flex-col gap-5">
+            <Link href="/" className="flex items-center gap-2 group w-fit">
               <img
                 src="/images/GTSS-logo.png"
                 alt="GTSS Logo"
-                className="h-12 w-auto object-contain"
+                className="h-10 w-auto object-contain transition-transform group-hover:scale-105"
               />
             </Link>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              Empowering enterprises with next-gen tools for project management and collaboration.
+            <p className="text-white/40 text-sm leading-relaxed">
+              Building practical, scalable software products for real-world local problems across Africa.
             </p>
+            
+            {/* Social Links */}
+            <div className="flex gap-3 mt-2">
+              {landingFooterLinks.social.map((link) => {
+                const Icon = iconMap[link.icon] || Twitter;
+                return (
+                  <Link 
+                    key={link.label} 
+                    href={link.href}
+                    className="w-10 h-10 rounded-xl glass-card flex items-center justify-center text-white/40 hover:text-white hover:glow-blue transition-all"
+                  >
+                    <span className="sr-only">{link.label}</span>
+                    <Icon className="h-5 w-5" />
+                  </Link>
+                );
+              })}
+            </div>
           </div>
+          
+          {/* Product Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-sm text-gray-200 uppercase tracking-wider">Product</h4>
-            {landingFooterLinks.product.map((link) => (
-              <Link key={link.label} className="text-gray-400 hover:text-white transition-colors text-sm" href={link.href}>
-                {link.label}
-              </Link>
-            ))}
+            <h4 className="font-bold text-sm text-white uppercase tracking-wider">Product</h4>
+            <div className="flex flex-col gap-3">
+              {landingFooterLinks.product.map((link) => (
+                <Link 
+                  key={link.label} 
+                  className="text-white/40 hover:text-white transition-colors text-sm w-fit" 
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
+          
+          {/* Company Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-sm text-gray-200 uppercase tracking-wider">Company</h4>
-            {landingFooterLinks.company.map((link) => (
-              <Link key={link.label} className="text-gray-400 hover:text-white transition-colors text-sm" href={link.href}>
-                {link.label}
-              </Link>
-            ))}
+            <h4 className="font-bold text-sm text-white uppercase tracking-wider">Company</h4>
+            <div className="flex flex-col gap-3">
+              {landingFooterLinks.company.map((link) => (
+                <Link 
+                  key={link.label} 
+                  className="text-white/40 hover:text-white transition-colors text-sm w-fit" 
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
+          
+          {/* Legal Links */}
           <div className="flex flex-col gap-4">
-            <h4 className="font-bold text-sm text-gray-200 uppercase tracking-wider">Legal</h4>
-            {landingFooterLinks.legal.map((link) => (
-              <Link key={link.label} className="text-gray-400 hover:text-white transition-colors text-sm" href={link.href}>
-                {link.label}
-              </Link>
-            ))}
+            <h4 className="font-bold text-sm text-white uppercase tracking-wider">Legal</h4>
+            <div className="flex flex-col gap-3">
+              {landingFooterLinks.legal.map((link) => (
+                <Link 
+                  key={link.label} 
+                  className="text-white/40 hover:text-white transition-colors text-sm w-fit" 
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
           </div>
         </div>
-        <div className="pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-gray-500 text-sm">© {new Date().getFullYear()} GTSS Inc. All rights reserved.</p>
-          <div className="flex gap-4">
-            {landingFooterLinks.social.map((link) => {
-              const Icon = link.icon === 'Twitter' ? Twitter : Github;
-              return (
-                <Link key={link.label} className="text-gray-400 hover:text-white transition-colors" href={link.href}>
-                  <span className="sr-only">{link.label}</span>
-                  <Icon className="h-5 w-5" />
-                </Link>
-              );
-            })}
+        
+        {/* Bottom Bar */}
+        <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p className="text-white/30 text-sm">
+            © {new Date().getFullYear()} Great Thumbs Software Solutions. All rights reserved.
+          </p>
+          <div className="flex items-center gap-2 text-sm text-white/30">
+            <span>Built with</span>
+            <span className="text-red-400">♥</span>
+            <span>in Africa</span>
           </div>
         </div>
       </div>

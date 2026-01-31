@@ -47,81 +47,81 @@ export function ContactForm() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-white dark:bg-[#1a1d2d] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 md:p-10"
+      className="glass-strong rounded-2xl p-6 md:p-10"
     >
-      <h2 className="text-2xl font-bold text-[#111218] dark:text-white mb-8">
+      <h2 className="text-2xl font-bold text-white mb-8">
         Send us a message
       </h2>
       <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
         <div className="grid md:grid-cols-2 gap-6">
           <label className="flex flex-col gap-2">
-            <span className="text-[#111218] dark:text-gray-200 text-sm font-medium">Full Name</span>
+            <span className="text-white/70 text-sm font-medium">Full Name</span>
             <input
               name="name"
               required
-              className="w-full rounded-lg border border-[#dbdde6] dark:border-gray-600 bg-white dark:bg-gray-800 px-4 h-12 text-base text-[#111218] dark:text-white focus:border-[#1337ec] focus:ring-1 focus:ring-[#1337ec] outline-none transition-shadow placeholder:text-gray-400"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 h-12 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all placeholder:text-white/30"
               placeholder="Jane Doe"
               type="text"
             />
           </label>
           <label className="flex flex-col gap-2">
-            <span className="text-[#111218] dark:text-gray-200 text-sm font-medium">Email</span>
+            <span className="text-white/70 text-sm font-medium">Email</span>
             <input
               name="email"
               required
-              className="w-full rounded-lg border border-[#dbdde6] dark:border-gray-600 bg-white dark:bg-gray-800 px-4 h-12 text-base text-[#111218] dark:text-white focus:border-[#1337ec] focus:ring-1 focus:ring-[#1337ec] outline-none transition-shadow placeholder:text-gray-400"
+              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 h-12 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all placeholder:text-white/30"
               placeholder="jane@company.com"
               type="email"
             />
           </label>
         </div>
         <label className="flex flex-col gap-2">
-          <span className="text-[#111218] dark:text-gray-200 text-sm font-medium">Subject</span>
+          <span className="text-white/70 text-sm font-medium">Subject</span>
           <div className="relative">
             <select
               name="subject"
-              className="w-full appearance-none rounded-lg border border-[#dbdde6] dark:border-gray-600 bg-white dark:bg-gray-800 px-4 h-12 text-base text-[#111218] dark:text-white focus:border-[#1337ec] focus:ring-1 focus:ring-[#1337ec] outline-none transition-shadow cursor-pointer"
+              className="w-full appearance-none rounded-xl border border-white/10 bg-white/5 px-4 h-12 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all cursor-pointer"
             >
-              <option>General Inquiry</option>
-              <option>Technical Support</option>
-              <option>Sales & Enterprise Pricing</option>
-              <option>Partnership Opportunities</option>
+              <option className="bg-[#1a1d2d]">General Inquiry</option>
+              <option className="bg-[#1a1d2d]">Technical Support</option>
+              <option className="bg-[#1a1d2d]">Sales & Enterprise Pricing</option>
+              <option className="bg-[#1a1d2d]">Partnership Opportunities</option>
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500 w-5 h-5" />
+            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 w-5 h-5" />
           </div>
         </label>
         <label className="flex flex-col gap-2">
-          <span className="text-[#111218] dark:text-gray-200 text-sm font-medium">Message</span>
+          <span className="text-white/70 text-sm font-medium">Message</span>
           <textarea
             name="message"
             required
-            className="w-full rounded-lg border border-[#dbdde6] dark:border-gray-600 bg-white dark:bg-gray-800 p-4 text-base text-[#111218] dark:text-white focus:border-[#1337ec] focus:ring-1 focus:ring-[#1337ec] outline-none transition-shadow resize-none placeholder:text-gray-400"
+            className="w-full rounded-xl border border-white/10 bg-white/5 p-4 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all resize-none placeholder:text-white/30"
             placeholder="Tell us how we can help..."
             rows={5}
           ></textarea>
         </label>
         <div className="flex items-start gap-3 mt-2">
           <input
-            className="mt-1 rounded border-gray-300 text-[#1337ec] focus:ring-[#1337ec] size-4 cursor-pointer"
+            className="mt-1 rounded border-white/30 bg-white/5 text-[#007AFF] focus:ring-[#007AFF] size-4 cursor-pointer"
             id="privacy"
             type="checkbox"
             checked={agreed}
             onChange={(e) => setAgreed(e.target.checked)}
           />
-          <label className="text-sm text-gray-600 dark:text-gray-400 cursor-pointer" htmlFor="privacy">
-            I agree to the <Link className="text-[#1337ec] hover:underline" href="/privacy">Privacy Policy</Link> and authorize GTSS to contact me about my inquiry.
+          <label className="text-sm text-white/50 cursor-pointer" htmlFor="privacy">
+            I agree to the <Link className="text-[#00C2FF] hover:underline" href="/privacy">Privacy Policy</Link> and authorize GTSS to contact me about my inquiry.
           </label>
         </div>
 
         {status && (
-          <div className={`p-4 rounded-lg text-sm ${status.type === 'success' ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
+          <div className={`p-4 rounded-xl text-sm ${status.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
             {status.message}
           </div>
         )}
 
         <button
           disabled={!agreed || isSubmitting}
-          className="mt-4 flex w-full md:w-auto md:self-start items-center justify-center gap-2 rounded-lg bg-[#1337ec] hover:bg-blue-700 text-white font-bold h-12 px-8 transition-all shadow-md disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-4 btn-primary-glow flex w-full md:w-auto md:self-start items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           type="submit"
         >
           {isSubmitting ? (

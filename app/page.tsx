@@ -4,8 +4,16 @@ import { Navbar, Hero, TrustBar, Features, HowItWorks, Testimonials, CTA, Footer
 
 export default function LandingPage() {
   return (
-    <div className="bg-white dark:bg-[#111521] font-display text-[#111317] dark:text-white antialiased overflow-x-hidden">
-      <div className="relative flex min-h-screen w-full flex-col">
+    <div className="landing-page bg-[#000000] text-white antialiased overflow-x-hidden relative">
+      {/* Animated gradient orbs */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+        <div className="gradient-orb gradient-orb-blue w-[600px] h-[600px] -top-48 -left-48" />
+        <div className="gradient-orb gradient-orb-purple w-[500px] h-[500px] top-1/3 -right-32" />
+        <div className="gradient-orb gradient-orb-blue w-[400px] h-[400px] bottom-1/4 left-1/4" />
+        <div className="gradient-orb gradient-orb-gold w-[300px] h-[300px] bottom-0 right-1/3 opacity-30" />
+      </div>
+      
+      <div className="relative flex min-h-screen w-full flex-col z-10">
         <Navbar />
         <main>
           <Hero />

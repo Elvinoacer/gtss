@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import { landingNavbarLinks } from '@/data/landing';
 
@@ -9,33 +9,53 @@ export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-gray-200 dark:border-gray-800 bg-white/95 dark:bg-[#111521]/95 backdrop-blur-sm transition-all duration-300">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 sm:h-20 items-center justify-between">
-          <Link href="/" className="flex items-center gap-4 group">
+    <nav className="sticky top-0 z-50 w-full">
+      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
+        <div className="glass-strong rounded-full px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/" className="flex items-center gap-3 group shrink-0">
             <img
               src="/images/GTSS-logo.png"
               alt="GTSS Logo"
-              className="h-8 sm:h-9 md:h-10 w-auto object-contain transition-transform group-hover:scale-105"
+              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-105"
             />
           </Link>
-          {/* Desktop Menu */}
-          <div className="hidden md:flex items-center gap-6 lg:gap-8">
+          
+          {/* Desktop Navigation - Centered */}
+          <div className="hidden md:flex items-center justify-center gap-1 lg:gap-2 flex-1 px-8">
             {landingNavbarLinks.map((link) => (
               <Link
                 key={link.label}
-                className="text-sm font-medium hover:text-[#3f65e4] transition-colors py-2"
+                className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-all duration-300"
                 href={link.href}
               >
                 {link.label}
               </Link>
             ))}
           </div>
+          
+          {/* CTA Button - Desktop */}
+          <div className="hidden md:flex items-center gap-3 shrink-0">
+            <Link 
+              href="/login" 
+              className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 transition-colors"
+            >
+              Sign In
+            </Link>
+            <Link 
+              href="/contact" 
+              className="btn-primary-glow flex items-center gap-2 text-sm py-2.5 px-5"
+            >
+              Get Started
+              <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+          
           {/* Mobile Menu Button */}
           <div className="flex md:hidden">
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="text-[#111317] dark:text-white p-2.5 -mr-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="text-white p-2.5 rounded-full hover:bg-white/10 transition-colors"
             >
               <span className="sr-only">Toggle menu</span>
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
@@ -46,21 +66,40 @@ export function Navbar() {
 
       {/* Mobile Menu */}
       <div 
-        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out ${
-          isMenuOpen ? "max-h-96 opacity-100 border-t border-gray-200 dark:border-gray-800" : "max-h-0 opacity-0"
-        } bg-white dark:bg-[#111521]`}
+        className={`md:hidden transition-all duration-300 ease-in-out ${
+          isMenuOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"
+        } overflow-hidden`}
       >
-        <div className="px-4 pt-2 pb-6 space-y-2">
-          {landingNavbarLinks.map((link) => (
-            <Link
-              key={link.label}
-              className="block text-base sm:text-lg font-medium hover:text-[#3f65e4] hover:bg-gray-50 dark:hover:bg-gray-800/50 rounded-lg px-4 py-3 transition-colors"
-              href={link.href}
-              onClick={() => setIsMenuOpen(false)}
-            >
-              {link.label}
-            </Link>
-          ))}
+        <div className="px-4 pt-2 pb-6">
+          <div className="glass-strong rounded-2xl p-4 space-y-1">
+            {landingNavbarLinks.map((link) => (
+              <Link
+                key={link.label}
+                className="block text-base font-medium text-white/70 hover:text-white hover:bg-white/5 rounded-xl px-4 py-3 transition-all"
+                href={link.href}
+                onClick={() => setIsMenuOpen(false)}
+              >
+                {link.label}
+              </Link>
+            ))}
+            <div className="pt-4 space-y-2 border-t border-white/10 mt-4">
+              <Link 
+                href="/login" 
+                className="block text-center text-base font-medium text-white/70 hover:text-white px-4 py-3 transition-colors"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Sign In
+              </Link>
+              <Link 
+                href="/contact" 
+                className="btn-primary-glow flex items-center justify-center gap-2 text-base py-3 w-full"
+                onClick={() => setIsMenuOpen(false)}
+              >
+                Get Started
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
     </nav>

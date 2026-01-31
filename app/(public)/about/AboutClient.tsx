@@ -23,7 +23,7 @@ interface AboutClientProps {
 
 export function AboutClient({ teamMembers }: AboutClientProps) {
   return (
-    <main className="flex-1 bg-gradient-to-b from-white to-slate-50/50 dark:from-[#020617] dark:to-[#0B1120]">
+    <main className="flex-1">
       {/* 1. ENHANCED HERO: More dynamic with better visual hierarchy */}
       <section className="relative pt-12 pb-16 md:pt-24 md:pb-20 overflow-hidden">
         {/* Animated background gradient and Watermark Logo */}
@@ -159,7 +159,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
       </section>
 
       {/* 2. ENHANCED CORE PURPOSE: Visual story with better spacing */}
-      <section className="py-20 bg-gradient-to-b from-slate-50/50 to-white dark:from-[#0B1120]/50 dark:to-[#020617]">
+      <section className="py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <div className="text-center mb-16">
@@ -298,7 +298,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
       </section>
 
       {/* 3. ENHANCED TEAM SECTION: Better card layout and hierarchy */}
-      <section className="py-20 bg-white dark:bg-[#020617]">
+      <section className="py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
             <motion.div
@@ -447,7 +447,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
       </section>
 
       {/* 4. ENHANCED CTA: More engaging and visually striking */}
-      <section className="py-20 bg-gradient-to-b from-white to-slate-50 dark:from-[#020617] dark:to-[#0B1120]">
+      <section className="py-20">
         <div className="container mx-auto px-4 sm:px-6">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
