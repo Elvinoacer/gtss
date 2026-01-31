@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Search, Layers } from 'lucide-react';
+import { X, Search, Layers, Maximize2, Minimize2 } from 'lucide-react';
 import { ExpandableFeatureCard } from './ExpandableFeatureCard';
 
 interface Feature {
@@ -28,11 +28,18 @@ export function FeaturesModal({
   productName,
 }: FeaturesModalProps) {
   const [searchQuery, setSearchQuery] = useState('');
+  const [isFullscreen, setIsFullscreen] = useState(false);
   
   // Close on escape key
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === 'Escape') {
+        if (isFullscreen) {
+          setIsFullscreen(false);
+        } else {
+          onClose();
+        }
+      }
     };
     
     if (isOpen) {
@@ -44,7 +51,14 @@ export function FeaturesModal({
       document.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = '';
     };
-  }, [isOpen, onClose]);
+  }, [isOpen, onClose, isFullscreen]);
+
+  // Reset fullscreen state when modal closes
+  useEffect(() => {
+    if (!isOpen) {
+      setIsFullscreen(false);
+    }
+  }, [isOpen]);
 
   // Filter and sort features
   const filteredFeatures = features
@@ -73,7 +87,12 @@ export function FeaturesModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-2 md:inset-4 lg:inset-8 xl:inset-12 bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            layout
+            className={`fixed bg-white dark:bg-slate-900 shadow-2xl z-50 flex flex-col overflow-hidden transition-all duration-300 ${
+              isFullscreen 
+                ? 'inset-0 rounded-none' 
+                : 'inset-2 md:inset-4 lg:inset-8 xl:inset-12 rounded-2xl md:rounded-3xl'
+            }`}
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
@@ -93,12 +112,28 @@ export function FeaturesModal({
                 </div>
               </div>
               
-              <button
-                onClick={onClose}
-                className="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-colors"
-              >
-                <X className="w-5 h-5" />
-              </button>
+              <div className="flex items-center gap-2">
+                {/* Fullscreen Toggle */}
+                <button
+                  onClick={() => setIsFullscreen(!isFullscreen)}
+                  className="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-colors"
+                  title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+                >
+                  {isFullscreen ? (
+                    <Minimize2 className="w-5 h-5" />
+                  ) : (
+                    <Maximize2 className="w-5 h-5" />
+                  )}
+                </button>
+                
+                {/* Close Button */}
+                <button
+                  onClick={onClose}
+                  className="p-2 rounded-xl hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-500 transition-colors"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
             </div>
 
             {/* Search */}
