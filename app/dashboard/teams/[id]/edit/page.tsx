@@ -8,6 +8,8 @@ import { useState, useEffect, use } from 'react';
 import { getTeamMemberById, updateTeamMember } from '@/lib/actions/teams';
 import { useRouter } from 'next/navigation';
 
+export const dynamic = 'force-dynamic';
+
 export default function TeamEditPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();

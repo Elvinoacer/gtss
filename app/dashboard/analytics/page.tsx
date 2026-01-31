@@ -2,6 +2,9 @@ import { prisma } from "@/lib/prisma";
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Eye, Package } from "lucide-react";
 
+// Force dynamic rendering - don't try to pre-render at build time
+export const dynamic = 'force-dynamic';
+
 export default async function AnalyticsPage() {
   // Fetch analytics data
   const pageViews = await prisma.pageView.groupBy({

@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { UploadClient } from '@/components/upload';
 import { getUploadData } from '@/lib/actions/upload';
 
+export const dynamic = 'force-dynamic';
+
 export default async function UploadPage() {
   const response = await getUploadData();
   const initialData = response.success ? response.data : null;

@@ -40,6 +40,7 @@ model Product {
   activeUsers String?
   uptime      String?
   leadTeam    String?
+  featuresMarkdown String? @db.Text  // Raw markdown for features
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 

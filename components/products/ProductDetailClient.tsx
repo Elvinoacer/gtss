@@ -356,11 +356,12 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                )}
 
                {/* Features Section - Using new scalable component */}
-               {product.features && product.features.length > 0 && (
+               {((product.features && product.features.length > 0) || product.featuresMarkdown) && (
                   <FeaturesSection
-                    features={product.features}
+                    features={product.features || []}
                     productName={product.name}
                     initialCount={6}
+                    markdownContent={product.featuresMarkdown}
                   />
                )}
 

@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { TicketsClient } from '@/components/support';
 import { getTickets } from '@/lib/actions/support';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SupportTicketsPage() {
   const response = await getTickets();
   const initialTickets = response.success ? response.data : [];

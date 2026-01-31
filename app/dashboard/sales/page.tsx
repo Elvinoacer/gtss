@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { SalesClient } from '@/components/sales';
 import { getSalesData } from '@/lib/actions/sales';
 
+export const dynamic = 'force-dynamic';
+
 export default async function SalesAnalyticsPage() {
   const response = await getSalesData();
   const initialData = response.success ? response.data : null;

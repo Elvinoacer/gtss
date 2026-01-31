@@ -3,6 +3,8 @@ import { SettingsClient } from '@/components/settings';
 
 import { getCompanySettings } from '@/lib/actions/settings';
 
+export const dynamic = 'force-dynamic';
+
 export default async function CompanySettingsPage() {
   const settings = await getCompanySettings();
   const user = {

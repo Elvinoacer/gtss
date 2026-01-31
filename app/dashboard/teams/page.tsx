@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { TeamsClient } from '@/components/members';
 import { getTeamMembers } from '@/lib/actions/teams';
 
+export const dynamic = 'force-dynamic';
+
 export default async function MembersPage() {
   const response = await getTeamMembers();
   const initialMembers = response.success ? response.data : [];

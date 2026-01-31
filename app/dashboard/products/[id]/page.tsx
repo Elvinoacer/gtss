@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ProductDetailsClient } from '@/components/product-details';
 import { getProductById } from '@/lib/actions/products';
 
+export const dynamic = 'force-dynamic';
+
 interface ProductDetailsPageProps {
   params: Promise<{
     id: string;

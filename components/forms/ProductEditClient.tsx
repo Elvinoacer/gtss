@@ -89,6 +89,10 @@ export function ProductEditClient({
       priority: f.priority ?? (index + 1) * 10,
     }))
   );
+  const [featuresMarkdown, setFeaturesMarkdown] = useState(product?.featuresMarkdown || "");
+  const [featuresMode, setFeaturesMode] = useState<'manual' | 'markdown'>(
+    product?.featuresMarkdown ? 'markdown' : 'manual'
+  );
   const [health, setHealth] = useState(product?.health || []);
   const [assets, setAssets] = useState(product?.assets || []);
   const [reviews, setReviews] = useState(product?.reviews || []);
@@ -118,7 +122,8 @@ export function ProductEditClient({
   const handleSave = () => {
     updateMutation.mutate({
       ...formData,
-      features,
+      features: featuresMode === 'manual' ? features : [],
+      featuresMarkdown: featuresMode === 'markdown' ? featuresMarkdown : null,
       health,
       assets,
       reviews,
@@ -289,7 +294,14 @@ export function ProductEditClient({
                 </div>
                 <h2 className="text-xl font-bold text-slate-900 dark:text-white">Features & Capabilities</h2>
              </div>
-             <DraggableFeatureList features={features} onChange={setFeatures} />
+             <DraggableFeatureList
+               features={features}
+               onChange={setFeatures}
+               markdownContent={featuresMarkdown}
+               onMarkdownChange={setFeaturesMarkdown}
+               mode={featuresMode}
+               onModeChange={setFeaturesMode}
+             />
           </div>
 
           {/* Technical Architecture */}

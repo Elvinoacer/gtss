@@ -64,6 +64,7 @@ export type ProductMinAggregateOutputType = {
   activeUsers: string | null
   uptime: string | null
   leadTeam: string | null
+  featuresMarkdown: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -94,6 +95,7 @@ export type ProductMaxAggregateOutputType = {
   activeUsers: string | null
   uptime: string | null
   leadTeam: string | null
+  featuresMarkdown: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -125,6 +127,7 @@ export type ProductCountAggregateOutputType = {
   activeUsers: number
   uptime: number
   leadTeam: number
+  featuresMarkdown: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -169,6 +172,7 @@ export type ProductMinAggregateInputType = {
   activeUsers?: true
   uptime?: true
   leadTeam?: true
+  featuresMarkdown?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -199,6 +203,7 @@ export type ProductMaxAggregateInputType = {
   activeUsers?: true
   uptime?: true
   leadTeam?: true
+  featuresMarkdown?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -230,6 +235,7 @@ export type ProductCountAggregateInputType = {
   activeUsers?: true
   uptime?: true
   leadTeam?: true
+  featuresMarkdown?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -348,6 +354,7 @@ export type ProductGroupByOutputType = {
   activeUsers: string | null
   uptime: string | null
   leadTeam: string | null
+  featuresMarkdown: string | null
   createdAt: Date
   updatedAt: Date
   _count: ProductCountAggregateOutputType | null
@@ -402,6 +409,7 @@ export type ProductWhereInput = {
   activeUsers?: Prisma.StringNullableFilter<"Product"> | string | null
   uptime?: Prisma.StringNullableFilter<"Product"> | string | null
   leadTeam?: Prisma.StringNullableFilter<"Product"> | string | null
+  featuresMarkdown?: Prisma.StringNullableFilter<"Product"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   features?: Prisma.ProductFeatureListRelationFilter
@@ -439,6 +447,7 @@ export type ProductOrderByWithRelationInput = {
   activeUsers?: Prisma.SortOrderInput | Prisma.SortOrder
   uptime?: Prisma.SortOrderInput | Prisma.SortOrder
   leadTeam?: Prisma.SortOrderInput | Prisma.SortOrder
+  featuresMarkdown?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   features?: Prisma.ProductFeatureOrderByRelationAggregateInput
@@ -479,6 +488,7 @@ export type ProductWhereUniqueInput = Prisma.AtLeast<{
   activeUsers?: Prisma.StringNullableFilter<"Product"> | string | null
   uptime?: Prisma.StringNullableFilter<"Product"> | string | null
   leadTeam?: Prisma.StringNullableFilter<"Product"> | string | null
+  featuresMarkdown?: Prisma.StringNullableFilter<"Product"> | string | null
   createdAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Product"> | Date | string
   features?: Prisma.ProductFeatureListRelationFilter
@@ -516,6 +526,7 @@ export type ProductOrderByWithAggregationInput = {
   activeUsers?: Prisma.SortOrderInput | Prisma.SortOrder
   uptime?: Prisma.SortOrderInput | Prisma.SortOrder
   leadTeam?: Prisma.SortOrderInput | Prisma.SortOrder
+  featuresMarkdown?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.ProductCountOrderByAggregateInput
@@ -555,6 +566,7 @@ export type ProductScalarWhereWithAggregatesInput = {
   activeUsers?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   uptime?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   leadTeam?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
+  featuresMarkdown?: Prisma.StringNullableWithAggregatesFilter<"Product"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Product"> | Date | string
 }
@@ -586,6 +598,7 @@ export type ProductCreateInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
@@ -623,6 +636,7 @@ export type ProductUncheckedCreateInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
@@ -660,6 +674,7 @@ export type ProductUpdateInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
@@ -697,6 +712,7 @@ export type ProductUncheckedUpdateInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
@@ -734,6 +750,7 @@ export type ProductCreateManyInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -765,6 +782,7 @@ export type ProductUpdateManyMutationInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -796,6 +814,7 @@ export type ProductUncheckedUpdateManyInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -835,6 +854,7 @@ export type ProductCountOrderByAggregateInput = {
   activeUsers?: Prisma.SortOrder
   uptime?: Prisma.SortOrder
   leadTeam?: Prisma.SortOrder
+  featuresMarkdown?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -871,6 +891,7 @@ export type ProductMaxOrderByAggregateInput = {
   activeUsers?: Prisma.SortOrder
   uptime?: Prisma.SortOrder
   leadTeam?: Prisma.SortOrder
+  featuresMarkdown?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -901,6 +922,7 @@ export type ProductMinOrderByAggregateInput = {
   activeUsers?: Prisma.SortOrder
   uptime?: Prisma.SortOrder
   leadTeam?: Prisma.SortOrder
+  featuresMarkdown?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -1075,6 +1097,7 @@ export type ProductCreateWithoutFeaturesInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   health?: Prisma.ProductHealthMetricCreateNestedManyWithoutProductInput
@@ -1111,6 +1134,7 @@ export type ProductUncheckedCreateWithoutFeaturesInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   health?: Prisma.ProductHealthMetricUncheckedCreateNestedManyWithoutProductInput
@@ -1163,6 +1187,7 @@ export type ProductUpdateWithoutFeaturesInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   health?: Prisma.ProductHealthMetricUpdateManyWithoutProductNestedInput
@@ -1199,6 +1224,7 @@ export type ProductUncheckedUpdateWithoutFeaturesInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   health?: Prisma.ProductHealthMetricUncheckedUpdateManyWithoutProductNestedInput
@@ -1235,6 +1261,7 @@ export type ProductCreateWithoutHealthInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
@@ -1271,6 +1298,7 @@ export type ProductUncheckedCreateWithoutHealthInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
@@ -1323,6 +1351,7 @@ export type ProductUpdateWithoutHealthInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
@@ -1359,6 +1388,7 @@ export type ProductUncheckedUpdateWithoutHealthInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
@@ -1395,6 +1425,7 @@ export type ProductCreateWithoutAssetsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
@@ -1431,6 +1462,7 @@ export type ProductUncheckedCreateWithoutAssetsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
@@ -1483,6 +1515,7 @@ export type ProductUpdateWithoutAssetsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
@@ -1519,6 +1552,7 @@ export type ProductUncheckedUpdateWithoutAssetsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
@@ -1555,6 +1589,7 @@ export type ProductCreateWithoutReviewsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
@@ -1591,6 +1626,7 @@ export type ProductUncheckedCreateWithoutReviewsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
@@ -1643,6 +1679,7 @@ export type ProductUpdateWithoutReviewsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
@@ -1679,6 +1716,7 @@ export type ProductUncheckedUpdateWithoutReviewsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
@@ -1715,6 +1753,7 @@ export type ProductCreateWithoutTicketsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
@@ -1751,6 +1790,7 @@ export type ProductUncheckedCreateWithoutTicketsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
@@ -1803,6 +1843,7 @@ export type ProductUpdateWithoutTicketsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
@@ -1839,6 +1880,7 @@ export type ProductUncheckedUpdateWithoutTicketsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
@@ -1875,6 +1917,7 @@ export type ProductCreateWithoutViewsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureCreateNestedManyWithoutProductInput
@@ -1911,6 +1954,7 @@ export type ProductUncheckedCreateWithoutViewsInput = {
   activeUsers?: string | null
   uptime?: string | null
   leadTeam?: string | null
+  featuresMarkdown?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   features?: Prisma.ProductFeatureUncheckedCreateNestedManyWithoutProductInput
@@ -1963,6 +2007,7 @@ export type ProductUpdateWithoutViewsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUpdateManyWithoutProductNestedInput
@@ -1999,6 +2044,7 @@ export type ProductUncheckedUpdateWithoutViewsInput = {
   activeUsers?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   uptime?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   leadTeam?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  featuresMarkdown?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   features?: Prisma.ProductFeatureUncheckedUpdateManyWithoutProductNestedInput
@@ -2111,6 +2157,7 @@ export type ProductSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   activeUsers?: boolean
   uptime?: boolean
   leadTeam?: boolean
+  featuresMarkdown?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
@@ -2149,6 +2196,7 @@ export type ProductSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   activeUsers?: boolean
   uptime?: boolean
   leadTeam?: boolean
+  featuresMarkdown?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["product"]>
@@ -2180,6 +2228,7 @@ export type ProductSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   activeUsers?: boolean
   uptime?: boolean
   leadTeam?: boolean
+  featuresMarkdown?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["product"]>
@@ -2211,11 +2260,12 @@ export type ProductSelectScalar = {
   activeUsers?: boolean
   uptime?: boolean
   leadTeam?: boolean
+  featuresMarkdown?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "productId" | "priority" | "category" | "pricing" | "status" | "icon" | "iconColor" | "description" | "version" | "demoVideoUrl" | "instructions" | "pricingModel" | "priceUSD" | "priceKES" | "qrCodeUrl" | "logoUrl" | "images" | "tagline" | "websiteUrl" | "technicalArchitecture" | "releaseDate" | "activeUsers" | "uptime" | "leadTeam" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
+export type ProductOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "productId" | "priority" | "category" | "pricing" | "status" | "icon" | "iconColor" | "description" | "version" | "demoVideoUrl" | "instructions" | "pricingModel" | "priceUSD" | "priceKES" | "qrCodeUrl" | "logoUrl" | "images" | "tagline" | "websiteUrl" | "technicalArchitecture" | "releaseDate" | "activeUsers" | "uptime" | "leadTeam" | "featuresMarkdown" | "createdAt" | "updatedAt", ExtArgs["result"]["product"]>
 export type ProductInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   features?: boolean | Prisma.Product$featuresArgs<ExtArgs>
   health?: boolean | Prisma.Product$healthArgs<ExtArgs>
@@ -2265,6 +2315,7 @@ export type $ProductPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     activeUsers: string | null
     uptime: string | null
     leadTeam: string | null
+    featuresMarkdown: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["product"]>
@@ -2722,6 +2773,7 @@ export interface ProductFieldRefs {
   readonly activeUsers: Prisma.FieldRef<"Product", 'String'>
   readonly uptime: Prisma.FieldRef<"Product", 'String'>
   readonly leadTeam: Prisma.FieldRef<"Product", 'String'>
+  readonly featuresMarkdown: Prisma.FieldRef<"Product", 'String'>
   readonly createdAt: Prisma.FieldRef<"Product", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Product", 'DateTime'>
 }

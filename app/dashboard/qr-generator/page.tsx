@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { QRGeneratorClient } from '@/components/qr-codes';
 import { getQRGeneratorData } from '@/lib/actions/qr-generator';
 
+export const dynamic = 'force-dynamic';
+
 export default async function QRGeneratorPage() {
   const response = await getQRGeneratorData();
   const initialData = response.success ? response.data : null;

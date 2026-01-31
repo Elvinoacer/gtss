@@ -44,4 +44,5 @@ export const productDetailsSchema = z.object({
     description: z.string().optional(),
     icon: z.string().optional(),
   })).optional(),
+  featuresMarkdown: z.string().optional(),
 });

@@ -3,6 +3,9 @@ import { DashboardClient } from '@/components/dashboard';
 import { getProducts } from '@/lib/actions/products';
 import { getDashboardStats } from '@/lib/actions/analytics';
 
+// Force dynamic rendering - don't try to pre-render at build time
+export const dynamic = 'force-dynamic';
+
 export default async function DashboardPage() {
   const [productsRes, statsRes] = await Promise.all([
     getProducts(),

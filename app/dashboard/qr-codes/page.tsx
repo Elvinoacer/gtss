@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { QRCodesClient } from '@/components/qr-codes';
 import { getQRCodes } from '@/lib/actions/qrcodes';
 
+export const dynamic = 'force-dynamic';
+
 export default async function QRCodesPage() {
   const response = await getQRCodes();
   const initialQRCodes = response.success ? response.data : [];

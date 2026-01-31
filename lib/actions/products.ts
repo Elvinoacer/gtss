@@ -95,6 +95,7 @@ export async function createProduct(data: any) {
         uptime: data.uptime,
         leadTeam: data.leadTeam,
         priority: data.priority ? parseInt(data.priority) : 100,
+        featuresMarkdown: data.featuresMarkdown || null,
         features: {
           create: (data.features || []).map((f: any, index: number) => ({
             title: f.title,
@@ -186,6 +187,7 @@ export async function updateProduct(id: string, data: any) {
           uptime: data.uptime,
           leadTeam: data.leadTeam,
           priority: data.priority ? parseInt(data.priority) : undefined,
+          featuresMarkdown: data.featuresMarkdown !== undefined ? data.featuresMarkdown : undefined,
           features: {
             create: (data.features || []).map((f: any, index: number) => ({
               title: f.title,

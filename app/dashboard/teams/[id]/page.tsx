@@ -15,6 +15,8 @@ import { memberTabs } from "@/data/teams";
 import { getTeamMemberById } from "@/lib/actions/teams";
 import { Loader2 } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 export default function MemberProfilePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const [activeTab, setActiveTab] = useState("overview");

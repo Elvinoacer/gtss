@@ -2,6 +2,8 @@ import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { ProductEditClient } from '@/components/forms';
 import { getProductById } from '@/lib/actions/products';
 
+export const dynamic = 'force-dynamic';
+
 interface ProductEditPageProps {
   params: Promise<{
     id: string;

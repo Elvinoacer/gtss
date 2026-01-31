@@ -3,6 +3,8 @@ import { MediaClient } from '@/components/media';
 import { getMediaAssets } from '@/lib/actions/media';
 import { mediaStats } from '@/data/media';
 
+export const dynamic = 'force-dynamic';
+
 export default async function MediaLibraryPage() {
   const response = await getMediaAssets();
   const initialAssets = response.success ? response.data : [];
