@@ -73,7 +73,7 @@ export function FeaturesModal({
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed inset-4 md:inset-8 lg:inset-16 xl:inset-24 bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
+            className="fixed inset-2 md:inset-4 lg:inset-8 xl:inset-12 bg-white dark:bg-slate-900 rounded-2xl md:rounded-3xl shadow-2xl z-50 flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
