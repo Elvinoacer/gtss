@@ -1,8 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import { motion } from 'framer-motion';
-import { ArrowRight, Sparkles, FileText } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ArrowRight, Sparkles, FileText, Cpu } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { ExpandableFeatureCard } from './ExpandableFeatureCard';
@@ -32,135 +32,88 @@ export function FeaturesSection({
 }: FeaturesSectionProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Markdown components for rendering
+  // Futuristic Tech Markdown for Features
   const markdownComponents = {
-    h1: ({ children }: any) => (
-      <h1 className="text-2xl font-bold text-slate-900 dark:text-white mt-6 mb-4 pb-2 border-b border-slate-200 dark:border-slate-700">
-        {children}
-      </h1>
-    ),
-    h2: ({ children }: any) => (
-      <h2 className="text-xl font-bold text-slate-900 dark:text-white mt-5 mb-3">
-        {children}
-      </h2>
-    ),
-    h3: ({ children }: any) => (
-      <h3 className="text-lg font-semibold text-slate-900 dark:text-white mt-4 mb-2">
-        {children}
-      </h3>
-    ),
-    h4: ({ children }: any) => (
-      <h4 className="text-base font-semibold text-slate-800 dark:text-slate-200 mt-3 mb-2">
-        {children}
-      </h4>
-    ),
-    p: ({ children }: any) => (
-      <p className="text-sm text-slate-600 dark:text-slate-300 mb-3 leading-relaxed">
-        {children}
-      </p>
-    ),
-    ul: ({ children }: any) => (
-      <ul className="list-disc list-inside space-y-1 mb-4 text-sm text-slate-600 dark:text-slate-300 ml-2">
-        {children}
-      </ul>
-    ),
-    ol: ({ children }: any) => (
-      <ol className="list-decimal list-inside space-y-1 mb-4 text-sm text-slate-600 dark:text-slate-300 ml-2">
-        {children}
-      </ol>
-    ),
+    h1: ({ children }: any) => <h1 className="text-2xl font-black text-white mt-6 mb-4 pb-2 border-b border-white/10 uppercase tracking-widest">{children}</h1>,
+    h2: ({ children }: any) => <h2 className="text-xl font-bold text-white mt-5 mb-3 flex items-center gap-3"><span className="w-1.5 h-1.5 bg-blue-500" />{children}</h2>,
+    h3: ({ children }: any) => <h3 className="text-lg font-bold text-slate-200 mt-4 mb-2">{children}</h3>,
+    h4: ({ children }: any) => <h4 className="text-base font-bold text-slate-400 mt-3 mb-2">{children}</h4>,
+    p: ({ children }: any) => <p className="text-base text-slate-400 mb-4 leading-relaxed">{children}</p>,
+    ul: ({ children }: any) => <ul className="list-none space-y-2 mb-6 text-base text-slate-400 ml-0">{children}</ul>,
+    ol: ({ children }: any) => <ol className="list-decimal list-inside space-y-2 mb-6 text-sm text-slate-400 font-mono">{children}</ol>,
     li: ({ children }: any) => (
-      <li className="pl-1 leading-relaxed">{children}</li>
+      <li className="flex items-start gap-3">
+        <ArrowRight className="w-4 h-4 text-emerald-500 shrink-0 mt-1 opacity-50" />
+        <span className="leading-relaxed">{children}</span>
+      </li>
     ),
-    strong: ({ children }: any) => (
-      <strong className="font-bold text-slate-900 dark:text-white">{children}</strong>
-    ),
-    em: ({ children }: any) => (
-      <em className="italic text-slate-700 dark:text-slate-300">{children}</em>
-    ),
-    code: ({ inline, children }: any) =>
-      inline ? (
-        <code className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 rounded text-xs font-mono text-slate-800 dark:text-slate-200">
-          {children}
-        </code>
-      ) : (
-        <div className="rounded-lg overflow-hidden bg-slate-900 dark:bg-slate-950 p-4 mb-4">
-          <code className="text-sm font-mono text-slate-200 block overflow-x-auto whitespace-pre-wrap">
-            {children}
-          </code>
-        </div>
-      ),
-    pre: ({ children }: any) => <pre className="not-prose">{children}</pre>,
-    blockquote: ({ children }: any) => (
-      <blockquote className="border-l-4 border-blue-500 pl-4 py-1 my-4 text-sm text-slate-700 dark:text-slate-300 italic bg-blue-50/50 dark:bg-blue-900/20 rounded-r-lg">
-        {children}
-      </blockquote>
-    ),
-    hr: () => <hr className="my-6 border-slate-200 dark:border-slate-700" />,
-    a: ({ href, children }: any) => (
-      <a href={href} target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">
-        {children}
-      </a>
-    ),
+    strong: ({ children }: any) => <strong className="font-black text-white">{children}</strong>,
+    code: ({ inline, children }: any) => inline 
+      ? <code className="px-2 py-1 bg-white/5 border border-white/10 rounded-md text-xs font-mono text-cyan-400">{children}</code>
+      : <div className="rounded-xl overflow-hidden bg-[#020617] border border-white/10 p-4 mb-6 shadow-xl"><code className="text-xs font-mono text-slate-300 block overflow-x-auto">{children}</code></div>,
+    blockquote: ({ children }: any) => <blockquote className="border-l-2 border-purple-500 pl-6 py-2 my-6 text-slate-300 italic bg-purple-500/5 backdrop-blur-sm rounded-r-xl">{children}</blockquote>,
   };
 
-  // If markdown content is provided, render it
   if (markdownContent && markdownContent.trim()) {
     return (
       <>
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="space-y-4 md:space-y-6"
+          transition={{ duration: 0.5, ease: "easeOut" }}
+          className="space-y-6 md:space-y-8"
         >
           {/* Section Header */}
-          <div className="flex items-center justify-between px-1 md:px-2">
-            <div className="flex items-center gap-2 md:gap-3">
-              <div className="p-1.5 md:p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
-                <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div className="flex items-center gap-4">
+              <div className="p-3 rounded-2xl bg-fuchsia-500/10 text-fuchsia-400 ring-1 ring-fuchsia-500/30">
+                <Cpu className="w-6 h-6 md:w-8 md:h-8" />
               </div>
-              <h2 className="text-lg md:text-2xl font-bold text-slate-900 dark:text-white">
-                Key Features
-              </h2>
-              <span className="px-2 py-0.5 text-xs font-medium bg-purple-100 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 rounded-full flex items-center gap-1">
-                <FileText className="w-3 h-3" />
-                Detailed
-              </span>
+              <div>
+                <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">System Modules</h2>
+                <div className="flex items-center gap-2 mt-1 hidden sm:flex">
+                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">Detailed Spec Readout</span>
+                </div>
+              </div>
             </div>
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors group"
+              className="group relative px-6 py-3 overflow-hidden rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all font-bold text-sm text-slate-300 hover:text-white"
             >
-              View Full Documentation
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="absolute inset-0 bg-blue-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
+              <div className="relative z-10 flex items-center gap-2">
+                 <span>Expand Logs</span>
+                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 group-hover:text-blue-400 transition-all" />
+              </div>
             </button>
           </div>
 
-          {/* Preview Card - Show truncated markdown */}
-          <div className="bg-white/80 dark:bg-slate-800/80 backdrop-blur-xl rounded-2xl md:rounded-3xl p-5 md:p-8 border border-slate-200/50 dark:border-slate-700/50 shadow-sm">
-            <div className="prose prose-slate dark:prose-invert max-w-none prose-sm md:prose-base line-clamp-[20] overflow-hidden">
+          {/* Holographic Panel Preview */}
+          <div className="relative group bg-[#0F172A]/90 backdrop-blur-3xl rounded-[2.5rem] p-8 md:p-12 border border-white/5 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden">
+            {/* Ambient Background Grid */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-50" />
+            
+            <div className="relative z-10 prose prose-slate prose-invert max-w-none line-clamp-[12] md:line-clamp-[20]">
               <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
-                {markdownContent.substring(0, 2000) + (markdownContent.length > 2000 ? '\n\n...' : '')}
+                {markdownContent}
               </ReactMarkdown>
             </div>
             
-            {markdownContent.length > 2000 && (
-              <div className="mt-4 pt-4 border-t border-slate-200 dark:border-slate-700">
-                <button
-                  onClick={() => setIsModalOpen(true)}
-                  className="w-full py-3 flex items-center justify-center gap-2 text-blue-600 dark:text-blue-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors"
-                >
-                  Continue Reading
-                  <ArrowRight className="w-4 h-4" />
-                </button>
-              </div>
-            )}
+            {/* Futuristic Fade out gradient replacing standard button */}
+            <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent pointer-events-none flex items-end justify-center pb-8 border-b-2 border-transparent group-hover:border-blue-500 transition-colors duration-700">
+               <button
+                 onClick={() => setIsModalOpen(true)}
+                 className="pointer-events-auto px-8 py-3 bg-[#020617] text-blue-400 border border-blue-500/30 rounded-full font-black text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-400 transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center gap-3 group/btn"
+               >
+                 <span>Decrypt Remaining Blocks</span>
+                 <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
+               </button>
+            </div>
           </div>
         </motion.section>
 
-        {/* Full Markdown Modal */}
         <FeaturesModal
           features={[]}
           markdownContent={markdownContent}
@@ -172,56 +125,36 @@ export function FeaturesSection({
     );
   }
 
-  // Original card-based feature display
-  // Sort features by priority (lower = higher priority)
-  const sortedFeatures = [...features].sort(
-    (a, b) => (a.priority || 100) - (b.priority || 100)
-  );
-
+  // Original Feature Cards Implementation (Untouched visually unless requested, as markdown is main path)
+  const sortedFeatures = [...features].sort((a, b) => (a.priority || 100) - (b.priority || 100));
   const visibleFeatures = sortedFeatures.slice(0, initialCount);
   const hasMoreFeatures = features.length > initialCount;
   const remainingCount = features.length - initialCount;
 
-  if (features.length === 0) {
-    return null;
-  }
+  if (features.length === 0) return null;
 
   return (
     <>
-      <motion.section
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}
-        className="space-y-4 md:space-y-6"
-      >
-        {/* Section Header */}
-        <div className="flex items-center justify-between px-1 md:px-2">
-          <div className="flex items-center gap-2 md:gap-3">
-            <div className="p-1.5 md:p-2 rounded-lg bg-amber-500/10 text-amber-600 dark:text-amber-400">
-              <Sparkles className="w-5 h-5 md:w-6 md:h-6" />
-            </div>
-            <h2 className="text-lg md:text-2xl font-bold text-slate-900 dark:text-white">
-              Key Features
-            </h2>
-            <span className="px-2 py-0.5 text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 rounded-full">
-              {features.length}
-            </span>
+      <motion.section className="space-y-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-4">
+             <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30">
+               <Cpu className="w-6 h-6 md:w-8 md:h-8" />
+             </div>
+             <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">System Modules</h2>
           </div>
-
-          {/* View All Button - Desktop */}
           {hasMoreFeatures && (
             <button
               onClick={() => setIsModalOpen(true)}
-              className="hidden md:flex items-center gap-2 px-4 py-2 text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 hover:bg-blue-50 dark:hover:bg-blue-900/20 rounded-xl transition-colors group"
+              className="hidden md:flex items-center gap-2 group text-blue-400 hover:text-blue-300 font-bold tracking-widest uppercase text-xs"
             >
-              View All Features
+              Analyze All ({features.length})
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           )}
         </div>
 
-        {/* Features Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 md:gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           {visibleFeatures.map((feature, index) => (
             <ExpandableFeatureCard
               key={feature.id}
@@ -230,31 +163,22 @@ export function FeaturesSection({
               title={feature.title}
               description={feature.description}
               index={index}
-              defaultExpanded={index < 2} // First two expanded by default
+              defaultExpanded={index < 2}
             />
           ))}
         </div>
 
-        {/* View All Button - Mobile & Desktop */}
         {hasMoreFeatures && (
-          <motion.button
+          <button
             onClick={() => setIsModalOpen(true)}
-            whileHover={{ scale: 1.01 }}
-            whileTap={{ scale: 0.99 }}
-            className="w-full py-4 px-6 flex items-center justify-center gap-3 rounded-xl md:rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 bg-white/50 dark:bg-slate-800/50 hover:bg-blue-50/50 dark:hover:bg-blue-900/10 text-slate-600 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all group"
+            className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-slate-300 hover:text-white font-bold transition-all flex items-center justify-center gap-3"
           >
-            <span className="font-medium">
-              View All {features.length} Features
-            </span>
-            <span className="px-2 py-0.5 text-xs font-bold bg-blue-100 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full">
-              +{remainingCount} more
-            </span>
-            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-          </motion.button>
+            Access {remainingCount} Hidden Modules
+            <ArrowRight className="w-4 h-4" />
+          </button>
         )}
       </motion.section>
 
-      {/* Features Modal */}
       <FeaturesModal
         features={sortedFeatures}
         isOpen={isModalOpen}

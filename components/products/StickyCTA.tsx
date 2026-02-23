@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageSquare, Calendar, ArrowRight, ExternalLink, DollarSign } from 'lucide-react';
+import { Calendar, ExternalLink, Activity, Network } from 'lucide-react';
 import Link from 'next/link';
 
 interface StickyCTAProps {
@@ -17,14 +17,15 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 400) {
+      // Trigger later down the page for better UX
+      if (window.scrollY > 600) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -34,51 +35,69 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
     <AnimatePresence>
       {isVisible && (
         <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          className="fixed bottom-4 md:bottom-6 left-1/2 -translate-x-1/2 z-50 w-[calc(100%-1rem)] md:w-[calc(100%-2rem)] max-w-2xl"
+          initial={{ y: 150, opacity: 0, scale: 0.95 }}
+          animate={{ y: 0, opacity: 1, scale: 1 }}
+          exit={{ y: 150, opacity: 0, scale: 0.95 }}
+          transition={{ type: "spring", stiffness: 400, damping: 25 }}
+          className="fixed bottom-6 md:bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-2rem)] max-w-4xl"
         >
-          <div className="bg-white/90 dark:bg-[#0F172A]/90 backdrop-blur-xl border border-slate-200 dark:border-slate-800 rounded-xl md:rounded-2xl p-3 md:p-4 shadow-2xl shadow-blue-500/10 flex items-center justify-between gap-2 md:gap-4">
-            <div className="hidden sm:block flex-shrink min-w-0">
-              <p className="text-[9px] md:text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-0.5">Interested in</p>
-              <p className="text-xs md:text-sm font-bold text-slate-900 dark:text-white truncate max-w-[120px] md:max-w-[150px]">{productName}</p>
-            </div>
+          {/* Futuristic HUD Container */}
+          <div className="relative group p-1.5 rounded-[2rem] bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-3xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+            {/* Animated edge light */}
+            <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
             
-            {/* Price Display */}
-            {displayPrice && (
-              <div className="hidden md:flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50 dark:bg-emerald-900/20 rounded-lg border border-emerald-200 dark:border-emerald-800">
-                <DollarSign className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
-                <span className="text-sm font-bold text-emerald-700 dark:text-emerald-300">{displayPrice}</span>
+            <div className="bg-[#020617]/80 rounded-[1.6rem] px-5 py-3 md:px-6 md:py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+              
+              {/* Target Data */}
+              <div className="hidden md:flex items-center gap-4 flex-shrink min-w-0">
+                <div className="relative flex items-center justify-center size-10 rounded-full bg-blue-500/10 border border-blue-500/30">
+                  <Activity className="w-5 h-5 text-blue-400" />
+                  <div className="absolute inset-0 rounded-full border border-blue-400/50 animate-[ping_3s_ease-out_infinite]" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-[9px] font-black text-blue-500 uppercase tracking-[0.3em] mb-1">Target System</p>
+                  <p className="text-sm font-black text-white truncate max-w-[200px]">{productName}</p>
+                </div>
               </div>
-            )}
-            
-            <div className="flex items-center gap-1.5 md:gap-2 flex-1 sm:flex-none justify-end">
-              {externalLink && (
-                <a
-                  href={externalLink}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center p-2 md:p-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg md:rounded-xl transition-colors"
-                  title="Visit Website"
+
+              {/* Connection Status / Price  */}
+              <div className="flex-1 flex justify-center sm:justify-start md:justify-center">
+                 {displayPrice ? (
+                   <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]">
+                     <Network className="w-4 h-4 text-emerald-400" />
+                     <div className="w-px h-4 bg-emerald-500/30" />
+                     <span className="text-sm font-black tracking-wider text-emerald-400">{displayPrice}</span>
+                   </div>
+                 ) : (
+                    <div className="flex items-center gap-3 px-4 py-2 bg-purple-500/10 rounded-xl border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                       <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
+                       <span className="text-xs font-black tracking-widest text-purple-400 uppercase">System Open</span>
+                    </div>
+                 )}
+              </div>
+              
+              {/* Command Actions */}
+              <div className="flex items-center gap-2 w-full sm:w-auto">
+                {externalLink && (
+                  <a
+                    href={externalLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center size-12 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 backdrop-blur-xl rounded-xl transition-all hover:scale-105"
+                    title="Access External Protocol"
+                  >
+                    <ExternalLink className="w-5 h-5" />
+                  </a>
+                )}
+                <Link
+                  href="/contact"
+                  className="flex-1 sm:flex-none relative overflow-hidden flex items-center justify-center gap-2 h-12 px-6 lg:px-8 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] group"
                 >
-                  <ExternalLink className="w-4 h-4 md:w-5 md:h-5" />
-                </a>
-              )}
-              <Link
-                href="/contact"
-                className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 md:gap-2 px-4 md:px-6 py-2 md:py-3 bg-blue-600 hover:bg-blue-700 text-white text-xs md:text-sm font-bold rounded-lg md:rounded-xl transition-all shadow-lg shadow-blue-500/25"
-              >
-                <Calendar className="w-3.5 h-3.5 md:w-4 md:h-4" />
-                <span className="hidden xs:inline">Request Demo</span>
-                <span className="xs:hidden">Demo</span>
-              </Link>
-              <Link
-                href="/contact"
-                className="inline-flex items-center justify-center p-2 md:p-3 bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg md:rounded-xl transition-colors"
-              >
-                <MessageSquare className="w-4 h-4 md:w-5 md:h-5" />
-              </Link>
+                  <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
+                  <span className="relative z-10 uppercase tracking-wider text-sm">Initiate Demo</span>
+                  <Calendar className="relative z-10 w-4 h-4 text-blue-200" />
+                </Link>
+              </div>
             </div>
           </div>
         </motion.div>
