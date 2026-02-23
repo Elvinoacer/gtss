@@ -132,7 +132,7 @@ export function PublicProductCard({
                  </span>
               </div>
               
-              <h3 className="text-xl md:text-2xl font-black text-white tracking-tight leading-tight mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all">
+              <h3 className="text-lg md:text-2xl font-black text-white tracking-tight leading-tight mb-3 group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-slate-400 transition-all">
                 {name}
               </h3>
               
@@ -155,10 +155,10 @@ export function PublicProductCard({
                  </div>
                  <div className="flex items-baseline gap-1">
                     {pricingModel === 'free' ? (
-                       <span className="text-lg md:text-xl font-black text-white tracking-tight drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">OPEN ACCESS</span>
+                       <span className="text-base md:text-xl font-black text-white tracking-tight drop-shadow-[0_0_10px_rgba(255,255,255,0.3)]">OPEN ACCESS</span>
                     ) : (
                        <>
-                          <span className="text-lg md:text-xl font-black text-white tracking-tight">
+                          <span className="text-base md:text-xl font-black text-white tracking-tight">
                              {priceUSD ? `$${priceUSD}` : priceKES ? `KES ${priceKES}` : pricing}
                           </span>
                           {pricingModel === 'subscription' && <span className="text-[10px] font-bold text-slate-500 uppercase">/month</span>}

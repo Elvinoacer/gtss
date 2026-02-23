@@ -179,7 +179,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
       className="pb-24"
     >
       {/* Dynamic Immersive Header */}
-      <div className="relative -mx-4 sm:-mx-6 lg:-mx-10 -mt-4 sm:-mt-6 lg:-mt-10 mb-10 pt-24 md:pt-32 pb-32 md:pb-48 overflow-hidden bg-[#0F172A]">
+      <div className="relative -mx-4 sm:-mx-6 lg:-mx-10 -mt-4 sm:-mt-6 lg:-mt-10 mb-10 pt-16 md:pt-32 pb-24 md:pb-48 overflow-hidden bg-[#0F172A]">
          {/* Deep space background layers */}
          <div className="absolute inset-0 z-0">
            <div className={`absolute top-0 left-1/4 w-[800px] h-[800px] bg-gradient-to-br ${gradientClass} rounded-full blur-[150px] opacity-30 mix-blend-screen -translate-y-1/2 -z-10 animate-[spin_30s_linear_infinite]`} />
@@ -231,16 +231,16 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                  variants={itemAnimation}
                  className="relative shrink-0 perspective-[1000px] group"
                >
-                  <div className={`w-32 h-32 md:w-48 md:h-48 rounded-[2rem] md:rounded-[3rem] bg-gradient-to-br ${gradientClass} p-0.5 md:p-1 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] transform-gpu transition-transform duration-700 group-hover:rotate-y-12 group-hover:scale-105`}>
+                  <div className={`w-24 h-24 sm:w-32 sm:h-32 md:w-48 md:h-48 rounded-3xl md:rounded-[3rem] bg-gradient-to-br ${gradientClass} p-0.5 md:p-1 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)] transform-gpu transition-transform duration-700 group-hover:rotate-y-12 group-hover:scale-105`}>
                      <div className="absolute inset-0 bg-white/20 blur-xl rounded-full mix-blend-screen opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                     <div className="w-full h-full bg-[#0F172A] rounded-[1.9rem] md:rounded-[2.9rem] flex items-center justify-center overflow-hidden relative">
+                     <div className="w-full h-full bg-[#0F172A] rounded-[1.4rem] sm:rounded-[1.9rem] md:rounded-[2.9rem] flex items-center justify-center overflow-hidden relative">
                        {/* Glass reflection */}
                        <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent pointer-events-none" />
                        
                        {product.logoUrl ? (
                          <img src={product.logoUrl} alt={product.name} className="w-full h-full object-cover" />
                        ) : (
-                         <ProductIcon className="w-16 h-16 md:w-24 md:h-24 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
+                         <ProductIcon className="w-12 h-12 sm:w-16 sm:h-16 md:w-24 md:h-24 text-white drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]" />
                        )}
                      </div>
                   </div>
@@ -270,13 +270,13 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
 
                   <motion.h1 
                     variants={itemAnimation}
-                    className="text-4xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight leading-[1.1]"
+                    className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight leading-[1.1]"
                   >
                     {product.name}
                   </motion.h1>
                   
                   {product.tagline && (
-                     <motion.p variants={itemAnimation} className="text-lg md:text-xl lg:text-2xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
+                     <motion.p variants={itemAnimation} className="text-base md:text-xl lg:text-2xl text-slate-400 font-medium leading-relaxed max-w-2xl mx-auto lg:mx-0">
                         {product.tagline}
                      </motion.p>
                   )}
@@ -298,7 +298,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
              <motion.div 
                 key={i} 
                 variants={itemAnimation}
-                className={`bg-[#0F172A]/80 backdrop-blur-2xl rounded-2xl p-6 border border-white/5 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 group relative overflow-hidden`}
+                className={`bg-[#0F172A]/80 backdrop-blur-2xl rounded-2xl p-4 md:p-6 border border-white/5 hover:border-white/20 transition-all duration-300 hover:-translate-y-1 group relative overflow-hidden`}
              >
                 {/* Tech scan line effect */}
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/5 to-transparent h-[150%] -translate-y-full group-hover:translate-y-full transition-transform duration-1000 ease-in-out" />
@@ -310,7 +310,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                      </div>
                      <div className="text-xs font-bold text-slate-500 uppercase tracking-[0.2em]">{stat.label}</div>
                   </div>
-                  <div className="text-2xl md:text-3xl font-black text-white tracking-tight truncate drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
+                  <div className="text-xl md:text-3xl font-black text-white tracking-tight truncate drop-shadow-[0_0_8px_rgba(255,255,255,0.2)]">
                      {stat.value}
                   </div>
                 </div>
@@ -322,7 +322,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
         {product.priceUSD && product.priceKES && (
           <motion.div 
             variants={itemAnimation}
-            className="mb-10 lg:mb-16 relative overflow-hidden rounded-[2.5rem] p-8 md:p-12 border border-white/10"
+            className="mb-10 lg:mb-16 relative overflow-hidden rounded-[1.5rem] md:rounded-[2.5rem] p-6 md:p-12 border border-white/10"
           >
             <div className={`absolute inset-0 bg-gradient-to-r ${gradientClass} opacity-10 mix-blend-screen pointer-events-none`} />
             <div className="absolute inset-0 bg-[#0F172A]/60 backdrop-blur-3xl" />
@@ -332,7 +332,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                 <p className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Global Access</p>
                 <div className="flex items-start justify-center gap-1">
                   <span className="text-2xl font-bold text-emerald-500 mt-1">$</span>
-                  <span className="text-5xl md:text-7xl font-black text-white tracking-tighter">{product.priceUSD}</span>
+                  <span className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter">{product.priceUSD}</span>
                 </div>
               </div>
               <div className="w-full h-px md:w-px md:h-24 bg-gradient-to-b from-transparent via-white/20 to-transparent" />
@@ -340,7 +340,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                 <p className="text-xs font-black text-slate-400 uppercase tracking-[0.3em] mb-3">Local Access</p>
                 <div className="flex items-start justify-center gap-2">
                   <span className="text-xl font-bold text-blue-500 mt-2">KES</span>
-                  <span className="text-5xl md:text-7xl font-black text-white tracking-tighter">{product.priceKES.toLocaleString()}</span>
+                  <span className="text-4xl sm:text-5xl md:text-7xl font-black text-white tracking-tighter">{product.priceKES.toLocaleString()}</span>
                 </div>
               </div>
             </div>
@@ -352,12 +352,12 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
            <div className="lg:col-span-2 space-y-8 lg:space-y-12">
               
               {/* Architecture Overview */}
-              <motion.section variants={itemAnimation} className="relative bg-[#0F172A]/80 backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-12 border border-white/5 shadow-2xl overflow-hidden">
+              <motion.section variants={itemAnimation} className="relative bg-[#0F172A]/80 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2.5rem] p-5 md:p-12 border border-white/5 shadow-2xl overflow-hidden">
                  <div className="flex items-center gap-4 mb-8">
                     <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/20 to-purple-500/20 text-blue-400 ring-1 ring-blue-500/30">
                        <Sparkles className="w-6 h-6 md:w-8 md:h-8" />
                     </div>
-                    <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">System Architecture</h2>
+                    <h2 className="text-xl md:text-4xl font-black text-white tracking-tight">System Architecture</h2>
                  </div> 
                  <div className="prose prose-slate prose-invert max-w-none prose-lg">
                     <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
@@ -368,12 +368,12 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
 
                {/* Instruction Manual */}
                {product.instructions && (
-                  <motion.section variants={itemAnimation} className="relative bg-[#0F172A]/80 backdrop-blur-2xl rounded-[2.5rem] p-8 md:p-12 border border-white/5 shadow-2xl">
+                  <motion.section variants={itemAnimation} className="relative bg-[#0F172A]/80 backdrop-blur-2xl rounded-[1.5rem] md:rounded-[2.5rem] p-5 md:p-12 border border-white/5 shadow-2xl">
                      <div className="flex items-center gap-4 mb-8">
                         <div className="p-3 rounded-2xl bg-gradient-to-br from-emerald-500/20 to-cyan-500/20 text-emerald-400 ring-1 ring-emerald-500/30">
                            <Package className="w-6 h-6 md:w-8 md:h-8" />
                         </div>
-                        <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">Deployment Guide</h2>
+                        <h2 className="text-xl md:text-4xl font-black text-white tracking-tight">Deployment Guide</h2>
                      </div>
                      <div className="prose prose-slate prose-invert max-w-none prose-lg">
                         <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>

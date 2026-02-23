@@ -192,8 +192,8 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
                 <Search className="w-8 h-8 text-slate-500" />
               </div>
             </div>
-            <h3 className="text-2xl font-black text-white mb-3 tracking-tight">System Not Found</h3>
-            <p className="text-base text-slate-400 max-w-sm mx-auto mb-8 font-medium">
+            <h3 className="text-xl md:text-2xl font-black text-white mb-3 tracking-tight">System Not Found</h3>
+            <p className="text-sm md:text-base text-slate-400 max-w-sm mx-auto mb-8 font-medium px-4">
               We couldn't detect any solutions matching your parameters.
             </p>
             <button 

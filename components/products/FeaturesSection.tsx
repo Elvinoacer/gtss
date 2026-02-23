@@ -70,7 +70,7 @@ export function FeaturesSection({
                 <Cpu className="w-6 h-6 md:w-8 md:h-8" />
               </div>
               <div>
-                <h2 className="text-2xl md:text-4xl font-black text-white tracking-tight">System Modules</h2>
+                <h2 className="text-xl md:text-4xl font-black text-white tracking-tight">System Modules</h2>
                 <div className="flex items-center gap-2 mt-1 hidden sm:flex">
                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">Detailed Spec Readout</span>
@@ -80,7 +80,7 @@ export function FeaturesSection({
 
             <button
               onClick={() => setIsModalOpen(true)}
-              className="group relative px-6 py-3 overflow-hidden rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all font-bold text-sm text-slate-300 hover:text-white"
+              className="group relative px-4 sm:px-6 py-2.5 sm:py-3 overflow-hidden rounded-xl bg-white/5 border border-white/10 hover:border-blue-500/50 transition-all font-bold text-xs sm:text-sm text-slate-300 hover:text-white"
             >
               <div className="absolute inset-0 bg-blue-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               <div className="relative z-10 flex items-center gap-2">
@@ -91,7 +91,7 @@ export function FeaturesSection({
           </div>
 
           {/* Holographic Panel Preview */}
-          <div className="relative group bg-[#0F172A]/90 backdrop-blur-3xl rounded-[2.5rem] p-8 md:p-12 border border-white/5 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="relative group bg-[#0F172A]/90 backdrop-blur-3xl rounded-[1.5rem] md:rounded-[2.5rem] p-5 md:p-12 border border-white/5 shadow-[0_20px_40px_rgba(0,0,0,0.5)] overflow-hidden">
             {/* Ambient Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-50" />
             
@@ -105,7 +105,7 @@ export function FeaturesSection({
             <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent pointer-events-none flex items-end justify-center pb-8 border-b-2 border-transparent group-hover:border-blue-500 transition-colors duration-700">
                <button
                  onClick={() => setIsModalOpen(true)}
-                 className="pointer-events-auto px-8 py-3 bg-[#020617] text-blue-400 border border-blue-500/30 rounded-full font-black text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-400 transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center gap-3 group/btn"
+                 className="pointer-events-auto w-[90%] sm:w-auto px-6 sm:px-8 py-3 bg-[#020617] text-blue-400 border border-blue-500/30 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-400 transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center justify-center gap-3 group/btn"
                >
                  <span>Decrypt Remaining Blocks</span>
                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />

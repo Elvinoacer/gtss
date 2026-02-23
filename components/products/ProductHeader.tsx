@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 export function ProductHeader() {
   return (
-    <header className="relative w-full py-16 md:py-24 px-4 md:px-6 overflow-hidden">
+    <header className="relative w-full py-12 md:py-24 px-4 md:px-6 overflow-hidden">
       {/* Background Effects */}
       <div className="absolute inset-0 z-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen" />
@@ -30,14 +30,14 @@ export function ProductHeader() {
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
             Practical Solutions for{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 animate-gradient-x drop-shadow-[0_0_10px_rgba(52,211,153,0.3)]">
               Real Problems
             </span>
           </h1>
           
-          <p className="text-slate-400 text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
+          <p className="text-slate-400 text-base md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
             High-performance, beautifully designed software engineered to scale your business operations into the future.
           </p>
         </motion.div>
