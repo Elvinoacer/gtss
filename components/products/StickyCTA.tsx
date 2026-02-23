@@ -39,14 +39,14 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
           animate={{ y: 0, opacity: 1, scale: 1 }}
           exit={{ y: 150, opacity: 0, scale: 0.95 }}
           transition={{ type: "spring", stiffness: 400, damping: 25 }}
-          className="fixed bottom-4 md:bottom-8 left-1/2 -translate-x-1/2 z-[100] w-[calc(100%-1rem)] sm:w-[calc(100%-2rem)] max-w-4xl"
+          className="fixed bottom-0 md:bottom-8 left-0 md:left-1/2 md:-translate-x-1/2 z-[100] w-full md:w-[calc(100%-2rem)] max-w-4xl"
         >
           {/* Futuristic HUD Container */}
-          <div className="relative group p-1.5 rounded-[2rem] bg-gradient-to-b from-white/10 to-white/5 backdrop-blur-3xl border border-white/10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
+          <div className="relative group md:p-1.5 rounded-t-[1.5rem] md:rounded-[2rem] bg-[#0F172A]/95 md:bg-gradient-to-b md:from-white/10 md:to-white/5 backdrop-blur-3xl border-t border-white/10 md:border shadow-[0_-10px_40px_rgba(0,0,0,0.5)] md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
             {/* Animated edge light */}
             <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
             
-            <div className="bg-[#020617]/80 rounded-[1.6rem] px-4 py-3 md:px-6 md:py-4 flex flex-col sm:flex-row items-center justify-between gap-3 sm:gap-4">
+            <div className="bg-transparent md:bg-[#020617]/80 rounded-t-[1.5rem] md:rounded-[1.6rem] px-4 py-4 pb-6 md:pb-4 md:px-6 md:py-4 flex flex-row items-center justify-between gap-3 sm:gap-4">
               
               {/* Target Data */}
               <div className="hidden md:flex items-center gap-4 flex-shrink min-w-0">
@@ -61,23 +61,23 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
               </div>
 
               {/* Connection Status / Price  */}
-              <div className="flex-1 flex justify-center sm:justify-start md:justify-center">
+              <div className="flex-1 flex justify-start md:justify-center overflow-hidden">
                  {displayPrice ? (
-                   <div className="flex items-center gap-3 px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]">
-                     <Network className="w-4 h-4 text-emerald-400" />
-                     <div className="w-px h-4 bg-emerald-500/30" />
-                     <span className="text-sm font-black tracking-wider text-emerald-400">{displayPrice}</span>
+                   <div className="flex items-center justify-center gap-2 md:gap-3 px-3 md:px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]">
+                     <Network className="w-4 h-4 text-emerald-400 shrink-0" />
+                     <div className="hidden sm:block w-px h-4 bg-emerald-500/30" />
+                     <span className="text-xs sm:text-sm font-black tracking-wider text-emerald-400 truncate">{displayPrice}</span>
                    </div>
                  ) : (
-                    <div className="flex items-center gap-3 px-4 py-2 bg-purple-500/10 rounded-xl border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                       <span className="w-2 h-2 rounded-full bg-purple-500 animate-pulse" />
-                       <span className="text-xs font-black tracking-widest text-purple-400 uppercase">System Open</span>
+                    <div className="flex items-center justify-center gap-2 md:gap-3 px-3 md:px-4 py-2 bg-purple-500/10 rounded-xl border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
+                       <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-purple-500 animate-pulse shrink-0" />
+                       <span className="text-[10px] md:text-xs font-black tracking-widest text-purple-400 uppercase truncate">System Open</span>
                     </div>
                  )}
               </div>
               
               {/* Command Actions */}
-              <div className="flex items-center gap-2 w-full sm:w-auto">
+              <div className="flex items-center gap-2 w-auto">
                 {externalLink && (
                   <a
                     href={externalLink}
@@ -91,7 +91,7 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
                 )}
                 <Link
                   href="/contact"
-                  className="flex-1 sm:flex-none relative overflow-hidden flex items-center justify-center gap-2 h-10 sm:h-12 px-4 sm:px-6 lg:px-8 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] group"
+                  className="flex-none relative overflow-hidden flex items-center justify-center gap-2 h-10 sm:h-12 px-4 sm:px-6 lg:px-8 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] group"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
                   <span className="relative z-10 uppercase tracking-wider text-xs sm:text-sm">Initiate Demo</span>
