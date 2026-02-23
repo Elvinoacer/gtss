@@ -95,7 +95,7 @@ export function FeaturesSection({
             {/* Ambient Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-50" />
             
-            <div className="relative z-10 prose prose-slate prose-invert max-w-none line-clamp-[12] md:line-clamp-[20]">
+            <div className="relative z-10 prose prose-slate prose-invert max-w-none line-clamp-[12] md:line-clamp-[20] pb-24 md:pb-28">
               <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
                 {markdownContent}
               </ReactMarkdown>
