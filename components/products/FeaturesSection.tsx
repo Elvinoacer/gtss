@@ -95,17 +95,17 @@ export function FeaturesSection({
             {/* Ambient Background Grid */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:2rem_2rem] opacity-50" />
             
-            <div className="relative z-10 prose prose-slate prose-invert max-w-none line-clamp-[12] md:line-clamp-[20] pb-24 md:pb-28">
+            <div className="relative z-10 prose prose-slate prose-invert max-w-none line-clamp-[12] md:line-clamp-[20]">
               <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
                 {markdownContent}
               </ReactMarkdown>
             </div>
             
             {/* Futuristic Fade out gradient replacing standard button */}
-            <div className="absolute bottom-0 left-0 right-0 h-48 bg-gradient-to-t from-[#0F172A] via-[#0F172A]/80 to-transparent pointer-events-none flex items-end justify-center pb-8 border-b-2 border-transparent group-hover:border-blue-500 transition-colors duration-700">
+            <div className="relative mt-8 pt-8 w-full border-t border-white/5 flex flex-col items-center justify-center">
                <button
                  onClick={() => setIsModalOpen(true)}
-                 className="pointer-events-auto w-[90%] sm:w-auto px-6 sm:px-8 py-3 bg-[#020617] text-blue-400 border border-blue-500/30 rounded-full font-black text-xs sm:text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-400 transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center justify-center gap-3 group/btn"
+                 className="w-full sm:w-auto px-6 sm:px-8 py-4 bg-[#020617] text-blue-400 border border-blue-500/30 rounded-2xl md:rounded-full font-black text-xs sm:text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-400 transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center justify-center gap-3 group/btn"
                >
                  <span>Decrypt Remaining Blocks</span>
                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
