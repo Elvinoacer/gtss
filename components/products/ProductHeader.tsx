@@ -30,7 +30,7 @@ export function ProductHeader() {
             </span>
           </div>
           
-          <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.1]">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
             Practical Solutions for{' '}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 animate-gradient-x drop-shadow-[0_0_10px_rgba(52,211,153,0.3)]">
               Real Problems

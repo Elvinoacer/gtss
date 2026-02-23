@@ -48,20 +48,20 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
             
             <div className="bg-transparent md:bg-[#020617]/80 rounded-t-[1.5rem] md:rounded-[1.6rem] px-4 py-4 pb-6 md:pb-4 md:px-6 md:py-4 flex flex-row items-center justify-between gap-3 sm:gap-4">
               
-              {/* Target Data */}
-              <div className="hidden md:flex items-center gap-4 flex-shrink min-w-0">
-                <div className="relative flex items-center justify-center size-10 rounded-full bg-blue-500/10 border border-blue-500/30">
-                  <Activity className="w-5 h-5 text-blue-400" />
+              {/* Target Data (Live rippling effect and system title - Visible on mobile now) */}
+              <div className="flex items-center gap-3 flex-shrink min-w-0">
+                <div className="relative flex items-center justify-center size-8 sm:size-10 rounded-full bg-blue-500/10 border border-blue-500/30">
+                  <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
                   <div className="absolute inset-0 rounded-full border border-blue-400/50 animate-[ping_3s_ease-out_infinite]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[9px] font-black text-blue-500 uppercase tracking-[0.3em] mb-1">Target System</p>
-                  <p className="text-sm font-black text-white truncate max-w-[200px]">{productName}</p>
+                  <p className="text-[8px] sm:text-[9px] font-black text-blue-500 uppercase tracking-[0.3em] mb-0.5 sm:mb-1">Target System</p>
+                  <p className="text-xs sm:text-sm font-black text-white truncate max-w-[130px] sm:max-w-[200px]">{productName}</p>
                 </div>
               </div>
 
-              {/* Connection Status / Price  */}
-              <div className="flex-1 flex justify-start md:justify-center overflow-hidden">
+              {/* Connection Status / Price - Hidden on mobile, visible on sm and up */}
+              <div className="hidden sm:flex flex-1 justify-center overflow-hidden">
                  {displayPrice ? (
                    <div className="flex items-center justify-center gap-2 md:gap-3 px-3 md:px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]">
                      <Network className="w-4 h-4 text-emerald-400 shrink-0" />

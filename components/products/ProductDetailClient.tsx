@@ -270,7 +270,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
 
                   <motion.h1 
                     variants={itemAnimation}
-                    className="text-3xl sm:text-5xl md:text-6xl lg:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight leading-[1.1]"
+                    className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-transparent bg-clip-text bg-gradient-to-b from-white to-slate-400 tracking-tight leading-[1.1]"
                   >
                     {product.name}
                   </motion.h1>

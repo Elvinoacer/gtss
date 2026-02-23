@@ -70,7 +70,7 @@ export function FeaturesSection({
                 <Cpu className="w-6 h-6 md:w-8 md:h-8" />
               </div>
               <div>
-                <h2 className="text-xl md:text-4xl font-black text-white tracking-tight">System Modules</h2>
+                <h2 className="text-xl md:text-3xl font-black text-white tracking-tight">System Modules</h2>
                 <div className="flex items-center gap-2 mt-1 hidden sm:flex">
                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
                    <span className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">Detailed Spec Readout</span>
@@ -141,7 +141,7 @@ export function FeaturesSection({
              <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30">
                <Cpu className="w-6 h-6 md:w-8 md:h-8" />
              </div>
-             <h2 className="text-2xl md:text-3xl font-black text-white tracking-tight">System Modules</h2>
+             <h2 className="text-xl md:text-3xl font-black text-white tracking-tight">System Modules</h2>
           </div>
           {hasMoreFeatures && (
             <button
