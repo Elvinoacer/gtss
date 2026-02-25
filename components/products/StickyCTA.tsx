@@ -55,8 +55,8 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
                   <div className="absolute inset-0 rounded-full border border-blue-400/50 animate-[ping_3s_ease-out_infinite]" />
                 </div>
                 <div className="min-w-0">
-                  <p className="text-[8px] sm:text-[9px] font-black text-blue-500 uppercase tracking-[0.3em] mb-0.5 sm:mb-1">Target System</p>
-                  <p className="text-xs sm:text-sm font-black text-white truncate max-w-[130px] sm:max-w-[200px]">{productName}</p>
+                  <p className="text-[8px] sm:text-[9px] font-bold text-blue-500 uppercase tracking-[0.2em] mb-0.5 sm:mb-1">Product</p>
+                  <p className="text-xs sm:text-sm font-bold text-white truncate max-w-[130px] sm:max-w-[200px]">{productName}</p>
                 </div>
               </div>
 
@@ -71,7 +71,7 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
                  ) : (
                     <div className="flex items-center justify-center gap-2 md:gap-3 px-3 md:px-4 py-2 bg-purple-500/10 rounded-xl border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
                        <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-purple-500 animate-pulse shrink-0" />
-                       <span className="text-[10px] md:text-xs font-black tracking-widest text-purple-400 uppercase truncate">System Open</span>
+                        <span className="text-[10px] md:text-xs font-bold tracking-wider text-purple-400 uppercase truncate">Free</span>
                     </div>
                  )}
               </div>
@@ -94,7 +94,7 @@ export function StickyCTA({ productName, externalLink, priceUSD, priceKES }: Sti
                   className="flex-none relative overflow-hidden flex items-center justify-center gap-2 h-10 sm:h-12 px-4 sm:px-6 lg:px-8 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] group"
                 >
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-                  <span className="relative z-10 uppercase tracking-wider text-xs sm:text-sm">Initiate Demo</span>
+                   <span className="relative z-10 uppercase tracking-wider text-xs sm:text-sm">Request Demo</span>
                   <Calendar className="relative z-10 w-3 h-3 sm:w-4 sm:h-4 text-blue-200" />
                 </Link>
               </div>

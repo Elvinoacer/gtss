@@ -70,11 +70,7 @@ export function FeaturesSection({
                 <Cpu className="w-6 h-6 md:w-8 md:h-8" />
               </div>
               <div>
-                <h2 className="text-xl md:text-3xl font-black text-white tracking-tight">System Modules</h2>
-                <div className="flex items-center gap-2 mt-1 hidden sm:flex">
-                   <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                   <span className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.2em]">Detailed Spec Readout</span>
-                </div>
+                <h2 className="text-lg md:text-xl font-bold text-white tracking-tight">Key Features</h2>
               </div>
             </div>
 
@@ -84,7 +80,7 @@ export function FeaturesSection({
             >
               <div className="absolute inset-0 bg-blue-500/10 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
               <div className="relative z-10 flex items-center gap-2">
-                 <span>Expand Logs</span>
+                 <span>View All</span>
                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 group-hover:text-blue-400 transition-all" />
               </div>
             </button>
@@ -107,7 +103,7 @@ export function FeaturesSection({
                  onClick={() => setIsModalOpen(true)}
                  className="w-full sm:w-auto px-6 sm:px-8 py-4 bg-[#020617] text-blue-400 border border-blue-500/30 rounded-2xl md:rounded-full font-black text-xs sm:text-sm uppercase tracking-widest hover:bg-blue-600 hover:text-white hover:border-blue-400 transition-all shadow-[0_0_20px_rgba(59,130,246,0.2)] hover:shadow-[0_0_30px_rgba(59,130,246,0.5)] flex items-center justify-center gap-3 group/btn"
                >
-                 <span>Decrypt Remaining Blocks</span>
+                 <span>See All Features</span>
                  <ArrowRight className="w-4 h-4 group-hover/btn:translate-x-2 transition-transform" />
                </button>
             </div>
@@ -141,14 +137,14 @@ export function FeaturesSection({
              <div className="p-3 rounded-2xl bg-cyan-500/10 text-cyan-400 ring-1 ring-cyan-500/30">
                <Cpu className="w-6 h-6 md:w-8 md:h-8" />
              </div>
-             <h2 className="text-xl md:text-3xl font-black text-white tracking-tight">System Modules</h2>
+             <h2 className="text-lg md:text-xl font-bold text-white tracking-tight">Key Features</h2>
           </div>
           {hasMoreFeatures && (
             <button
               onClick={() => setIsModalOpen(true)}
               className="hidden md:flex items-center gap-2 group text-blue-400 hover:text-blue-300 font-bold tracking-widest uppercase text-xs"
             >
-              Analyze All ({features.length})
+               View All ({features.length})
               <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </button>
           )}
@@ -173,7 +169,7 @@ export function FeaturesSection({
             onClick={() => setIsModalOpen(true)}
             className="w-full py-4 bg-white/5 hover:bg-white/10 border border-white/10 rounded-2xl text-slate-300 hover:text-white font-bold transition-all flex items-center justify-center gap-3"
           >
-            Access {remainingCount} Hidden Modules
+             Show {remainingCount} More Features
             <ArrowRight className="w-4 h-4" />
           </button>
         )}
