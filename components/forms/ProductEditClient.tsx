@@ -479,17 +479,31 @@ export function ProductEditClient({
                         ))}
                     </div>
                     {formData.pricingModel !== 'free' && (
-                        <div>
-                             <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Price (USD)</label>
-                             <div className="relative">
-                                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
-                                <input 
-                                    type="number"
-                                    className="w-full rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 pl-7 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
-                                    value={formData.priceUSD}
-                                    onChange={(e) => setFormData({...formData, priceUSD: e.target.value})}
-                                />
-                             </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Price (USD)</label>
+                                 <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
+                                    <input 
+                                        type="number"
+                                        className="w-full rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 pl-7 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={formData.priceUSD}
+                                        onChange={(e) => setFormData({...formData, priceUSD: e.target.value})}
+                                    />
+                                 </div>
+                            </div>
+                            <div>
+                                 <label className="block text-xs font-bold text-slate-500 uppercase mb-1">Price (KES)</label>
+                                 <div className="relative">
+                                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">KES</span>
+                                    <input 
+                                        type="number"
+                                        className="w-full rounded-xl bg-slate-50 dark:bg-slate-900/50 border-slate-200 dark:border-slate-700 pl-11 pr-4 py-2 text-sm outline-none focus:ring-2 focus:ring-blue-500"
+                                        value={formData.priceKES}
+                                        onChange={(e) => setFormData({...formData, priceKES: e.target.value})}
+                                    />
+                                 </div>
+                            </div>
                         </div>
                     )}
                 </div>
