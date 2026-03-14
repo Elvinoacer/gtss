@@ -1,7 +1,8 @@
 'use server';
 
 
-import nodemailer from 'nodemailer';
+import { transporter } from '@/lib/email';
+import DOMPurify from 'isomorphic-dompurify';
 
 export async function sendEmail(formData: {
   name: string;
@@ -11,29 +12,23 @@ export async function sendEmail(formData: {
 }) {
   const { name, email, subject, message } = formData;
 
-  // Use the same transporter config as lib/email.ts
-  const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_SERVER_HOST,
-    port: Number(process.env.EMAIL_SERVER_PORT),
-    secure: true, // true for 465, false for other ports
-    auth: {
-      user: process.env.EMAIL_SERVER_USER,
-      pass: process.env.EMAIL_SERVER_PASSWORD,
-    },
-  });
+  const cleanName = DOMPurify.sanitize(name);
+  const cleanEmail = DOMPurify.sanitize(email);
+  const cleanSubject = DOMPurify.sanitize(subject);
+  const cleanMessage = DOMPurify.sanitize(message);
 
   const mailOptions = {
-    from: process.env.EMAIL_FROM || email,
+    from: process.env.EMAIL_FROM || cleanEmail,
     to: process.env.EMAIL_SERVER_USER, // Send to admin
-    subject: `Contact Form: ${subject}`,
-    text: `Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`,
+    subject: `Contact Form: ${cleanSubject}`,
+    text: `Name: ${cleanName}\nEmail: ${cleanEmail}\n\nMessage:\n${cleanMessage}`,
     html: `
       <h3>New Contact Form Submission</h3>
-      <p><strong>Name:</strong> ${name}</p>
-      <p><strong>Email:</strong> ${email}</p>
-      <p><strong>Subject:</strong> ${subject}</p>
+      <p><strong>Name:</strong> ${cleanName}</p>
+      <p><strong>Email:</strong> ${cleanEmail}</p>
+      <p><strong>Subject:</strong> ${cleanSubject}</p>
       <p><strong>Message:</strong></p>
-      <p>${message.replace(/\n/g, '<br>')}</p>
+      <p>${cleanMessage.replace(/\n/g, '<br>')}</p>
     `,
   };
 

@@ -1,4 +1,6 @@
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 import { MediaClient } from '@/components/media';
 import { getMediaAssets } from '@/lib/actions/media';
 import { mediaStats } from '@/data/media';
@@ -9,10 +11,12 @@ export default async function MediaLibraryPage() {
   const response = await getMediaAssets();
   const initialAssets = response.success ? response.data : [];
 
+    const session = await auth();
+  if (!session?.user) redirect('/login');
   const user = {
-    name: 'Alex Morgan',
-    email: 'alex@gtss.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session.user.name || 'User',
+    email: session.user.email || '',
+    avatar: session.user.image || undefined,
   };
 
   return (

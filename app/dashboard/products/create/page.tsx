@@ -1,4 +1,6 @@
 'use client';
+import { useSession } from 'next-auth/react';
+
 
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { WizardSteps, ProductIdentityForm, ProductMediaForm, ProductDetailsForm, ProductPricingForm, ProductReviewForm } from '@/components/wizard';
@@ -21,11 +23,11 @@ export default function ProductCreatePage() {
 
   const steps = productWizardSteps;
 
+    const { data: session } = useSession();
   const user = {
-    name: 'Alex Morgan',
-    email: 'alex@gtss.com',
-    avatar:
-      'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session?.user?.name || 'User',
+    email: session?.user?.email || '',
+    avatar: session?.user?.image || undefined,
   };
 
   const validateStep = (step: number) => {
@@ -45,7 +47,7 @@ export default function ProductCreatePage() {
     } catch (error) {
       if (error instanceof z.ZodError) {
         const newErrors: Record<string, string> = {};
-        error.errors.forEach((err: any) => {
+        (error as any).errors.forEach((err: any) => {
           if (err.path) {
             newErrors[err.path[0]] = err.message;
           }
@@ -85,9 +87,27 @@ export default function ProductCreatePage() {
     }
   };
 
-  const handleSaveDraft = () => {
-    console.log('Saving draft...', formData);
-    alert('Draft saved successfully!');
+  const handleSaveDraft = async () => {
+    if (!formData.name) {
+      alert("A Product Name is required to save a draft.");
+      return;
+    }
+    
+    setIsSubmitting(true);
+    try {
+      const result = await createProduct({ ...formData, status: 'draft' });
+      if (result.success) {
+        alert('Draft saved successfully!');
+        router.push('/dashboard/products');
+      } else {
+        alert('Failed to save draft: ' + result.error);
+      }
+    } catch (error) {
+      console.error('Save draft error:', error);
+      alert('An unexpected error occurred while saving.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const stepDescriptions = [
@@ -199,18 +219,22 @@ export default function ProductCreatePage() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleSaveDraft}
-                className="text-[#2563eb] font-medium text-sm px-5 py-2.5 rounded-lg border border-transparent hover:bg-[#2563eb]/10 transition-colors"
+                disabled={isSubmitting}
+                className="text-[#2563eb] font-medium text-sm px-5 py-2.5 rounded-lg border border-transparent hover:bg-[#2563eb]/10 transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
                 type="button"
               >
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 Save Draft
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={handleNext}
-                className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium text-sm px-6 py-2.5 rounded-lg shadow-sm shadow-blue-500/20 transition-all flex items-center gap-2"
+                disabled={isSubmitting}
+                className="bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-medium text-sm px-6 py-2.5 rounded-lg shadow-sm shadow-blue-500/20 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 type="button"
               >
+                {isSubmitting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
                 {currentStep === steps.length ? 'Submit' : 'Next Step'}
                 <ArrowRight className="w-4 h-4" />
               </motion.button>

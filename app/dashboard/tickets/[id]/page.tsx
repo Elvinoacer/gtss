@@ -1,4 +1,6 @@
 'use client';
+import { useSession } from 'next-auth/react';
+
 
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { 
@@ -12,10 +14,11 @@ import { motion } from 'framer-motion';
 import { ticketDetailData } from '@/data/support';
 
 export default function TicketDetailsPage() {
+    const { data: session } = useSession();
   const user = {
-    name: 'Alex Morgan',
-    email: 'alex@gtss.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session?.user?.name || 'User',
+    email: session?.user?.email || '',
+    avatar: session?.user?.image || undefined,
   };
 
   const ticketData = ticketDetailData;

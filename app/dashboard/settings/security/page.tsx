@@ -1,4 +1,7 @@
 'use client';
+import { useSession } from 'next-auth/react';
+import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
 
 import { DashboardLayout } from '@/components/dashboard';
 import { 
@@ -9,14 +12,49 @@ import {
 } from '@/components/dashboard/settings/security';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
+import { getUserSettings, updateSecuritySettings } from '@/lib/actions/settings';
 
 export default function SecuritySettingsPage() {
+  const { data: session } = useSession();
   const user = {
-    name: 'John Doe',
-    email: 'john@example.com',
-    role: 'Admin',
-    avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCy3vrIRms-ZVjjQUe32DevOM6Iyh3aoqQb0mY_WYqsK4rXMtPCJAdmfp0TT0iWLqiOejuILt0AUXBMzLfmJq49NndMbNcFlDJPR0Q_WO7hgYuwx6RLsvdn0DZzJ9Vd_C1labGtM3nYr7025mqc2wCICLupUzlIozIVoPMy00NxKotxxz3phziGcPzhCEuAQQAe1JnbX3P046KwKo9TpQbNLnHMB0UACGsVKzgpczVC68bImB4AQ3J0zZIOtUi2NexeGxGQBNC8pgI',
+    name: session?.user?.name || 'User',
+    email: session?.user?.email || '',
+    avatar: session?.user?.image || undefined,
   };
+
+  const userId = session?.user?.id;
+
+  const { data: initialSettings, isLoading } = useQuery({
+    queryKey: ['user-settings', userId],
+    queryFn: async () => {
+      if (!userId) return null;
+      return await getUserSettings(userId);
+    },
+    enabled: !!userId,
+  });
+
+  const [settings, setSettings] = useState<any>({});
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (initialSettings) setSettings(initialSettings);
+  }, [initialSettings]);
+
+  const handleSave = async () => {
+    if (!userId) return;
+    setIsSaving(true);
+    const result = await updateSecuritySettings(userId, {
+      twoFactorEnabled: settings.twoFactorEnabled,
+    });
+    setIsSaving(false);
+    if (result.success) {
+      alert("Security settings saved!");
+    } else {
+      alert("Failed to save " + result.error);
+    }
+  };
+
+  if (isLoading) return <DashboardLayout user={user}><div className="p-8">Loading...</div></DashboardLayout>;
 
   return (
     <DashboardLayout user={user}>
@@ -24,12 +62,21 @@ export default function SecuritySettingsPage() {
         <div className="mx-auto max-w-[960px] flex flex-col gap-8 pb-20">
           {/* Breadcrumbs & Heading */}
           <div className="flex flex-col gap-4">
-            <div className="flex flex-wrap gap-2 items-center">
-              <Link className="text-[#616889] dark:text-slate-400 text-sm font-medium leading-normal hover:underline" href="/dashboard/settings">
-                Settings
-              </Link>
-              <ChevronRight className="w-4 h-4 text-[#616889] dark:text-slate-500" />
-              <span className="text-[#111218] dark:text-white text-sm font-medium leading-normal">Security</span>
+            <div className="flex flex-wrap gap-2 items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Link className="text-[#616889] dark:text-slate-400 text-sm font-medium leading-normal hover:underline" href="/dashboard/settings">
+                  Settings
+                </Link>
+                <ChevronRight className="w-4 h-4 text-[#616889] dark:text-slate-500" />
+                <span className="text-[#111218] dark:text-white text-sm font-medium leading-normal">Security</span>
+              </div>
+              <button 
+                onClick={handleSave} 
+                className="px-4 h-10 rounded-lg bg-[#1337ec] text-white text-sm font-medium hover:bg-blue-700 transition-colors shadow-sm shadow-blue-500/20 disabled:opacity-50"
+                disabled={isSaving}
+              >
+                {isSaving ? 'Saving...' : 'Save Changes'}
+              </button>
             </div>
             <div className="flex flex-col gap-2">
               <h1 className="text-[#111218] dark:text-white text-3xl md:text-4xl font-black leading-tight tracking-[-0.033em]">
@@ -44,7 +91,7 @@ export default function SecuritySettingsPage() {
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 gap-8">
             <PasswordSection />
-            <TwoFactorSection />
+            <TwoFactorSection settings={settings} setSettings={setSettings} />
             <ActiveSessions />
             <SecurityNotifications />
           </div>

@@ -2,6 +2,7 @@ import { PrismaClient, Role } from '../app/generated/prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import 'dotenv/config';
+import bcrypt from 'bcryptjs';
 
 import { productsList, productFeatures, productHealthMetrics, productAssets } from '../data/products';
 import { leadsList } from '../data/leads';
@@ -245,7 +246,8 @@ async function main() {
 
   // Seed Admin User
   const adminEmail = 'admin@gtss.com';
-  const adminPassword = 'adminpassword'; // Plain text for now as per plan
+  const plainAdminPassword = 'adminpassword';
+  const adminPassword = await bcrypt.hash(plainAdminPassword, 12);
 
   const existingAdmin = await prisma.user.findUnique({
     where: { email: adminEmail },

@@ -1,4 +1,6 @@
 'use client';
+import { useSession } from 'next-auth/react';
+
 
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import Link from 'next/link';
@@ -24,10 +26,11 @@ export default function TeamCreatePage() {
     avatar: '',
   });
 
+    const { data: session } = useSession();
   const user = {
-    name: 'Alex Morgan',
-    email: 'alex@gtss.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session?.user?.name || 'User',
+    email: session?.user?.email || '',
+    avatar: session?.user?.image || undefined,
   };
 
   const handleSubmit = async (e: React.FormEvent) => {

@@ -50,6 +50,10 @@ model Product {
   tickets     Ticket[]
   reviews     ProductReview[]
   views       ProductView[]
+
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
 }
 
 model ProductFeature {
@@ -61,6 +65,8 @@ model ProductFeature {
   title       String
   description String
   priority    Int     @default(100) // Lower value = higher priority in display
+
+  @@index([productId])
 }
 
 model ProductHealthMetric {
@@ -71,6 +77,8 @@ model ProductHealthMetric {
   value      String
   percentage Float
   color      String
+
+  @@index([productId])
 }
 
 model ProductAsset {
@@ -81,6 +89,8 @@ model ProductAsset {
   title     String
   subtitle  String
   href      String
+
+  @@index([productId])
 }
 
 model ProductReview {
@@ -93,6 +103,8 @@ model ProductReview {
   rating       Int      @default(5) // 1-5 stars
   content      String   @db.Text
   createdAt    DateTime @default(now())
+
+  @@index([productId])
 }
 
 model Lead {
@@ -108,6 +120,9 @@ model Lead {
   avatar          String?
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([productInterest])
 }
 
 model Customer {
@@ -124,6 +139,8 @@ model Customer {
   updatedAt  DateTime @updatedAt
 
   transactions Transaction[]
+
+  @@index([status])
 }
 
 model Transaction {
@@ -134,6 +151,9 @@ model Transaction {
   date       DateTime @default(now())
   status     String   // Completed, Pending, Failed
   product    String
+
+  @@index([customerId])
+  @@index([date])
 }
 
 enum Role {
@@ -153,6 +173,13 @@ model User {
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
+  twoFactorEnabled Boolean   @default(false)
+  emailNotifications Boolean @default(true)
+  slackNotifications Boolean @default(false)
+  marketingEmails  Boolean   @default(true)
+  securityAlerts   Boolean   @default(true)
+  productUpdates   Boolean   @default(true)
+  
   teamMember    TeamMember?
 }
 
@@ -204,6 +231,10 @@ model Ticket {
 
   activities     TicketActivity[]
   attachments    TicketAttachment[]
+
+  @@index([status])
+  @@index([productId])
+  @@index([createdAt])
 }
 
 model TicketActivity {
@@ -214,6 +245,8 @@ model TicketActivity {
   user      String
   content   String
   timestamp DateTime @default(now())
+
+  @@index([ticketId])
 }
 
 model TicketAttachment {
@@ -223,6 +256,8 @@ model TicketAttachment {
   name     String
   size     String
   type     String // pdf, image
+
+  @@index([ticketId])
 }
 
 model MediaAsset {
@@ -273,6 +308,9 @@ model PageView {
   path      String
   userId    String?
   createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
 }
 
 model ProductView {
@@ -281,6 +319,9 @@ model ProductView {
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
   userId    String?
   createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
 }
 
 model CompanySettings {
@@ -289,6 +330,13 @@ model CompanySettings {
   website         String?
   description     String?  @db.Text
   logoUrl         String?
+  logoUrlDark     String?
+  primaryColor    String?  @default("#1337ec")
+  secondaryColor  String?  @default("#111218")
+  accentColor     String?  @default("#2563eb")
+  headingFont     String?  @default("Inter")
+  bodyFont        String?  @default("Inter")
+  baseFontSize    Int      @default(16)
   brandingColor   String?  @default("#16a34a") // default green
   contactEmail    String?
   address         String?

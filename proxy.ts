@@ -4,10 +4,11 @@ import { Role } from "@/src/generated/client"
  
 export default auth((req) => {
   const isLoggedIn = !!req.auth
-  const isOnDashboard = req.nextUrl.pathname.startsWith("/dashboard")
+  const protectedRoutes = ["/dashboard", "/analytics", "/customers", "/leads", "/docs", "/deployments"]
+  const isOnProtected = protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route))
   const isOnAuth = req.nextUrl.pathname.startsWith("/login") || req.nextUrl.pathname.startsWith("/register")
   
-  if (isOnDashboard) {
+  if (isOnProtected) {
     if (isLoggedIn) {
       if (req.auth?.user?.role !== Role.ADMIN) {
         return NextResponse.redirect(new URL("/", req.nextUrl))

@@ -1,4 +1,6 @@
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 import { TicketsClient } from '@/components/support';
 import { getTickets } from '@/lib/actions/support';
 
@@ -8,10 +10,12 @@ export default async function SupportTicketsPage() {
   const response = await getTickets();
   const initialTickets = response.success ? response.data : [];
 
+    const session = await auth();
+  if (!session?.user) redirect('/login');
   const user = {
-    name: 'Alex Morgan',
-    email: 'alex@gtss.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session.user.name || 'User',
+    email: session.user.email || '',
+    avatar: session.user.image || undefined,
   };
 
   return (

@@ -1,6 +1,7 @@
 import { MarkdownEditor } from '@/components/ui/MarkdownEditor';
 import { AlertCircle } from 'lucide-react';
 import { TagInput } from './TagInput';
+import Image from 'next/image';
 import { FileUpload } from './FileUpload';
 import { ChevronDown } from 'lucide-react';
 
@@ -129,7 +130,7 @@ export function ProductIdentityForm({ data, onChange, errors }: ProductIdentityF
           />
           {data.logoUrl && (
             <div className="mt-2 relative size-20 rounded-xl overflow-hidden border border-gray-200 dark:border-gray-700">
-              <img src={data.logoUrl} alt="Logo Preview" className="w-full h-full object-cover" />
+              <Image src={data.logoUrl} alt="Logo Preview" fill className="object-cover" sizes="80px" />
               <button
                 onClick={() => updateField('logoUrl', '')}
                 className="absolute top-1 right-1 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 transition-colors"

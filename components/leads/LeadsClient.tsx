@@ -3,6 +3,7 @@
 import { LeadTableRow } from '@/components/leads';
 import { Search, ChevronDown, Filter, Plus, ChevronLeft, ChevronRight, PieChart, Users, Code, Briefcase, BarChart3, Settings, Package, Tag, User } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import { useQuery } from '@tanstack/react-query';
 import { getLeads } from '@/lib/actions/leads';
 import { useState } from 'react';
@@ -69,8 +70,8 @@ export function LeadsClient({ initialLeads }: LeadsClientProps) {
         </nav>
         <div className="p-4 border-t border-slate-800">
           <div className="flex items-center gap-3">
-            <div className="h-10 w-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden">
-              <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="User" className="h-full w-full object-cover" />
+            <div className="h-10 w-10 rounded-full bg-slate-700 flex items-center justify-center overflow-hidden relative">
+              <Image src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop" alt="User" fill className="object-cover" sizes="40px" />
             </div>
             <div className="flex flex-col">
               <span className="text-sm font-semibold text-white">Alex Morgan</span>

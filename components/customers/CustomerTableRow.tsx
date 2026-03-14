@@ -2,6 +2,7 @@
 
 import { MoreVertical, Mail, Phone, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 
 interface CustomerTableRowProps {
   id: string;
@@ -63,7 +64,7 @@ export function CustomerTableRow({
         <div className="flex items-center">
           <div className="flex-shrink-0 h-10 w-10 rounded-full overflow-hidden">
             {avatar ? (
-              <img src={avatar} alt={name} className="w-full h-full object-cover" />
+              <Image src={avatar} alt={name} fill className="object-cover" sizes="40px" />
             ) : (
               <div className={`w-full h-full flex items-center justify-center ${avatarColor} font-bold text-sm`}>
                 {avatarFallback}

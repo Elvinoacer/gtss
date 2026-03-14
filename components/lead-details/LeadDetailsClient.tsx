@@ -24,6 +24,13 @@ export function LeadDetailsClient({ initialLead, leadId }: LeadDetailsClientProp
 
   if (!lead) return <div>Lead not found</div>;
 
+  const fieldsAny: any[] = [
+    { label: 'Email', value: lead.email, icon: 'mail' },
+    { label: 'Phone', value: lead.phone || 'N/A', icon: 'phone' },
+    { label: 'Company', value: lead.company || 'N/A', icon: 'business' },
+    { label: 'Product', value: lead.productInterest, icon: 'shopping_bag' },
+  ];
+
   return (
     <div className="flex flex-col gap-6">
       {/* Custom Header for this page */}
@@ -95,12 +102,7 @@ export function LeadDetailsClient({ initialLead, leadId }: LeadDetailsClientProp
         {/* Left Column */}
         <div className="flex flex-col gap-6 lg:col-span-1">
           <ContactInfoCard 
-            fields={[
-              { label: 'Email', value: lead.email, icon: 'mail' },
-              { label: 'Phone', value: lead.phone || 'N/A', icon: 'phone' },
-              { label: 'Company', value: lead.company || 'N/A', icon: 'business' },
-              { label: 'Product', value: lead.productInterest, icon: 'shopping_bag' },
-            ]} 
+            fields={fieldsAny} 
             leadScore={75} 
           />
 

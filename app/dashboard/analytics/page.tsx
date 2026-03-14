@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { Eye, Package } from "lucide-react";
 
@@ -46,10 +48,12 @@ export default async function AnalyticsPage() {
 
   const productMap = new Map(productDetails.map((p) => [p.id, p.name]));
 
+    const session = await auth();
+  if (!session?.user) redirect('/login');
   const user = {
-    name: 'Alex Morgan',
-    email: 'alex@gtss.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session.user.name || 'User',
+    email: session.user.email || '',
+    avatar: session.user.image || undefined,
   };
 
   return (

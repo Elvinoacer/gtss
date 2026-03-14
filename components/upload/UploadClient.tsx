@@ -11,6 +11,17 @@ interface UploadClientProps {
   initialData: any;
 }
 
+interface UploadFileItem {
+  id: string;
+  file?: File;
+  fileName: string;
+  fileSize: string;
+  status: 'uploading' | 'completed' | 'waiting';
+  progress: number;
+  displayTitle?: string;
+  timeRemaining?: string;
+}
+
 export function UploadClient({ initialData }: UploadClientProps) {
   const { data = initialData } = useQuery({
     queryKey: ['upload-data'],
@@ -22,10 +33,79 @@ export function UploadClient({ initialData }: UploadClientProps) {
   });
 
   const [selectedTab, setSelectedTab] = useState<'video' | 'screenshots' | 'data'>('video');
+  
+  const [queue, setQueue] = useState<UploadFileItem[]>(
+    data?.queue?.map((q: any) => ({ ...q, progress: q.progress || 0 })) || []
+  );
 
   const handleFileSelect = (files: FileList) => {
-    console.log('Files selected:', files);
+    const newFiles: UploadFileItem[] = Array.from(files).map((file) => ({
+      id: Math.random().toString(36).substring(7),
+      file,
+      fileName: file.name,
+      fileSize: (file.size / (1024 * 1024)).toFixed(2),
+      status: 'waiting',
+      progress: 0,
+      timeRemaining: 'Calculating...',
+    }));
+    setQueue((prev) => [...prev, ...newFiles]);
   };
+
+  const removeFile = (id: string) => {
+    setQueue((prev) => prev.filter((f) => f.id !== id));
+  };
+
+  const updateFile = (id: string, updates: Partial<UploadFileItem>) => {
+    setQueue((prev) =>
+      prev.map((f) => (f.id === id ? { ...f, ...updates } : f))
+    );
+  };
+
+  const clearAll = () => {
+    setQueue([]);
+  };
+
+  const startUploads = () => {
+    queue.forEach((item) => {
+      if (item.status === 'waiting' && item.file) {
+        uploadFile(item);
+      }
+    });
+  };
+
+  const uploadFile = (item: UploadFileItem) => {
+    updateFile(item.id, { status: 'uploading', progress: 0 });
+
+    const xhr = new XMLHttpRequest();
+    const formData = new FormData();
+    formData.append('file', item.file!);
+
+    xhr.upload.addEventListener('progress', (event) => {
+      if (event.lengthComputable) {
+        const percent = Math.round((event.loaded / event.total) * 100);
+        updateFile(item.id, { progress: percent });
+      }
+    });
+
+    xhr.addEventListener('load', () => {
+      if (xhr.status >= 200 && xhr.status < 300) {
+        updateFile(item.id, { status: 'completed', progress: 100 });
+      } else {
+        updateFile(item.id, { status: 'waiting', progress: 0 });
+        alert(`Failed to upload ${item.fileName}`);
+      }
+    });
+
+    xhr.addEventListener('error', () => {
+      updateFile(item.id, { status: 'waiting', progress: 0 });
+      alert(`Error uploading ${item.fileName}`);
+    });
+
+    xhr.open('POST', '/api/upload');
+    xhr.send(formData);
+  };
+
+  const waitingCount = queue.filter(q => q.status === 'waiting' && q.file).length;
 
   return (
     <div className="w-full max-w-[960px] mx-auto flex flex-col gap-8">
@@ -123,21 +203,24 @@ export function UploadClient({ initialData }: UploadClientProps) {
           <div className="flex justify-between items-center">
             <h3 className="text-slate-900 dark:text-white font-bold text-base">
               Upload Queue{' '}
-              <span className="text-gray-400 font-normal ml-1">({data.queue.length} files)</span>
+              <span className="text-gray-400 font-normal ml-1">({queue.length} files)</span>
             </h3>
-            <button className="text-sm text-red-600 hover:text-red-700 font-medium flex items-center gap-1">
+            <button
+              onClick={clearAll}
+              className="text-sm text-red-600 hover:text-red-700 font-medium flex items-center gap-1"
+            >
               <Trash2 className="w-4 h-4" />
               Clear all
             </button>
           </div>
 
-          {data.queue.map((file: any) => (
+          {queue.map((file) => (
             <FileUploadItem
               key={file.id}
               {...file}
-              onRemove={() => console.log('Remove', file.id)}
+              onRemove={() => removeFile(file.id)}
               onPause={file.status === 'uploading' ? () => console.log('Pause', file.id) : undefined}
-              onTitleChange={(title: string) => console.log('Title changed', file.id, title)}
+              onTitleChange={(title: string) => updateFile(file.id, { displayTitle: title })}
             />
           ))}
         </div>
@@ -149,11 +232,13 @@ export function UploadClient({ initialData }: UploadClientProps) {
             All files are scanned for viruses automatically.
           </p>
           <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="flex items-center justify-center h-10 px-6 rounded-lg bg-[#2563eb] text-white text-sm font-bold shadow hover:bg-[#1d4ed8] transition-colors gap-2"
+            onClick={startUploads}
+            disabled={waitingCount === 0}
+            whileHover={{ scale: waitingCount > 0 ? 1.05 : 1 }}
+            whileTap={{ scale: waitingCount > 0 ? 0.95 : 1 }}
+            className="flex items-center justify-center h-10 px-6 rounded-lg bg-[#2563eb] text-white text-sm font-bold shadow hover:bg-[#1d4ed8] transition-colors gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Start Upload (1)
+            Start Upload ({waitingCount})
             <ArrowRight className="w-4 h-4" />
           </motion.button>
         </div>

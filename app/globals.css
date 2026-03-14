@@ -34,14 +34,11 @@
 
   /* Font settings */
   --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
   --font-mono: var(--font-geist-mono), ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
 }
 
 @layer base {
-  * {
-    @apply transition-colors duration-200;
-  }
-  
   body {
     @apply bg-background-light text-slate-900 dark:bg-background-dark dark:text-slate-100;
   }
@@ -279,4 +276,31 @@
 
 .landing-page::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.2);
+}
+
+/* Respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .gradient-orb,
+  .gradient-orb-blue,
+  .gradient-orb-purple,
+  .gradient-orb-gold {
+    animation: none !important;
+  }
+
+  .gradient-text {
+    animation: none !important;
+  }
+
+  .glass-card,
+  .btn-primary-glow,
+  .btn-glass,
+  .icon-glow {
+    transition: none !important;
+  }
+
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

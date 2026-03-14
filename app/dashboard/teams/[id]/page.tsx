@@ -1,5 +1,6 @@
 "use client";
 
+import { useSession } from "next-auth/react";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
 import {
   ProfileHeader,
@@ -23,11 +24,11 @@ export default function MemberProfilePage({ params }: { params: Promise<{ id: st
   const [member, setMember] = useState<any>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+    const { data: session } = useSession();
   const user = {
-    name: "Alex Morgan",
-    email: "alex@gtss.com",
-    avatar:
-      "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop",
+    name: session?.user?.name || 'User',
+    email: session?.user?.email || '',
+    avatar: session?.user?.image || undefined,
   };
 
   useEffect(() => {

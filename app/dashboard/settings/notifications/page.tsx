@@ -1,5 +1,9 @@
 'use client';
 
+import { useSession } from 'next-auth/react';
+import { useQuery } from '@tanstack/react-query';
+import { useState, useEffect } from 'react';
+
 import { DashboardLayout } from '@/components/dashboard';
 import { 
   GeneralPreferences, 
@@ -7,14 +11,65 @@ import {
   FrequencyDigests, 
   NotificationSettingsFooter 
 } from '@/components/dashboard/settings/notifications';
+import { getUserSettings, updateNotificationSettings } from '@/lib/actions/settings';
 
 export default function NotificationSettingsPage() {
+  const { data: session } = useSession();
+  
   const user = {
     name: 'John Doe',
     email: 'john@example.com',
     role: 'Admin',
     avatar: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCYzgReSzVolgyVIGSXzRNthWrinXbeUQgsaHovlu43QQjiWUcWHcOAxzWTzkEoF5RvkLoWURJcgFNjTZ0AFwz9CUljGpJZl6qJ6vUSrTpwvr6mgnzkH5gMtTma9J6H5QkNCKEIEQxmzzGz0dPEHL-ZHfK_7trFHPorzkOxRDd9pULjGfc7bFZV_c-eOL0k8CSL1VJIUQl1ljcPFU37ohD9tTgZUQakGmL83-ysoDfWJkoDKMDYTnvFh6z0iN6v209YGge6MNwjVuY',
   };
+
+  const userId = session?.user?.id;
+
+  const { data: initialSettings, isLoading } = useQuery({
+    queryKey: ['user-settings', userId],
+    queryFn: async () => {
+      if (!userId) return null;
+      return await getUserSettings(userId);
+    },
+    enabled: !!userId,
+  });
+
+  const [settings, setSettings] = useState<any>({});
+  const [isSaving, setIsSaving] = useState(false);
+
+  useEffect(() => {
+    if (initialSettings) setSettings(initialSettings);
+  }, [initialSettings]);
+
+  const handleSave = async () => {
+    if (!userId) return;
+    setIsSaving(true);
+    const result = await updateNotificationSettings(userId, {
+      marketingEmails: settings.marketingEmails,
+      securityAlerts: settings.securityAlerts,
+      productUpdates: settings.productUpdates,
+      emailNotifications: settings.emailNotifications,
+      slackNotifications: settings.slackNotifications,
+    });
+    setIsSaving(false);
+    if (result.success) {
+      alert("Notification settings saved!");
+    } else {
+      alert("Failed to save " + result.error);
+    }
+  };
+
+  const handleDiscard = () => {
+    if (initialSettings) setSettings(initialSettings);
+  };
+
+  if (isLoading) {
+    return (
+      <DashboardLayout user={user}>
+        <div className="p-8 text-black dark:text-white">Loading...</div>
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout user={user}>
@@ -34,12 +89,16 @@ export default function NotificationSettingsPage() {
             </div>
           </div>
 
-          <GeneralPreferences />
-          <CommunicationChannels />
-          <FrequencyDigests />
+          <GeneralPreferences settings={settings} setSettings={setSettings} />
+          <CommunicationChannels settings={settings} setSettings={setSettings} />
+          <FrequencyDigests settings={settings} setSettings={setSettings} />
         </div>
       </main>
-      <NotificationSettingsFooter />
+      <NotificationSettingsFooter 
+        onSave={handleSave} 
+        onDiscard={handleDiscard} 
+        isSaving={isSaving} 
+      />
     </DashboardLayout>
   );
 }

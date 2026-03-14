@@ -2,6 +2,7 @@
 
 import { FileUpload } from './FileUpload';
 import { Video, Image as ImageIcon, Link as LinkIcon, X, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 interface UploadedImage {
@@ -114,7 +115,7 @@ export function ProductMediaForm({ data, onChange }: ProductMediaFormProps) {
                     isRemoving === idx ? 'opacity-50' : ''
                   }`}
                 >
-                  <img src={img} alt={`Preview ${idx + 1}`} className="w-full h-full object-cover" />
+                  <Image src={img} alt={`Preview ${idx + 1}`} fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
                   <button
                     onClick={() => removeImage(idx)}
                     disabled={isRemoving !== null}

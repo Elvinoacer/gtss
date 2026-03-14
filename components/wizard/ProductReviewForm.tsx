@@ -3,6 +3,7 @@
 import { CheckCircle, Package, DollarSign, FileText, Image as ImageIcon, Video, Tag, Layers } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import Image from 'next/image';
 
 interface ProductReviewFormProps {
   data: any;
@@ -221,7 +222,7 @@ export function ProductReviewForm({ data }: ProductReviewFormProps) {
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
                 {data.images.map((img: string, idx: number) => (
                   <div key={idx} className="aspect-video rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700">
-                    <img src={img} alt={`Product ${idx + 1}`} className="w-full h-full object-cover" />
+                    <Image src={img} alt={`Product ${idx + 1}`} fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
                   </div>
                 ))}
               </div>

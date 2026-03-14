@@ -23,7 +23,7 @@ const typeConfig = {
 };
 
 export function MediaCard({ id, title, type, size, uploadedAt, thumbnail, index }: MediaCardProps) {
-  const config = typeConfig[type];
+  const config = typeConfig[type] as any;
   const Icon = config.icon;
 
   return (
@@ -56,7 +56,7 @@ export function MediaCard({ id, title, type, size, uploadedAt, thumbnail, index 
             )}
           </>
         ) : Icon ? (
-          <Icon className={`w-16 h-16 ${config.color.includes('text-') ? config.color.split(' ').find(c => c.startsWith('text-')) : 'text-gray-500'}/50 group-hover:scale-110 transition-transform duration-300`} />
+          <Icon className={`w-16 h-16 ${config.color.includes('text-') ? config.color.split(' ').find((c: string) => c.startsWith('text-')) : 'text-gray-500'}/50 group-hover:scale-110 transition-transform duration-300`} />
         ) : null}
         <div className={`absolute bottom-2 right-2 px-2 py-1 backdrop-blur-sm rounded text-[10px] font-bold uppercase ${config.color}`}>
           {config.badge}

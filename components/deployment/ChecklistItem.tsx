@@ -34,7 +34,7 @@ export function ChecklistItem({ label, status }: ChecklistItemProps) {
     },
   };
 
-  const { icon: Icon, iconColor, textClass, custom } = config[status];
+  const { icon: Icon, iconColor, textClass, custom } = config[status] as any;
 
   return (
     <li className={`flex items-center gap-3 text-sm ${textClass}`}>

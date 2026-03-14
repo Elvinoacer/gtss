@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { MoreVertical, ArrowRight, Archive, Pencil, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useRef, useEffect } from 'react';
 import { getIcon } from '@/lib/icons';
 
@@ -113,7 +114,7 @@ export function ProductCard({
           <div className="relative">
              {logoUrl ? (
                 <div className="relative h-14 w-14 overflow-hidden rounded-xl border border-slate-100 bg-white shadow-sm dark:border-slate-800 dark:bg-slate-900">
-                  <img src={logoUrl} alt={name} className="h-full w-full object-cover" />
+                  <Image src={logoUrl} alt={name} fill className="object-cover" sizes="56px" />
                 </div>
              ) : (
                 <div className={`flex h-14 w-14 items-center justify-center rounded-xl bg-gradient-to-br ${isDeprecated ? 'from-slate-100 to-slate-200 dark:from-slate-800 dark:to-slate-900 grayscale' : gradientClass} text-white shadow-inner`}>

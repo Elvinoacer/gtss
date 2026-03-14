@@ -24,14 +24,7 @@ export async function getCompanySettings() {
   }
 }
 
-export async function updateCompanySettings(data: {
-  companyName: string;
-  website: string;
-  description: string;
-  brandingColor: string;
-  contactEmail?: string;
-  address?: string;
-}) {
+export async function updateCompanySettings(data: any) {
   try {
     const existing = await prisma.companySettings.findFirst();
     
@@ -47,9 +40,47 @@ export async function updateCompanySettings(data: {
     }
     
     revalidatePath('/dashboard/settings');
+    revalidatePath('/dashboard/settings/brand');
     return { success: true };
   } catch (error) {
     console.error('Error updating company settings:', error);
     return { success: false, error: 'Failed to update settings' };
+  }
+}
+
+export async function getUserSettings(userId: string) {
+  try {
+    return await prisma.user.findUnique({ where: { id: userId } });
+  } catch (error) {
+    console.error('Error fetching user settings:', error);
+    return null;
+  }
+}
+
+export async function updateSecuritySettings(userId: string, data: any) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+    revalidatePath('/dashboard/settings/security');
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating security settings:', error);
+    return { success: false, error: 'Failed to update security settings' };
+  }
+}
+
+export async function updateNotificationSettings(userId: string, data: any) {
+  try {
+    await prisma.user.update({
+      where: { id: userId },
+      data,
+    });
+    revalidatePath('/dashboard/settings/notifications');
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating notification settings:', error);
+    return { success: false, error: 'Failed to update notification settings' };
   }
 }

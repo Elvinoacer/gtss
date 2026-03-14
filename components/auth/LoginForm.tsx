@@ -10,6 +10,7 @@ export function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const searchParams = useSearchParams();
   const callbackUrl = searchParams.get("callbackUrl") || "/dashboard";
@@ -17,15 +18,23 @@ export function LoginForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
+    setError(null);
     
     try {
-      await signIn("credentials", {
+      const result = await signIn("credentials", {
         email,
         password,
-        redirectTo: callbackUrl,
+        redirect: false,
       });
-    } catch (error) {
-      console.error("Login failed:", error);
+
+      if (result?.error) {
+        setError("Invalid email or password. Please try again.");
+      } else if (result?.ok) {
+        window.location.href = callbackUrl;
+      }
+    } catch (err) {
+      console.error("Login failed:", err);
+      setError("An unexpected error occurred. Please try again.");
     } finally {
       setIsLoading(false);
     }
@@ -60,6 +69,11 @@ export function LoginForm() {
 
       {/* Form */}
       <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        {error && (
+          <div className="flex items-center gap-2 p-3 rounded-lg bg-red-500/10 border border-red-500/20 text-red-600 dark:text-red-400 text-sm font-medium">
+            {error}
+          </div>
+        )}
         {/* Email Field */}
         <motion.label
           initial={{ opacity: 0, x: -20 }}

@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Loader2 } from 'lucide-react';
+import Image from 'next/image';
 import { createTeamMember, updateTeamMember } from '@/lib/actions/teams';
 import { useRouter } from 'next/navigation';
 
@@ -225,7 +226,7 @@ export function MemberFormModal({ isOpen, onClose, member }: MemberFormModalProp
                     onChange={(e) => setFormData({ ...formData, avatar: e.target.value })}
                   />
                   {formData.avatar && (
-                    <img src={formData.avatar} alt="Preview" className="w-10 h-10 rounded-full object-cover border border-gray-200 dark:border-gray-700" />
+                    <div className="relative w-10 h-10 rounded-full overflow-hidden border border-gray-200 dark:border-gray-700"><Image src={formData.avatar} alt="Preview" fill className="object-cover" sizes="40px" /></div>
                   )}
                 </div>
               </div>

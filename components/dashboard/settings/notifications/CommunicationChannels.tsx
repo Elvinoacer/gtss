@@ -2,7 +2,11 @@
 
 import { Server, Group, Code } from 'lucide-react';
 
-export function CommunicationChannels() {
+export function CommunicationChannels({ settings, setSettings }: { settings?: any, setSettings?: any }) {
+  const toggleSetting = (key: string) => {
+    setSettings?.({ ...settings, [key]: !settings?.[key] });
+  };
+
   const channels = [
     {
       icon: <Server className="w-6 h-6" />,

@@ -1,4 +1,6 @@
 'use client';
+import { useSession } from 'next-auth/react';
+
 
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import { StatCard, ProductRow, TicketItem } from '@/components/customer-profile';
@@ -6,10 +8,11 @@ import { MoreHorizontal, Edit, Globe, MapPin, Contact, DollarSign, TrendingUp, T
 import { motion } from 'framer-motion';
 
 export default function CustomerProfilePage() {
+    const { data: session } = useSession();
   const user = {
-    name: 'Tom Cook',
-    email: 'tom@gtss.com',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100&h=100&fit=crop',
+    name: session?.user?.name || 'User',
+    email: session?.user?.email || '',
+    avatar: session?.user?.image || undefined,
   };
 
   const stats = [

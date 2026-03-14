@@ -3,7 +3,11 @@
 import { notificationPreferences } from '@/data/settings';
 import { motion } from 'framer-motion';
 
-export function GeneralPreferences() {
+export function GeneralPreferences({ settings, setSettings }: { settings?: any, setSettings?: any }) {
+  const toggleSetting = (key: string) => {
+    setSettings?.({ ...settings, [key]: !settings?.[key] });
+  };
+
   return (
     <section className="flex flex-col gap-4">
       <h2 className="text-text-main dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] border-b border-border-light dark:border-border-dark pb-3">

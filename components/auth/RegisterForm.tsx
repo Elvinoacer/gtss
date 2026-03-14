@@ -4,6 +4,7 @@ import { motion } from 'framer-motion';
 import { Mail, Lock, Briefcase, Eye, EyeOff, ArrowRight } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
+import { registerUser } from '@/lib/actions/auth';
 
 interface PasswordStrength {
   score: number;
@@ -22,6 +23,7 @@ export function RegisterForm() {
   });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   const calculatePasswordStrength = (password: string): PasswordStrength => {
     let score = 0;
@@ -43,12 +45,19 @@ export function RegisterForm() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsLoading(true);
-
-    // Simulate registration process
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-
-    console.log('Registration attempt:', formData);
-    setIsLoading(false);
+    setError(null);
+    try {
+      const result = await registerUser(formData);
+      if (!result.success) {
+        setError(result.error || 'Registration failed');
+      } else {
+        window.location.href = '/login';
+      }
+    } catch (err) {
+      setError('An unexpected error occurred. Please try again.');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleChange = (
@@ -88,6 +97,11 @@ export function RegisterForm() {
 
         {/* Form */}
         <form onSubmit={handleSubmit} className="px-8 pb-8 flex flex-col gap-5">
+          {error && (
+            <div className="p-3 text-sm font-medium text-red-600 bg-red-100 dark:bg-red-500/10 dark:text-red-400 rounded-lg border border-red-500/20">
+              {error}
+            </div>
+          )}
           {/* Name Fields */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}

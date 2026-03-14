@@ -1,6 +1,6 @@
 'use client';
 
-export function FrequencyDigests() {
+export function FrequencyDigests({ settings, setSettings }: { settings?: any, setSettings?: any }) {
   return (
     <section className="flex flex-col gap-4">
       <h2 className="text-text-main dark:text-white text-[22px] font-bold leading-tight tracking-[-0.015em] border-b border-border-light dark:border-border-dark pb-3">

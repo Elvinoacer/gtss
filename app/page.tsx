@@ -1,5 +1,3 @@
-'use client';
-
 import { Navbar, Hero, TrustBar, Features, HowItWorks, Testimonials, CTA, Footer } from '@/components/landing';
 
 export default function LandingPage() {

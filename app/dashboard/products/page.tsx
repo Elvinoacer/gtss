@@ -9,10 +9,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function ProductsPage() {
   const session = await auth();
-  
-  if (!session?.user) {
-    redirect('/login');
-  }
+  if (!session?.user) redirect('/login');
 
   const response = await getProducts();
   const initialProducts = (response.success && response.data) ? response.data : [];
@@ -20,7 +17,7 @@ export default async function ProductsPage() {
   const user = {
     name: session.user.name || 'User',
     email: session.user.email || '',
-    avatar: session.user.image || undefined, // next-auth default is 'image' not 'avatar' generally, but let's check auth.ts return type. it returns standard User which has image.
+    avatar: session.user.image || undefined,
   };
 
   return (

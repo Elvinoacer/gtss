@@ -3,7 +3,7 @@
 import { Upload, X, Edit2 } from 'lucide-react';
 import { motion } from 'framer-motion';
 
-export function BrandAssets() {
+export function BrandAssets({ settings, setSettings }: { settings?: any, setSettings?: any }) {
   return (
     <section className="flex flex-col gap-4">
       <h2 className="text-[#111218] dark:text-white text-lg font-bold leading-tight tracking-[-0.015em] border-b border-gray-100 dark:border-[#2e3245] pb-2">

@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function ProductsPage() {
   const response = await getProducts();
-  const products = response.success ? response.data : [];
+  const products = (response.success && response.data) ? response.data : [];
 
   return (
     <div className="pb-24">

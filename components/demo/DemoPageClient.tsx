@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   Play, 
@@ -149,10 +150,12 @@ export function DemoPageClient({ products }: DemoPageClientProps) {
                       className="relative aspect-video bg-slate-900 cursor-pointer overflow-hidden"
                     >
                       {product.images?.[0] ? (
-                        <img 
+                        <Image 
                           src={product.images[0]} 
                           alt={product.name}
-                          className="w-full h-full object-cover opacity-80 group-hover:opacity-60 group-hover:scale-105 transition-all duration-500"
+                          fill
+                          className="object-cover opacity-80 group-hover:opacity-60 group-hover:scale-105 transition-all duration-500"
+                          sizes="(max-width: 768px) 100vw, 400px"
                         />
                       ) : (
                         <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-700 opacity-80" />

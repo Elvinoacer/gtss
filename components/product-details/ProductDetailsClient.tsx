@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { 
   Package, Tag, DollarSign, FileText, Video, Image as ImageIcon, 
@@ -363,7 +364,7 @@ export function ProductDetailsClient({ initialProduct, productId }: ProductDetai
                   <div key={review.id || index} className="p-4 rounded-lg bg-white dark:bg-[#1e293b] border border-[#E5E7EB] dark:border-[#334155]">
                     <div className="flex items-center gap-3 mb-3">
                       {review.authorAvatar ? (
-                        <img src={review.authorAvatar} alt={review.authorName} className="w-10 h-10 rounded-full object-cover" />
+                        <div className="relative w-10 h-10 rounded-full overflow-hidden"><Image src={review.authorAvatar} alt={review.authorName} fill className="object-cover" sizes="40px" /></div>
                       ) : (
                         <div className="w-10 h-10 rounded-full bg-gray-200 dark:bg-gray-700 flex items-center justify-center text-gray-500">
                           {review.authorName.charAt(0)}
@@ -409,11 +410,15 @@ export function ProductDetailsClient({ initialProduct, productId }: ProductDetai
               {product.qrCodeUrl ? (
                 <>
                   <div className="bg-white p-3 rounded-xl mb-4">
-                    <img 
-                      src={product.qrCodeUrl} 
-                      alt="Product QR Code" 
-                      className="w-40 h-40"
-                    />
+                    <div className="relative w-40 h-40">
+                      <Image 
+                        src={product.qrCodeUrl} 
+                        alt="Product QR Code" 
+                        fill
+                        className="object-contain"
+                        sizes="160px"
+                      />
+                    </div>
                   </div>
                   <p className="text-xs text-[#6B7280] text-center mb-4">
                     Scan to view product page
@@ -504,7 +509,7 @@ export function ProductDetailsClient({ initialProduct, productId }: ProductDetai
               <div className="grid grid-cols-2 gap-2">
                 {product.images.map((img: string, idx: number) => (
                   <div key={idx} className="aspect-video rounded-lg overflow-hidden border border-[#E5E7EB] dark:border-[#334155]">
-                    <img src={img} alt={`Product ${idx + 1}`} className="w-full h-full object-cover" />
+                    <Image src={img} alt={`Product ${idx + 1}`} fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
                   </div>
                 ))}
               </div>

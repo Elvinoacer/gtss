@@ -71,10 +71,9 @@ export function PermissionsToggles() {
                   {permission.title}
                 </p>
                 {permission.requiresTwoFactor && (
-                  <ShieldCheck
-                    className="w-4 h-4 text-gray-500"
-                    title="Requires 2FA"
-                  />
+                  <span title="Requires 2FA">
+                    <ShieldCheck className="w-4 h-4 text-gray-500" />
+                  </span>
                 )}
               </div>
               <p className="text-sm text-gray-500 dark:text-gray-400">

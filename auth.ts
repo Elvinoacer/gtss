@@ -2,6 +2,7 @@ import NextAuth from "next-auth"
 import Credentials from "next-auth/providers/credentials"
 import { prisma } from "@/lib/prisma"
 import { Role } from "@/src/generated/client"
+import bcrypt from "bcryptjs"
  
 export const { handlers, signIn, signOut, auth } = NextAuth({
   providers: [
@@ -19,8 +20,8 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
         if (!user) return null
 
-        // Simple password check for now (as per plan)
-        if (user.password === credentials.password) {
+        const isValid = await bcrypt.compare(credentials.password as string, user.password!)
+        if (isValid) {
             return {
                 id: user.id,
                 name: user.name,

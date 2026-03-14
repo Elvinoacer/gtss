@@ -1,8 +1,8 @@
 'use client';
 
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { usePathname } from 'next/navigation';
-import { trackPageView, trackProductView } from '@/actions/analytics';
+import { trackPageView, trackProductView } from '@/lib/actions/analytics';
 
 interface ViewTrackerProps {
   productId?: string;
@@ -10,15 +10,23 @@ interface ViewTrackerProps {
 
 export function ViewTracker({ productId }: ViewTrackerProps) {
   const pathname = usePathname();
+  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    // Track page view
-    trackPageView(pathname);
+    // Debounce view tracking to avoid rapid-fire writes during fast navigation
+    if (timerRef.current) clearTimeout(timerRef.current);
 
-    // Track product view if productId is provided
-    if (productId) {
-      trackProductView(productId);
-    }
+    timerRef.current = setTimeout(() => {
+      trackPageView(pathname);
+
+      if (productId) {
+        trackProductView(productId);
+      }
+    }, 1000);
+
+    return () => {
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
   }, [pathname, productId]);
 
   return null;

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { motion, AnimatePresence } from "framer-motion";
@@ -137,7 +138,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
     img: ({ src, alt }: any) => <img src={src} alt={alt} className="rounded-xl w-full h-auto my-6 border border-white/10 shadow-lg" />,
   };
 
-  const fadeUp = {
+  const fadeUp: any = {
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] } }
   };
@@ -225,7 +226,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                 <div className="w-full h-full bg-[#0F172A] rounded-[calc(1rem-2px)] sm:rounded-[calc(1.5rem-2px)] md:rounded-[calc(1.5rem-2px)] flex items-center justify-center overflow-hidden relative">
                   <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
                   {product.logoUrl ? (
-                    <img src={product.logoUrl} alt={product.name} className="w-full h-full object-cover" />
+                    <Image src={product.logoUrl} alt={product.name} fill className="object-cover" sizes="128px" />
                   ) : (
                     <ProductIcon className="w-10 h-10 sm:w-12 sm:h-12 md:w-16 md:h-16 text-white/90" />
                   )}
@@ -440,9 +441,11 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                       onClick={() => openLightbox(idx)}
                       className="rounded-xl overflow-hidden border border-white/10 group cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500/50"
                     >
-                      <img 
+                      <Image 
                         src={img} 
                         alt={`${product.name} screenshot ${idx + 1}`} 
+                        width={800}
+                        height={450}
                         className="w-full h-auto transform transition-transform duration-500 group-hover:scale-[1.03]" 
                       />
                     </button>
@@ -469,7 +472,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                     >
                       <div className="flex items-start gap-3 mb-3">
                         {review.authorAvatar ? (
-                          <img src={review.authorAvatar} alt={review.authorName} className="w-9 h-9 rounded-full object-cover border border-white/10" />
+                          <div className="relative w-9 h-9 rounded-full overflow-hidden border border-white/10"><Image src={review.authorAvatar} alt={review.authorName} fill className="object-cover" sizes="36px" /></div>
                         ) : (
                           <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500/20 to-violet-500/20 border border-white/10 flex items-center justify-center">
                             <span className="text-xs font-bold text-white">{review.authorName?.charAt(0)?.toUpperCase()}</span>
@@ -598,7 +601,7 @@ export function ProductDetailClient({ product: serverProduct, initialProduct, is
                   <h3 className="text-[11px] font-bold text-slate-300 uppercase tracking-wider">Quick Access</h3>
                 </div>
                 <div className="bg-white/5 p-3 rounded-xl w-full max-w-[160px] mx-auto border border-white/10">
-                  <img src={product.qrCodeUrl} alt="QR Code" className="w-full h-auto rounded-lg" />
+                  <div className="relative w-full aspect-square"><Image src={product.qrCodeUrl} alt="QR Code" fill className="rounded-lg object-contain" sizes="160px" /></div>
                 </div>
                 <p className="text-[10px] text-slate-500 mt-3 font-medium">Scan to visit</p>
               </motion.div>

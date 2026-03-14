@@ -7,6 +7,7 @@ import {
 } from "@/components/forms";
 import { FileUpload } from "@/components/wizard/FileUpload";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import {
   Save,
@@ -387,7 +388,7 @@ export function ProductEditClient({
                         />
                          {formData.logoUrl && (
                         <div className="mt-2 relative h-20 w-20 rounded-xl overflow-hidden border border-slate-200 dark:border-slate-700 group">
-                            <img src={formData.logoUrl} alt="Logo" className="w-full h-full object-cover" />
+                            <Image src={formData.logoUrl} alt="Logo" fill className="object-cover" sizes="80px" />
                             <button
                             onClick={() => setFormData({ ...formData, logoUrl: "" })}
                             className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white"
@@ -410,7 +411,7 @@ export function ProductEditClient({
                         <div className="grid grid-cols-2 gap-2 mt-2">
                             {formData.images.map((img: string, idx: number) => (
                                 <div key={idx} className="relative aspect-video rounded-lg overflow-hidden group">
-                                    <img src={img} alt="Gallery" className="w-full h-full object-cover" />
+                                    <Image src={img} alt="Gallery" fill className="object-cover" sizes="(max-width: 768px) 50vw, 200px" />
                                     <button
                                         onClick={() => {
                                             const newImages = [...formData.images];
