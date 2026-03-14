@@ -1,0 +1,346 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Product {
+  id                    String    @id @default(cuid())
+  name                  String
+  productId             String    @unique
+  priority              Int       @default(100) // Lower value = higher priority in listings
+  category              String
+  pricing               String
+  status                String // live, beta, deprecated
+  icon                  String
+  iconColor             String
+  description           String?   @db.Text
+  version               String?
+  demoVideoUrl          String?
+  instructions          String?   @db.Text
+  pricingModel          String?
+  priceUSD              Float?
+  priceKES              Float?
+  qrCodeUrl             String?
+  logoUrl               String?
+  images                String[]  @default([])
+  tagline               String?
+  websiteUrl            String?
+  technicalArchitecture String?   @db.Text
+  releaseDate           DateTime?
+  activeUsers           String?
+  uptime                String?
+  leadTeam              String?
+  featuresMarkdown      String?   @db.Text // Raw markdown for features
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  features ProductFeature[]
+  health   ProductHealthMetric[]
+  assets   ProductAsset[]
+  tickets  Ticket[]
+  reviews  ProductReview[]
+  views    ProductView[]
+
+  @@index([status])
+  @@index([category])
+  @@index([createdAt])
+}
+
+model ProductFeature {
+  id          String  @id @default(cuid())
+  productId   String
+  product     Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  icon        String
+  iconColor   String
+  title       String
+  description String
+  priority    Int     @default(100) // Lower value = higher priority in display
+
+  @@index([productId])
+}
+
+model ProductHealthMetric {
+  id         String  @id @default(cuid())
+  productId  String
+  product    Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  label      String
+  value      String
+  percentage Float
+  color      String
+
+  @@index([productId])
+}
+
+model ProductAsset {
+  id        String  @id @default(cuid())
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  type      String // pdf, slides, video
+  title     String
+  subtitle  String
+  href      String
+
+  @@index([productId])
+}
+
+model ProductReview {
+  id           String   @id @default(cuid())
+  productId    String
+  product      Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  authorName   String
+  authorRole   String?
+  authorAvatar String?
+  rating       Int      @default(5) // 1-5 stars
+  content      String   @db.Text
+  createdAt    DateTime @default(now())
+
+  @@index([productId])
+}
+
+model Lead {
+  id              String   @id @default(cuid())
+  name            String
+  role            String?
+  email           String
+  phone           String?
+  company         String?
+  productInterest String
+  status          String // new, contacted, qualified, lost
+  assignedRep     String? // Name of the rep
+  avatar          String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  @@index([status])
+  @@index([productInterest])
+}
+
+model Customer {
+  id         String   @id @default(cuid())
+  customerId String?  @unique
+  name       String
+  email      String   @unique
+  phone      String?
+  location   String?
+  company    String?
+  status     String // active, onboarding, churned
+  avatar     String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  transactions Transaction[]
+
+  @@index([status])
+}
+
+model Transaction {
+  id         String   @id @default(cuid())
+  customerId String
+  customer   Customer @relation(fields: [customerId], references: [id])
+  amount     Float
+  date       DateTime @default(now())
+  status     String // Completed, Pending, Failed
+  product    String
+
+  @@index([customerId])
+  @@index([date])
+}
+
+enum Role {
+  ADMIN
+  TEAM
+  CLIENT
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  password      String?
+  role          Role      @default(CLIENT)
+  emailVerified DateTime?
+  image         String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  twoFactorEnabled   Boolean @default(false)
+  emailNotifications Boolean @default(true)
+  slackNotifications Boolean @default(false)
+  marketingEmails    Boolean @default(true)
+  securityAlerts     Boolean @default(true)
+  productUpdates     Boolean @default(true)
+
+  teamMember TeamMember?
+}
+
+model TeamMember {
+  id           String   @id @default(cuid())
+  name         String
+  role         String
+  email        String   @unique
+  team         String?
+  status       String? // active, inactive, leave
+  joinDate     String?
+  avatar       String?
+  bio          String?
+  portfolioUrl String?
+  twitterUrl   String?
+  linkedinUrl  String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  userId String? @unique
+  user   User?   @relation(fields: [userId], references: [id])
+}
+
+model QRCode {
+  id          String   @id @default(cuid())
+  name        String
+  url         String
+  product     String
+  type        String // Demo Request, etc.
+  typeColor   String
+  qrThumbnail String?
+  createdAt   DateTime @default(now())
+}
+
+model Ticket {
+  id             String   @id @default(cuid())
+  ticketNumber   String   @unique // e.g. #TKT-2490
+  subject        String
+  customer       String
+  productId      String?
+  product        Product? @relation(fields: [productId], references: [id])
+  status         String // Open, In Progress, Resolved
+  priority       String // High, Medium, Low
+  assigneeName   String?
+  assigneeAvatar String?
+  description    String?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  activities  TicketActivity[]
+  attachments TicketAttachment[]
+
+  @@index([status])
+  @@index([productId])
+  @@index([createdAt])
+}
+
+model TicketActivity {
+  id        String   @id @default(cuid())
+  ticketId  String
+  ticket    Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  type      String // comment, status_change, etc.
+  user      String
+  content   String
+  timestamp DateTime @default(now())
+
+  @@index([ticketId])
+}
+
+model TicketAttachment {
+  id       String @id @default(cuid())
+  ticketId String
+  ticket   Ticket @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  name     String
+  size     String
+  type     String // pdf, image
+
+  @@index([ticketId])
+}
+
+model MediaAsset {
+  id         String   @id @default(cuid())
+  title      String
+  type       String // image, video, pdf, etc.
+  size       String
+  thumbnail  String?
+  uploadedAt DateTime @default(now())
+}
+
+model Deployment {
+  id            String   @id @default(cuid())
+  company       String
+  environment   String // PROD, STAGING, DEV
+  product       String
+  status        String // success, failed, deploying, queued
+  progress      Int      @default(0)
+  progressLabel String?
+  error         String?
+  completedTime String?
+  createdAt     DateTime @default(now())
+}
+
+model Doc {
+  id        String   @id @default(cuid())
+  title     String
+  content   String   @db.Text
+  version   String
+  category  String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  errorCodes DocErrorCode[]
+}
+
+model DocErrorCode {
+  id          String @id @default(cuid())
+  docId       String
+  doc         Doc    @relation(fields: [docId], references: [id], onDelete: Cascade)
+  code        String
+  description String
+  resolution  String
+}
+
+model PageView {
+  id        String   @id @default(cuid())
+  path      String
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@index([path])
+  @@index([createdAt])
+}
+
+model ProductView {
+  id        String   @id @default(cuid())
+  productId String
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId    String?
+  createdAt DateTime @default(now())
+
+  @@index([productId])
+  @@index([createdAt])
+}
+
+model CompanySettings {
+  id             String   @id @default(cuid())
+  companyName    String   @default("Great Thumbs Software Solutions")
+  website        String?
+  description    String?  @db.Text
+  logoUrl        String?
+  logoUrlDark    String?
+  primaryColor   String?  @default("#1337ec")
+  secondaryColor String?  @default("#111218")
+  accentColor    String?  @default("#2563eb")
+  headingFont    String?  @default("Inter")
+  bodyFont       String?  @default("Inter")
+  baseFontSize   Int      @default(16)
+  brandingColor  String?  @default("#16a34a") // default green
+  contactEmail   String?
+  address        String?
+  currency       String   @default("USD")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
