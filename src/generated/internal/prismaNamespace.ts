@@ -2159,7 +2159,13 @@ export const UserScalarFieldEnum = {
   emailVerified: 'emailVerified',
   image: 'image',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  updatedAt: 'updatedAt',
+  twoFactorEnabled: 'twoFactorEnabled',
+  emailNotifications: 'emailNotifications',
+  slackNotifications: 'slackNotifications',
+  marketingEmails: 'marketingEmails',
+  securityAlerts: 'securityAlerts',
+  productUpdates: 'productUpdates'
 } as const
 
 export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -2319,6 +2325,13 @@ export const CompanySettingsScalarFieldEnum = {
   website: 'website',
   description: 'description',
   logoUrl: 'logoUrl',
+  logoUrlDark: 'logoUrlDark',
+  primaryColor: 'primaryColor',
+  secondaryColor: 'secondaryColor',
+  accentColor: 'accentColor',
+  headingFont: 'headingFont',
+  bodyFont: 'bodyFont',
+  baseFontSize: 'baseFontSize',
   brandingColor: 'brandingColor',
   contactEmail: 'contactEmail',
   address: 'address',
@@ -2427,6 +2440,13 @@ export type EnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel
  * Reference to a field of type 'Role[]'
  */
 export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Role[]'>
+    
+
+
+/**
+ * Reference to a field of type 'Boolean'
+ */
+export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
     
 
 /**

@@ -20,8 +20,18 @@ export type CompanySettingsModel = runtime.Types.Result.DefaultSelection<Prisma.
 
 export type AggregateCompanySettings = {
   _count: CompanySettingsCountAggregateOutputType | null
+  _avg: CompanySettingsAvgAggregateOutputType | null
+  _sum: CompanySettingsSumAggregateOutputType | null
   _min: CompanySettingsMinAggregateOutputType | null
   _max: CompanySettingsMaxAggregateOutputType | null
+}
+
+export type CompanySettingsAvgAggregateOutputType = {
+  baseFontSize: number | null
+}
+
+export type CompanySettingsSumAggregateOutputType = {
+  baseFontSize: number | null
 }
 
 export type CompanySettingsMinAggregateOutputType = {
@@ -30,6 +40,13 @@ export type CompanySettingsMinAggregateOutputType = {
   website: string | null
   description: string | null
   logoUrl: string | null
+  logoUrlDark: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  accentColor: string | null
+  headingFont: string | null
+  bodyFont: string | null
+  baseFontSize: number | null
   brandingColor: string | null
   contactEmail: string | null
   address: string | null
@@ -44,6 +61,13 @@ export type CompanySettingsMaxAggregateOutputType = {
   website: string | null
   description: string | null
   logoUrl: string | null
+  logoUrlDark: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  accentColor: string | null
+  headingFont: string | null
+  bodyFont: string | null
+  baseFontSize: number | null
   brandingColor: string | null
   contactEmail: string | null
   address: string | null
@@ -58,6 +82,13 @@ export type CompanySettingsCountAggregateOutputType = {
   website: number
   description: number
   logoUrl: number
+  logoUrlDark: number
+  primaryColor: number
+  secondaryColor: number
+  accentColor: number
+  headingFont: number
+  bodyFont: number
+  baseFontSize: number
   brandingColor: number
   contactEmail: number
   address: number
@@ -68,12 +99,27 @@ export type CompanySettingsCountAggregateOutputType = {
 }
 
 
+export type CompanySettingsAvgAggregateInputType = {
+  baseFontSize?: true
+}
+
+export type CompanySettingsSumAggregateInputType = {
+  baseFontSize?: true
+}
+
 export type CompanySettingsMinAggregateInputType = {
   id?: true
   companyName?: true
   website?: true
   description?: true
   logoUrl?: true
+  logoUrlDark?: true
+  primaryColor?: true
+  secondaryColor?: true
+  accentColor?: true
+  headingFont?: true
+  bodyFont?: true
+  baseFontSize?: true
   brandingColor?: true
   contactEmail?: true
   address?: true
@@ -88,6 +134,13 @@ export type CompanySettingsMaxAggregateInputType = {
   website?: true
   description?: true
   logoUrl?: true
+  logoUrlDark?: true
+  primaryColor?: true
+  secondaryColor?: true
+  accentColor?: true
+  headingFont?: true
+  bodyFont?: true
+  baseFontSize?: true
   brandingColor?: true
   contactEmail?: true
   address?: true
@@ -102,6 +155,13 @@ export type CompanySettingsCountAggregateInputType = {
   website?: true
   description?: true
   logoUrl?: true
+  logoUrlDark?: true
+  primaryColor?: true
+  secondaryColor?: true
+  accentColor?: true
+  headingFont?: true
+  bodyFont?: true
+  baseFontSize?: true
   brandingColor?: true
   contactEmail?: true
   address?: true
@@ -149,6 +209,18 @@ export type CompanySettingsAggregateArgs<ExtArgs extends runtime.Types.Extension
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: CompanySettingsAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: CompanySettingsSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: CompanySettingsMinAggregateInputType
@@ -179,6 +251,8 @@ export type CompanySettingsGroupByArgs<ExtArgs extends runtime.Types.Extensions.
   take?: number
   skip?: number
   _count?: CompanySettingsCountAggregateInputType | true
+  _avg?: CompanySettingsAvgAggregateInputType
+  _sum?: CompanySettingsSumAggregateInputType
   _min?: CompanySettingsMinAggregateInputType
   _max?: CompanySettingsMaxAggregateInputType
 }
@@ -189,6 +263,13 @@ export type CompanySettingsGroupByOutputType = {
   website: string | null
   description: string | null
   logoUrl: string | null
+  logoUrlDark: string | null
+  primaryColor: string | null
+  secondaryColor: string | null
+  accentColor: string | null
+  headingFont: string | null
+  bodyFont: string | null
+  baseFontSize: number
   brandingColor: string | null
   contactEmail: string | null
   address: string | null
@@ -196,6 +277,8 @@ export type CompanySettingsGroupByOutputType = {
   createdAt: Date
   updatedAt: Date
   _count: CompanySettingsCountAggregateOutputType | null
+  _avg: CompanySettingsAvgAggregateOutputType | null
+  _sum: CompanySettingsSumAggregateOutputType | null
   _min: CompanySettingsMinAggregateOutputType | null
   _max: CompanySettingsMaxAggregateOutputType | null
 }
@@ -224,6 +307,13 @@ export type CompanySettingsWhereInput = {
   website?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   description?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  logoUrlDark?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  primaryColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  secondaryColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  accentColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  headingFont?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  bodyFont?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  baseFontSize?: Prisma.IntFilter<"CompanySettings"> | number
   brandingColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   address?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
@@ -238,6 +328,13 @@ export type CompanySettingsOrderByWithRelationInput = {
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrlDark?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  accentColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  headingFont?: Prisma.SortOrderInput | Prisma.SortOrder
+  bodyFont?: Prisma.SortOrderInput | Prisma.SortOrder
+  baseFontSize?: Prisma.SortOrder
   brandingColor?: Prisma.SortOrderInput | Prisma.SortOrder
   contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -255,6 +352,13 @@ export type CompanySettingsWhereUniqueInput = Prisma.AtLeast<{
   website?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   description?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   logoUrl?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  logoUrlDark?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  primaryColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  secondaryColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  accentColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  headingFont?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  bodyFont?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
+  baseFontSize?: Prisma.IntFilter<"CompanySettings"> | number
   brandingColor?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   contactEmail?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
   address?: Prisma.StringNullableFilter<"CompanySettings"> | string | null
@@ -269,6 +373,13 @@ export type CompanySettingsOrderByWithAggregationInput = {
   website?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   logoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  logoUrlDark?: Prisma.SortOrderInput | Prisma.SortOrder
+  primaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  accentColor?: Prisma.SortOrderInput | Prisma.SortOrder
+  headingFont?: Prisma.SortOrderInput | Prisma.SortOrder
+  bodyFont?: Prisma.SortOrderInput | Prisma.SortOrder
+  baseFontSize?: Prisma.SortOrder
   brandingColor?: Prisma.SortOrderInput | Prisma.SortOrder
   contactEmail?: Prisma.SortOrderInput | Prisma.SortOrder
   address?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -276,8 +387,10 @@ export type CompanySettingsOrderByWithAggregationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.CompanySettingsCountOrderByAggregateInput
+  _avg?: Prisma.CompanySettingsAvgOrderByAggregateInput
   _max?: Prisma.CompanySettingsMaxOrderByAggregateInput
   _min?: Prisma.CompanySettingsMinOrderByAggregateInput
+  _sum?: Prisma.CompanySettingsSumOrderByAggregateInput
 }
 
 export type CompanySettingsScalarWhereWithAggregatesInput = {
@@ -289,6 +402,13 @@ export type CompanySettingsScalarWhereWithAggregatesInput = {
   website?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
   description?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
   logoUrl?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  logoUrlDark?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  primaryColor?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  secondaryColor?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  accentColor?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  headingFont?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  bodyFont?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
+  baseFontSize?: Prisma.IntWithAggregatesFilter<"CompanySettings"> | number
   brandingColor?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
   contactEmail?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
   address?: Prisma.StringNullableWithAggregatesFilter<"CompanySettings"> | string | null
@@ -303,6 +423,13 @@ export type CompanySettingsCreateInput = {
   website?: string | null
   description?: string | null
   logoUrl?: string | null
+  logoUrlDark?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  accentColor?: string | null
+  headingFont?: string | null
+  bodyFont?: string | null
+  baseFontSize?: number
   brandingColor?: string | null
   contactEmail?: string | null
   address?: string | null
@@ -317,6 +444,13 @@ export type CompanySettingsUncheckedCreateInput = {
   website?: string | null
   description?: string | null
   logoUrl?: string | null
+  logoUrlDark?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  accentColor?: string | null
+  headingFont?: string | null
+  bodyFont?: string | null
+  baseFontSize?: number
   brandingColor?: string | null
   contactEmail?: string | null
   address?: string | null
@@ -331,6 +465,13 @@ export type CompanySettingsUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrlDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headingFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  baseFontSize?: Prisma.IntFieldUpdateOperationsInput | number
   brandingColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -345,6 +486,13 @@ export type CompanySettingsUncheckedUpdateInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrlDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headingFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  baseFontSize?: Prisma.IntFieldUpdateOperationsInput | number
   brandingColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -359,6 +507,13 @@ export type CompanySettingsCreateManyInput = {
   website?: string | null
   description?: string | null
   logoUrl?: string | null
+  logoUrlDark?: string | null
+  primaryColor?: string | null
+  secondaryColor?: string | null
+  accentColor?: string | null
+  headingFont?: string | null
+  bodyFont?: string | null
+  baseFontSize?: number
   brandingColor?: string | null
   contactEmail?: string | null
   address?: string | null
@@ -373,6 +528,13 @@ export type CompanySettingsUpdateManyMutationInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrlDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headingFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  baseFontSize?: Prisma.IntFieldUpdateOperationsInput | number
   brandingColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -387,6 +549,13 @@ export type CompanySettingsUncheckedUpdateManyInput = {
   website?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   logoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  logoUrlDark?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  primaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  secondaryColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accentColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  headingFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  bodyFont?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  baseFontSize?: Prisma.IntFieldUpdateOperationsInput | number
   brandingColor?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   contactEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   address?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -401,6 +570,13 @@ export type CompanySettingsCountOrderByAggregateInput = {
   website?: Prisma.SortOrder
   description?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoUrlDark?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  headingFont?: Prisma.SortOrder
+  bodyFont?: Prisma.SortOrder
+  baseFontSize?: Prisma.SortOrder
   brandingColor?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -409,12 +585,23 @@ export type CompanySettingsCountOrderByAggregateInput = {
   updatedAt?: Prisma.SortOrder
 }
 
+export type CompanySettingsAvgOrderByAggregateInput = {
+  baseFontSize?: Prisma.SortOrder
+}
+
 export type CompanySettingsMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   companyName?: Prisma.SortOrder
   website?: Prisma.SortOrder
   description?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoUrlDark?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  headingFont?: Prisma.SortOrder
+  bodyFont?: Prisma.SortOrder
+  baseFontSize?: Prisma.SortOrder
   brandingColor?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   address?: Prisma.SortOrder
@@ -429,12 +616,23 @@ export type CompanySettingsMinOrderByAggregateInput = {
   website?: Prisma.SortOrder
   description?: Prisma.SortOrder
   logoUrl?: Prisma.SortOrder
+  logoUrlDark?: Prisma.SortOrder
+  primaryColor?: Prisma.SortOrder
+  secondaryColor?: Prisma.SortOrder
+  accentColor?: Prisma.SortOrder
+  headingFont?: Prisma.SortOrder
+  bodyFont?: Prisma.SortOrder
+  baseFontSize?: Prisma.SortOrder
   brandingColor?: Prisma.SortOrder
   contactEmail?: Prisma.SortOrder
   address?: Prisma.SortOrder
   currency?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type CompanySettingsSumOrderByAggregateInput = {
+  baseFontSize?: Prisma.SortOrder
 }
 
 
@@ -445,6 +643,13 @@ export type CompanySettingsSelect<ExtArgs extends runtime.Types.Extensions.Inter
   website?: boolean
   description?: boolean
   logoUrl?: boolean
+  logoUrlDark?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  accentColor?: boolean
+  headingFont?: boolean
+  bodyFont?: boolean
+  baseFontSize?: boolean
   brandingColor?: boolean
   contactEmail?: boolean
   address?: boolean
@@ -459,6 +664,13 @@ export type CompanySettingsSelectCreateManyAndReturn<ExtArgs extends runtime.Typ
   website?: boolean
   description?: boolean
   logoUrl?: boolean
+  logoUrlDark?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  accentColor?: boolean
+  headingFont?: boolean
+  bodyFont?: boolean
+  baseFontSize?: boolean
   brandingColor?: boolean
   contactEmail?: boolean
   address?: boolean
@@ -473,6 +685,13 @@ export type CompanySettingsSelectUpdateManyAndReturn<ExtArgs extends runtime.Typ
   website?: boolean
   description?: boolean
   logoUrl?: boolean
+  logoUrlDark?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  accentColor?: boolean
+  headingFont?: boolean
+  bodyFont?: boolean
+  baseFontSize?: boolean
   brandingColor?: boolean
   contactEmail?: boolean
   address?: boolean
@@ -487,6 +706,13 @@ export type CompanySettingsSelectScalar = {
   website?: boolean
   description?: boolean
   logoUrl?: boolean
+  logoUrlDark?: boolean
+  primaryColor?: boolean
+  secondaryColor?: boolean
+  accentColor?: boolean
+  headingFont?: boolean
+  bodyFont?: boolean
+  baseFontSize?: boolean
   brandingColor?: boolean
   contactEmail?: boolean
   address?: boolean
@@ -495,7 +721,7 @@ export type CompanySettingsSelectScalar = {
   updatedAt?: boolean
 }
 
-export type CompanySettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "website" | "description" | "logoUrl" | "brandingColor" | "contactEmail" | "address" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["companySettings"]>
+export type CompanySettingsOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "companyName" | "website" | "description" | "logoUrl" | "logoUrlDark" | "primaryColor" | "secondaryColor" | "accentColor" | "headingFont" | "bodyFont" | "baseFontSize" | "brandingColor" | "contactEmail" | "address" | "currency" | "createdAt" | "updatedAt", ExtArgs["result"]["companySettings"]>
 
 export type $CompanySettingsPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "CompanySettings"
@@ -506,6 +732,13 @@ export type $CompanySettingsPayload<ExtArgs extends runtime.Types.Extensions.Int
     website: string | null
     description: string | null
     logoUrl: string | null
+    logoUrlDark: string | null
+    primaryColor: string | null
+    secondaryColor: string | null
+    accentColor: string | null
+    headingFont: string | null
+    bodyFont: string | null
+    baseFontSize: number
     brandingColor: string | null
     contactEmail: string | null
     address: string | null
@@ -940,6 +1173,13 @@ export interface CompanySettingsFieldRefs {
   readonly website: Prisma.FieldRef<"CompanySettings", 'String'>
   readonly description: Prisma.FieldRef<"CompanySettings", 'String'>
   readonly logoUrl: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly logoUrlDark: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly primaryColor: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly secondaryColor: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly accentColor: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly headingFont: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly bodyFont: Prisma.FieldRef<"CompanySettings", 'String'>
+  readonly baseFontSize: Prisma.FieldRef<"CompanySettings", 'Int'>
   readonly brandingColor: Prisma.FieldRef<"CompanySettings", 'String'>
   readonly contactEmail: Prisma.FieldRef<"CompanySettings", 'String'>
   readonly address: Prisma.FieldRef<"CompanySettings", 'String'>

@@ -34,6 +34,12 @@ export type UserMinAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  twoFactorEnabled: boolean | null
+  emailNotifications: boolean | null
+  slackNotifications: boolean | null
+  marketingEmails: boolean | null
+  securityAlerts: boolean | null
+  productUpdates: boolean | null
 }
 
 export type UserMaxAggregateOutputType = {
@@ -46,6 +52,12 @@ export type UserMaxAggregateOutputType = {
   image: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  twoFactorEnabled: boolean | null
+  emailNotifications: boolean | null
+  slackNotifications: boolean | null
+  marketingEmails: boolean | null
+  securityAlerts: boolean | null
+  productUpdates: boolean | null
 }
 
 export type UserCountAggregateOutputType = {
@@ -58,6 +70,12 @@ export type UserCountAggregateOutputType = {
   image: number
   createdAt: number
   updatedAt: number
+  twoFactorEnabled: number
+  emailNotifications: number
+  slackNotifications: number
+  marketingEmails: number
+  securityAlerts: number
+  productUpdates: number
   _all: number
 }
 
@@ -72,6 +90,12 @@ export type UserMinAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  twoFactorEnabled?: true
+  emailNotifications?: true
+  slackNotifications?: true
+  marketingEmails?: true
+  securityAlerts?: true
+  productUpdates?: true
 }
 
 export type UserMaxAggregateInputType = {
@@ -84,6 +108,12 @@ export type UserMaxAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  twoFactorEnabled?: true
+  emailNotifications?: true
+  slackNotifications?: true
+  marketingEmails?: true
+  securityAlerts?: true
+  productUpdates?: true
 }
 
 export type UserCountAggregateInputType = {
@@ -96,6 +126,12 @@ export type UserCountAggregateInputType = {
   image?: true
   createdAt?: true
   updatedAt?: true
+  twoFactorEnabled?: true
+  emailNotifications?: true
+  slackNotifications?: true
+  marketingEmails?: true
+  securityAlerts?: true
+  productUpdates?: true
   _all?: true
 }
 
@@ -181,6 +217,12 @@ export type UserGroupByOutputType = {
   image: string | null
   createdAt: Date
   updatedAt: Date
+  twoFactorEnabled: boolean
+  emailNotifications: boolean
+  slackNotifications: boolean
+  marketingEmails: boolean
+  securityAlerts: boolean
+  productUpdates: boolean
   _count: UserCountAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
@@ -214,6 +256,12 @@ export type UserWhereInput = {
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  twoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  slackNotifications?: Prisma.BoolFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  securityAlerts?: Prisma.BoolFilter<"User"> | boolean
+  productUpdates?: Prisma.BoolFilter<"User"> | boolean
   teamMember?: Prisma.XOR<Prisma.TeamMemberNullableScalarRelationFilter, Prisma.TeamMemberWhereInput> | null
 }
 
@@ -227,6 +275,12 @@ export type UserOrderByWithRelationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  slackNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  securityAlerts?: Prisma.SortOrder
+  productUpdates?: Prisma.SortOrder
   teamMember?: Prisma.TeamMemberOrderByWithRelationInput
 }
 
@@ -243,6 +297,12 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   image?: Prisma.StringNullableFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
+  twoFactorEnabled?: Prisma.BoolFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolFilter<"User"> | boolean
+  slackNotifications?: Prisma.BoolFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolFilter<"User"> | boolean
+  securityAlerts?: Prisma.BoolFilter<"User"> | boolean
+  productUpdates?: Prisma.BoolFilter<"User"> | boolean
   teamMember?: Prisma.XOR<Prisma.TeamMemberNullableScalarRelationFilter, Prisma.TeamMemberWhereInput> | null
 }, "id" | "email">
 
@@ -256,6 +316,12 @@ export type UserOrderByWithAggregationInput = {
   image?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  slackNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  securityAlerts?: Prisma.SortOrder
+  productUpdates?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
@@ -274,6 +340,12 @@ export type UserScalarWhereWithAggregatesInput = {
   image?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
+  twoFactorEnabled?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  emailNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  slackNotifications?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  marketingEmails?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  securityAlerts?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
+  productUpdates?: Prisma.BoolWithAggregatesFilter<"User"> | boolean
 }
 
 export type UserCreateInput = {
@@ -286,6 +358,12 @@ export type UserCreateInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
   teamMember?: Prisma.TeamMemberCreateNestedOneWithoutUserInput
 }
 
@@ -299,6 +377,12 @@ export type UserUncheckedCreateInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
   teamMember?: Prisma.TeamMemberUncheckedCreateNestedOneWithoutUserInput
 }
 
@@ -312,6 +396,12 @@ export type UserUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  securityAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  productUpdates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   teamMember?: Prisma.TeamMemberUpdateOneWithoutUserNestedInput
 }
 
@@ -325,6 +415,12 @@ export type UserUncheckedUpdateInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  securityAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  productUpdates?: Prisma.BoolFieldUpdateOperationsInput | boolean
   teamMember?: Prisma.TeamMemberUncheckedUpdateOneWithoutUserNestedInput
 }
 
@@ -338,6 +434,12 @@ export type UserCreateManyInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
 }
 
 export type UserUpdateManyMutationInput = {
@@ -350,6 +452,12 @@ export type UserUpdateManyMutationInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  securityAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  productUpdates?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateManyInput = {
@@ -362,6 +470,12 @@ export type UserUncheckedUpdateManyInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  securityAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  productUpdates?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserCountOrderByAggregateInput = {
@@ -374,6 +488,12 @@ export type UserCountOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  slackNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  securityAlerts?: Prisma.SortOrder
+  productUpdates?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -386,6 +506,12 @@ export type UserMaxOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  slackNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  securityAlerts?: Prisma.SortOrder
+  productUpdates?: Prisma.SortOrder
 }
 
 export type UserMinOrderByAggregateInput = {
@@ -398,6 +524,12 @@ export type UserMinOrderByAggregateInput = {
   image?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  twoFactorEnabled?: Prisma.SortOrder
+  emailNotifications?: Prisma.SortOrder
+  slackNotifications?: Prisma.SortOrder
+  marketingEmails?: Prisma.SortOrder
+  securityAlerts?: Prisma.SortOrder
+  productUpdates?: Prisma.SortOrder
 }
 
 export type UserNullableScalarRelationFilter = {
@@ -407,6 +539,10 @@ export type UserNullableScalarRelationFilter = {
 
 export type EnumRoleFieldUpdateOperationsInput = {
   set?: $Enums.Role
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type UserCreateNestedOneWithoutTeamMemberInput = {
@@ -435,6 +571,12 @@ export type UserCreateWithoutTeamMemberInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
 }
 
 export type UserUncheckedCreateWithoutTeamMemberInput = {
@@ -447,6 +589,12 @@ export type UserUncheckedCreateWithoutTeamMemberInput = {
   image?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
 }
 
 export type UserCreateOrConnectWithoutTeamMemberInput = {
@@ -475,6 +623,12 @@ export type UserUpdateWithoutTeamMemberInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  securityAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  productUpdates?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 export type UserUncheckedUpdateWithoutTeamMemberInput = {
@@ -487,6 +641,12 @@ export type UserUncheckedUpdateWithoutTeamMemberInput = {
   image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  twoFactorEnabled?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  emailNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slackNotifications?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  marketingEmails?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  securityAlerts?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  productUpdates?: Prisma.BoolFieldUpdateOperationsInput | boolean
 }
 
 
@@ -501,6 +661,12 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
   teamMember?: boolean | Prisma.User$teamMemberArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -514,6 +680,12 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -526,6 +698,12 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
 }, ExtArgs["result"]["user"]>
 
 export type UserSelectScalar = {
@@ -538,9 +716,15 @@ export type UserSelectScalar = {
   image?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  twoFactorEnabled?: boolean
+  emailNotifications?: boolean
+  slackNotifications?: boolean
+  marketingEmails?: boolean
+  securityAlerts?: boolean
+  productUpdates?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "emailVerified" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "password" | "role" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "twoFactorEnabled" | "emailNotifications" | "slackNotifications" | "marketingEmails" | "securityAlerts" | "productUpdates", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   teamMember?: boolean | Prisma.User$teamMemberArgs<ExtArgs>
 }
@@ -562,6 +746,12 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     image: string | null
     createdAt: Date
     updatedAt: Date
+    twoFactorEnabled: boolean
+    emailNotifications: boolean
+    slackNotifications: boolean
+    marketingEmails: boolean
+    securityAlerts: boolean
+    productUpdates: boolean
   }, ExtArgs["result"]["user"]>
   composites: {}
 }
@@ -995,6 +1185,12 @@ export interface UserFieldRefs {
   readonly image: Prisma.FieldRef<"User", 'String'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
+  readonly twoFactorEnabled: Prisma.FieldRef<"User", 'Boolean'>
+  readonly emailNotifications: Prisma.FieldRef<"User", 'Boolean'>
+  readonly slackNotifications: Prisma.FieldRef<"User", 'Boolean'>
+  readonly marketingEmails: Prisma.FieldRef<"User", 'Boolean'>
+  readonly securityAlerts: Prisma.FieldRef<"User", 'Boolean'>
+  readonly productUpdates: Prisma.FieldRef<"User", 'Boolean'>
 }
     
 
