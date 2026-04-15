@@ -1,7 +1,4 @@
-'use client';
-
-import { Hotel, Church, Store, School, Building2 } from 'lucide-react';
-import { motion } from 'framer-motion';
+import { Building2, Church, Hotel, School, Store } from 'lucide-react';
 
 const industries = [
   { name: 'Hotels', icon: Hotel },
@@ -19,21 +16,14 @@ export function PricingSocialProof() {
           Built for local businesses
         </h4>
         <div className="w-full grid grid-cols-2 md:grid-cols-5 gap-8 items-center opacity-60 grayscale hover:grayscale-0 transition-all duration-500">
-          {industries.map((industry, index) => {
+          {industries.map((industry) => {
             const Icon = industry.icon;
             return (
-              <motion.div 
-                key={industry.name}
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
-                className="flex justify-center items-center"
-              >
+              <div key={industry.name} className="flex justify-center items-center">
                 <span className="text-xl font-bold text-gray-600 dark:text-gray-300 flex items-center gap-2">
                   <Icon className="w-5 h-5" /> {industry.name}
                 </span>
-              </motion.div>
+              </div>
             );
           })}
         </div>

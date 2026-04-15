@@ -1,6 +1,5 @@
-'use client';
-
-import { Navbar, Footer } from '@/components/landing';
+import { Navbar, Footer } from "@/components/landing";
+import { DeferredViewTracker } from "@/components/analytics/DeferredViewTracker";
 
 export default function PublicLayout({
   children,
@@ -16,12 +15,11 @@ export default function PublicLayout({
         <div className="gradient-orb gradient-orb-blue w-[400px] h-[400px] bottom-1/4 left-1/4" />
         <div className="gradient-orb gradient-orb-gold w-[300px] h-[300px] bottom-0 right-1/3 opacity-30" />
       </div>
-      
+
       <div className="relative z-10 flex flex-col flex-grow">
         <Navbar />
-        <main className="flex-grow">
-          {children}
-        </main>
+        <DeferredViewTracker />
+        <main className="flex-grow">{children}</main>
         <Footer />
       </div>
     </div>

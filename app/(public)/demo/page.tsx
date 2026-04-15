@@ -1,8 +1,8 @@
-import { getProducts } from "@/lib/actions/products";
+import { getPublicProducts } from "@/lib/data/public-products";
 import { DemoPageClient } from "@/components/demo/DemoPageClient";
 import { Metadata } from "next";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Product Demos | GTSS",
@@ -10,17 +10,15 @@ export const metadata: Metadata = {
 };
 
 export default async function DemoPage() {
-  const response = await getProducts();
+  const products = await getPublicProducts();
   
   // Filter products that have demo videos or are live/beta
-  const products = response.success 
-    ? (response.data || [])
-        .filter((p: any) => p.demoVideoUrl || p.status === 'live' || p.status === 'beta')
-        .map((p: any) => ({
-          ...p,
-          description: p.description || '',
-        }))
-    : [];
+  const demoProducts = products
+    .filter((product) => product.demoVideoUrl || product.status === 'live' || product.status === 'beta')
+    .map((product) => ({
+      ...product,
+      description: product.description || '',
+    }));
 
-  return <DemoPageClient products={products} />;
+  return <DemoPageClient products={demoProducts} />;
 }

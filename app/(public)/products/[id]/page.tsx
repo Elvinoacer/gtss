@@ -1,10 +1,19 @@
-import { getProductById } from "@/lib/actions/products";
+import {
+  getPublicProductById,
+  getPublicProductRoutes,
+} from "@/lib/data/public-products";
 import { notFound } from "next/navigation";
 import { ProductDetailClient } from "@/components/products/ProductDetailClient";
 import { StickyCTA } from "@/components/products/StickyCTA";
-import { ViewTracker } from "@/components/analytics/ViewTracker";
+import { DeferredViewTracker } from "@/components/analytics/DeferredViewTracker";
 import { Metadata } from "next";
-import { auth } from "@/auth";
+
+export const revalidate = 3600;
+
+export async function generateStaticParams() {
+  const products = await getPublicProductRoutes();
+  return products.map((product) => ({ id: product.id }));
+}
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -12,25 +21,28 @@ interface ProductDetailPageProps {
   }>;
 }
 
-export async function generateMetadata({ params }: ProductDetailPageProps): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: ProductDetailPageProps): Promise<Metadata> {
   const { id } = await params;
-  const response = await getProductById(id);
+  const product = await getPublicProductById(id);
 
-  if (!response.success || !response.data) {
+  if (!product) {
     return {
       title: "Product Not Found",
     };
   }
 
-  const product = response.data;
-
   return {
     title: product.name,
-    description: product.description || `Learn more about ${product.name} by GTSS.`,
+    description:
+      product.description || `Learn more about ${product.name} by GTSS.`,
     openGraph: {
       title: `${product.name} - GTSS Product`,
-      description: product.description || `Learn more about ${product.name} by GTSS.`,
-      images: product.images && product.images.length > 0 ? [product.images[0]] : [],
+      description:
+        product.description || `Learn more about ${product.name} by GTSS.`,
+      images:
+        product.images && product.images.length > 0 ? [product.images[0]] : [],
     },
   };
 }
@@ -39,30 +51,24 @@ export default async function ProductDetailPage({
   params,
 }: ProductDetailPageProps) {
   const { id } = await params;
-  const [response, session] = await Promise.all([
-    getProductById(id),
-    auth()
-  ]);
+  const product = await getPublicProductById(id);
 
-  if (!response.success || !response.data) {
+  if (!product) {
     notFound();
   }
 
-  const product = response.data;
-  const isAuthenticated = !!session?.user;
-
   // JSON-LD Structured Data
   const jsonLd = {
-    '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
     name: product.name,
     description: product.description,
-    applicationCategory: 'BusinessApplication',
-    operatingSystem: 'Web',
+    applicationCategory: "BusinessApplication",
+    operatingSystem: "Web",
     offers: {
-      '@type': 'Offer',
-      price: product.priceUSD || '0',
-      priceCurrency: 'USD',
+      "@type": "Offer",
+      price: product.priceUSD || "0",
+      priceCurrency: "USD",
     },
   };
 
@@ -72,10 +78,14 @@ export default async function ProductDetailPage({
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <StickyCTA productName={product.name} externalLink={product.websiteUrl} priceUSD={product.priceUSD} priceKES={product.priceKES} />
-      <ViewTracker productId={product.id} />
-      <ProductDetailClient product={product} isAuthenticated={isAuthenticated} />
+      <StickyCTA
+        productName={product.name}
+        externalLink={product.websiteUrl}
+        priceUSD={product.priceUSD}
+        priceKES={product.priceKES}
+      />
+      <DeferredViewTracker productId={product.id} trackPage={false} />
+      <ProductDetailClient product={product} />
     </div>
   );
 }
-

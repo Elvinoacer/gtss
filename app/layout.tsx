@@ -12,10 +12,10 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL 
-  ? process.env.NEXT_PUBLIC_APP_URL 
-  : process.env.VERCEL_URL 
-    ? `https://${process.env.VERCEL_URL}` 
+const baseUrl = process.env.NEXT_PUBLIC_APP_URL
+  ? process.env.NEXT_PUBLIC_APP_URL
+  : process.env.VERCEL_URL
+    ? `https://${process.env.VERCEL_URL}`
     : "http://localhost:3000";
 
 export const metadata: Metadata = {
@@ -88,10 +88,6 @@ export const metadata: Metadata = {
   },
 };
 
-import QueryProvider from "@/components/providers/QueryProvider";
-import SessionProvider from "@/components/providers/SessionProvider";
-import { ViewTracker } from "@/components/analytics/ViewTracker";
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -102,12 +98,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <QueryProvider>
-          <SessionProvider>
-            <ViewTracker />
-            {children}
-          </SessionProvider>
-        </QueryProvider>
+        {children}
       </body>
     </html>
   );

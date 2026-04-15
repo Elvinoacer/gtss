@@ -1,7 +1,7 @@
 import { MetadataRoute } from "next";
-import { getProducts } from "@/lib/actions/products";
+import { getPublicProductRoutes } from "@/lib/data/public-products";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 3600;
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL 
@@ -36,11 +36,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   }));
 
   // 2. Dynamic Product Routes
-  const productsResponse = await getProducts();
-  const products =
-    productsResponse.success && productsResponse.data
-      ? productsResponse.data
-      : [];
+  const products = await getPublicProductRoutes();
 
   const productRoutes = products.map((product) => ({
     url: `${baseUrl}/products/${product.id}`,

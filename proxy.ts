@@ -31,5 +31,14 @@ export default auth((req) => {
  
 // Optionally, don't invoke Middleware on some paths
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  matcher: [
+    "/dashboard/:path*",
+    "/analytics/:path*",
+    "/customers/:path*",
+    "/leads/:path*",
+    "/docs/:path*",
+    "/deployments/:path*",
+    "/login",
+    "/register",
+  ],
 }

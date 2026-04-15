@@ -1,9 +1,9 @@
-import { getProducts } from '@/lib/actions/products';
+import { getPublicProducts } from '@/lib/data/public-products';
 import { PublicProductsClient } from '@/components/products/PublicProductsClient';
 import { ProductHeader } from '@/components/products/ProductHeader';
 import { Metadata } from 'next';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: "Product Directory",
@@ -15,8 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProductsPage() {
-  const response = await getProducts();
-  const products = (response.success && response.data) ? response.data : [];
+  const products = await getPublicProducts();
 
   return (
     <div className="pb-24">

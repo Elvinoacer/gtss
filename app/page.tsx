@@ -1,4 +1,14 @@
-import { Navbar, Hero, TrustBar, Features, HowItWorks, Testimonials, CTA, Footer } from '@/components/landing';
+import {
+  Navbar,
+  Hero,
+  TrustBar,
+  Features,
+  HowItWorks,
+  Testimonials,
+  CTA,
+  Footer,
+} from "@/components/landing";
+import { DeferredViewTracker } from "@/components/analytics/DeferredViewTracker";
 
 export default function LandingPage() {
   return (
@@ -10,9 +20,10 @@ export default function LandingPage() {
         <div className="gradient-orb gradient-orb-blue w-[400px] h-[400px] bottom-1/4 left-1/4" />
         <div className="gradient-orb gradient-orb-gold w-[300px] h-[300px] bottom-0 right-1/3 opacity-30" />
       </div>
-      
+
       <div className="relative flex min-h-screen w-full flex-col z-10">
         <Navbar />
+        <DeferredViewTracker />
         <main>
           <Hero />
           <TrustBar />

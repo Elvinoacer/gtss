@@ -141,6 +141,9 @@ export async function createProduct(data: any) {
 
     revalidatePath('/dashboard/products');
     revalidatePath('/products');
+    revalidatePath(`/products/${product.id}`);
+    revalidatePath('/demo');
+    revalidatePath('/sitemap.xml');
 
     return { success: true, data: updatedProduct };
   } catch (error) {
@@ -234,6 +237,8 @@ export async function updateProduct(id: string, data: any) {
     revalidatePath('/products');
     revalidatePath(`/dashboard/products/${id}`);
     revalidatePath(`/products/${id}`);
+    revalidatePath('/demo');
+    revalidatePath('/sitemap.xml');
 
     return { success: true, data: product };
   } catch (error) {
@@ -262,6 +267,7 @@ export async function regenerateQRCode(id: string) {
 
     revalidatePath('/dashboard/products');
     revalidatePath(`/dashboard/products/${id}`);
+    revalidatePath(`/products/${id}`);
 
     return { success: true, data: updatedProduct };
   } catch (error) {
@@ -284,10 +290,12 @@ export async function deleteProduct(id: string) {
     
     revalidatePath('/dashboard/products');
     revalidatePath('/products');
+    revalidatePath(`/products/${id}`);
+    revalidatePath('/demo');
+    revalidatePath('/sitemap.xml');
     return { success: true };
   } catch (error) {
     console.error('Error deleting product:', error);
     return { success: false, error: 'Failed to delete product' };
   }
 }
-

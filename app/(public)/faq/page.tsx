@@ -1,8 +1,4 @@
-'use client';
-
-import { motion } from 'framer-motion';
-import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
-import { useState } from 'react';
+import { ChevronDown, HelpCircle } from 'lucide-react';
 
 const faqs = [
   {
@@ -28,16 +24,10 @@ const faqs = [
 ];
 
 export default function FAQPage() {
-  const [openIndex, setOpenIndex] = useState<number | null>(0);
-
   return (
     <div className="pt-24 pb-24">
       <section className="max-w-4xl mx-auto px-6">
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="text-center mb-16"
-        >
+        <div className="text-center mb-16">
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 mb-6">
             <HelpCircle className="w-5 h-5" />
             <span className="text-sm font-bold uppercase tracking-wider">Help Center</span>
@@ -48,56 +38,40 @@ export default function FAQPage() {
           <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Find answers to common questions about GTSS, our products, and how we can help your business grow.
           </p>
-        </motion.div>
+        </div>
 
         <div className="space-y-4">
           {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm"
+            <details
+              key={faq.question}
+              open={index === 0}
+              className="group bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm"
             >
-              <button
-                onClick={() => setOpenIndex(openIndex === index ? null : index)}
-                className="w-full flex items-center justify-between p-6 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors"
-              >
+              <summary className="flex cursor-pointer list-none items-center justify-between p-6 text-left hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors">
                 <span className="text-lg font-bold text-slate-900 dark:text-white">
                   {faq.question}
                 </span>
-                {openIndex === index ? (
-                  <ChevronUp className="w-5 h-5 text-blue-600" />
-                ) : (
-                  <ChevronDown className="w-5 h-5 text-slate-400" />
-                )}
-              </button>
-              {openIndex === index && (
-                <div className="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed">
-                  {faq.answer}
-                </div>
-              )}
-            </motion.div>
+                <ChevronDown className="w-5 h-5 text-slate-400 transition-transform duration-300 group-open:rotate-180" />
+              </summary>
+              <div className="px-6 pb-6 text-slate-600 dark:text-slate-400 leading-relaxed">
+                {faq.answer}
+              </div>
+            </details>
           ))}
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.6 }}
-          className="mt-16 p-8 bg-blue-600 rounded-3xl text-center text-white shadow-xl shadow-blue-500/20"
-        >
+        <div className="mt-16 p-8 bg-blue-600 rounded-3xl text-center text-white shadow-xl shadow-blue-500/20">
           <h3 className="text-2xl font-bold mb-4">Still have questions?</h3>
           <p className="mb-8 text-blue-100">
             We're here to help you with any inquiries you might have.
           </p>
-          <a 
+          <a
             href="/contact"
             className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-bold rounded-2xl hover:scale-105 transition-transform"
           >
             Contact Support
           </a>
-        </motion.div>
+        </div>
       </section>
     </div>
   );
