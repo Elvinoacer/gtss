@@ -1,8 +1,11 @@
-import { landingFeatures } from '@/data/landing';
+import { landingFeatures } from "@/data/landing";
 
 export function Features() {
   return (
-    <section className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_900px]" id="features">
+    <section
+      className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
+      id="features"
+    >
       <div className="max-w-[1100px] mx-auto px-4 flex flex-col gap-16">
         <div className="text-center max-w-2xl mx-auto">
           <div>
@@ -13,7 +16,8 @@ export function Features() {
               Key <span className="gradient-text-static">Capabilities</span>
             </h2>
             <p className="text-white/70 text-lg">
-              Everything you need to manage your enterprise projects effectively without the clutter.
+              Everything you need to manage your enterprise projects effectively
+              without the clutter.
             </p>
           </div>
         </div>

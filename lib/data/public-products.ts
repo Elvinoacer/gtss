@@ -107,38 +107,50 @@ export type PublicProductDetail = Prisma.ProductGetPayload<{
   select: typeof publicProductDetailSelect;
 }>;
 
-const getPublicProductsCached = unstable_cache(async () => {
-  return prisma.product.findMany({
-    select: publicProductListSelect,
-    orderBy: productOrder,
-  });
-}, ["public-products-list"], {
-  revalidate: 3600,
-  tags: ["products"],
-});
+const getPublicProductsCached = unstable_cache(
+  async () => {
+    return prisma.product.findMany({
+      select: publicProductListSelect,
+      orderBy: productOrder,
+    });
+  },
+  ["public-products-list"],
+  {
+    revalidate: 3600,
+    tags: ["products"],
+  },
+);
 
-const getPublicProductByIdCached = unstable_cache(async (id: string) => {
-  return prisma.product.findUnique({
-    where: { id },
-    select: publicProductDetailSelect,
-  });
-}, ["public-product-by-id"], {
-  revalidate: 3600,
-  tags: ["products"],
-});
+const getPublicProductByIdCached = unstable_cache(
+  async (id: string) => {
+    return prisma.product.findUnique({
+      where: { id },
+      select: publicProductDetailSelect,
+    });
+  },
+  ["public-product-by-id"],
+  {
+    revalidate: 3600,
+    tags: ["products"],
+  },
+);
 
-const getPublicProductRoutesCached = unstable_cache(async () => {
-  return prisma.product.findMany({
-    select: {
-      id: true,
-      updatedAt: true,
-    },
-    orderBy: productOrder,
-  });
-}, ["public-product-routes"], {
-  revalidate: 3600,
-  tags: ["products"],
-});
+const getPublicProductRoutesCached = unstable_cache(
+  async () => {
+    return prisma.product.findMany({
+      select: {
+        id: true,
+        updatedAt: true,
+      },
+      orderBy: productOrder,
+    });
+  },
+  ["public-product-routes"],
+  {
+    revalidate: 3600,
+    tags: ["products"],
+  },
+);
 
 export const getPublicProducts = cache(async () => {
   return getPublicProductsCached();

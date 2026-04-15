@@ -1,7 +1,7 @@
-import { ArrowRight, Sparkles } from 'lucide-react';
-import Link from 'next/link';
+import { ArrowRight, Sparkles } from "lucide-react";
+import Link from "next/link";
 
-import { landingCTA } from '@/data/landing';
+import { landingCTA } from "@/data/landing";
 
 export function CTA() {
   return (
@@ -21,7 +21,8 @@ export function CTA() {
           </div>
 
           <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 text-white">
-            Ready to <span className="gradient-text">Transform</span> Your Business?
+            Ready to <span className="gradient-text">Transform</span> Your
+            Business?
           </h2>
 
           <p className="text-white/70 text-lg md:text-xl mb-10 max-w-2xl mx-auto">

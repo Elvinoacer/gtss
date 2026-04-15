@@ -1,7 +1,7 @@
-import { Quote, Star } from 'lucide-react';
-import Image from 'next/image';
+import { Quote, Star } from "lucide-react";
+import Image from "next/image";
 
-import { landingTestimonials } from '@/data/landing';
+import { landingTestimonials } from "@/data/landing";
 
 export function Testimonials() {
   return (
@@ -34,10 +34,10 @@ export function Testimonials() {
                     key={i}
                     className={`w-5 h-5 ${
                       i < Math.floor(testimonial.rating)
-                        ? 'text-[#FFD700] fill-[#FFD700]'
+                        ? "text-[#FFD700] fill-[#FFD700]"
                         : i < testimonial.rating
-                        ? 'text-[#FFD700] fill-[#FFD700] opacity-50'
-                        : 'text-white/20'
+                          ? "text-[#FFD700] fill-[#FFD700] opacity-50"
+                          : "text-white/20"
                     }`}
                   />
                 ))}

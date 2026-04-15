@@ -1,4 +1,4 @@
-import { landingCompanies } from '@/data/landing';
+import { landingCompanies } from "@/data/landing";
 
 export function TrustBar() {
   return (

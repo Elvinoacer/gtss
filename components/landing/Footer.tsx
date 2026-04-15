@@ -1,8 +1,8 @@
-import { Github, Linkedin, Mail, Twitter, type LucideIcon } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { Github, Linkedin, Mail, Twitter, type LucideIcon } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { landingFooterLinks } from '@/data/landing';
+import { landingFooterLinks } from "@/data/landing";
 
 const iconMap: Record<string, LucideIcon> = {
   Twitter,
@@ -29,7 +29,8 @@ export function Footer() {
               />
             </Link>
             <p className="text-white/70 text-sm leading-relaxed">
-              Building practical, scalable software products for real-world local problems across Africa.
+              Building practical, scalable software products for real-world
+              local problems across Africa.
             </p>
 
             <div className="flex gap-3 mt-2">
@@ -50,7 +51,9 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-sm text-white uppercase tracking-wider">Product</h3>
+            <h3 className="font-bold text-sm text-white uppercase tracking-wider">
+              Product
+            </h3>
             <div className="flex flex-col gap-3">
               {landingFooterLinks.product.map((link) => (
                 <Link
@@ -65,7 +68,9 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-sm text-white uppercase tracking-wider">Company</h3>
+            <h3 className="font-bold text-sm text-white uppercase tracking-wider">
+              Company
+            </h3>
             <div className="flex flex-col gap-3">
               {landingFooterLinks.company.map((link) => (
                 <Link
@@ -80,7 +85,9 @@ export function Footer() {
           </div>
 
           <div className="flex flex-col gap-4">
-            <h3 className="font-bold text-sm text-white uppercase tracking-wider">Legal</h3>
+            <h3 className="font-bold text-sm text-white uppercase tracking-wider">
+              Legal
+            </h3>
             <div className="flex flex-col gap-3">
               {landingFooterLinks.legal.map((link) => (
                 <Link
@@ -97,7 +104,8 @@ export function Footer() {
 
         <div className="pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-white/60 text-sm">
-            © {new Date().getFullYear()} Great Thumbs Software Solutions. All rights reserved.
+            © {new Date().getFullYear()} Great Thumbs Software Solutions. All
+            rights reserved.
           </p>
           <div className="flex items-center gap-2 text-sm text-white/60">
             <span>Built with</span>

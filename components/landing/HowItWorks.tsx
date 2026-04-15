@@ -1,12 +1,15 @@
-import { ArrowRight, Check } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowRight, Check } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { landingHowItWorks } from '@/data/landing';
+import { landingHowItWorks } from "@/data/landing";
 
 export function HowItWorks() {
   return (
-    <section className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_1000px]" id="how-it-works">
+    <section
+      className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_1000px]"
+      id="how-it-works"
+    >
       <div className="max-w-[1100px] mx-auto px-4 flex flex-col gap-24">
         <div className="text-center max-w-2xl mx-auto">
           <div>
@@ -22,7 +25,7 @@ export function HowItWorks() {
         {landingHowItWorks.map((row, index) => (
           <div
             key={row.title}
-            className={`flex flex-col md:flex-row items-center gap-12 ${row.reverse ? 'md:flex-row-reverse' : ''}`}
+            className={`flex flex-col md:flex-row items-center gap-12 ${row.reverse ? "md:flex-row-reverse" : ""}`}
           >
             <div className="flex-1 w-full">
               <div className="relative">
@@ -41,7 +44,9 @@ export function HowItWorks() {
                 </div>
 
                 <div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-[#007AFF] to-[#00C2FF] flex items-center justify-center shadow-lg glow-blue">
-                  <span className="text-xl font-bold text-white">{index + 1}</span>
+                  <span className="text-xl font-bold text-white">
+                    {index + 1}
+                  </span>
                 </div>
               </div>
             </div>
@@ -57,7 +62,10 @@ export function HowItWorks() {
               {row.items && row.items.length > 0 && (
                 <ul className="flex flex-col gap-3 mt-2">
                   {row.items.map((item) => (
-                    <li key={item} className="flex items-center gap-3 text-white/70">
+                    <li
+                      key={item}
+                      className="flex items-center gap-3 text-white/70"
+                    >
                       <div className="w-6 h-6 rounded-lg bg-[#007AFF]/20 flex items-center justify-center">
                         <Check className="w-4 h-4 text-[#00C2FF]" />
                       </div>
@@ -69,7 +77,7 @@ export function HowItWorks() {
 
               {row.cta && (
                 <Link
-                  href={row.ctaHref || '#'}
+                  href={row.ctaHref || "#"}
                   className="w-fit mt-4 text-[#00C2FF] font-bold hover:text-white transition-colors flex items-center gap-2 group"
                 >
                   {row.cta}

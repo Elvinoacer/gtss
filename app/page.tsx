@@ -21,7 +21,9 @@ const Testimonials = dynamic(() =>
   import("@/components/landing/Testimonials").then((mod) => mod.Testimonials),
 );
 
-const CTA = dynamic(() => import("@/components/landing/CTA").then((mod) => mod.CTA));
+const CTA = dynamic(() =>
+  import("@/components/landing/CTA").then((mod) => mod.CTA),
+);
 
 export default function LandingPage() {
   return (

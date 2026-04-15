@@ -1,14 +1,14 @@
-import { ArrowRight, Sparkles, Users, Globe, Zap } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowRight, Sparkles, Users, Globe, Zap } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { landingHero } from '@/data/landing';
+import { landingHero } from "@/data/landing";
 
 export function Hero() {
   const stats = [
-    { value: '50+', label: 'Products Built', icon: Sparkles },
-    { value: '200+', label: 'Happy Clients', icon: Users },
-    { value: '5', label: 'Countries Served', icon: Globe },
+    { value: "50+", label: "Products Built", icon: Sparkles },
+    { value: "200+", label: "Happy Clients", icon: Users },
+    { value: "5", label: "Countries Served", icon: Globe },
   ];
 
   return (
@@ -18,7 +18,9 @@ export function Hero() {
           <div className="flex flex-col gap-8 max-w-2xl mx-auto lg:mx-0 text-center lg:text-left">
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card w-fit mx-auto lg:mx-0">
               <Zap className="w-4 h-4 text-[#00C2FF]" />
-              <span className="text-sm font-medium text-white/80">Powering Local Businesses</span>
+              <span className="text-sm font-medium text-white/80">
+                Powering Local Businesses
+              </span>
             </div>
 
             <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-black leading-[1.05] tracking-[-0.02em]">
@@ -51,7 +53,10 @@ export function Hero() {
 
             <div className="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
               {stats.map((stat) => (
-                <div key={stat.label} className="stats-card flex items-center gap-3">
+                <div
+                  key={stat.label}
+                  className="stats-card flex items-center gap-3"
+                >
                   <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-[#007AFF]/20 to-[#00C2FF]/20 flex items-center justify-center">
                     <stat.icon className="w-5 h-5 text-[#00C2FF]" />
                   </div>
@@ -94,7 +99,9 @@ export function Hero() {
               <div className="absolute top-6 -left-4 lg:-left-8 glass-strong rounded-2xl py-3 px-4 shadow-2xl">
                 <div className="flex items-center gap-2">
                   <div className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                  <span className="text-sm font-medium text-white">Cloud-Powered</span>
+                  <span className="text-sm font-medium text-white">
+                    Cloud-Powered
+                  </span>
                 </div>
               </div>
             </div>
