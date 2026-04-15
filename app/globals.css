@@ -62,8 +62,8 @@
 }
 
 @keyframes pulse-glow {
-  0%, 100% { opacity: 0.6; filter: blur(80px); }
-  50% { opacity: 0.8; filter: blur(100px); }
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 0.75; }
 }
 
 @keyframes gradient-shift {
@@ -79,7 +79,10 @@
   filter: blur(80px);
   opacity: 0.6;
   pointer-events: none;
-  will-change: transform;
+  transform: translate3d(0, 0, 0);
+  backface-visibility: hidden;
+  contain: paint;
+  will-change: transform, opacity;
 }
 
 .gradient-orb-blue {

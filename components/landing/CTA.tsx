@@ -5,7 +5,7 @@ import { landingCTA } from '@/data/landing';
 
 export function CTA() {
   return (
-    <section className="py-24 relative overflow-hidden">
+    <section className="py-24 relative overflow-hidden [content-visibility:auto] [contain-intrinsic-size:1px_800px]">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[400px] h-[400px] bg-gradient-to-r from-[#007AFF]/30 to-[#6200EA]/30 rounded-full blur-[100px]" />
         <div className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-gradient-to-r from-[#00C2FF]/30 to-[#007AFF]/30 rounded-full blur-[80px]" />
@@ -24,7 +24,7 @@ export function CTA() {
             Ready to <span className="gradient-text">Transform</span> Your Business?
           </h2>
 
-          <p className="text-white/50 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
+          <p className="text-white/70 text-lg md:text-xl mb-10 max-w-2xl mx-auto">
             {landingCTA.description}
           </p>
 

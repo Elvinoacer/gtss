@@ -6,7 +6,7 @@ import { landingHowItWorks } from '@/data/landing';
 
 export function HowItWorks() {
   return (
-    <section className="py-24 relative" id="how-it-works">
+    <section className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_1000px]" id="how-it-works">
       <div className="max-w-[1100px] mx-auto px-4 flex flex-col gap-24">
         <div className="text-center max-w-2xl mx-auto">
           <div>
@@ -50,7 +50,7 @@ export function HowItWorks() {
               <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
                 {row.title}
               </h3>
-              <p className="text-white/50 text-lg leading-relaxed">
+              <p className="text-white/70 text-lg leading-relaxed">
                 {row.description}
               </p>
 

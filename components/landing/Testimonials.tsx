@@ -60,7 +60,7 @@ export function Testimonials() {
                 </div>
                 <div>
                   <p className="font-bold text-white">{testimonial.name}</p>
-                  <p className="text-sm text-white/40">{testimonial.role}</p>
+                  <p className="text-sm text-white/60">{testimonial.role}</p>
                 </div>
               </div>
             </div>

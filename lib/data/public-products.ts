@@ -1,4 +1,5 @@
 import { cache } from "react";
+import { unstable_cache } from "next/cache";
 import type { Prisma } from "@/src/generated/client";
 
 import { prisma } from "@/lib/prisma";
@@ -106,21 +107,27 @@ export type PublicProductDetail = Prisma.ProductGetPayload<{
   select: typeof publicProductDetailSelect;
 }>;
 
-export const getPublicProducts = cache(async () => {
+const getPublicProductsCached = unstable_cache(async () => {
   return prisma.product.findMany({
     select: publicProductListSelect,
     orderBy: productOrder,
   });
+}, ["public-products-list"], {
+  revalidate: 3600,
+  tags: ["products"],
 });
 
-export const getPublicProductById = cache(async (id: string) => {
+const getPublicProductByIdCached = unstable_cache(async (id: string) => {
   return prisma.product.findUnique({
     where: { id },
     select: publicProductDetailSelect,
   });
+}, ["public-product-by-id"], {
+  revalidate: 3600,
+  tags: ["products"],
 });
 
-export const getPublicProductRoutes = cache(async () => {
+const getPublicProductRoutesCached = unstable_cache(async () => {
   return prisma.product.findMany({
     select: {
       id: true,
@@ -128,4 +135,19 @@ export const getPublicProductRoutes = cache(async () => {
     },
     orderBy: productOrder,
   });
+}, ["public-product-routes"], {
+  revalidate: 3600,
+  tags: ["products"],
+});
+
+export const getPublicProducts = cache(async () => {
+  return getPublicProductsCached();
+});
+
+export const getPublicProductById = cache(async (id: string) => {
+  return getPublicProductByIdCached(id);
+});
+
+export const getPublicProductRoutes = cache(async () => {
+  return getPublicProductRoutesCached();
 });

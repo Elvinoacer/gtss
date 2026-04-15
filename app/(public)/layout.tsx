@@ -9,7 +9,7 @@ export default function PublicLayout({
   return (
     <div className="landing-page bg-[#000000] min-h-screen font-display text-white antialiased overflow-x-hidden flex flex-col relative">
       {/* Animated gradient orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
         <div className="gradient-orb gradient-orb-blue w-[600px] h-[600px] -top-48 -left-48" />
         <div className="gradient-orb gradient-orb-purple w-[500px] h-[500px] top-1/3 -right-32" />
         <div className="gradient-orb gradient-orb-blue w-[400px] h-[400px] bottom-1/4 left-1/4" />

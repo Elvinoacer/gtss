@@ -2,7 +2,7 @@ import { landingFeatures } from '@/data/landing';
 
 export function Features() {
   return (
-    <section className="py-24 relative" id="features">
+    <section className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_900px]" id="features">
       <div className="max-w-[1100px] mx-auto px-4 flex flex-col gap-16">
         <div className="text-center max-w-2xl mx-auto">
           <div>
@@ -12,7 +12,7 @@ export function Features() {
             <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 text-white">
               Key <span className="gradient-text-static">Capabilities</span>
             </h2>
-            <p className="text-white/50 text-lg">
+            <p className="text-white/70 text-lg">
               Everything you need to manage your enterprise projects effectively without the clutter.
             </p>
           </div>
@@ -33,7 +33,7 @@ export function Features() {
                 <h3 className="text-xl font-bold mb-3 text-white group-hover:gradient-text-static transition-all">
                   {feature.title}
                 </h3>
-                <p className="text-white/50 leading-relaxed group-hover:text-white/70 transition-colors">
+                <p className="text-white/70 leading-relaxed group-hover:text-white transition-colors">
                   {feature.description}
                 </p>
               </div>
