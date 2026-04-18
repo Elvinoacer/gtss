@@ -40,6 +40,7 @@ export function RestaurantManagerInteractivity() {
     let cancelPendingInit: (() => void) | undefined;
 
     const initialize = () => {
+      // ---- Smooth scroll for hash anchors ----
       const hashAnchors = Array.from(
         root.querySelectorAll<HTMLAnchorElement>('a[href^="#"]'),
       );
@@ -70,6 +71,7 @@ export function RestaurantManagerInteractivity() {
         anchor.addEventListener("click", onHashAnchorClick);
       });
 
+      // ---- Fade-up scroll animations ----
       const fadeElements = Array.from(
         root.querySelectorAll<HTMLElement>(".fade-up"),
       );
@@ -96,37 +98,200 @@ export function RestaurantManagerInteractivity() {
         });
       }
 
-      const roleTabs = Array.from(
-        root.querySelectorAll<HTMLButtonElement>("[data-role-switch]"),
-      );
-      const rolePanels = Array.from(
-        root.querySelectorAll<HTMLElement>(".role-panel"),
+      // ---- Story block scroll reveal ----
+      const storyBlocks = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-story-reveal]"),
       );
 
-      const onRoleTabClick = (event: Event) => {
-        const target = event.currentTarget as HTMLButtonElement;
-        const role = target.dataset.roleSwitch;
-        if (!role) {
-          return;
-        }
+      let storyObserver: IntersectionObserver | undefined;
+      if (typeof IntersectionObserver !== "undefined") {
+        storyObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("visible");
+              }
+            });
+          },
+          { threshold: 0.15, rootMargin: "0px 0px -50px 0px" },
+        );
 
-        roleTabs.forEach((tab) => {
-          tab.classList.remove("active");
+        storyBlocks.forEach((block) => {
+          storyObserver?.observe(block);
         });
-        rolePanels.forEach((panel) => {
-          panel.classList.remove("active");
+      } else {
+        storyBlocks.forEach((block) => {
+          block.classList.add("visible");
         });
+      }
 
-        target.classList.add("active");
-        root
-          .querySelector<HTMLElement>(`#panel-${role}`)
-          ?.classList.add("active");
-      };
+      // ---- Video autoplay on scroll ----
+      const videos = Array.from(
+        root.querySelectorAll<HTMLVideoElement>("[data-story-video]"),
+      );
+      const playButtons = Array.from(
+        root.querySelectorAll<HTMLButtonElement>("[data-video-play]"),
+      );
 
-      roleTabs.forEach((tab) => {
-        tab.addEventListener("click", onRoleTabClick);
+      let videoObserver: IntersectionObserver | undefined;
+      if (typeof IntersectionObserver !== "undefined") {
+        videoObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              const video = entry.target as HTMLVideoElement;
+              if (entry.isIntersecting) {
+                // Only autoplay if we have a valid source
+                if (video.readyState >= 1 || video.src) {
+                  video.play().catch(() => {
+                    // Autoplay blocked — show play button
+                  });
+                }
+              } else {
+                video.pause();
+              }
+            });
+          },
+          { threshold: 0.4 },
+        );
+
+        videos.forEach((video) => {
+          videoObserver?.observe(video);
+
+          // Hide placeholder once video can play
+          video.addEventListener("canplay", () => {
+            const placeholder =
+              video.parentElement?.querySelector<HTMLElement>(
+                ".video-placeholder",
+              );
+            if (placeholder) {
+              placeholder.style.display = "none";
+            }
+          });
+        });
+      }
+
+      // Play button click handlers
+      playButtons.forEach((btn) => {
+        btn.addEventListener("click", () => {
+          const container = btn.closest(".phone-frame-inner");
+          const video = container?.querySelector<HTMLVideoElement>("video");
+          if (video) {
+            video
+              .play()
+              .then(() => {
+                btn.classList.add("hidden");
+                const placeholder =
+                  container?.querySelector<HTMLElement>(".video-placeholder");
+                if (placeholder) {
+                  placeholder.style.display = "none";
+                }
+              })
+              .catch(() => {
+                // Play failed
+              });
+          }
+        });
       });
 
+      // ---- Screenshot carousel logic ----
+      const carousels = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-carousel]"),
+      );
+      const carouselIntervals: number[] = [];
+
+      carousels.forEach((carousel) => {
+        const carouselId = carousel.dataset.carousel;
+        if (!carouselId) return;
+
+        const slidesContainer =
+          carousel.querySelector<HTMLElement>(".carousel-slides");
+        if (!slidesContainer) return;
+
+        const slides = Array.from(
+          slidesContainer.querySelectorAll<HTMLImageElement>(":scope > img"),
+        );
+        if (slides.length === 0) return; // No real screenshots yet
+
+        const dotsContainer = root.querySelector<HTMLElement>(
+          `[data-carousel-dots="${carouselId}"]`,
+        );
+        const labelEl = root.querySelector<HTMLElement>(
+          `[data-carousel-label="${carouselId}"]`,
+        );
+
+        // Hide placeholder if there are real slides
+        const placeholder =
+          slidesContainer.querySelector<HTMLElement>(".screenshot-placeholder");
+        if (placeholder && slides.length > 0) {
+          placeholder.style.display = "none";
+        }
+
+        let currentIndex = 0;
+
+        // Create dots
+        if (dotsContainer) {
+          slides.forEach((_, i) => {
+            const dot = document.createElement("button");
+            dot.className = `carousel-dot${i === 0 ? " active" : ""}`;
+            dot.setAttribute("aria-label", `Slide ${i + 1}`);
+            dot.addEventListener("click", () => goToSlide(i));
+            dotsContainer.appendChild(dot);
+          });
+        }
+
+        // Set first slide active
+        slides[0]?.classList.add("active");
+
+        function updateLabel() {
+          if (labelEl && slides[currentIndex]) {
+            const alt = slides[currentIndex].alt || `Screen ${currentIndex + 1}`;
+            labelEl.textContent = `${currentIndex + 1} / ${slides.length} — ${alt}`;
+          }
+        }
+        updateLabel();
+
+        function goToSlide(index: number) {
+          slides[currentIndex]?.classList.remove("active");
+          dotsContainer
+            ?.querySelectorAll(".carousel-dot")
+            [currentIndex]?.classList.remove("active");
+
+          currentIndex = index;
+
+          slides[currentIndex]?.classList.add("active");
+          dotsContainer
+            ?.querySelectorAll(".carousel-dot")
+            [currentIndex]?.classList.add("active");
+
+          updateLabel();
+        }
+
+        // Arrow buttons
+        const prevBtn =
+          carousel.querySelector<HTMLButtonElement>("[data-carousel-prev]");
+        const nextBtn =
+          carousel.querySelector<HTMLButtonElement>("[data-carousel-next]");
+
+        prevBtn?.addEventListener("click", () => {
+          goToSlide((currentIndex - 1 + slides.length) % slides.length);
+        });
+        nextBtn?.addEventListener("click", () => {
+          goToSlide((currentIndex + 1) % slides.length);
+        });
+
+        // Auto-rotate
+        const interval = window.setInterval(() => {
+          goToSlide((currentIndex + 1) % slides.length);
+        }, 4000);
+        carouselIntervals.push(interval);
+
+        // Pause on hover
+        carousel.addEventListener("mouseenter", () => {
+          window.clearInterval(interval);
+        });
+      });
+
+      // ---- CTA Form ----
       const ctaForm = root.querySelector<HTMLElement>("[data-cta-form]");
       const submitButton =
         ctaForm?.querySelector<HTMLButtonElement>(".form-submit");
@@ -276,6 +441,7 @@ export function RestaurantManagerInteractivity() {
           });
       }
 
+      // ---- Counter animations ----
       const counters = Array.from(
         root.querySelectorAll<HTMLElement>(".metric-num, .hero-stat-num"),
       );
@@ -293,14 +459,16 @@ export function RestaurantManagerInteractivity() {
         });
       }, 300);
 
+      // ---- Cleanup ----
       cleanup = () => {
         hashAnchors.forEach((anchor) => {
           anchor.removeEventListener("click", onHashAnchorClick);
         });
         observer?.disconnect();
-        roleTabs.forEach((tab) => {
-          tab.removeEventListener("click", onRoleTabClick);
-        });
+        storyObserver?.disconnect();
+        videoObserver?.disconnect();
+
+        carouselIntervals.forEach((id) => window.clearInterval(id));
 
         if (ctaForm && submitButton && onSubmitClick) {
           submitButton.removeEventListener("click", onSubmitClick);

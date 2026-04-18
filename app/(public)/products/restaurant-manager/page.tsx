@@ -207,10 +207,6 @@ function normalizeRestaurantManagerBody(body: string): string {
     .replace(/<!--\s*=+\s*NAV\s*=+\s*-->[\s\S]*?<\/nav>/i, "")
     .replace(/<!--\s*=+\s*FOOTER\s*=+\s*-->[\s\S]*?<\/footer>/i, "")
     .replace(/<script[\s\S]*?<\/script>/gi, "")
-    .replace(
-      /onclick="switchRole\('([^']+)'\)"/g,
-      'data-role-switch="$1" type="button"',
-    )
     .replace(/<div class="cta-form">/i, '<div class="cta-form" data-cta-form>')
     .replace(
       /<input type="text" placeholder="e\.g\. James Karanja"\s*\/>/i,

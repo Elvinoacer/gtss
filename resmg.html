@@ -737,54 +737,201 @@
       }
 
       /* ===================== ROLE SHOWCASES ===================== */
+      /* ===================== ROLE STORIES ===================== */
       #roles {
       }
-      .roles-tabs {
-        display: flex;
+      .roles-intro-cta {
+        display: inline-flex;
+        align-items: center;
         gap: 8px;
-        margin-bottom: 50px;
-        flex-wrap: wrap;
-      }
-      .role-tab {
-        padding: 10px 22px;
+        margin-top: 24px;
+        padding: 12px 28px;
         border-radius: 10px;
         font-family: var(--font-display);
         font-weight: 600;
         font-size: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: transparent;
-        color: rgba(255, 255, 255, 0.5);
-        cursor: pointer;
-        transition: all 0.2s;
-      }
-      .role-tab:hover {
-        color: var(--white);
-        border-color: rgba(255, 255, 255, 0.2);
-      }
-      .role-tab.active {
-        background: rgba(0, 122, 255, 0.12);
-        border-color: rgba(0, 122, 255, 0.4);
+        background: linear-gradient(135deg, rgba(0, 122, 255, 0.15), rgba(98, 0, 234, 0.15));
+        border: 1px solid rgba(0, 122, 255, 0.3);
         color: var(--cyan);
+        text-decoration: none;
+        transition: all 0.3s;
       }
-      .role-panel {
-        display: none;
+      .roles-intro-cta:hover {
+        background: linear-gradient(135deg, rgba(0, 122, 255, 0.25), rgba(98, 0, 234, 0.25));
+        border-color: rgba(0, 122, 255, 0.5);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 30px rgba(0, 122, 255, 0.2);
       }
-      .role-panel.active {
+      .roles-intro-cta svg {
+        width: 16px;
+        height: 16px;
+        transition: transform 0.3s;
+      }
+      .roles-intro-cta:hover svg {
+        transform: translateX(4px);
+      }
+
+      /* Story block layout */
+      .role-story {
         display: grid;
         grid-template-columns: 1fr 1fr;
         gap: 60px;
         align-items: center;
+        padding: 80px 0;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        opacity: 0;
+        transform: translateY(40px);
+        transition: opacity 0.7s ease, transform 0.7s ease;
+      }
+      .role-story.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .role-story:last-child {
+        border-bottom: none;
+      }
+      .role-story.reverse {
+        direction: rtl;
+      }
+      .role-story.reverse > * {
+        direction: ltr;
       }
 
-      .role-screen {
-        border-radius: 16px;
-        overflow: hidden;
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        background: var(--navy-mid);
-        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-        aspect-ratio: 16/10;
+      /* ---- Phone Frame (for Guest & Waiter videos) ---- */
+      .phone-frame {
+        position: relative;
+        width: 280px;
+        margin: 0 auto;
+        border-radius: 36px;
+        background: #1a1a2e;
+        padding: 10px;
+        border: 2px solid rgba(255, 255, 255, 0.12);
+        box-shadow:
+          0 30px 80px rgba(0, 0, 0, 0.5),
+          0 0 0 1px rgba(255, 255, 255, 0.05) inset;
       }
-      .role-screen-placeholder {
+      .phone-frame::before {
+        content: "";
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 80px;
+        height: 20px;
+        background: #0d0d1a;
+        border-radius: 0 0 14px 14px;
+        z-index: 3;
+      }
+      .phone-frame-inner {
+        border-radius: 28px;
+        overflow: hidden;
+        aspect-ratio: 9/19.5;
+        background: linear-gradient(180deg, #0d0d1a 0%, #1a1040 100%);
+        position: relative;
+      }
+      .phone-frame-inner video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+      .phone-frame-inner .video-placeholder {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        color: rgba(255, 255, 255, 0.2);
+      }
+      .phone-frame-inner .video-placeholder svg {
+        width: 48px;
+        height: 48px;
+        opacity: 0.4;
+      }
+      .phone-frame-inner .video-placeholder span {
+        font-family: var(--font-mono);
+        font-size: 11px;
+        text-align: center;
+        max-width: 160px;
+        line-height: 1.5;
+      }
+      .video-play-btn {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background: rgba(0, 122, 255, 0.8);
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 2;
+        backdrop-filter: blur(8px);
+      }
+      .video-play-btn:hover {
+        background: rgba(0, 122, 255, 1);
+        transform: translate(-50%, -50%) scale(1.1);
+        box-shadow: 0 0 30px rgba(0, 122, 255, 0.5);
+      }
+      .video-play-btn svg {
+        width: 22px;
+        height: 22px;
+        fill: white;
+        margin-left: 3px;
+      }
+      .video-play-btn.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      /* ---- Desktop Frame (for KDS & Admin screenshots) ---- */
+      .desktop-frame {
+        position: relative;
+        width: 100%;
+        border-radius: 12px;
+        background: #1a1a2e;
+        padding: 8px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 30px 80px rgba(0, 0, 0, 0.5);
+      }
+      .desktop-frame-bar {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        margin-bottom: 4px;
+      }
+      .desktop-frame-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.15);
+      }
+      .desktop-frame-dot:nth-child(1) { background: #ff5f57; }
+      .desktop-frame-dot:nth-child(2) { background: #ffbd2e; }
+      .desktop-frame-dot:nth-child(3) { background: #28c840; }
+      .desktop-frame-inner {
+        border-radius: 8px;
+        overflow: hidden;
+        position: relative;
+        aspect-ratio: 16/10;
+        background: linear-gradient(135deg, #0d0d1a 0%, #1a1040 100%);
+      }
+      .desktop-frame-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        transition: opacity 0.5s ease;
+      }
+      .desktop-frame-inner .screenshot-placeholder {
         width: 100%;
         height: 100%;
         display: flex;
@@ -793,78 +940,166 @@
         justify-content: center;
         gap: 12px;
         color: rgba(255, 255, 255, 0.2);
-        background: linear-gradient(135deg, var(--navy-mid) 0%, #1a1040 100%);
+        position: absolute;
+        top: 0;
+        left: 0;
       }
-      .role-screen-placeholder svg {
+      .desktop-frame-inner .screenshot-placeholder svg {
         width: 48px;
         height: 48px;
         opacity: 0.3;
       }
-      .role-screen-label {
+      .desktop-frame-inner .screenshot-placeholder span {
         font-family: var(--font-mono);
         font-size: 11px;
         text-align: center;
-        line-height: 1.6;
         max-width: 200px;
+        line-height: 1.5;
       }
 
-      .role-content .tag {
+      /* Carousel */
+      .carousel-slides {
+        position: relative;
+        width: 100%;
+        height: 100%;
+      }
+      .carousel-slides img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        opacity: 0;
+      }
+      .carousel-slides img.active {
+        opacity: 1;
+      }
+      .carousel-nav {
+        display: flex;
+        justify-content: center;
+        gap: 8px;
+        padding: 12px 0 4px;
+      }
+      .carousel-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        cursor: pointer;
+        transition: all 0.3s;
+        padding: 0;
+      }
+      .carousel-dot.active {
+        background: var(--cyan);
+        box-shadow: 0 0 8px rgba(0, 194, 255, 0.4);
+      }
+      .carousel-dot:hover {
+        background: rgba(255, 255, 255, 0.4);
+      }
+      .carousel-arrow {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        color: white;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        z-index: 5;
+        font-size: 14px;
+        backdrop-filter: blur(8px);
+      }
+      .carousel-arrow:hover {
+        background: rgba(0, 122, 255, 0.5);
+        border-color: rgba(0, 122, 255, 0.5);
+      }
+      .carousel-arrow.prev { left: 8px; }
+      .carousel-arrow.next { right: 8px; }
+      .carousel-label {
+        text-align: center;
+        font-family: var(--font-mono);
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.4);
+        margin-top: 4px;
+        padding-bottom: 4px;
+      }
+
+      /* ---- Story content ---- */
+      .story-content .tag {
         margin-bottom: 20px;
       }
-      .role-content h2 {
+      .story-content h2 {
         font-size: 36px;
         margin-bottom: 16px;
+        line-height: 1.15;
       }
-      .role-content .role-desc {
+      .story-content .story-desc {
         font-size: 16px;
         color: rgba(255, 255, 255, 0.6);
         margin-bottom: 30px;
         line-height: 1.7;
       }
-      .role-features {
+      .story-features {
         display: flex;
         flex-direction: column;
         gap: 14px;
       }
-      .role-feature {
+      .story-feature {
         display: flex;
         gap: 12px;
         align-items: flex-start;
       }
-      .rf-icon {
-        width: 32px;
-        height: 32px;
-        border-radius: 8px;
+      .sf-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 10px;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         font-size: 16px;
         background: rgba(0, 122, 255, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
       }
-      .rf-text h4 {
+      .story-feature:hover .sf-icon {
+        transform: scale(1.1);
+      }
+      .sf-text h4 {
         font-size: 14px;
         font-weight: 600;
-        margin-bottom: 2px;
+        margin-bottom: 3px;
       }
-      .rf-text p {
+      .sf-text p {
         font-size: 13px;
         color: var(--grey);
+        line-height: 1.6;
       }
 
-      /* KDS colors */
-      .kds .rf-icon {
-        background: rgba(255, 100, 30, 0.1);
-      }
-      .waiter .rf-icon {
-        background: rgba(0, 194, 255, 0.1);
-      }
-      .admin .rf-icon {
-        background: rgba(255, 215, 0, 0.1);
-      }
-      .guest .rf-icon {
-        background: rgba(16, 185, 129, 0.1);
-      }
+      /* Role accent colors */
+      .role-story.guest .sf-icon { background: rgba(16, 185, 129, 0.12); }
+      .role-story.guest .tag { border-color: rgba(16, 185, 129, 0.3); color: var(--green); background: rgba(16, 185, 129, 0.08); }
+      .role-story.guest .phone-frame { border-color: rgba(16, 185, 129, 0.2); }
+      .role-story.guest .video-play-btn { background: rgba(16, 185, 129, 0.8); }
+
+      .role-story.kds .sf-icon { background: rgba(255, 100, 30, 0.12); }
+      .role-story.kds .tag { border-color: rgba(255, 100, 30, 0.3); color: #ff7020; background: rgba(255, 100, 30, 0.08); }
+      .role-story.kds .desktop-frame { border-color: rgba(255, 100, 30, 0.15); }
+      .role-story.kds .carousel-dot.active { background: #ff7020; box-shadow: 0 0 8px rgba(255, 100, 30, 0.4); }
+
+      .role-story.waiter .sf-icon { background: rgba(0, 194, 255, 0.12); }
+      .role-story.waiter .tag { border-color: rgba(0, 194, 255, 0.3); color: var(--cyan); background: rgba(0, 194, 255, 0.08); }
+      .role-story.waiter .phone-frame { border-color: rgba(0, 194, 255, 0.2); }
+      .role-story.waiter .video-play-btn { background: rgba(0, 194, 255, 0.8); }
+
+      .role-story.admin .sf-icon { background: rgba(255, 215, 0, 0.12); }
+      .role-story.admin .tag { border-color: rgba(255, 215, 0, 0.3); color: var(--gold); background: rgba(255, 215, 0, 0.08); }
+      .role-story.admin .desktop-frame { border-color: rgba(255, 215, 0, 0.15); }
+      .role-story.admin .carousel-dot.active { background: var(--gold); box-shadow: 0 0 8px rgba(255, 215, 0, 0.4); }
 
       /* ===================== INTEGRATIONS ===================== */
       #integrations {
@@ -1424,8 +1659,19 @@
           grid-template-columns: 1fr;
           gap: 50px;
         }
-        .role-panel.active {
+        .role-story {
           grid-template-columns: 1fr;
+          gap: 40px;
+          padding: 50px 0;
+        }
+        .role-story.reverse {
+          direction: ltr;
+        }
+        .phone-frame {
+          width: 240px;
+        }
+        .story-content h2 {
+          font-size: 28px;
         }
         .int-grid {
           grid-template-columns: 1fr;
@@ -1866,7 +2112,7 @@
       </div>
     </section>
 
-    <!-- ===================== ROLE SHOWCASES ===================== -->
+    <!-- ===================== ROLE STORIES ===================== -->
     <section id="roles">
       <div class="container">
         <div class="section-header">
@@ -1879,55 +2125,45 @@
             GTSS doesn't give everyone the same screen. Each role gets a
             purpose-built interface that eliminates everything they don't need.
           </p>
+          <a href="/products/restaurant-manager/experience" class="roles-intro-cta">
+            See Full Experience
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
         </div>
 
-        <div class="roles-tabs">
-          <button class="role-tab active" onclick="switchRole('guest')">
-            👤 Guest
-          </button>
-          <button class="role-tab" onclick="switchRole('kds')">
-            👨‍🍳 Kitchen (KDS)
-          </button>
-          <button class="role-tab" onclick="switchRole('waiter')">
-            🛎️ Waiter
-          </button>
-          <button class="role-tab" onclick="switchRole('admin')">
-            👑 Admin / GM
-          </button>
-        </div>
-
-        <!-- GUEST -->
-        <div id="panel-guest" class="role-panel active guest">
-          <div class="role-screen">
-            <div class="role-screen-placeholder">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18h3"
-                />
-              </svg>
-              <p class="role-screen-label">
-                [ Guest Menu & Order Tracking Screen<br />Replace with real
-                screenshot/video ]
-              </p>
+        <!-- ======== GUEST STORY ======== -->
+        <div class="role-story guest" data-story-reveal>
+          <div class="story-media">
+            <div class="phone-frame">
+              <div class="phone-frame-inner">
+                <video data-story-video muted loop playsinline preload="none" poster="/images/resmg/guest-poster.jpg">
+                  <source src="/images/resmg/guest-demo.mp4" type="video/mp4" />
+                  <source src="/images/resmg/guest-demo.webm" type="video/webm" />
+                </video>
+                <div class="video-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M10.5 1.5H8.25A2.25 2.25 0 006 3.75v16.5a2.25 2.25 0 002.25 2.25h7.5A2.25 2.25 0 0018 20.25V3.75a2.25 2.25 0 00-2.25-2.25H13.5m-3 0V3h3V1.5m-3 0h3m-3 18h3" />
+                  </svg>
+                  <span>Guest ordering experience<br/>Video coming soon</span>
+                </div>
+                <button class="video-play-btn" aria-label="Play video" data-video-play>
+                  <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+                </button>
+              </div>
             </div>
           </div>
-          <div class="role-content">
+          <div class="story-content">
             <div class="tag">Guest Experience</div>
-            <h2>Order in seconds.<br />Track every bite.</h2>
-            <p class="role-desc">
+            <h2>Order in seconds.<br/>Track every bite.</h2>
+            <p class="story-desc">
               Your guests connect to WiFi and the full menu loads — no app
               download, no account creation. It feels like a native app, runs
               entirely on your local network.
             </p>
-            <div class="role-features">
-              <div class="role-feature">
-                <div class="rf-icon">🍔</div>
-                <div class="rf-text">
+            <div class="story-features">
+              <div class="story-feature">
+                <div class="sf-icon">🍔</div>
+                <div class="sf-text">
                   <h4>Rich Categorized Menu with Smart Search</h4>
                   <p>
                     Lazy-loaded hi-res images, dietary filters (Vegan,
@@ -1936,9 +2172,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">📍</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">📍</div>
+                <div class="sf-text">
                   <h4>Live Pizza-Tracker — Real-Time Order Status</h4>
                   <p>
                     Guests watch: Pending → Accepted → Preparing → Ready →
@@ -1946,9 +2182,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">📱</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">📱</div>
+                <div class="sf-text">
                   <h4>One-Tap M-Pesa Payment from Their Phone</h4>
                   <p>
                     Guests tap "Pay." Safaricom Daraja API fires. A payment
@@ -1956,9 +2192,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">🔔</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">🔔</div>
+                <div class="sf-text">
                   <h4>Direct Issue Reporting Without Calling a Waiter</h4>
                   <p>
                     "Wrong item," "Missing ketchup," "Need the bill" — guests
@@ -1971,47 +2207,43 @@
           </div>
         </div>
 
-        <!-- KDS -->
-        <div id="panel-kds" class="role-panel kds">
-          <div class="role-screen">
-            <div class="role-screen-placeholder">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"
-                />
-              </svg>
-              <p class="role-screen-label">
-                [ Kitchen Display System (KDS) Screen<br />Replace with real
-                screenshot ]
-              </p>
+        <!-- ======== KDS STORY ======== -->
+        <div class="role-story kds reverse" data-story-reveal>
+          <div class="story-media">
+            <div class="desktop-frame">
+              <div class="desktop-frame-bar">
+                <div class="desktop-frame-dot"></div>
+                <div class="desktop-frame-dot"></div>
+                <div class="desktop-frame-dot"></div>
+              </div>
+              <div class="desktop-frame-inner" data-carousel="kds">
+                <div class="carousel-slides">
+                  <div class="screenshot-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3" />
+                    </svg>
+                    <span>Kitchen Display System<br/>Screenshots coming soon</span>
+                  </div>
+                </div>
+                <button class="carousel-arrow prev" data-carousel-prev aria-label="Previous">‹</button>
+                <button class="carousel-arrow next" data-carousel-next aria-label="Next">›</button>
+              </div>
+              <div class="carousel-nav" data-carousel-dots="kds"></div>
+              <div class="carousel-label" data-carousel-label="kds"></div>
             </div>
           </div>
-          <div class="role-content">
-            <div
-              class="tag"
-              style="
-                border-color: rgba(255, 100, 30, 0.3);
-                color: #ff7020;
-                background: rgba(255, 100, 30, 0.08);
-              "
-            >
-              Kitchen Display System
-            </div>
-            <h2>No noise.<br />Just the next ticket.</h2>
-            <p class="role-desc">
+          <div class="story-content">
+            <div class="tag">Kitchen Display System</div>
+            <h2>No noise.<br/>Just the next ticket.</h2>
+            <p class="story-desc">
               The KDS strips everything irrelevant. Cooks see only what matters:
               pending orders, ranked by urgency, with color-coded timers
               screaming when a table has waited too long.
             </p>
-            <div class="role-features">
-              <div class="role-feature">
-                <div class="rf-icon">⚡</div>
-                <div class="rf-text">
+            <div class="story-features">
+              <div class="story-feature">
+                <div class="sf-icon">⚡</div>
+                <div class="sf-text">
                   <h4>Intelligent Order Priority Queue</h4>
                   <p>
                     Algorithm ranks tickets dynamically by waiting time, food
@@ -2020,9 +2252,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">⏱️</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">⏱️</div>
+                <div class="sf-text">
                   <h4>Color-Coded Visual Timers</h4>
                   <p>
                     Green → Yellow → Red. Every ticket shows how long it's been
@@ -2030,9 +2262,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">👆</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">👆</div>
+                <div class="sf-text">
                   <h4>Swipe-to-Complete → Waiter Instant Ping</h4>
                   <p>
                     Cook taps "Ready." The assigned waiter's device vibrates and
@@ -2044,46 +2276,39 @@
           </div>
         </div>
 
-        <!-- WAITER -->
-        <div id="panel-waiter" class="role-panel waiter">
-          <div class="role-screen">
-            <div class="role-screen-placeholder">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"
-                />
-              </svg>
-              <p class="role-screen-label">
-                [ Waiter POS Dashboard<br />Replace with real screenshot/video ]
-              </p>
+        <!-- ======== WAITER STORY ======== -->
+        <div class="role-story waiter" data-story-reveal>
+          <div class="story-media">
+            <div class="phone-frame">
+              <div class="phone-frame-inner">
+                <video data-story-video muted loop playsinline preload="none" poster="/images/resmg/waiter-poster.jpg">
+                  <source src="/images/resmg/waiter-demo.mp4" type="video/mp4" />
+                  <source src="/images/resmg/waiter-demo.webm" type="video/webm" />
+                </video>
+                <div class="video-placeholder">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                    <path d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                  </svg>
+                  <span>Waiter dashboard flow<br/>Video coming soon</span>
+                </div>
+                <button class="video-play-btn" aria-label="Play video" data-video-play>
+                  <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19"/></svg>
+                </button>
+              </div>
             </div>
           </div>
-          <div class="role-content">
-            <div
-              class="tag"
-              style="
-                border-color: rgba(0, 194, 255, 0.3);
-                color: var(--cyan);
-                background: rgba(0, 194, 255, 0.08);
-              "
-            >
-              Waiter Dashboard
-            </div>
-            <h2>Stop guessing.<br />Start delivering.</h2>
-            <p class="role-desc">
+          <div class="story-content">
+            <div class="tag">Waiter Dashboard</div>
+            <h2>Stop guessing.<br/>Start delivering.</h2>
+            <p class="story-desc">
               Waiters no longer carry mental overhead. The system auto-routes
               orders to the least-loaded staff member. Their device tells them
               exactly what to do, when to do it.
             </p>
-            <div class="role-features">
-              <div class="role-feature">
-                <div class="rf-icon">🔀</div>
-                <div class="rf-text">
+            <div class="story-features">
+              <div class="story-feature">
+                <div class="sf-icon">🔀</div>
+                <div class="sf-text">
                   <h4>Auto-Assignment Algorithm Prevents Bottlenecks</h4>
                   <p>
                     New orders route automatically to the waiter with the lowest
@@ -2092,9 +2317,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">🔔</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">🔔</div>
+                <div class="sf-text">
                   <h4>Instant Audio/Visual Alerts for Table Requests</h4>
                   <p>
                     "Need Ketchup," "Delayed Food," "Need the Bill," "Spilled
@@ -2103,10 +2328,10 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">🧾</div>
-                <div class="rf-text">
-                  <h4>Bill Management & Partial Payments</h4>
+              <div class="story-feature">
+                <div class="sf-icon">🧾</div>
+                <div class="sf-text">
+                  <h4>Bill Management &amp; Partial Payments</h4>
                   <p>
                     Mark as fully paid, partially paid, or print a physical
                     receipt. Log cash, M-Pesa, and card transactions in one
@@ -2118,47 +2343,43 @@
           </div>
         </div>
 
-        <!-- ADMIN -->
-        <div id="panel-admin" class="role-panel admin">
-          <div class="role-screen">
-            <div class="role-screen-placeholder">
-              <svg
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="1.5"
-              >
-                <path
-                  d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5"
-                />
-              </svg>
-              <p class="role-screen-label">
-                [ Admin Command Center & Analytics<br />Replace with real
-                screenshot ]
-              </p>
+        <!-- ======== ADMIN STORY ======== -->
+        <div class="role-story admin reverse" data-story-reveal>
+          <div class="story-media">
+            <div class="desktop-frame">
+              <div class="desktop-frame-bar">
+                <div class="desktop-frame-dot"></div>
+                <div class="desktop-frame-dot"></div>
+                <div class="desktop-frame-dot"></div>
+              </div>
+              <div class="desktop-frame-inner" data-carousel="admin">
+                <div class="carousel-slides">
+                  <div class="screenshot-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                      <path d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m0 0h1.5m-1.5 0v11.25A2.25 2.25 0 0118 16.5h-2.25m-7.5 0h7.5m-7.5 0l-1 3m8.5-3l1 3m0 0l.5 1.5m-.5-1.5h-9.5m0 0l-.5 1.5" />
+                    </svg>
+                    <span>Admin Command Center<br/>Screenshots coming soon</span>
+                  </div>
+                </div>
+                <button class="carousel-arrow prev" data-carousel-prev aria-label="Previous">‹</button>
+                <button class="carousel-arrow next" data-carousel-next aria-label="Next">›</button>
+              </div>
+              <div class="carousel-nav" data-carousel-dots="admin"></div>
+              <div class="carousel-label" data-carousel-label="admin"></div>
             </div>
           </div>
-          <div class="role-content">
-            <div
-              class="tag"
-              style="
-                border-color: rgba(255, 215, 0, 0.3);
-                color: var(--gold);
-                background: rgba(255, 215, 0, 0.08);
-              "
-            >
-              Admin / GM Hub
-            </div>
-            <h2>Total visibility.<br />Total control.</h2>
-            <p class="role-desc">
+          <div class="story-content">
+            <div class="tag">Admin / GM Hub</div>
+            <h2>Total visibility.<br/>Total control.</h2>
+            <p class="story-desc">
               One screen shows you everything: live table statuses, active
               orders, staff workloads, revenue charts, and the full audit trail.
               You run the whole floor from your phone.
             </p>
-            <div class="role-features">
-              <div class="role-feature">
-                <div class="rf-icon">🗺️</div>
-                <div class="rf-text">
+            <div class="story-features">
+              <div class="story-feature">
+                <div class="sf-icon">🗺️</div>
+                <div class="sf-text">
                   <h4>Live Table Occupancy Map</h4>
                   <p>
                     Visual floor grid showing Idle / Ordering / Waiting / Eating
@@ -2167,19 +2388,19 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">📊</div>
-                <div class="rf-text">
-                  <h4>Revenue Heatmaps & Best Seller Tracking</h4>
+              <div class="story-feature">
+                <div class="sf-icon">📊</div>
+                <div class="sf-text">
+                  <h4>Revenue Heatmaps &amp; Best Seller Tracking</h4>
                   <p>
                     Peak hour heatmaps, average kitchen turnaround, category
                     performance. Export as PDF or CSV for accountants.
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">🔒</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">🔒</div>
+                <div class="sf-text">
                   <h4>Immutable Audit Trail</h4>
                   <p>
                     Every login, status change, and settings modification logged
@@ -2188,9 +2409,9 @@
                   </p>
                 </div>
               </div>
-              <div class="role-feature">
-                <div class="rf-icon">📢</div>
-                <div class="rf-text">
+              <div class="story-feature">
+                <div class="sf-icon">📢</div>
+                <div class="sf-text">
                   <h4>Mass Broadcast to All Connected Devices</h4>
                   <p>
                     Push "Happy Hour: 50% Off Drinks Now!" to every guest's
@@ -2201,6 +2422,7 @@
             </div>
           </div>
         </div>
+
       </div>
     </section>
 
