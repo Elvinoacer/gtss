@@ -1,89 +1,119 @@
-import { ArrowRight, Menu } from 'lucide-react';
-import Image from 'next/image';
-import Link from 'next/link';
+import { ArrowRight, Menu } from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
 
-import { landingNavbarLinks } from '@/data/landing';
+import { landingNavbarLinks } from "@/data/landing";
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full">
-      <div className="max-w-[1280px] mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="glass-strong rounded-full px-4 sm:px-6 lg:px-8 py-3 flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-3 group shrink-0">
-            <Image
-              src="/images/GTSS-logo.png"
-              alt="GTSS Logo"
-              width={144}
-              height={40}
-              priority
-              className="h-8 sm:h-9 w-auto object-contain transition-transform group-hover:scale-105"
-            />
-          </Link>
+    <nav className="sticky top-0 z-50 w-full px-3 pt-3 sm:px-6 sm:pt-5">
+      <div className="mx-auto max-w-7xl">
+        <div className="public-panel public-card-outline rounded-[1.75rem] px-4 py-3 sm:px-5 lg:px-7">
+          <div className="flex items-center justify-between gap-4">
+            <Link
+              href="/"
+              className="group flex min-w-0 items-center gap-3 overflow-hidden"
+            >
+              <div className="rounded-2xl border border-white/10 bg-white/5 p-2 shadow-[0_12px_30px_rgba(0,0,0,0.32)]">
+                <Image
+                  src="/images/GTSS-logo.png"
+                  alt="GTSS Logo"
+                  width={140}
+                  height={36}
+                  priority
+                  className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
+                />
+              </div>
+              <div className="hidden min-w-0 sm:block">
+                <p className="truncate text-sm font-semibold text-white">
+                  Great Thumbs Software Solutions
+                </p>
+                <p className="truncate text-xs text-white/55">
+                  Enterprise systems for African operators
+                </p>
+              </div>
+            </Link>
 
-          <div className="hidden md:flex items-center justify-center gap-1 lg:gap-2 flex-1 px-8">
-            {landingNavbarLinks.map((link) => (
+            <div className="hidden items-center gap-2 lg:flex">
+              {landingNavbarLinks.map((link) => (
+                <Link
+                  key={link.label}
+                  href={link.href}
+                  className="rounded-full px-4 py-2 text-sm font-medium text-white/68 transition-colors hover:bg-white/6 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              ))}
+            </div>
+
+            <div className="hidden items-center gap-3 md:flex">
               <Link
-                key={link.label}
-                className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 rounded-full hover:bg-white/5 transition-all duration-300"
-                href={link.href}
+                href="/login"
+                className="rounded-full px-4 py-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
               >
-                {link.label}
+                Sign In
               </Link>
-            ))}
-          </div>
+              <Link
+                href="/contact"
+                className="public-button-primary px-5 py-3 text-sm"
+              >
+                Schedule a Call
+                <ArrowRight className="h-4 w-4" />
+              </Link>
+            </div>
 
-          <div className="hidden md:flex items-center gap-3 shrink-0">
-            <Link
-              href="/login"
-              className="text-sm font-medium text-white/70 hover:text-white px-4 py-2 transition-colors"
-            >
-              Sign In
-            </Link>
-            <Link
-              href="/contact"
-              className="btn-primary-glow flex items-center gap-2 text-sm py-2.5 px-5"
-            >
-              Get Started
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
+            <details className="relative md:hidden">
+              <summary className="list-none rounded-full border border-white/10 bg-white/5 p-3 text-white transition-colors hover:bg-white/10">
+                <span className="sr-only">Toggle menu</span>
+                <Menu className="h-5 w-5" />
+              </summary>
 
-          <details className="relative md:hidden">
-            <summary className="list-none cursor-pointer text-white p-2.5 rounded-full hover:bg-white/10 transition-colors">
-              <span className="sr-only">Toggle menu</span>
-              <Menu className="w-6 h-6" />
-            </summary>
+              <div className="absolute right-0 top-full mt-3 w-[min(21rem,calc(100vw-1.5rem))]">
+                <div className="public-panel rounded-[1.5rem] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
+                  <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
+                    Navigate
+                  </p>
+                  <div className="space-y-1">
+                    {landingNavbarLinks.map((link) => (
+                      <Link
+                        key={link.label}
+                        href={link.href}
+                        className="block rounded-2xl px-4 py-3 text-base font-medium text-white/75 transition-colors hover:bg-white/6 hover:text-white"
+                      >
+                        {link.label}
+                      </Link>
+                    ))}
+                  </div>
 
-            <div className="absolute right-0 top-full mt-3 w-[min(18rem,calc(100vw-2rem))]">
-              <div className="glass-strong rounded-2xl p-4 space-y-1 shadow-2xl">
-                {landingNavbarLinks.map((link) => (
-                  <Link
-                    key={link.label}
-                    className="block text-base font-medium text-white/70 hover:text-white hover:bg-white/5 rounded-xl px-4 py-3 transition-all"
-                    href={link.href}
-                  >
-                    {link.label}
-                  </Link>
-                ))}
-
-                <div className="pt-4 space-y-2 border-t border-white/10 mt-4">
-                  <Link
-                    href="/login"
-                    className="block text-center text-base font-medium text-white/70 hover:text-white px-4 py-3 transition-colors"
-                  >
-                    Sign In
-                  </Link>
-                  <Link
-                    href="/contact"
-                    className="btn-primary-glow flex items-center justify-center gap-2 text-base py-3 w-full"
-                  >
-                    Get Started
-                    <ArrowRight className="w-4 h-4" />
-                  </Link>
+                  <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
+                    <Link
+                      href="/login"
+                      className="block rounded-2xl px-4 py-3 text-center text-sm font-semibold text-white/75 transition-colors hover:bg-white/6 hover:text-white"
+                    >
+                      Sign In
+                    </Link>
+                    <Link
+                      href="/contact"
+                      className="public-button-primary flex w-full px-5 py-3 text-sm"
+                    >
+                      Schedule a Call
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
                 </div>
               </div>
+            </details>
+          </div>
+
+          <div className="mt-3 hidden items-center justify-between border-t border-white/8 pt-3 lg:flex">
+            <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/35">
+              Built for hospitality, commerce, education, and field teams
+            </p>
+            <div className="flex items-center gap-2 text-xs text-white/55">
+              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.9)]" />
+              <span>Deployments running across East Africa</span>
             </div>
-          </details>
+          </div>
         </div>
       </div>
     </nav>

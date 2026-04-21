@@ -1,320 +1,344 @@
-import { Linkedin, Twitter, Globe, ArrowRight, Sparkles } from "lucide-react";
-import Image from "next/image";
+import { Globe, Linkedin, Sparkles, Twitter } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 import type { TeamMember } from "@/src/generated/client";
 
 interface AboutClientProps {
   teamMembers: TeamMember[];
 }
 
-const capabilityCards = [
+const principles = [
   {
-    title: "Strong Products",
-    description: "Scalable solutions built for heavy-duty business needs.",
-    accent: "from-blue-500 to-blue-700",
+    title: "Product quality that signals trust",
+    description:
+      "GTSS aims for software that feels composed, visually credible, and stable enough to earn confidence quickly.",
   },
   {
-    title: "Clear Trust",
-    description: "Transparent operations and systems you can rely on 24/7.",
-    accent: "from-emerald-500 to-emerald-700",
+    title: "Local realities built into the model",
+    description:
+      "Connectivity, operational pressure, staff training, and payment realities are accounted for from the start.",
   },
   {
-    title: "Sustainable Growth",
-    description: "Long-term value creation for the local tech ecosystem.",
-    accent: "from-purple-500 to-purple-700",
-  },
-  {
-    title: "Practical Innovation",
-    description: "Solving real problems with software that actually works.",
-    accent: "from-amber-500 to-amber-700",
+    title: "Delivery that survives contact with the real world",
+    description:
+      "We care about launch quality, yes, but also about whether the product still holds up on a busy Tuesday.",
   },
 ];
 
-function teamMemberAvatar(member: TeamMember) {
-  if (member.avatar) return member.avatar;
-  return `https://api.dicebear.com/7.x/avataaars/svg?seed=${encodeURIComponent(member.name)}`;
+const capabilities = [
+  {
+    title: "Operational products",
+    copy: "Systems for hospitality, internal workflows, field execution, and customer-facing experiences.",
+  },
+  {
+    title: "Deployment partnership",
+    copy: "Configuration, onboarding, rollout, and support so the product arrives as a complete operating layer.",
+  },
+  {
+    title: "Premium presentation",
+    copy: "Interfaces and brand surfaces that help ambitious businesses look more mature and more organized.",
+  },
+];
+
+function getInitials(name: string) {
+  return name
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("");
+}
+
+function canRenderRemoteImage(src: string | null | undefined) {
+  if (!src) return false;
+
+  return (
+    src.startsWith("/") ||
+    src.includes("images.unsplash.com") ||
+    src.includes("res.cloudinary.com") ||
+    src.includes("lh3.googleusercontent.com")
+  );
 }
 
 export function AboutClient({ teamMembers }: AboutClientProps) {
   return (
-    <main className="flex-1">
-      <section className="relative pt-14 pb-18 md:pt-24 md:pb-22 overflow-hidden">
-        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-          <div className="absolute top-1/4 -left-20 w-72 h-72 md:w-96 md:h-96 bg-blue-500/10 blur-[100px] rounded-full" />
-          <div className="absolute bottom-1/4 -right-20 w-72 h-72 md:w-96 md:h-96 bg-indigo-500/10 blur-[100px] rounded-full" />
-          <div className="absolute top-0 -right-20 md:right-0 w-[400px] md:w-[900px] h-auto opacity-10">
-            <Image
-              src="/images/GTSS-logo.png"
-              alt=""
-              width={900}
-              height={420}
-              className="w-full h-auto object-contain"
-              priority
-            />
-          </div>
-        </div>
-
-        <div className="container mx-auto px-4 sm:px-6 relative z-10">
-          <div className="max-w-5xl mx-auto grid lg:grid-cols-[1fr_auto] gap-8 lg:gap-10 items-center">
-            <div className="text-center lg:text-left">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50/80 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30 mb-6">
-                <Sparkles className="w-4 h-4 text-blue-600" />
-                <span className="text-xs font-bold uppercase tracking-wider text-blue-700 dark:text-blue-300">
-                  Transforming African Tech
-                </span>
-              </div>
-
-              <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-slate-900 dark:text-white tracking-tight leading-[1.05] mb-6">
-                Building Africa&apos;s Digital Infrastructure Engine
-              </h1>
-
-              <p className="text-base sm:text-lg md:text-xl text-slate-600 dark:text-slate-300 max-w-2xl mb-8 mx-auto lg:mx-0">
-                We design, build, and deploy enterprise-grade software systems
-                that empower businesses and drive sustainable growth across
-                Africa.
-              </p>
-
-              <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
-                <Link
-                  href="/products"
-                  className="w-full sm:w-auto px-8 py-3.5 bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-bold rounded-xl hover:shadow-lg transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  Explore Solutions
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="w-full sm:w-auto px-8 py-3.5 bg-white dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-bold rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 transition-colors text-center"
-                >
-                  Get in Touch
-                </Link>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-3 md:gap-4 w-full max-w-sm mx-auto lg:mx-0">
-              {[
-                { value: "50+", label: "Projects Delivered" },
-                { value: "100+", label: "Business Partners" },
-                { value: "24/7", label: "System Uptime" },
-                { value: "∞", label: "Growth Potential" },
-              ].map((stat) => (
-                <div
-                  key={stat.label}
-                  className="p-4 bg-white/70 dark:bg-slate-800/60 backdrop-blur-sm rounded-xl border border-slate-100 dark:border-slate-700/50 text-center lg:text-left"
-                >
-                  <div className="text-xl md:text-2xl font-black text-slate-900 dark:text-white">
-                    {stat.value}
-                  </div>
-                  <div className="text-xs text-slate-500 dark:text-slate-400 font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-18 md:py-22">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-3 block">
-              Our Philosophy
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              More Than Code, It&apos;s Infrastructure
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              We build systems that form the backbone of business operations
-              across Africa.
+    <main className="flex-1 px-4 pb-24 pt-10 sm:px-6 lg:px-8 lg:pt-14">
+      <div className="mx-auto max-w-7xl space-y-24">
+        <section className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+          <div className="max-w-3xl">
+            <span className="public-kicker">About GTSS</span>
+            <h1 className="public-section-title mt-6 text-5xl text-white sm:text-6xl">
+              We build the software layer that helps modern African businesses
+              operate with more confidence.
+            </h1>
+            <p className="mt-6 max-w-2xl text-base leading-8 text-white/66 sm:text-lg">
+              GTSS designs and deploys practical software systems for operators
+              who need more than a flashy interface. We care about launch
+              quality, day-two usability, and whether the system still feels
+              solid when real customers and real teams are leaning on it.
             </p>
-          </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 items-start">
-            <div className="space-y-6">
-              <h3 className="text-2xl font-bold text-slate-900 dark:text-white">
-                The GTSS Approach
-              </h3>
-              <p className="text-slate-600 dark:text-slate-300 leading-relaxed">
-                We combine technical excellence with deep understanding of local
-                business needs to create software that doesn&apos;t just
-                function, it transforms.
-              </p>
-              <div className="space-y-3">
-                {[
-                  "Enterprise-grade reliability for mission-critical operations",
-                  "Scalable architecture that grows with your business",
-                  "Localized solutions with global best practices",
-                  "24/7 support and continuous improvement",
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-3">
-                    <div className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center shrink-0 mt-0.5">
-                      <div className="w-2 h-2 rounded-full bg-blue-600" />
-                    </div>
-                    <span className="text-slate-700 dark:text-slate-300 font-medium">
-                      {item}
-                    </span>
-                  </div>
-                ))}
-              </div>
+            <div className="mt-8 flex flex-wrap gap-3">
+              {["Built in Africa", "Deployment-minded", "Premium by design"].map(
+                (item) => (
+                  <span key={item} className="public-chip text-sm">
+                    {item}
+                  </span>
+                ),
+              )}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              {capabilityCards.map((card) => (
-                <article
-                  key={card.title}
-                  className="relative h-full p-5 bg-white dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden"
-                >
-                  <div
-                    className={`absolute top-0 left-0 h-1 w-full bg-gradient-to-r ${card.accent}`}
-                  />
-                  <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
-                    {card.title}
-                  </h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-                    {card.description}
-                  </p>
-                </article>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="py-18 md:py-22">
-        <div className="container mx-auto px-4 sm:px-6 max-w-6xl">
-          <div className="text-center mb-12 md:mb-16">
-            <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-wider mb-3 block">
-              The Builders
-            </span>
-            <h2 className="text-3xl md:text-4xl font-black text-slate-900 dark:text-white mb-4">
-              Meet the Architects of Progress
-            </h2>
-            <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto">
-              The minds engineering Africa&apos;s digital future.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {teamMembers.map((member) => (
-              <article
-                key={member.id}
-                className="relative h-full bg-gradient-to-b from-white to-slate-50 dark:from-slate-800 dark:to-slate-900 rounded-3xl border border-slate-200 dark:border-slate-700 p-6"
+            <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+              <Link
+                href="/products"
+                className="public-button-primary px-6 py-4 text-base"
               >
-                <div className="flex items-start gap-4 mb-5">
-                  <div className="relative w-16 h-16 rounded-2xl overflow-hidden ring-2 ring-slate-100 dark:ring-slate-700">
-                    <Image
-                      src={teamMemberAvatar(member)}
-                      alt={member.name}
-                      fill
-                      className="object-cover"
-                      sizes="64px"
-                    />
-                  </div>
-                  <div className="min-w-0 flex-1">
-                    <h3 className="text-xl font-bold text-slate-900 dark:text-white truncate">
-                      {member.name}
-                    </h3>
-                    <p className="text-blue-600 dark:text-blue-400 font-semibold text-xs uppercase tracking-wider mt-1">
-                      {member.role}
-                    </p>
-                    <p className="text-xs text-slate-500 dark:text-slate-400 mt-2">
-                      Joined {member.joinDate || "2023"}
-                    </p>
-                  </div>
-                </div>
+                Explore Products
+              </Link>
+              <Link
+                href="/contact"
+                className="public-button-secondary px-6 py-4 text-base"
+              >
+                Talk to GTSS
+              </Link>
+            </div>
+          </div>
 
-                <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-5">
-                  {member.bio ||
-                    "Passionate about building scalable systems and solving complex user problems through clean code and practical innovation."}
+          <div className="public-panel-strong public-card-outline rounded-[2rem] p-5 sm:p-6">
+            <div className="grid gap-4 sm:grid-cols-2">
+              {[
+                { value: "50+", label: "project surfaces delivered" },
+                { value: "East Africa", label: "primary operating context" },
+                { value: "Offline-aware", label: "default design posture" },
+                { value: "Operator-first", label: "workflow philosophy" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-5"
+                >
+                  <p className="text-2xl font-semibold text-white">{item.value}</p>
+                  <p className="mt-2 text-xs uppercase tracking-[0.22em] text-white/40">
+                    {item.label}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 rounded-[1.75rem] border border-white/10 bg-[linear-gradient(135deg,rgba(243,215,154,0.10),rgba(143,216,255,0.10))] p-6">
+              <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/40">
+                Operating thesis
+              </p>
+              <p className="mt-3 text-lg font-semibold text-white">
+                Good software should reduce noise, make the business look more
+                capable, and give teams clearer control of the work in front of
+                them.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+          <div>
+            <span className="public-kicker">Our approach</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              GTSS sits at the intersection of product polish and operating
+              reality.
+            </h2>
+            <p className="mt-5 max-w-2xl text-base leading-8 text-white/66 sm:text-lg">
+              We do not think of software as a disconnected digital artifact.
+              It is part of how a company presents itself, coordinates work,
+              settles payments, tracks accountability, and grows.
+            </p>
+          </div>
+
+          <div className="grid gap-4">
+            {principles.map((principle) => (
+              <article
+                key={principle.title}
+                className="public-panel rounded-[1.75rem] p-6"
+              >
+                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-[#8fd8ff]">
+                  Principle
                 </p>
-
-                <div className="flex gap-2 pt-4 border-t border-slate-100 dark:border-slate-700/50">
-                  {member.portfolioUrl ? (
-                    <Link
-                      href={member.portfolioUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 bg-slate-50 dark:bg-slate-700/50 rounded-lg text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
-                      aria-label="Portfolio"
-                    >
-                      <Globe className="w-4 h-4" />
-                    </Link>
-                  ) : null}
-                  {member.linkedinUrl ? (
-                    <Link
-                      href={member.linkedinUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 bg-slate-50 dark:bg-slate-700/50 rounded-lg text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
-                      aria-label="LinkedIn"
-                    >
-                      <Linkedin className="w-4 h-4" />
-                    </Link>
-                  ) : null}
-                  {member.twitterUrl ? (
-                    <Link
-                      href={member.twitterUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="p-2 bg-slate-50 dark:bg-slate-700/50 rounded-lg text-slate-400 hover:text-blue-600 dark:hover:text-blue-400"
-                      aria-label="Twitter"
-                    >
-                      <Twitter className="w-4 h-4" />
-                    </Link>
-                  ) : null}
-                </div>
+                <h3 className="mt-3 text-2xl font-semibold text-white">
+                  {principle.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base">
+                  {principle.description}
+                </p>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-18 md:py-22">
-        <div className="container mx-auto px-4 sm:px-6">
-          <div className="relative max-w-4xl mx-auto overflow-hidden rounded-[2.5rem] bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-700 p-8 md:p-12">
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
-              <div className="absolute -top-20 -right-20 w-64 h-64 bg-white/10 rounded-full blur-3xl" />
-              <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-indigo-500/20 rounded-full blur-3xl" />
-            </div>
-
-            <div className="text-center lg:text-left lg:flex lg:items-center lg:justify-between lg:gap-8">
-              <div>
-                <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm mb-4">
-                  <Sparkles className="w-4 h-4 text-white" />
-                  <span className="text-xs font-bold text-white uppercase tracking-wider">
-                    Join the Movement
-                  </span>
-                </div>
-                <h2 className="text-3xl md:text-4xl font-black text-white mb-4">
-                  Ready to Build Africa&apos;s Future?
-                </h2>
-                <p className="text-blue-100 text-lg max-w-xl mb-6 lg:mb-0">
-                  Whether you&apos;re a developer, investor, or business looking
-                  to digitize, let&apos;s build something extraordinary
-                  together.
-                </p>
-              </div>
-
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link
-                  href="/contact"
-                  className="px-8 py-4 bg-white text-blue-700 font-bold rounded-2xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center gap-2"
-                >
-                  Join Our Team
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="px-8 py-4 bg-transparent border-2 border-white/30 text-white font-bold rounded-2xl hover:bg-white/10 transition-all duration-300 text-center"
-                >
-                  Partner With Us
-                </Link>
-              </div>
-            </div>
+        <section>
+          <div className="max-w-3xl">
+            <span className="public-kicker">What we build</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              GTSS is designed to be useful where execution pressure is high.
+            </h2>
           </div>
-        </div>
-      </section>
+
+          <div className="mt-10 grid gap-5 lg:grid-cols-3">
+            {capabilities.map((capability) => (
+              <article
+                key={capability.title}
+                className="public-panel public-card-outline rounded-[1.75rem] p-6 sm:p-7"
+              >
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  <Sparkles className="h-5 w-5 text-[#f3d79a]" />
+                </div>
+                <h3 className="mt-8 text-2xl font-semibold text-white">
+                  {capability.title}
+                </h3>
+                <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base">
+                  {capability.copy}
+                </p>
+              </article>
+            ))}
+          </div>
+        </section>
+
+        <section>
+          <div className="max-w-3xl">
+            <span className="public-kicker">The team</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              The people shaping GTSS.
+            </h2>
+            <p className="mt-5 text-base leading-8 text-white/66 sm:text-lg">
+              Engineers, operators, and builders focused on making software
+              genuinely useful for businesses that cannot afford fragile
+              systems.
+            </p>
+          </div>
+
+          {teamMembers.length > 0 ? (
+            <div className="mt-10 grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+              {teamMembers.map((member) => (
+                <article
+                  key={member.id}
+                  className="public-panel public-card-outline flex h-full flex-col rounded-[1.75rem] p-6 sm:p-7"
+                >
+                  <div className="flex items-start gap-4">
+                    {member.avatar && canRenderRemoteImage(member.avatar) ? (
+                      <div className="relative h-16 w-16 overflow-hidden rounded-[1.25rem] border border-white/10">
+                        <Image
+                          src={member.avatar}
+                          alt={member.name}
+                          fill
+                          className="object-cover"
+                          sizes="64px"
+                        />
+                      </div>
+                    ) : (
+                      <div className="flex h-16 w-16 items-center justify-center rounded-[1.25rem] bg-[linear-gradient(135deg,rgba(243,215,154,0.25),rgba(143,216,255,0.25))] text-lg font-semibold text-white">
+                        {getInitials(member.name)}
+                      </div>
+                    )}
+
+                    <div className="min-w-0 flex-1">
+                      <h3 className="truncate text-xl font-semibold text-white">
+                        {member.name}
+                      </h3>
+                      <p className="mt-1 text-xs font-semibold uppercase tracking-[0.2em] text-[#8fd8ff]">
+                        {member.role}
+                      </p>
+                      <p className="mt-2 text-xs uppercase tracking-[0.18em] text-white/35">
+                        Joined {member.joinDate || "GTSS early team"}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p className="mt-5 flex-1 text-sm leading-7 text-white/62 sm:text-base">
+                    {member.bio ||
+                      "Focused on building dependable systems, clear workflows, and product experiences that feel polished without becoming fragile."}
+                  </p>
+
+                  <div className="mt-6 flex items-center gap-3 border-t border-white/10 pt-5">
+                    {member.portfolioUrl ? (
+                      <Link
+                        href={member.portfolioUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/65 transition-colors hover:border-white/20 hover:text-white"
+                        aria-label="Portfolio"
+                      >
+                        <Globe className="h-4 w-4" />
+                      </Link>
+                    ) : null}
+                    {member.linkedinUrl ? (
+                      <Link
+                        href={member.linkedinUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/65 transition-colors hover:border-white/20 hover:text-white"
+                        aria-label="LinkedIn"
+                      >
+                        <Linkedin className="h-4 w-4" />
+                      </Link>
+                    ) : null}
+                    {member.twitterUrl ? (
+                      <Link
+                        href={member.twitterUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex h-10 w-10 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/65 transition-colors hover:border-white/20 hover:text-white"
+                        aria-label="Twitter"
+                      >
+                        <Twitter className="h-4 w-4" />
+                      </Link>
+                    ) : null}
+                  </div>
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div className="public-panel public-card-outline mt-10 rounded-[1.75rem] px-6 py-16 text-center">
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/38">
+                Team profiles
+              </p>
+              <p className="mt-4 text-3xl font-semibold text-white">
+                Team profiles are being refreshed.
+              </p>
+              <p className="mx-auto mt-4 max-w-2xl text-sm leading-7 text-white/62 sm:text-base">
+                GTSS is actively building the public team roster. If you want to
+                meet the people behind a project or product line, reach out and
+                we&apos;ll make the right introduction directly.
+              </p>
+            </div>
+          )}
+        </section>
+
+        <section className="public-panel-strong public-card-outline rounded-[2rem] p-8 sm:p-10 lg:p-14">
+          <div className="max-w-3xl">
+            <span className="public-kicker">Work with GTSS</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              If the business needs a stronger digital operating layer, we can
+              help shape it.
+            </h2>
+            <p className="mt-5 text-base leading-8 text-white/66 sm:text-lg">
+              Whether you need a product walkthrough, a deployment plan, or a
+              more tailored delivery path, GTSS is built to meet the work where
+              it actually happens.
+            </p>
+          </div>
+
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/contact"
+              className="public-button-primary px-6 py-4 text-base"
+            >
+              Start the Conversation
+            </Link>
+            <Link
+              href="/products"
+              className="public-button-secondary px-6 py-4 text-base"
+            >
+              Browse the Product Suite
+            </Link>
+          </div>
+        </section>
+      </div>
     </main>
   );
 }

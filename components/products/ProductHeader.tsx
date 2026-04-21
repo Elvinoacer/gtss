@@ -1,34 +1,110 @@
-import { Hexagon } from "lucide-react";
+import { ArrowRight, Boxes, ShieldCheck, Sparkles } from "lucide-react";
+import Link from "next/link";
 
-export function ProductHeader() {
+interface ProductHeaderProps {
+  categoryCount: number;
+  liveCount: number;
+  productCount: number;
+}
+
+export function ProductHeader({
+  categoryCount,
+  liveCount,
+  productCount,
+}: ProductHeaderProps) {
   return (
-    <header className="relative w-full py-12 md:py-24 px-4 md:px-6 overflow-hidden">
-      <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-0 left-1/4 w-96 h-96 bg-blue-600/20 rounded-full blur-[120px] mix-blend-screen" />
-        <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-emerald-500/10 rounded-full blur-[150px] mix-blend-screen" />
-        <div className="absolute inset-0 bg-[url('/noise.png')] opacity-[0.03] mix-blend-overlay" />
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_50%,#000_70%,transparent_100%)] opacity-20" />
-      </div>
+    <header className="relative overflow-hidden px-4 pb-14 pt-10 sm:px-6 lg:px-8 lg:pb-18 lg:pt-14">
+      <div className="mx-auto grid max-w-7xl items-center gap-10 lg:grid-cols-[1.05fr_0.95fr]">
+        <div className="max-w-3xl">
+          <span className="public-kicker">Product ecosystem</span>
+          <h1 className="public-section-title mt-6 text-5xl text-white sm:text-6xl">
+            Systems built to carry serious day-to-day operations.
+          </h1>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-white/66 sm:text-lg">
+            Explore GTSS products spanning hospitality, internal operations,
+            commerce, and business infrastructure. The portfolio is designed to
+            feel premium on the surface and dependable when the work gets messy.
+          </p>
 
-      <div className="relative z-10 max-w-7xl mx-auto flex flex-col md:items-center text-center gap-6">
-        <div className="space-y-6 max-w-3xl flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-blue-500/30 bg-blue-500/10 backdrop-blur-md shadow-[0_0_15px_rgba(59,130,246,0.2)]">
-            <Hexagon className="w-4 h-4 text-blue-400 animate-[spin_10s_linear_infinite]" />
-            <span className="text-xs font-black uppercase tracking-widest text-blue-400">
-              Product Ecosystem
-            </span>
+          <div className="mt-7 flex flex-wrap gap-3">
+            {[
+              "Offline-ready where it counts",
+              "Deployment included",
+              "Built for African operators",
+            ].map((item) => (
+              <span key={item} className="public-chip text-sm">
+                {item}
+              </span>
+            ))}
           </div>
 
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1]">
-            Practical Solutions for{' '}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-emerald-400 to-cyan-400 animate-gradient-x drop-shadow-[0_0_10px_rgba(52,211,153,0.3)]">
-              Real Problems
-            </span>
-          </h1>
+          <div className="mt-8 flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/contact"
+              className="public-button-primary px-6 py-4 text-base"
+            >
+              Request a Product Walkthrough
+              <ArrowRight className="h-5 w-5" />
+            </Link>
+            <Link
+              href="/about"
+              className="public-button-secondary px-6 py-4 text-base"
+            >
+              See how GTSS delivers
+            </Link>
+          </div>
+        </div>
 
-          <p className="text-slate-400 text-base md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
-            High-performance, beautifully designed software engineered to scale your business operations into the future.
-          </p>
+        <div className="public-panel-strong public-card-outline rounded-[2rem] p-5 sm:p-6">
+          <div className="grid gap-4 sm:grid-cols-3">
+            {[
+              {
+                label: "Products",
+                value: String(productCount),
+                icon: Boxes,
+              },
+              {
+                label: "Live systems",
+                value: String(liveCount),
+                icon: ShieldCheck,
+              },
+              {
+                label: "Categories",
+                value: String(categoryCount),
+                icon: Sparkles,
+              },
+            ].map((item) => (
+              <div
+                key={item.label}
+                className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-5"
+              >
+                <div className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  <item.icon className="h-5 w-5 text-[#f3d79a]" />
+                </div>
+                <p className="mt-5 text-3xl font-semibold text-white">
+                  {item.value}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-[0.22em] text-white/40">
+                  {item.label}
+                </p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 rounded-[1.75rem] border border-white/10 bg-[linear-gradient(135deg,rgba(243,215,154,0.10),rgba(143,216,255,0.08))] p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/42">
+              Portfolio notes
+            </p>
+            <p className="mt-3 text-lg font-semibold text-white">
+              Each product is positioned to reduce friction, raise perceived
+              quality, and improve operator confidence.
+            </p>
+            <p className="mt-3 text-sm leading-7 text-white/62">
+              Browse the catalog by operational fit, compare delivery patterns,
+              and open a product page for the deeper architecture and resource
+              view.
+            </p>
+          </div>
         </div>
       </div>
     </header>

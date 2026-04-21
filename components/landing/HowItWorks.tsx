@@ -7,83 +7,85 @@ import { landingHowItWorks } from "@/data/landing";
 export function HowItWorks() {
   return (
     <section
-      className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_1000px]"
+      className="relative px-4 py-20 sm:px-6 lg:px-8 [content-visibility:auto] [contain-intrinsic-size:1px_1000px]"
       id="how-it-works"
     >
-      <div className="max-w-[1100px] mx-auto px-4 flex flex-col gap-24">
-        <div className="text-center max-w-2xl mx-auto">
-          <div>
-            <span className="text-sm font-semibold text-[#00C2FF] uppercase tracking-widest mb-4 block">
-              Simple Process
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 text-white">
-              How It <span className="gradient-text-static">Works</span>
-            </h2>
-          </div>
+      <div className="mx-auto flex max-w-7xl flex-col gap-10">
+        <div className="max-w-3xl">
+          <span className="public-kicker">How we deliver</span>
+          <h2 className="public-section-title mt-5 text-4xl text-white sm:text-5xl">
+            A rollout process that respects both speed and polish.
+          </h2>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-white/65 sm:text-lg">
+            GTSS combines ready-made software leverage with enough deployment
+            attention to make the finished product feel deliberate instead of
+            improvised.
+          </p>
         </div>
 
         {landingHowItWorks.map((row, index) => (
           <div
             key={row.title}
-            className={`flex flex-col md:flex-row items-center gap-12 ${row.reverse ? "md:flex-row-reverse" : ""}`}
+            className={`grid items-center gap-8 rounded-[2rem] border border-white/10 bg-white/[0.025] p-4 sm:p-6 lg:grid-cols-2 lg:gap-10 lg:p-8 ${
+              row.reverse ? "lg:[&>*:first-child]:order-2" : ""
+            }`}
           >
-            <div className="flex-1 w-full">
-              <div className="relative">
-                <div className="absolute -inset-4 bg-gradient-to-r from-[#007AFF]/20 to-[#6200EA]/20 rounded-3xl blur-2xl opacity-50" />
-
-                <div className="relative glass-strong rounded-2xl overflow-hidden p-1.5">
-                  <div className="relative aspect-video w-full rounded-xl overflow-hidden">
-                    <Image
-                      src={row.image}
-                      alt={row.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 50vw"
-                      className="object-cover"
-                    />
-                  </div>
+            <div className="public-panel-strong relative overflow-hidden rounded-[1.75rem] p-3">
+              <div className="absolute -left-10 top-8 h-28 w-28 rounded-full bg-[#f3d79a]/18 blur-3xl" />
+              <div className="relative overflow-hidden rounded-[1.4rem] border border-white/10">
+                <div className="flex items-center justify-between border-b border-white/10 px-4 py-3 text-xs uppercase tracking-[0.24em] text-white/40">
+                  <span>Step 0{index + 1}</span>
+                  <span>GTSS delivery</span>
                 </div>
-
-                <div className="absolute -top-4 -left-4 w-12 h-12 rounded-xl bg-gradient-to-br from-[#007AFF] to-[#00C2FF] flex items-center justify-center shadow-lg glow-blue">
-                  <span className="text-xl font-bold text-white">
-                    {index + 1}
-                  </span>
+                <div className="relative aspect-[16/11]">
+                  <Image
+                    src={row.image}
+                    alt={row.title}
+                    fill
+                    sizes="(max-width: 1024px) 100vw, 50vw"
+                    className="object-cover opacity-82"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#050709] via-transparent to-transparent" />
                 </div>
               </div>
             </div>
 
-            <div className="flex-1 flex flex-col gap-5">
-              <h3 className="text-2xl md:text-3xl lg:text-4xl font-bold text-white">
+            <div className="flex flex-col gap-5">
+              <span className="text-xs font-semibold uppercase tracking-[0.24em] text-[#8fd8ff]">
+                Step 0{index + 1}
+              </span>
+              <h3 className="public-section-title text-3xl text-white sm:text-4xl">
                 {row.title}
               </h3>
-              <p className="text-white/70 text-lg leading-relaxed">
+              <p className="text-base leading-8 text-white/65 sm:text-lg">
                 {row.description}
               </p>
 
-              {row.items && row.items.length > 0 && (
-                <ul className="flex flex-col gap-3 mt-2">
+              {row.items && row.items.length > 0 ? (
+                <ul className="mt-2 flex flex-col gap-3">
                   {row.items.map((item) => (
                     <li
                       key={item}
                       className="flex items-center gap-3 text-white/70"
                     >
-                      <div className="w-6 h-6 rounded-lg bg-[#007AFF]/20 flex items-center justify-center">
-                        <Check className="w-4 h-4 text-[#00C2FF]" />
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full border border-white/10 bg-white/5">
+                        <Check className="h-4 w-4 text-[#f3d79a]" />
                       </div>
                       <span className="font-medium">{item}</span>
                     </li>
                   ))}
                 </ul>
-              )}
+              ) : null}
 
-              {row.cta && (
+              {row.cta ? (
                 <Link
                   href={row.ctaHref || "#"}
-                  className="w-fit mt-4 text-[#00C2FF] font-bold hover:text-white transition-colors flex items-center gap-2 group"
+                  className="mt-4 flex w-fit items-center gap-2 text-sm font-semibold uppercase tracking-[0.2em] text-[#f3d79a] transition-colors hover:text-white"
                 >
                   {row.cta}
-                  <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="h-4 w-4" />
                 </Link>
-              )}
+              ) : null}
             </div>
           </div>
         ))}

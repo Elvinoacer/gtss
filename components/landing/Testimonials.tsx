@@ -5,62 +5,63 @@ import { landingTestimonials } from "@/data/landing";
 
 export function Testimonials() {
   return (
-    <section className="py-24 relative">
-      <div className="max-w-[1280px] mx-auto px-4">
-        <div className="text-center mb-16">
-          <div>
-            <span className="text-sm font-semibold text-[#00C2FF] uppercase tracking-widest mb-4 block">
-              Testimonials
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-white">
-              What Our <span className="gradient-text-static">Users Say</span>
-            </h2>
-          </div>
+    <section className="relative px-4 py-20 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="mb-10 max-w-3xl">
+          <span className="public-kicker">What clients remember</span>
+          <h2 className="public-section-title mt-5 text-4xl text-white sm:text-5xl">
+            GTSS tends to win on composure.
+          </h2>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-white/65 sm:text-lg">
+            The strongest compliment we hear is that the product makes teams
+            feel more in control. That is usually the difference between
+            software people tolerate and software they trust.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid gap-5 lg:grid-cols-3">
           {landingTestimonials.map((testimonial) => (
             <div
               key={testimonial.name}
-              className="glass-card rounded-2xl p-6 flex flex-col gap-5 gradient-border relative overflow-hidden group hover:glow-blue-hover"
+              className="public-panel public-card-outline relative flex h-full flex-col gap-6 overflow-hidden rounded-[1.75rem] p-6 sm:p-7"
             >
-              <div className="absolute top-4 right-4 text-white/5 group-hover:text-white/10 transition-colors">
-                <Quote className="w-12 h-12" />
+              <div className="absolute right-5 top-5 text-white/8">
+                <Quote className="h-12 w-12" />
               </div>
 
               <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
+                {Array.from({ length: 5 }).map((_, index) => (
                   <Star
-                    key={i}
-                    className={`w-5 h-5 ${
-                      i < Math.floor(testimonial.rating)
-                        ? "text-[#FFD700] fill-[#FFD700]"
-                        : i < testimonial.rating
-                          ? "text-[#FFD700] fill-[#FFD700] opacity-50"
+                    key={`${testimonial.name}-${index}`}
+                    className={`h-5 w-5 ${
+                      index < Math.floor(testimonial.rating)
+                        ? "fill-[#FFD700] text-[#FFD700]"
+                        : index < testimonial.rating
+                          ? "fill-[#FFD700] text-[#FFD700] opacity-50"
                           : "text-white/20"
                     }`}
                   />
                 ))}
               </div>
 
-              <p className="text-white/70 leading-relaxed flex-1 relative z-10">
+              <p className="relative z-10 flex-1 text-base leading-8 text-white/68">
                 {testimonial.content}
               </p>
 
-              <div className="flex items-center gap-4 pt-4 border-t border-white/10">
+              <div className="flex items-center gap-4 border-t border-white/10 pt-5">
                 <div className="relative">
-                  <div className="absolute -inset-0.5 bg-gradient-to-r from-[#007AFF] to-[#00C2FF] rounded-full blur opacity-50" />
+                  <div className="absolute -inset-0.5 rounded-full bg-gradient-to-r from-[#f3d79a] to-[#8fd8ff] blur opacity-55" />
                   <Image
                     src={testimonial.avatar}
                     alt={testimonial.name}
                     width={48}
                     height={48}
-                    className="relative size-12 rounded-full object-cover ring-2 ring-black"
+                    className="relative h-12 w-12 rounded-full object-cover ring-2 ring-black"
                   />
                 </div>
                 <div>
-                  <p className="font-bold text-white">{testimonial.name}</p>
-                  <p className="text-sm text-white/60">{testimonial.role}</p>
+                  <p className="font-semibold text-white">{testimonial.name}</p>
+                  <p className="text-sm text-white/55">{testimonial.role}</p>
                 </div>
               </div>
             </div>

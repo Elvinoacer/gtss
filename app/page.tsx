@@ -27,16 +27,16 @@ const CTA = dynamic(() =>
 
 export default function LandingPage() {
   return (
-    <div className="landing-page bg-[#000000] text-white antialiased overflow-x-hidden relative">
-      {/* Animated gradient orbs */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0 transform-gpu">
-        <div className="gradient-orb gradient-orb-blue w-[600px] h-[600px] -top-48 -left-48" />
-        <div className="gradient-orb gradient-orb-purple w-[500px] h-[500px] top-1/3 -right-32" />
-        <div className="gradient-orb gradient-orb-blue w-[400px] h-[400px] bottom-1/4 left-1/4" />
-        <div className="gradient-orb gradient-orb-gold w-[300px] h-[300px] bottom-0 right-1/3 opacity-30" />
+    <div className="landing-page public-shell overflow-x-hidden text-white antialiased">
+      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+        <div className="public-grid" />
+        <div className="public-mesh" />
+        <div className="gradient-orb gradient-orb-blue h-[420px] w-[420px] -left-24 top-8 opacity-40 sm:h-[540px] sm:w-[540px]" />
+        <div className="gradient-orb gradient-orb-gold h-[360px] w-[360px] -right-10 top-24 opacity-35 sm:h-[460px] sm:w-[460px]" />
+        <div className="gradient-orb gradient-orb-purple bottom-0 left-1/3 h-[320px] w-[320px] opacity-20 sm:h-[420px] sm:w-[420px]" />
       </div>
 
-      <div className="relative flex min-h-screen w-full flex-col z-10">
+      <div className="relative z-10 flex min-h-screen w-full flex-col">
         <Navbar />
         <DeferredViewTracker />
         <main>

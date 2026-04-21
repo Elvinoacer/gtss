@@ -18,41 +18,48 @@ export const metadata: Metadata = {
 
 export default async function ProductsPage() {
   const products = await getPublicProducts();
+  const categoryCount = new Set(products.map((product) => product.category)).size;
+  const liveCount = products.filter(
+    (product) => product.status?.toLowerCase() === "live",
+  ).length;
 
   return (
     <div className="pb-24">
-      <ProductHeader />
+      <ProductHeader
+        productCount={products.length}
+        categoryCount={categoryCount}
+        liveCount={liveCount}
+      />
 
-      {/* Products Section */}
-      <section className="max-w-7xl mx-auto px-6 -mt-10 relative z-30">
+      <section className="relative z-30 mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <PublicProductsClient products={products} />
       </section>
 
-      {/* Custom Solutions CTA */}
-      <section className="mt-32 container mx-auto px-4">
-        <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-[#1E293B] rounded-[3rem] p-12 md:p-20 text-center shadow-2xl shadow-slate-900/20">
-          {/* Decorative elements */}
-          <div className="absolute top-0 right-0 size-64 bg-blue-500/10 rounded-full blur-3xl -mr-32 -mt-32" />
-          <div className="absolute bottom-0 left-0 size-64 bg-emerald-500/10 rounded-full blur-3xl -ml-32 -mb-32" />
+      <section className="mx-auto mt-24 max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="public-panel-strong public-card-outline relative overflow-hidden rounded-[2.5rem] p-8 sm:p-10 lg:p-14">
+          <div className="absolute -left-8 top-10 h-36 w-36 rounded-full bg-[#8fd8ff]/16 blur-3xl" />
+          <div className="absolute -right-8 bottom-8 h-36 w-36 rounded-full bg-[#f3d79a]/16 blur-3xl" />
 
-          <div className="relative z-10 max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-5xl font-black text-white mb-6 tracking-tight">
-              Need something custom built?
+          <div className="relative z-10 max-w-3xl">
+            <span className="public-kicker">Custom scope available</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              Need GTSS to shape something more specific to your operation?
             </h2>
-            <p className="text-slate-300 text-lg md:text-xl mb-10 font-medium opacity-90">
-              Our expert team specializes in building bespoke software solutions
-              tailored to your unique business requirements.
+            <p className="mt-5 text-base leading-8 text-white/66 sm:text-lg">
+              We can start from an existing GTSS product, extend the workflow,
+              and package the delivery so it still feels cohesive, premium, and
+              ready for rollout.
             </p>
-            <div className="flex flex-wrap items-center justify-center gap-4">
+            <div className="mt-8 flex flex-wrap items-center gap-4">
               <a
                 href="/contact"
-                className="px-8 py-4 bg-[#2563EB] text-white font-bold rounded-2xl hover:bg-blue-700 hover:scale-105 transition-all shadow-xl shadow-blue-500/25"
+                className="public-button-primary px-6 py-4 text-base"
               >
                 Start a Project
               </a>
               <a
                 href="/about"
-                className="px-8 py-4 bg-white/10 text-white font-bold rounded-2xl hover:bg-white/20 transition-colors border border-white/10 backdrop-blur-sm"
+                className="public-button-secondary px-6 py-4 text-base"
               >
                 Learn About Us
               </a>

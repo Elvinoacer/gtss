@@ -3,46 +3,81 @@ import { landingFeatures } from "@/data/landing";
 export function Features() {
   return (
     <section
-      className="py-24 relative [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
+      className="relative px-4 py-20 sm:px-6 lg:px-8 [content-visibility:auto] [contain-intrinsic-size:1px_900px]"
       id="features"
     >
-      <div className="max-w-[1100px] mx-auto px-4 flex flex-col gap-16">
-        <div className="text-center max-w-2xl mx-auto">
-          <div>
-            <span className="text-sm font-semibold text-[#00C2FF] uppercase tracking-widest mb-4 block">
-              Why Choose Us
-            </span>
-            <h2 className="text-3xl md:text-4xl lg:text-5xl font-black mb-6 text-white">
-              Key <span className="gradient-text-static">Capabilities</span>
-            </h2>
-            <p className="text-white/70 text-lg">
-              Everything you need to manage your enterprise projects effectively
-              without the clutter.
-            </p>
-          </div>
+      <div className="mx-auto flex max-w-7xl flex-col gap-10">
+        <div className="max-w-3xl">
+          <span className="public-kicker">Why GTSS lands well</span>
+          <h2 className="public-section-title mt-5 text-4xl text-white sm:text-5xl">
+            The product looks premium because the system thinking is premium.
+          </h2>
+          <p className="mt-5 max-w-2xl text-base leading-8 text-white/65 sm:text-lg">
+            Design quality matters, but so do the invisible things: failure
+            handling, rollout practicality, role-based workflows, and the
+            discipline required to make software feel quiet under pressure.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {landingFeatures.map((feature) => {
+        <div className="grid gap-5 lg:grid-cols-12">
+          {landingFeatures.map((feature, index) => {
             const Icon = feature.icon;
             return (
               <div
                 key={feature.title}
-                className="group glass-card rounded-2xl p-6 gradient-border hover:glow-blue-hover"
+                className={`public-panel public-card-outline group rounded-[1.75rem] p-6 sm:p-7 ${
+                  index === 0 ? "lg:col-span-6" : "lg:col-span-3"
+                }`}
               >
-                <div className="icon-glow w-14 h-14 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300">
-                  <Icon className="w-7 h-7 text-[#00C2FF] group-hover:text-white transition-colors" />
+                <div className="flex h-14 w-14 items-center justify-center rounded-2xl border border-white/10 bg-white/5">
+                  <Icon className="h-6 w-6 text-[#f3d79a]" />
                 </div>
 
-                <h3 className="text-xl font-bold mb-3 text-white group-hover:gradient-text-static transition-all">
+                <h3 className="mt-8 text-xl font-semibold text-white sm:text-2xl">
                   {feature.title}
                 </h3>
-                <p className="text-white/70 leading-relaxed group-hover:text-white transition-colors">
+                <p className="mt-3 text-sm leading-7 text-white/62 sm:text-base">
                   {feature.description}
                 </p>
+
+                <div className="mt-8 flex items-center gap-2 text-xs uppercase tracking-[0.22em] text-white/35">
+                  <span className="h-2 w-2 rounded-full bg-[#8fd8ff]" />
+                  GTSS capability layer
+                </div>
               </div>
             );
           })}
+
+          <div className="public-panel public-card-outline rounded-[1.75rem] p-6 sm:p-7 lg:col-span-12">
+            <div className="grid gap-4 sm:grid-cols-3">
+              {[
+                {
+                  title: "Workflow design",
+                  copy: "Interfaces are shaped by the people using them, not by the easiest database schema.",
+                },
+                {
+                  title: "Operational resilience",
+                  copy: "We build for unreliable networks, busy teams, and moments where software cannot freeze.",
+                },
+                {
+                  title: "Executive confidence",
+                  copy: "The end result should feel credible in demos, in audits, and on the busiest day of the month.",
+                },
+              ].map((item) => (
+                <div
+                  key={item.title}
+                  className="rounded-[1.5rem] border border-white/10 bg-white/[0.03] p-5"
+                >
+                  <p className="text-xs font-semibold uppercase tracking-[0.22em] text-white/38">
+                    {item.title}
+                  </p>
+                  <p className="mt-3 text-sm leading-7 text-white/62">
+                    {item.copy}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </section>

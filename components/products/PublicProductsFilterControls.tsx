@@ -1,6 +1,6 @@
 "use client";
 
-import { Component, Search, SlidersHorizontal } from "lucide-react";
+import { Search } from "lucide-react";
 import { useDeferredValue, useEffect, useState } from "react";
 
 interface PublicProductsFilterControlsProps {
@@ -14,7 +14,6 @@ export function PublicProductsFilterControls({
 }: PublicProductsFilterControlsProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
   const deferredQuery = useDeferredValue(searchQuery);
 
   useEffect(() => {
@@ -52,77 +51,54 @@ export function PublicProductsFilterControls({
   }, [deferredQuery, selectedCategory]);
 
   return (
-    <section className="relative z-40 max-w-4xl mx-auto md:sticky md:top-24">
-      <div className="relative group p-1 rounded-3xl bg-gradient-to-b from-white/10 to-white/5 border border-white/10 backdrop-blur-xl shadow-2xl shadow-blue-500/10">
-        <div className="flex flex-col md:flex-row items-center gap-4 p-2">
-          <div className="relative flex-1 w-full">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+    <section className="relative z-40 md:sticky md:top-28">
+      <div className="public-panel public-card-outline rounded-[1.75rem] p-4 sm:p-5">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
+          <div className="relative flex-1">
+            <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 text-white/38" />
             <input
               type="search"
-              placeholder="Search systems, modules, platforms..."
+              placeholder="Search products, workflows, or use cases"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              className="w-full pl-12 pr-4 py-4 bg-transparent border-none focus:ring-0 text-slate-100 placeholder:text-slate-500 font-medium text-lg outline-none"
+              className="w-full rounded-[1.25rem] border border-white/10 bg-white/[0.04] py-4 pl-12 pr-4 text-base text-white outline-none transition-colors placeholder:text-white/35 focus:border-white/20"
             />
           </div>
 
-          <div className="hidden md:block w-px h-8 bg-white/10" />
-
-          <div className="flex flex-wrap items-center justify-center gap-2 w-full md:w-auto px-2 pb-2 md:pb-0">
-            <button
-              type="button"
-              onClick={() => setIsFilterOpen((current) => !current)}
-              className={`flex-1 md:flex-none flex items-center justify-center gap-2 px-6 py-3 rounded-2xl font-bold text-sm transition-colors ${
-                isFilterOpen
-                  ? "bg-blue-500 text-white shadow-[0_0_20px_rgba(59,130,246,0.35)]"
-                  : "bg-white/5 text-slate-300 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              <SlidersHorizontal className="w-4 h-4" />
-              <span>Filters</span>
-            </button>
-            <div className="flex items-center gap-2 px-4 py-3 rounded-2xl bg-emerald-500/10 border border-emerald-500/20">
-              <div className="size-2 rounded-full bg-emerald-400 shadow-[0_0_10px_rgba(52,211,153,0.8)]" />
-              <span className="text-xs font-black text-emerald-400 uppercase tracking-widest">
+          <div className="flex items-center justify-between gap-3 rounded-[1.25rem] border border-white/10 bg-white/[0.04] px-4 py-3 lg:min-w-[180px]">
+            <div>
+              <p className="text-xs uppercase tracking-[0.22em] text-white/35">
+                Visible
+              </p>
+              <p className="text-sm font-semibold text-white">
                 <span id="public-products-count">{totalProducts}</span>{" "}
-                <span className="hidden sm:inline">Active</span>
-              </span>
+                systems
+              </p>
             </div>
+            <div className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.95)]" />
           </div>
         </div>
 
-        {isFilterOpen && (
-          <div className="overflow-hidden border-t border-white/5">
-            <div className="p-6">
-              <div className="flex items-center gap-2 mb-4">
-                <Component className="w-4 h-4 text-slate-400" />
-                <h4 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400">
-                  System Categories
-                </h4>
-              </div>
-              <div className="flex flex-wrap gap-3">
-                {categories.map((category) => {
-                  const isActive = selectedCategory === category;
+        <div className="mt-4 flex flex-wrap gap-2">
+          {categories.map((category) => {
+            const isActive = selectedCategory === category;
 
-                  return (
-                    <button
-                      key={category}
-                      type="button"
-                      onClick={() => setSelectedCategory(category)}
-                      className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-colors ${
-                        isActive
-                          ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
-                          : "bg-white/5 text-slate-400 hover:bg-white/10 hover:text-white"
-                      }`}
-                    >
-                      {category}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        )}
+            return (
+              <button
+                key={category}
+                type="button"
+                onClick={() => setSelectedCategory(category)}
+                className={`rounded-full px-4 py-2.5 text-sm font-semibold transition-colors ${
+                  isActive
+                    ? "bg-[linear-gradient(135deg,#f3d79a,#8fd8ff)] text-slate-950"
+                    : "border border-white/10 bg-white/[0.03] text-white/68 hover:border-white/20 hover:text-white"
+                }`}
+              >
+                {category}
+              </button>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

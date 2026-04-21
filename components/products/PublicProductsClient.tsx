@@ -14,7 +14,7 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
   ];
 
   return (
-    <div className="space-y-8 md:space-y-12">
+    <div className="space-y-8 md:space-y-10">
       <PublicProductsFilterControls
         categories={categories}
         totalProducts={products.length}
@@ -23,26 +23,26 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
       <div
         id="public-products-empty"
         hidden
-        className="relative max-w-2xl mx-auto text-center py-24 bg-[#0F172A]/50 backdrop-blur-md rounded-[3rem] border border-white/5 overflow-hidden"
+        className="public-panel public-card-outline relative mx-auto max-w-2xl overflow-hidden rounded-[2rem] px-6 py-20 text-center"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(59,130,246,0.1)_0,transparent_70%)] opacity-50" />
-        <div className="relative z-10 flex flex-col items-center">
-          <div className="relative size-20 mb-8">
-            <div className="absolute inset-0 border-2 border-dashed border-slate-700 rounded-full" />
-            <div className="absolute inset-2 border-2 border-slate-800 rounded-full" />
-          </div>
-          <h3 className="text-xl md:text-2xl font-black text-white mb-3 tracking-tight">
-            System Not Found
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(243,215,154,0.16),transparent_36%)]" />
+        <div className="relative z-10">
+          <p className="text-xs font-semibold uppercase tracking-[0.24em] text-white/40">
+            No matches
+          </p>
+          <h3 className="mt-4 text-3xl font-semibold text-white">
+            No systems match that filter yet.
           </h3>
-          <p className="text-sm md:text-base text-slate-400 max-w-sm mx-auto mb-8 font-medium px-4">
-            We couldn&apos;t detect any solutions matching your parameters.
+          <p className="mx-auto mt-4 max-w-md text-sm leading-7 text-white/62 sm:text-base">
+            Try a different category or search term. You can also reach out if
+            you want GTSS to shape something more tailored around your workflow.
           </p>
         </div>
       </div>
 
       <div
         id="public-products-grid"
-        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 max-w-[1400px] mx-auto"
+        className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3"
       >
         {products.map((product) => (
           <div
