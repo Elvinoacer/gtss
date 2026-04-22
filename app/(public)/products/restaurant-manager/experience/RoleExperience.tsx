@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, useCallback } from "react";
 import Link from "next/link";
+import { User, ChefHat, Bell, Crown, Play, ChevronDown, CheckCircle2 } from "lucide-react";
 import "./role-experience.css";
 
 /* ====================================================================
@@ -29,7 +30,7 @@ interface GalleryItem {
 
 interface Chapter {
   id: string;
-  icon: string;
+  icon: React.ReactNode;
   role: string;
   tagline: string;
   mediaType: "video" | "gallery";
@@ -41,7 +42,7 @@ interface Chapter {
 const chapters: Chapter[] = [
   {
     id: "guest",
-    icon: "👤",
+    icon: <User strokeWidth={2} />,
     role: "Guest Experience",
     tagline: "Everything your guest sees — from first WiFi connection to payment",
     mediaType: "video",
@@ -96,7 +97,7 @@ const chapters: Chapter[] = [
   },
   {
     id: "kds",
-    icon: "👨‍🍳",
+    icon: <ChefHat strokeWidth={2} />,
     role: "Kitchen Display System",
     tagline: "What your kitchen staff sees — zero distractions, pure order flow",
     mediaType: "gallery",
@@ -116,7 +117,7 @@ const chapters: Chapter[] = [
   },
   {
     id: "waiter",
-    icon: "🛎️",
+    icon: <Bell strokeWidth={2} />,
     role: "Waiter Dashboard",
     tagline: "What your waiters see — auto-assigned orders, priority sorted, zero confusion",
     mediaType: "video",
@@ -141,7 +142,7 @@ const chapters: Chapter[] = [
   },
   {
     id: "admin",
-    icon: "👑",
+    icon: <Crown strokeWidth={2} />,
     role: "Admin / GM Hub",
     tagline: "Total visibility and control — every screen your management team uses",
     mediaType: "gallery",
@@ -357,8 +358,10 @@ export function RoleExperience() {
             {chapters.map((c) => (
               <button key={c.id} className={`exp-role-card exp-role-card--${c.id}`} onClick={() => scrollToChapter(c.id)}>
                 <span className="exp-role-card-icon">{c.icon}</span>
-                <span className="exp-role-card-label">{c.role}</span>
-                <span className="exp-role-card-count">{c.screenGroups.reduce((a, g) => a + g.screens.length, 0)} screens</span>
+                <div className="exp-role-card-content">
+                  <span className="exp-role-card-label">{c.role}</span>
+                  <span className="exp-role-card-count">{c.screenGroups.reduce((a, g) => a + g.screens.length, 0)} screens</span>
+                </div>
               </button>
             ))}
           </div>
