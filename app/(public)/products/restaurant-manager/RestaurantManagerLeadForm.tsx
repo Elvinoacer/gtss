@@ -1,6 +1,13 @@
 "use client";
 
-import { LoaderCircle } from "lucide-react";
+import {
+  ChevronDown,
+  Clock3,
+  LoaderCircle,
+  ShieldCheck,
+  Sparkles,
+  type LucideIcon,
+} from "lucide-react";
 import type { FormEvent } from "react";
 import { useState, useTransition } from "react";
 
@@ -19,6 +26,12 @@ const initialStatus: FormStatus = {
   message:
     "No commitment, no credit card, and no pressure. We reach out within 24 hours.",
 };
+
+const assuranceItems: Array<{ icon: LucideIcon; label: string }> = [
+  { icon: Clock3, label: "24-hour response" },
+  { icon: ShieldCheck, label: "Secure inquiry" },
+  { icon: Sparkles, label: "Pilot options" },
+];
 
 export function RestaurantManagerLeadForm() {
   const [status, setStatus] = useState<FormStatus>(initialStatus);
@@ -103,7 +116,7 @@ export function RestaurantManagerLeadForm() {
       ? "border-emerald-400/20 bg-emerald-400/10 text-emerald-100"
       : status.tone === "error"
         ? "border-rose-400/20 bg-rose-400/10 text-rose-100"
-        : "border-white/10 bg-white/[0.03] text-white/60";
+        : "border-white/10 bg-white/3 text-white/60";
 
   return (
     <form
@@ -111,7 +124,7 @@ export function RestaurantManagerLeadForm() {
       onSubmit={handleSubmit}
       className="public-panel public-card-outline rounded-[1.75rem] p-5 sm:p-7"
     >
-      <div className="rounded-[1.25rem] border border-white/10 bg-white/3 p-4 sm:p-5">
+      <div className="rounded-[1.25rem] border border-white/10 bg-[linear-gradient(145deg,rgba(143,216,255,0.10),rgba(255,255,255,0.03))] p-4 sm:p-5">
         <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-[#8fd8ff]">
           Book Your Demo
         </p>
@@ -212,7 +225,7 @@ export function RestaurantManagerLeadForm() {
             </option>
           </select>
           <span className="pointer-events-none absolute inset-y-0 right-4 flex items-center text-sm text-white/45">
-            v
+            <ChevronDown className="h-4 w-4" />
           </span>
         </div>
       </label>
@@ -233,17 +246,20 @@ export function RestaurantManagerLeadForm() {
       </button>
 
       <div className="mt-4 grid gap-2 sm:grid-cols-3">
-        {["24-hour response", "Deployment guidance", "Pilot options"].map(
-          (item) => (
-            <p
-              key={item}
-              className="rounded-xl border border-white/10 bg-white/3 px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.15em] text-white/58"
-            >
-              {item}
-            </p>
-          ),
-        )}
+        {assuranceItems.map((item) => (
+          <p
+            key={item.label}
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-white/10 bg-white/3 px-3 py-2 text-center text-[11px] font-semibold uppercase tracking-[0.15em] text-white/58"
+          >
+            <item.icon className="h-3.5 w-3.5" />
+            {item.label}
+          </p>
+        ))}
       </div>
+
+      <p className="mt-3 text-center text-xs leading-6 text-white/45">
+        No credit card required. Demo walkthrough and rollout guidance included.
+      </p>
 
       <p
         className={`mt-4 rounded-[1.25rem] border px-4 py-3 text-sm leading-7 ${statusToneClasses}`}

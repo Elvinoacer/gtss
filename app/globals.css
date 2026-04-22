@@ -673,6 +673,7 @@
   overflow-x: auto;
   scrollbar-width: none;
   scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
 }
 
 .resmg-scroll-nav::-webkit-scrollbar,
@@ -685,6 +686,14 @@
 .resmg-scroll-nav {
   gap: 0.6rem;
   padding-bottom: 0.2rem;
+}
+
+.resmg-mobile-carousel,
+.resmg-pricing-carousel,
+.resmg-mobile-flow {
+  margin-inline: -0.2rem;
+  padding-inline: 0.2rem;
+  scroll-padding-inline: 0.2rem;
 }
 
 .resmg-nav-link {
@@ -715,6 +724,38 @@
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+}
+
+.resmg-signal-grid {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.resmg-signal-card {
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.05) 0%,
+    rgba(255, 255, 255, 0.02) 100%
+  );
+  padding: 0.75rem 0.9rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
+.resmg-signal-label {
+  color: rgba(143, 216, 255, 0.92);
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.resmg-signal-value {
+  margin-top: 0.3rem;
+  color: rgba(248, 250, 252, 0.9);
+  font-size: 0.78rem;
+  line-height: 1.45;
 }
 
 .resmg-lane {
@@ -752,11 +793,97 @@
 .resmg-flow-card {
   min-width: 86%;
   scroll-snap-align: start;
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
 .resmg-pricing-card {
   min-width: 92%;
   scroll-snap-align: start;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.resmg-mobile-dock {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: max(0.6rem, env(safe-area-inset-bottom));
+  z-index: 40;
+  pointer-events: none;
+  padding-inline: 0.75rem;
+}
+
+.resmg-mobile-dock-inner {
+  margin-inline: auto;
+  display: flex;
+  width: min(460px, 100%);
+  gap: 0.55rem;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(
+    180deg,
+    rgba(8, 11, 16, 0.92) 0%,
+    rgba(10, 15, 22, 0.84) 100%
+  );
+  padding: 0.45rem;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  box-shadow: 0 20px 65px rgba(0, 0, 0, 0.55);
+  pointer-events: auto;
+}
+
+.resmg-mobile-dock-secondary,
+.resmg-mobile-dock-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 9999px;
+  padding: 0.78rem 0.95rem;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  transition:
+    transform 0.22s ease,
+    border-color 0.22s ease,
+    background-color 0.22s ease;
+}
+
+.resmg-mobile-dock-secondary {
+  flex: 0.9;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(248, 250, 252, 0.92);
+}
+
+.resmg-mobile-dock-primary {
+  flex: 1.1;
+  gap: 0.45rem;
+  background: linear-gradient(135deg, #f3d79a, #8fd8ff);
+  color: #020617;
+}
+
+.resmg-mobile-dock-secondary:hover,
+.resmg-mobile-dock-primary:hover {
+  transform: translateY(-1px);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .resmg-mobile-card:hover,
+  .resmg-flow-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(243, 215, 154, 0.28);
+    box-shadow: 0 24px 70px -50px rgba(217, 161, 74, 0.62);
+  }
+
+  .resmg-pricing-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 24px 65px -52px rgba(143, 216, 255, 0.75);
+  }
 }
 
 @keyframes resmgShine {
@@ -784,6 +911,14 @@
     min-width: 66%;
   }
 
+  .resmg-signal-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .resmg-signal-card {
+    padding: 0.85rem 0.9rem;
+  }
+
   .resmg-pricing-card {
     min-width: 62%;
   }
@@ -796,6 +931,8 @@
     display: grid;
     overflow: visible;
     scroll-snap-type: none;
+    margin-inline: 0;
+    padding-inline: 0;
   }
 
   .resmg-mobile-carousel-2 {
@@ -848,5 +985,19 @@
 
   .resmg-nav-link {
     transition: none;
+  }
+
+  .resmg-mobile-card,
+  .resmg-flow-card,
+  .resmg-pricing-card,
+  .resmg-mobile-dock-secondary,
+  .resmg-mobile-dock-primary {
+    transition: none;
+  }
+}
+
+@media (min-width: 768px) {
+  .resmg-mobile-dock {
+    display: none;
   }
 }

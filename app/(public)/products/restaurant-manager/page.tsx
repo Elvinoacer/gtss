@@ -310,10 +310,25 @@ const sectionLinks = [
   { id: "demo-form", label: "Book Demo" },
 ];
 
+const heroSignals = [
+  {
+    label: "Offline Core",
+    value: "Local server continues service",
+  },
+  {
+    label: "Payment Layer",
+    value: "M-Pesa flow ready",
+  },
+  {
+    label: "Manager View",
+    value: "Live occupancy and queue",
+  },
+];
+
 export default function RestaurantManagerPage() {
   return (
     <div
-      className="resmg-page relative px-3 pb-24 pt-8 sm:px-6 lg:px-8 lg:pt-10"
+      className="resmg-page relative px-3 pb-32 pt-8 sm:px-6 lg:px-8 lg:pt-10"
       data-resmg-root
     >
       <div className="resmg-halo resmg-halo-a" aria-hidden="true" />
@@ -339,7 +354,7 @@ export default function RestaurantManagerPage() {
 
         <section
           id="overview"
-          className="grid gap-8 lg:grid-cols-[1.03fr_0.97fr] lg:items-center"
+          className="scroll-mt-36 grid gap-8 lg:grid-cols-[1.03fr_0.97fr] lg:items-center"
         >
           <div className="max-w-3xl">
             <span className="public-kicker">Restaurant Manager</span>
@@ -366,6 +381,15 @@ export default function RestaurantManagerPage() {
                 <span key={item} className="public-chip text-xs sm:text-sm">
                   {item}
                 </span>
+              ))}
+            </div>
+
+            <div className="resmg-signal-grid mt-6">
+              {heroSignals.map((item) => (
+                <div key={item.label} className="resmg-signal-card">
+                  <p className="resmg-signal-label">{item.label}</p>
+                  <p className="resmg-signal-value">{item.value}</p>
+                </div>
               ))}
             </div>
 
@@ -509,7 +533,7 @@ export default function RestaurantManagerPage() {
 
         <section
           id="workflow"
-          className="public-panel public-card-outline rounded-4xl p-5 sm:p-8 lg:p-10"
+          className="public-panel public-card-outline scroll-mt-36 rounded-4xl p-5 sm:p-8 lg:p-10"
         >
           <div className="max-w-3xl">
             <span className="public-kicker">How GTSS lands</span>
@@ -630,7 +654,7 @@ export default function RestaurantManagerPage() {
           </div>
         </section>
 
-        <section id="roles">
+        <section id="roles" className="scroll-mt-36">
           <div className="max-w-3xl">
             <span className="public-kicker">Role-based experience</span>
             <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
@@ -683,7 +707,7 @@ export default function RestaurantManagerPage() {
           </div>
         </section>
 
-        <section id="integrations">
+        <section id="integrations" className="scroll-mt-36">
           <div className="max-w-3xl">
             <span className="public-kicker">Integrations and confidence</span>
             <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
@@ -738,7 +762,7 @@ export default function RestaurantManagerPage() {
           </div>
         </section>
 
-        <section id="pricing">
+        <section id="pricing" className="scroll-mt-36">
           <div className="max-w-3xl">
             <span className="public-kicker">Transparent pricing</span>
             <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
@@ -914,6 +938,18 @@ export default function RestaurantManagerPage() {
             <RestaurantManagerLeadForm />
           </div>
         </section>
+      </div>
+
+      <div className="resmg-mobile-dock md:hidden" aria-hidden="false">
+        <div className="resmg-mobile-dock-inner">
+          <a href="#pricing" className="resmg-mobile-dock-secondary">
+            Pricing
+          </a>
+          <a href="#demo-form" className="resmg-mobile-dock-primary">
+            Book Demo
+            <ArrowRight className="h-4 w-4" />
+          </a>
+        </div>
       </div>
     </div>
   );
