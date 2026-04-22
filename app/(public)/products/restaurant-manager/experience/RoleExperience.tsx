@@ -333,6 +333,35 @@ export function RoleExperience() {
             to admin analytics — this is the complete GTSS Restaurant Manager
             experience.
           </p>
+
+          {/* Stats row */}
+          <div className="exp-hero-stats">
+            <div className="exp-stat">
+              <span className="exp-stat-value">{chapters.reduce((a, c) => a + c.screenGroups.reduce((b, g) => b + g.screens.length, 0), 0)}+</span>
+              <span className="exp-stat-label">Screens</span>
+            </div>
+            <div className="exp-stat-divider" />
+            <div className="exp-stat">
+              <span className="exp-stat-value">{chapters.length}</span>
+              <span className="exp-stat-label">Roles</span>
+            </div>
+            <div className="exp-stat-divider" />
+            <div className="exp-stat">
+              <span className="exp-stat-value">{chapters.reduce((a, c) => a + c.screenGroups.reduce((b, g) => b + g.screens.reduce((d, s) => d + s.actions.length, 0), 0), 0)}+</span>
+              <span className="exp-stat-label">Actions</span>
+            </div>
+          </div>
+
+          {/* Role quick-nav cards */}
+          <div className="exp-role-cards">
+            {chapters.map((c) => (
+              <button key={c.id} className={`exp-role-card exp-role-card--${c.id}`} onClick={() => scrollToChapter(c.id)}>
+                <span className="exp-role-card-icon">{c.icon}</span>
+                <span className="exp-role-card-label">{c.role}</span>
+                <span className="exp-role-card-count">{c.screenGroups.reduce((a, g) => a + g.screens.length, 0)} screens</span>
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Chapters */}
