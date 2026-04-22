@@ -264,7 +264,11 @@ const rolloutFlow: Array<{
     icon: Server,
     title: "Configuration, deployment, and training",
     copy: "Infrastructure setup, user flows, and staff onboarding are handled together so day one feels stable.",
-    points: ["Local infrastructure setup", "Role workflow tailoring", "Staff enablement"],
+    points: [
+      "Local infrastructure setup",
+      "Role workflow tailoring",
+      "Staff enablement",
+    ],
   },
   {
     step: "Step 03",
@@ -347,8 +351,8 @@ export default function RestaurantManagerPage() {
                 </span>
               </h1>
               <p className="mt-6 max-w-2xl text-base leading-8 text-white/68 sm:text-lg">
-                GTSS Restaurant Manager is an offline-first operations system for
-                African hospitality teams. Guests order from their phones,
+                GTSS Restaurant Manager is an offline-first operations system
+                for African hospitality teams. Guests order from their phones,
                 kitchen teams stay focused, waiters get the right alerts, and
                 payments can flow through M-Pesa without forcing the business to
                 depend on a stable ISP all day.
@@ -495,7 +499,9 @@ export default function RestaurantManagerPage() {
                         <p className="mt-2.5 text-sm font-semibold text-white">
                           {item.title}
                         </p>
-                        <p className="mt-1 text-xs text-white/58">{item.copy}</p>
+                        <p className="mt-1 text-xs text-white/58">
+                          {item.copy}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -539,12 +545,16 @@ export default function RestaurantManagerPage() {
                       <item.icon className="h-5 w-5 text-[#f3d79a]" />
                     </div>
                   </div>
-                  <p className="mt-3 text-sm leading-7 text-white/64">{item.copy}</p>
+                  <p className="mt-3 text-sm leading-7 text-white/64">
+                    {item.copy}
+                  </p>
                   <div className="mt-5 space-y-2.5">
                     {item.points.map((point) => (
                       <div key={point} className="flex items-start gap-2.5">
                         <span className="mt-2 h-1.5 w-1.5 rounded-full bg-[#8fd8ff]" />
-                        <p className="text-sm leading-7 text-white/68">{point}</p>
+                        <p className="text-sm leading-7 text-white/68">
+                          {point}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -669,7 +679,9 @@ export default function RestaurantManagerPage() {
                         <div className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5">
                           <Check className="h-3.5 w-3.5 text-[#f3d79a]" />
                         </div>
-                        <p className="text-sm leading-7 text-white/66">{point}</p>
+                        <p className="text-sm leading-7 text-white/66">
+                          {point}
+                        </p>
                       </div>
                     ))}
                   </div>
@@ -706,7 +718,9 @@ export default function RestaurantManagerPage() {
                   <h3 className="mt-3 text-xl font-semibold text-white">
                     {item.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-7 text-white/62">{item.copy}</p>
+                  <p className="mt-3 text-sm leading-7 text-white/62">
+                    {item.copy}
+                  </p>
                 </article>
               ))}
             </div>
@@ -723,7 +737,9 @@ export default function RestaurantManagerPage() {
                   <p className="mt-3 text-sm font-semibold uppercase tracking-[0.18em] text-white/82">
                     {item.label}
                   </p>
-                  <p className="mt-2 text-sm leading-7 text-white/62">{item.copy}</p>
+                  <p className="mt-2 text-sm leading-7 text-white/62">
+                    {item.copy}
+                  </p>
                 </article>
               ))}
             </div>
@@ -782,7 +798,9 @@ export default function RestaurantManagerPage() {
                     </p>
 
                     <div className="mt-6">
-                      <p className="text-4xl font-semibold text-white">{plan.price}</p>
+                      <p className="text-4xl font-semibold text-white">
+                        {plan.price}
+                      </p>
                       <p className="mt-1 text-xs uppercase tracking-[0.22em] text-white/40">
                         {plan.note}
                       </p>
@@ -880,9 +898,9 @@ export default function RestaurantManagerPage() {
                   Get GTSS running in your restaurant this month.
                 </h2>
                 <p className="mt-5 text-base leading-8 text-white/66 sm:text-lg">
-                  Fill out the form and we&apos;ll set up a live demo or a 30-day
-                  offline pilot so you can see exactly how GTSS Restaurant
-                  Manager behaves in a real hospitality environment.
+                  Fill out the form and we&apos;ll set up a live demo or a
+                  30-day offline pilot so you can see exactly how GTSS
+                  Restaurant Manager behaves in a real hospitality environment.
                 </p>
 
                 <div className="mt-8 grid gap-4 sm:grid-cols-2">

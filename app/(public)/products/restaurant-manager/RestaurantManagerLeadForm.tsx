@@ -16,7 +16,8 @@ type FormStatus =
 
 const initialStatus: FormStatus = {
   tone: "idle",
-  message: "No commitment, no credit card, and no pressure. We reach out within 24 hours.",
+  message:
+    "No commitment, no credit card, and no pressure. We reach out within 24 hours.",
 };
 
 export function RestaurantManagerLeadForm() {
@@ -118,8 +119,8 @@ export function RestaurantManagerLeadForm() {
           See GTSS in your real service flow.
         </h3>
         <p className="mt-2 text-sm leading-7 text-white/62">
-          No commitment, no credit card, and no pressure. We reach out within
-          24 hours with practical rollout options.
+          No commitment, no credit card, and no pressure. We reach out within 24
+          hours with practical rollout options.
         </p>
       </div>
 
