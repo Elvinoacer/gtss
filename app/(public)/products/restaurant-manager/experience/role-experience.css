@@ -60,30 +60,30 @@
 /* ---- Progress bar ---- */
 .exp-progress {
   position: fixed;
-  top: 64px;
-  left: 0;
-  right: 0;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%) translateY(150%);
   z-index: 50;
-  background: rgba(6,6,14,0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border-bottom: 1px solid var(--exp-border);
+  background: rgba(15, 15, 25, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  padding: 6px;
   opacity: 0;
-  transform: translateY(-100%);
-  transition: opacity .3s, transform .3s;
+  transition: opacity .4s ease, transform .4s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+  width: max-content;
+  max-width: calc(100% - 32px);
 }
 .exp-progress.visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: translateX(-50%) translateY(0);
 }
 
 .exp-progress-inner {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 0 16px;
   display: flex;
-  gap: 2px;
-  height: 44px;
+  gap: 4px;
   align-items: center;
   overflow-x: auto;
   scrollbar-width: none;
@@ -91,13 +91,12 @@
 .exp-progress-inner::-webkit-scrollbar { display: none; }
 
 .exp-progress-item {
-  flex: 1;
-  min-width: 0;
+  flex: 0 0 auto;
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 10px;
-  border-radius: 8px;
+  padding: 8px 18px;
+  border-radius: 100px;
   font-size: 11px;
   font-weight: 600;
   color: var(--exp-text-dim);
@@ -107,11 +106,32 @@
   transition: all .25s;
   white-space: nowrap;
 }
+.exp-progress-home {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--exp-text-dim);
+  background: rgba(255,255,255,0.05);
+  transition: all .2s;
+  flex-shrink: 0;
+}
+.exp-progress-home:hover { color: var(--exp-text); background: rgba(255,255,255,0.1); }
+.exp-progress-divider {
+  width: 1px;
+  height: 20px;
+  background: rgba(255,255,255,0.1);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
 .exp-progress-icon { font-size: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
 .exp-progress-icon svg { width: 14px; height: 14px; stroke: currentColor; }
 .exp-progress-item.active {
   color: var(--exp-text);
-  background: rgba(99,102,241,0.1);
+  background: rgba(255,255,255,0.1);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.2);
 }
 .exp-progress-item:hover { color: var(--exp-text-muted); }
 

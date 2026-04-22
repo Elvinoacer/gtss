@@ -303,6 +303,13 @@ export function RoleExperience() {
       {/* Progress bar */}
       <div className={`exp-progress ${progressVisible ? "visible" : ""}`}>
         <div className="exp-progress-inner">
+          <Link href="/products/restaurant-manager" className="exp-progress-home" aria-label="Back to Product" title="Back to Restaurant Manager">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+              <polyline points="9 22 9 12 15 12 15 22" />
+            </svg>
+          </Link>
+          <div className="exp-progress-divider" />
           {progressItems.map((item) => (
             <button
               key={item.id}
@@ -310,7 +317,7 @@ export function RoleExperience() {
               onClick={() => scrollToChapter(item.id)}
             >
               <span className="exp-progress-icon">{item.icon}</span>
-              <span>{item.label}</span>
+              <span className="exp-progress-label">{item.label}</span>
             </button>
           ))}
         </div>
