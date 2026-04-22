@@ -58,15 +58,15 @@ export function PublicProductCard({
   const price = formatPrice(pricing, pricingModel, priceUSD, priceKES);
 
   return (
-    <article className="group public-panel public-card-outline flex h-full flex-col overflow-hidden rounded-[1.75rem] transition-transform duration-300 hover:-translate-y-1">
+    <article className="group public-panel public-card-outline flex h-full flex-col overflow-hidden rounded-[1.2rem] transition-transform duration-300 hover:-translate-y-1 sm:rounded-[1.75rem]">
       <Link href={`/products/${id}`} className="flex h-full flex-col">
-        <div className="relative h-60 overflow-hidden border-b border-white/10 bg-[#05080b]">
+        <div className="relative h-36 overflow-hidden border-b border-white/10 bg-[#05080b] sm:h-60">
           {images[0] ? (
             <Image
               src={images[0]}
               alt={name}
               fill
-              sizes="(max-width: 1024px) 100vw, 33vw"
+              sizes="(max-width: 640px) 50vw, (max-width: 1024px) 100vw, 33vw"
               className="object-cover opacity-82 transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
@@ -74,19 +74,19 @@ export function PublicProductCard({
           )}
           <div className="absolute inset-0 bg-gradient-to-t from-[#06090d] via-transparent to-transparent" />
 
-          <div className="absolute left-5 top-5 flex items-center gap-2">
-            <span className="rounded-full border border-white/10 bg-[#0a1117]/85 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/72">
+          <div className="absolute left-3 top-3 flex items-center gap-2 sm:left-5 sm:top-5">
+            <span className="rounded-full border border-white/10 bg-[#0a1117]/85 px-2 py-1 text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-white/72 sm:px-3 sm:py-1.5 sm:text-[0.7rem] sm:tracking-[0.18em]">
               {category}
             </span>
           </div>
 
-          <div className="absolute right-5 top-5 rounded-full border border-white/10 bg-[#0a1117]/85 px-3 py-1.5 text-[0.7rem] font-semibold uppercase tracking-[0.18em] text-white/72">
+          <div className="absolute right-3 top-3 rounded-full border border-white/10 bg-[#0a1117]/85 px-2 py-1 text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-white/72 sm:right-5 sm:top-5 sm:px-3 sm:py-1.5 sm:text-[0.7rem] sm:tracking-[0.18em]">
             {status}
           </div>
         </div>
 
-        <div className="relative -mt-10 px-6">
-          <div className="flex h-20 w-20 items-center justify-center overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#0a1117] shadow-[0_20px_45px_rgba(0,0,0,0.35)]">
+        <div className="relative -mt-6 px-3 sm:-mt-10 sm:px-6">
+          <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[1rem] border border-white/10 bg-[#0a1117] shadow-[0_20px_45px_rgba(0,0,0,0.35)] sm:h-20 sm:w-20 sm:rounded-[1.5rem]">
             {logoUrl ? (
               <Image
                 src={logoUrl}
@@ -96,31 +96,33 @@ export function PublicProductCard({
                 className="h-full w-full object-cover"
               />
             ) : (
-              <Package className="h-8 w-8 text-[#f3d79a]" />
+              <Package className="h-5 w-5 text-[#f3d79a] sm:h-8 sm:w-8" />
             )}
           </div>
         </div>
 
-        <div className="flex h-full flex-col px-6 pb-6 pt-5">
+        <div className="flex h-full flex-col px-3 pb-3 pt-2 sm:px-6 sm:pb-6 sm:pt-5">
           <div className="flex-1">
-            <h3 className="text-2xl font-semibold text-white transition-colors group-hover:text-[#f8e4b7]">
+            <h3 className="text-sm font-semibold leading-tight text-white transition-colors group-hover:text-[#f8e4b7] sm:text-2xl">
               {name}
             </h3>
-            <p className="mt-3 line-clamp-3 text-sm leading-7 text-white/62 sm:text-base">
+            <p className="mt-2 line-clamp-2 text-[0.68rem] leading-4 text-white/62 sm:mt-3 sm:line-clamp-3 sm:text-base sm:leading-7">
               {summary}
             </p>
           </div>
 
-          <div className="mt-8 flex items-end justify-between gap-4 border-t border-white/10 pt-5">
+          <div className="mt-4 flex items-end justify-between gap-2 border-t border-white/10 pt-3 sm:mt-8 sm:gap-4 sm:pt-5">
             <div>
-              <p className="text-xs uppercase tracking-[0.2em] text-white/38">
+              <p className="text-[0.52rem] uppercase tracking-[0.14em] text-white/38 sm:text-xs sm:tracking-[0.2em]">
                 Pricing
               </p>
-              <p className="mt-1 text-xl font-semibold text-white">{price}</p>
+              <p className="mt-1 text-sm font-semibold text-white sm:text-xl">
+                {price}
+              </p>
             </div>
 
-            <div className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-white/20 group-hover:bg-white group-hover:text-slate-950">
-              <ArrowUpRight className="h-5 w-5" />
+            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-white/20 group-hover:bg-white group-hover:text-slate-950 sm:h-12 sm:w-12 sm:rounded-2xl">
+              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5" />
             </div>
           </div>
         </div>

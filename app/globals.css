@@ -457,6 +457,37 @@
   animation: pulse-border 4s ease-in-out infinite;
 }
 
+@media (max-width: 639px) {
+  .public-kicker {
+    gap: 0.45rem;
+    padding: 0.42rem 0.72rem;
+    font-size: 0.58rem;
+    letter-spacing: 0.16em;
+  }
+
+  .public-kicker::before {
+    height: 0.38rem;
+    width: 0.38rem;
+    box-shadow: 0 0 12px rgba(243, 215, 154, 0.55);
+  }
+
+  .public-chip {
+    gap: 0.35rem;
+    padding: 0.4rem 0.72rem;
+    font-size: 0.7rem;
+  }
+
+  .public-stat {
+    border-radius: 1.2rem;
+    padding: 0.82rem 0.92rem;
+  }
+
+  .public-section-title {
+    letter-spacing: -0.04em;
+    line-height: 1.03;
+  }
+}
+
 /* Gradient borders */
 .gradient-border {
   position: relative;
