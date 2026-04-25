@@ -1,538 +1,1461 @@
 "use client";
 
-import { useEffect, useRef, useState, useCallback } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { User, ChefHat, Bell, Crown, Play, ChevronDown, CheckCircle2 } from "lucide-react";
+import { experienceAssets } from "./experience-data";
+import { YouTubePlayer } from "./YouTubePlayer";
 import "./role-experience.css";
 
-/* ====================================================================
-   DATA — Screen inventory sourced from restaurant_manager.md
-   ==================================================================== */
+/* ── PARTICLES BACKGROUND ────────────────────────────── */
+function Particles() {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-type ScreenAction = string;
-
-interface ScreenEntry {
-  name: string;
-  route?: string;
-  actions: ScreenAction[];
-}
-
-interface ScreenGroup {
-  title: string;
-  screens: ScreenEntry[];
-}
-
-interface GalleryItem {
-  src: string;
-  alt: string;
-  caption: string;
-}
-
-interface Chapter {
-  id: string;
-  icon: React.ReactNode;
-  role: string;
-  tagline: string;
-  mediaType: "video" | "gallery";
-  videoSrc?: { mp4: string; webm: string; poster: string };
-  gallery: GalleryItem[];
-  screenGroups: ScreenGroup[];
-}
-
-const chapters: Chapter[] = [
-  {
-    id: "guest",
-    icon: <User strokeWidth={2} />,
-    role: "Guest Experience",
-    tagline: "Everything your guest sees — from first WiFi connection to payment",
-    mediaType: "video",
-    videoSrc: {
-      mp4: "/images/resmg/guest-demo.mp4",
-      webm: "/images/resmg/guest-demo.webm",
-      poster: "/images/resmg/guest-poster.jpg",
-    },
-    gallery: [
-      { src: "/images/resmg/guest-home.png", alt: "Guest Home Menu", caption: "Rich categorized menu with smart search, dietary filters, and recommendations" },
-      { src: "/images/resmg/guest-categories.png", alt: "Categories Browser", caption: "Browse food categories with visual cards" },
-      { src: "/images/resmg/guest-item-detail.png", alt: "Food Detail Modal", caption: "Image carousel, addons, special instructions, and upsell pairing" },
-      { src: "/images/resmg/guest-cart.png", alt: "Cart Drawer", caption: "Review items, adjust quantities, toggle addons, and submit order" },
-      { src: "/images/resmg/guest-order-tracking.png", alt: "Order Tracking", caption: "Live pizza-tracker: Pending → Accepted → Preparing → Ready → Delivered" },
-      { src: "/images/resmg/guest-bill.png", alt: "Bill & Payment", caption: "M-Pesa STK push, manual payment methods, and verification flow" },
-      { src: "/images/resmg/guest-help.png", alt: "Raise Issue", caption: "Direct issue reporting without calling a waiter" },
-      { src: "/images/resmg/guest-retail.png", alt: "Retail Storefront", caption: "Browse retail products, service types, and quick-add to cart" },
-    ],
-    screenGroups: [
-      {
-        title: "Guest Food Ordering",
-        screens: [
-          { name: "ClientHome", route: "/", actions: ["Search menu with debounce", "Filter by category", "Toggle offers-only view", "Infinite scroll loading", "Open item detail modal", "Open cart drawer", "View popular items & recommendations"] },
-          { name: "CategoriesPage", route: "/categories", actions: ["Search categories by name", "Open category item page"] },
-          { name: "CategoryItemsPage", route: "/category/:id", actions: ["Search items within category", "Infinite scroll items", "Open food detail modal", "Add to cart from modal"] },
-          { name: "OrderTracking", route: "/orders", actions: ["Active and history tabs", "Filter by order status", "Real-time status updates via WebSocket", "Detailed order progress timeline", "Open bill for payment"] },
-          { name: "BillStatus", route: "/bill", actions: ["Current orders, past unpaid, past paid tabs", "Copy payment details (till, paybill, phone)", "M-Pesa STK push payment", "Manual payment verification"] },
-          { name: "RaiseIssue", route: "/help", actions: ["Select predefined issue type", "Enter table number and details", "Submit issue to staff"] },
-        ],
-      },
-      {
-        title: "Guest Retail",
-        screens: [
-          { name: "RetailHome", route: "/retail", actions: ["Search retail products", "Browse service types", "Quick add to cart", "Open retail cart drawer"] },
-          { name: "RetailCategoryPage", route: "/retail/type/:typeId", actions: ["View categories under service type", "Navigate to product list"] },
-          { name: "RetailProductsPage", route: "/retail/category/:categoryId", actions: ["Search, sort, filter products", "Toggle in-stock-only", "Quick add to cart"] },
-          { name: "RetailProductDetail", route: "/retail/product/:productId", actions: ["Image gallery with navigation", "Choose quantity and variant", "Special instructions", "Add to cart"] },
-          { name: "RetailCheckout", route: "/retail/checkout", actions: ["Review cart summary", "Set delivery location", "Choose payment method (cash or M-Pesa)", "M-Pesa STK push with polling"] },
-          { name: "RetailOrderStatus", route: "/retail/order/:orderId", actions: ["Live order status timeline", "Real-time updates via socket", "Open payment view"] },
-        ],
-      },
-      {
-        title: "Shared Guest Surfaces",
-        screens: [
-          { name: "CartDrawer", actions: ["Increment/decrement quantity", "Remove items", "Toggle per-item addons", "Enter table number", "Submit food order"] },
-          { name: "FoodDetailModal", actions: ["Image carousel with autoplay", "Select addons", "Special instructions", "Compute discounted total", "Trigger upsell modal"] },
-          { name: "BillView", actions: ["View order detail lines", "Execute STK push payment", "Poll payment status", "Manual payment flow (cash, sim, bank)"] },
-          { name: "NotificationBanner", actions: ["Display active notifications", "Dismiss and persist dismissal", "Real-time notifications via socket"] },
-        ],
-      },
-    ],
-  },
-  {
-    id: "kds",
-    icon: <ChefHat strokeWidth={2} />,
-    role: "Kitchen Display System",
-    tagline: "What your kitchen staff sees — zero distractions, pure order flow",
-    mediaType: "gallery",
-    gallery: [
-      { src: "/images/resmg/kds-kanban.png", alt: "KDS Kanban View", caption: "Kanban board with Pending → Preparing → Ready columns, urgency timers" },
-      { src: "/images/resmg/kds-list.png", alt: "KDS List View", caption: "Compact list view for smaller screens with bulk actions" },
-      { src: "/images/resmg/kds-bulk.png", alt: "KDS Bulk Mode", caption: "Select all in column and advance with one tap" },
-    ],
-    screenGroups: [
-      {
-        title: "Kitchen Operations",
-        screens: [
-          { name: "KitchenPage", route: "/kitchen", actions: ["Load active kitchen orders", "Real-time new order via socket", "Toggle kanban vs list view", "Toggle sound notifications", "Bulk mode with select-all per column", "Per-column quick advance", "Per-order status transitions", "Live per-order timer and urgency signal"] },
-        ],
-      },
-    ],
-  },
-  {
-    id: "waiter",
-    icon: <Bell strokeWidth={2} />,
-    role: "Waiter Dashboard",
-    tagline: "What your waiters see — auto-assigned orders, priority sorted, zero confusion",
-    mediaType: "video",
-    videoSrc: {
-      mp4: "/images/resmg/waiter-demo.mp4",
-      webm: "/images/resmg/waiter-demo.webm",
-      poster: "/images/resmg/waiter-poster.jpg",
-    },
-    gallery: [
-      { src: "/images/resmg/waiter-active.png", alt: "Waiter Active Orders", caption: "Auto-assigned orders with priority sorting and category filters" },
-      { src: "/images/resmg/waiter-chat.png", alt: "Waiter Admin Chat", caption: "Direct messaging channel with admin for coordination" },
-      { src: "/images/resmg/waiter-history.png", alt: "Waiter Order History", caption: "Last-hour and archive slices for tracking completed work" },
-    ],
-    screenGroups: [
-      {
-        title: "Waiter Operations",
-        screens: [
-          { name: "WaiterDashboard", route: "/waiter/dashboard", actions: ["Load assigned orders via session", "Real-time order and status updates via socket", "Active, history, and chat tabs", "Search by order id, table, item text", "Filter active orders by item category", "Switch history between last-hour and archive", "Toggle priority-based sorting", "Bulk mode: select multiple, bulk advance", "Expand/collapse order cards", "Status transitions: accept → preparing → ready → delivered", "Confirm payment from expanded order", "Cancel order with confirmation", "Send/receive chat with admin", "Unread chat indicator", "Logout and clear session"] },
-        ],
-      },
-    ],
-  },
-  {
-    id: "admin",
-    icon: <Crown strokeWidth={2} />,
-    role: "Admin / GM Hub",
-    tagline: "Total visibility and control — every screen your management team uses",
-    mediaType: "gallery",
-    gallery: [
-      { src: "/images/resmg/admin-dashboard.png", alt: "Admin Dashboard", caption: "Operations lane dashboard: Pending → Accepted → Preparing → Ready → Bills" },
-      { src: "/images/resmg/admin-kitchen.png", alt: "Kitchen Display (Admin)", caption: "Admin view of kitchen board with priority, search, and urgency tracking" },
-      { src: "/images/resmg/admin-menu.png", alt: "Menu Management", caption: "Menu studio: categories, items, pricing, allergens, addons, stock tracking" },
-      { src: "/images/resmg/admin-analytics.png", alt: "Analytics Dashboard", caption: "KPI cards, charts, financial reports with date filtering and export" },
-      { src: "/images/resmg/admin-table-occupancy.png", alt: "Table Occupancy", caption: "Live floor grid showing table states with issue and order badges" },
-      { src: "/images/resmg/admin-settings.png", alt: "Settings Center", caption: "General, payment, gallery, team, and network settings with QR codes" },
-      { src: "/images/resmg/admin-issues.png", alt: "Issue Management", caption: "Filter, search, resolve, and delete customer-reported issues" },
-      { src: "/images/resmg/admin-audit.png", alt: "Audit Logs", caption: "Every action logged with timestamp, staff ID, and payload viewer" },
-    ],
-    screenGroups: [
-      {
-        title: "Operations",
-        screens: [
-          { name: "AdminDashboard", route: "/admin", actions: ["Lane tabs: pending, accepted, preparing, ready, bills", "Bulk status transitions and payment confirmation", "Waiter assignment/reassignment with commission override", "Send customer message", "Table change modal", "Per-order status actions", "End-of-day close and report download", "Auto-refresh via socket events"] },
-          { name: "KitchenDisplay", route: "/admin/kitchen", actions: ["Filter by kitchen status", "Search by order id, table, item", "Sort by priority, elapsed time, table", "Promote order status", "Track urgency and prep time"] },
-          { name: "WaiterMonitoring", route: "/admin/monitor", actions: ["Online and workload metrics", "Per-waiter active orders and progress", "Per-order commission override", "Reassign order to another waiter"] },
-          { name: "AdminMessages", route: "/admin/messages", actions: ["Select staff conversation", "Mark as read", "Send/receive messages via socket"] },
-          { name: "TableOccupancy", route: "/admin/table-occupancy", actions: ["Live status counts by table state", "Table grid with status colors and badges", "Open table detail modal", "Real-time updates via socket"] },
-        ],
-      },
-      {
-        title: "Menu & Content",
-        screens: [
-          { name: "MenuManagement", route: "/admin/menu", actions: ["Toggle categories vs menu items tab", "View summary stats"] },
-          { name: "CategoryList", actions: ["Search, create, edit, delete categories", "Upload category image", "Blocked delete when category has items"] },
-          { name: "MenuItemList", actions: ["Search, filter by availability/category", "Full item editing: pricing, prep, allergens, offers", "Stock tracking, spicy flag, gallery images", "Add/edit/remove addons", "Toggle availability"] },
-          { name: "IssueManagement", route: "/admin/issues", actions: ["Filter by status and issue type", "Search by table, type, message", "Resolve and delete issues", "Real-time new issue notifications"] },
-          { name: "NotificationManagement", route: "/admin/notifications", actions: ["Filter, search, create, delete broadcasts", "Set title, message, type, expiry", "Auto-refresh on interval"] },
-        ],
-      },
-      {
-        title: "Commerce",
-        screens: [
-          { name: "CustomerManagement", route: "/admin/customers", actions: ["Filter by active/inactive", "Customer detail panel with stats, favorites, history", "Live order-related socket events"] },
-          { name: "RetailDashboard", route: "/admin/retail", actions: ["Retail KPIs and breakdown cards", "Revenue by service type and top products", "Low stock alerts", "Order status breakdown"] },
-          { name: "RetailCatalogManager", route: "/admin/retail-catalog", actions: ["Service types, categories, products tabs", "CRUD for all entities with image upload", "Stock tracking, bookable settings, variants"] },
-          { name: "RetailOrderManagement", route: "/admin/retail-orders", actions: ["Filter, search, select orders", "Mark paid, advance status, cancel", "Bulk paid, bulk complete, bulk cancel"] },
-        ],
-      },
-      {
-        title: "Insights & Control",
-        screens: [
-          { name: "AnalyticsDashboard", route: "/admin/analytics", actions: ["Period toggle: today, week, month", "KPI cards and charts", "Financial report with date filter and pagination"] },
-          { name: "AuditLogsPage", route: "/admin/audit", actions: ["Search by action text", "Filter by staff ID", "Paginate through logs", "Open payload modal with structured details"] },
-          { name: "IntegrationsPage", route: "/admin/integrations", actions: ["Add, view, sync, delete integrations", "Configure auth (OAuth2, API key)", "Edit mappings JSON", "Configure sync mode and retry policy", "Queue and logs tabs"] },
-          { name: "SettingsPage", route: "/admin/settings", actions: ["General, payment, gallery, team, network tabs", "Hotel settings, payment channels, Daraja credentials", "Gallery image upload/delete", "Staff CRUD with role assignment", "Network info and QR code generation"] },
-          { name: "DataExport", route: "/admin/data-export", actions: ["Date presets: today, 7 days, 30 days, all time", "Export sales, orders, issues, feedback", "Format selector (CSV, PDF)", "Download generated files"] },
-          { name: "Archives", route: "/admin/archives", actions: ["Reports grouped by year and month", "Download report PDF"] },
-        ],
-      },
-    ],
-  },
-];
-
-const progressItems = chapters.map((c) => ({
-  id: c.id,
-  icon: c.icon,
-  label: c.role,
-}));
-
-/* ====================================================================
-   COMPONENT
-   ==================================================================== */
-
-export function RoleExperience() {
-  const [activeChapter, setActiveChapter] = useState(chapters[0].id);
-  const [progressVisible, setProgressVisible] = useState(false);
-  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>({});
-  const [lightbox, setLightbox] = useState<{ src: string; caption: string } | null>(null);
-
-  const chapterRefs = useRef<Record<string, HTMLDivElement | null>>({});
-  const heroRef = useRef<HTMLDivElement>(null);
-
-  // Toggle screen group open/closed
-  const toggleGroup = useCallback((key: string) => {
-    setOpenGroups((prev) => ({ ...prev, [key]: !prev[key] }));
-  }, []);
-
-  // Scroll to chapter
-  const scrollToChapter = useCallback((id: string) => {
-    const el = chapterRefs.current[id];
-    if (el) {
-      const y = el.getBoundingClientRect().top + window.scrollY - 130;
-      window.scrollTo({ top: y, behavior: "smooth" });
-    }
-  }, []);
-
-  // Intersection observers
   useEffect(() => {
-    // Progress bar visibility
-    const heroEl = heroRef.current;
-    if (!heroEl) return;
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
 
-    const heroObs = new IntersectionObserver(
-      ([entry]) => {
-        setProgressVisible(!entry.isIntersecting);
-      },
-      { threshold: 0 },
-    );
-    heroObs.observe(heroEl);
+    let W: number, H: number;
+    let particles: any[] = [];
 
-    // Chapter tracking
-    const chapterObs = new IntersectionObserver(
+    const resize = () => {
+      W = canvas.width = window.innerWidth;
+      H = canvas.height = window.innerHeight;
+    };
+    resize();
+    window.addEventListener("resize", resize);
+
+    const GOLD = "rgba(232,184,75,";
+    const N = 90;
+
+    for (let i = 0; i < N; i++) {
+      particles.push({
+        x: Math.random() * 3000,
+        y: Math.random() * 3000,
+        r: Math.random() * 1.6 + 0.3,
+        vx: (Math.random() - 0.5) * 0.25,
+        vy: (Math.random() - 0.5) * 0.25,
+        a: Math.random() * 0.5 + 0.1,
+      });
+    }
+
+    let animationId: number;
+    const draw = () => {
+      ctx.clearRect(0, 0, W, H);
+      for (const p of particles) {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = W;
+        if (p.x > W) p.x = 0;
+        if (p.y < 0) p.y = H;
+        if (p.y > H) p.y = 0;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = GOLD + p.a + ")";
+        ctx.fill();
+      }
+      animationId = requestAnimationFrame(draw);
+    };
+    draw();
+
+    return () => {
+      window.removeEventListener("resize", resize);
+      cancelAnimationFrame(animationId);
+    };
+  }, []);
+
+  return <canvas id="canvas" ref={canvasRef} />;
+}
+
+/* ── MAIN COMPONENT ──────────────────────────────────── */
+export function RoleExperience() {
+  const [activeTab, setActiveTab] = useState("guest");
+  const [selectedAsset, setSelectedAsset] = useState<any>(null);
+
+  useEffect(() => {
+    // Scroll Reveal
+    const revealEls = document.querySelectorAll(".reveal");
+    const revealObs = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            const id = (entry.target as HTMLElement).dataset.chapterId;
-            if (id) setActiveChapter(id);
-          }
-          // Reveal animation
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("visible");
           }
         });
       },
-      { threshold: 0.15, rootMargin: "-80px 0px -30% 0px" },
+      { threshold: 0.07 }
+    );
+    revealEls.forEach((el) => revealObs.observe(el));
+
+    // Sticky Nav Active State
+    const navObs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            setActiveTab(e.target.id);
+          }
+        });
+      },
+      { threshold: 0.3 }
     );
 
-    Object.values(chapterRefs.current).forEach((el) => {
-      if (el) chapterObs.observe(el);
+    ["guest", "kitchen", "waiter", "admin"].forEach((id) => {
+      const el = document.getElementById(id);
+      if (el) navObs.observe(el);
     });
 
     return () => {
-      heroObs.disconnect();
-      chapterObs.disconnect();
+      revealObs.disconnect();
+      navObs.disconnect();
     };
-  }, []);
-
-  // Video play handler
-  const handlePlay = useCallback((container: HTMLDivElement | null) => {
-    if (!container) return;
-    const video = container.querySelector("video");
-    const btn = container.querySelector<HTMLButtonElement>(".exp-play-btn");
-    const placeholder = container.querySelector<HTMLElement>(".exp-video-placeholder");
-    if (video) {
-      video.play().then(() => {
-        btn?.classList.add("hidden");
-        if (placeholder) placeholder.style.display = "none";
-      }).catch(() => {});
-    }
-  }, []);
-
-  // Lightbox close on Escape
-  useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setLightbox(null);
-    };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
   }, []);
 
   return (
     <div className="exp-page">
-      {/* Progress bar */}
-      <div className={`exp-progress ${progressVisible ? "visible" : ""}`}>
-        <div className="exp-progress-inner">
-          <Link href="/products/restaurant-manager" className="exp-progress-home" aria-label="Back to Product" title="Back to Restaurant Manager">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" width="16" height="16">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-              <polyline points="9 22 9 12 15 12 15 22" />
-            </svg>
+      <Particles />
+
+      {/* ── STICKY ROLE NAV ────────────────────────────── */}
+      <nav className="role-nav">
+        <div className="nav-brand">GTSS · SYSTEM JOURNEY</div>
+        <div className="role-tabs">
+          <a
+            href="#guest"
+            className={`role-tab ${activeTab === "guest" ? "active" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("guest")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            GUEST
+          </a>
+          <a
+            href="#kitchen"
+            className={`role-tab ${activeTab === "kitchen" ? "active" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("kitchen")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            KITCHEN
+          </a>
+          <a
+            href="#waiter"
+            className={`role-tab ${activeTab === "waiter" ? "active" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("waiter")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            WAITER
+          </a>
+          <a
+            href="#admin"
+            className={`role-tab ${activeTab === "admin" ? "active" : ""}`}
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("admin")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            ADMIN
+          </a>
+        </div>
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "20px" }}>
+          <div style={{ fontFamily: "var(--font-mono)", fontSize: "8px", letterSpacing: "0.15em", color: "var(--text-dim)", display: "flex", alignItems: "center", gap: "6px" }}>
+            <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#4CAF50", boxShadow: "0 0 10px rgba(76,175,80,0.4)" }}></div>
+            ALL SYSTEMS NOMINAL
+          </div>
+          <Link
+            href="https://gtss.software"
+            className="btn-primary"
+            style={{ padding: "6px 14px", fontSize: "9px", height: "auto", background: "var(--gold)", color: "#000", borderRadius: "2px", clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
+          >
+            DEPLOY SYSTEM
           </Link>
-          <div className="exp-progress-divider" />
-          {progressItems.map((item) => (
-            <button
-              key={item.id}
-              className={`exp-progress-item ${activeChapter === item.id ? "active" : ""}`}
-              onClick={() => scrollToChapter(item.id)}
-            >
-              <span className="exp-progress-icon">{item.icon}</span>
-              <span className="exp-progress-label">{item.label}</span>
-            </button>
+        </div>
+      </nav>
+
+      {/* ── HERO ───────────────────────────────────────── */}
+      <section className="hero">
+        <div className="hero-eyebrow">
+          <div className="hero-eyebrow-line"></div>
+          <span className="hero-eyebrow-label">Product Ecosystem · System Journey</span>
+        </div>
+        <h1 className="hero-heading">
+          THE COMPLETE<br />
+          <span className="accent">RESTAURANT</span><br />
+          OPERATING SYSTEM.
+        </h1>
+        <p className="hero-sub">
+          Four precision-engineered interfaces — Guest, Waiter, Kitchen, and Admin — operating in concert through real-time socket synchronisation.
+        </p>
+
+        <div className="hero-role-nodes">
+          <div className="role-node band-guest" onClick={() => document.getElementById("guest")?.scrollIntoView({ behavior: "smooth" })}>
+            <div><div className="role-node-id">01 —</div><div className="role-node-name">GUEST</div></div>
+            <div className="role-node-count">9 SCREENS</div>
+          </div>
+          <div className="role-node band-kitchen" onClick={() => document.getElementById("kitchen")?.scrollIntoView({ behavior: "smooth" })}>
+            <div><div className="role-node-id">02 —</div><div className="role-node-name">KITCHEN</div></div>
+            <div className="role-node-count">1 SCREEN</div>
+          </div>
+          <div className="role-node band-waiter" onClick={() => document.getElementById("waiter")?.scrollIntoView({ behavior: "smooth" })}>
+            <div><div className="role-node-id">03 —</div><div className="role-node-name">WAITER</div></div>
+            <div className="role-node-count">2 SCREENS</div>
+          </div>
+          <div className="role-node band-admin" onClick={() => document.getElementById("admin")?.scrollIntoView({ behavior: "smooth" })}>
+            <div><div className="role-node-id">04 —</div><div className="role-node-name">ADMIN</div></div>
+            <div className="role-node-count">20+ SCREENS</div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── STATS BAR ───────────────────────────────────── */}
+      <div className="stats-bar">
+        <div className="stat-cell">
+          <div className="stat-label">System Roles</div>
+          <div className="stat-value">04<span className="stat-unit">ACTIVE</span></div>
+        </div>
+        <div className="stat-cell">
+          <div className="stat-label">Route Screens</div>
+          <div className="stat-value">35+<span className="stat-unit">SCREENS</span></div>
+        </div>
+        <div className="stat-cell">
+          <div className="stat-label">Documented Actions</div>
+          <div className="stat-value">200+<span className="stat-unit">ACTIONS</span></div>
+        </div>
+        <div className="stat-cell">
+          <div className="stat-label">Sync Architecture</div>
+          <div className="stat-value">RT<span className="stat-unit">SOCKET</span></div>
+        </div>
+      </div>
+
+      {/* ── TICKER ─────────────────────────────────────── */}
+      <div className="ticker-wrap">
+        <div className="ticker">
+          {[
+            "Guest Ordering Flow", "Waiter Dashboard", "Kitchen Kanban Board", "Admin Operations Center",
+            "Real-time Socket Sync", "Retail Storefront", "M-Pesa Payment Integration", "Commission Reconciliation",
+            "Analytics Dashboard", "Audit Trail Viewer", "Table Occupancy Board", "Bulk Order Operations"
+          ].map((item, i) => (
+            <span key={i} className="ticker-item">{item}</span>
+          ))}
+          {/* Duplicate for seamless loop */}
+          {[
+            "Guest Ordering Flow", "Waiter Dashboard", "Kitchen Kanban Board", "Admin Operations Center",
+            "Real-time Socket Sync", "Retail Storefront", "M-Pesa Payment Integration", "Commission Reconciliation",
+            "Analytics Dashboard", "Audit Trail Viewer", "Table Occupancy Board", "Bulk Order Operations"
+          ].map((item, i) => (
+            <span key={`dup-${i}`} className="ticker-item">{item}</span>
           ))}
         </div>
       </div>
 
-      <div className="exp-container">
-        {/* Hero */}
-        <div className="exp-hero" ref={heroRef}>
-          <Link href="/products/restaurant-manager" className="exp-back-link">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M19 12H5M12 19l-7-7 7-7" />
-            </svg>
-            Back to Restaurant Manager
-          </Link>
-          <div className="exp-hero-badge">🎬 Full Product Walkthrough</div>
-          <h1>
-            See GTSS <span>in Action</span>
-          </h1>
-          <p>
-            Explore every screen, every workflow, every role. From guest ordering
-            to admin analytics — this is the complete GTSS Restaurant Manager
-            experience.
-          </p>
-
-          {/* Stats row */}
-          <div className="exp-hero-stats">
-            <div className="exp-stat">
-              <span className="exp-stat-value">{chapters.reduce((a, c) => a + c.screenGroups.reduce((b, g) => b + g.screens.length, 0), 0)}+</span>
-              <span className="exp-stat-label">Screens</span>
+      {/* ── 01: GUEST EXPERIENCE ──────────────────────────── */}
+      <section className="section role-guest" id="guest">
+        <div className="container">
+          <div className="section-header reveal">
+            <div className="section-number">01</div>
+            <div className="section-title-block">
+              <div className="section-eyebrow">Role · Guest</div>
+              <h2 className="section-title">THE GUEST<br /><span className="accent">EXPERIENCE</span></h2>
+              <p className="section-desc">A device-native flow — no login required. Guests browse the full menu, customise orders, track live progress, manage payment, and raise issues — all from their table device.</p>
             </div>
-            <div className="exp-stat-divider" />
-            <div className="exp-stat">
-              <span className="exp-stat-value">{chapters.length}</span>
-              <span className="exp-stat-label">Roles</span>
-            </div>
-            <div className="exp-stat-divider" />
-            <div className="exp-stat">
-              <span className="exp-stat-value">{chapters.reduce((a, c) => a + c.screenGroups.reduce((b, g) => b + g.screens.reduce((d, s) => d + s.actions.length, 0), 0), 0)}+</span>
-              <span className="exp-stat-label">Actions</span>
+            <div className="section-meta">
+              <div className="meta-pill"><span className="dot"></span> No login required</div>
+              <div className="meta-pill"><span className="dot"></span> Real-time order updates</div>
+              <div className="meta-pill"><span className="dot"></span> M-Pesa STK push</div>
+              <div className="meta-pill"><span className="dot"></span> Retail storefront</div>
             </div>
           </div>
 
-          {/* Role quick-nav cards */}
-          <div className="exp-role-cards">
-            {chapters.map((c) => (
-              <button key={c.id} className={`exp-role-card exp-role-card--${c.id}`} onClick={() => scrollToChapter(c.id)}>
-                <span className="exp-role-card-icon">{c.icon}</span>
-                <div className="exp-role-card-content">
-                  <span className="exp-role-card-label">{c.role}</span>
-                  <span className="exp-role-card-count">{c.screenGroups.reduce((a, g) => a + g.screens.length, 0)} screens</span>
-                </div>
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Chapters */}
-        {chapters.map((chapter) => (
-          <div
-            key={chapter.id}
-            className={`exp-chapter ${chapter.id}`}
-            data-chapter-id={chapter.id}
-            ref={(el) => { chapterRefs.current[chapter.id] = el; }}
-          >
-            {/* Chapter header */}
-            <div className="exp-chapter-header">
-              <div className="exp-chapter-icon">{chapter.icon}</div>
-              <h2>
-                {chapter.role}
-                <span>{chapter.tagline}</span>
-              </h2>
+          <div className="reveal" style={{ marginBottom: "2px" }}>
+            <div className="media-frame video-frame" data-label="VIDEO · GUEST_WALKTHROUGH_01">
+              <div className="media-frame-inner wide" style={{ aspectRatio: "21/9" }}>
+                <YouTubePlayer url={experienceAssets['guest-hero']?.url} title={experienceAssets['guest-hero']?.title} />
+              </div>
             </div>
+          </div>
+          <div style={{ marginBottom: "48px" }}>
+            <div className="screen-label band-guest">
+              <div><div className="screen-name">Complete Guest Journey</div><div className="screen-path">/ · /orders · /bill · /retail · /help</div></div>
+              <div className="screen-role-badge">GUEST VIDEO</div>
+            </div>
+          </div>
 
-            {/* Media showcase */}
-            <div className="exp-media-showcase">
-              {chapter.mediaType === "video" && chapter.videoSrc ? (
-                <div className="exp-phone-wrap">
-                  <div className="exp-phone-frame" ref={(el) => {
-                    // Auto-play observer on mount
-                    if (!el) return;
-                    const video = el.querySelector("video");
-                    if (!video) return;
-                    const obs = new IntersectionObserver(([entry]) => {
-                      if (entry.isIntersecting) {
-                        video.play().catch(() => {});
-                      } else {
-                        video.pause();
-                      }
-                    }, { threshold: 0.4 });
-                    obs.observe(el);
-                    video.addEventListener("canplay", () => {
-                      const placeholder = el.querySelector<HTMLElement>(".exp-video-placeholder");
-                      if (placeholder) placeholder.style.display = "none";
-                    }, { once: true });
-                  }}>
-                    <div className="exp-phone-screen">
-                      <video muted loop playsInline preload="none" poster={chapter.videoSrc.poster}>
-                        <source src={chapter.videoSrc.mp4} type="video/mp4" />
-                        <source src={chapter.videoSrc.webm} type="video/webm" />
-                      </video>
-                      <div className="exp-video-placeholder">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                          <path d="M15.75 10.5l4.72-4.72a.75.75 0 011.28.53v11.38a.75.75 0 01-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 002.25-2.25v-9A2.25 2.25 0 0013.5 5.25h-9A2.25 2.25 0 002.25 7.5v9a2.25 2.25 0 002.25 2.25z" />
-                        </svg>
-                        <span>Video demo coming soon</span>
-                      </div>
-                      <button
-                        className="exp-play-btn"
-                        aria-label="Play video"
-                        onClick={(e) => handlePlay((e.currentTarget as HTMLElement).closest(".exp-phone-frame") as HTMLDivElement)}
-                      >
-                        <svg viewBox="0 0 24 24"><polygon points="8,5 19,12 8,19" /></svg>
-                      </button>
-                    </div>
+          {/* ── STEP 1: ARRIVAL ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 01</div>
+              <div className="step-title">Arrival</div>
+            </div>
+            <p className="step-narrative">A guest scans the table QR code and arrives at the welcome screen — no login, no download, instant access to the full restaurant experience.</p>
+            <div className="grid-2" style={{ maxWidth: "640px" }}>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientLanding">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-landing']?.url} alt={experienceAssets['guest-landing']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-landing'])} />
                   </div>
                 </div>
-              ) : (
-                <div className="exp-gallery">
-                  {chapter.gallery.map((item, i) => (
-                    <div
-                      key={i}
-                      className="exp-gallery-card"
-                      onClick={() => item.src && setLightbox({ src: item.src, caption: item.caption })}
-                    >
-                      <div className="exp-gallery-card-img">
-                        {/* Placeholder until real screenshots are uploaded */}
-                        <div className="exp-screenshot-placeholder">
-                          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                            <path d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909M3.75 21h16.5A2.25 2.25 0 0022.5 18.75V5.25A2.25 2.25 0 0020.25 3H3.75A2.25 2.25 0 001.5 5.25v13.5A2.25 2.25 0 003.75 21z" />
-                          </svg>
-                          <span>{item.alt}</span>
-                        </div>
-                      </div>
-                      <div className="exp-gallery-card-info">
-                        <h4>{item.alt}</h4>
-                        <p>{item.caption}</p>
-                      </div>
-                    </div>
-                  ))}
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Landing Interface</div><div className="screen-path">Route: /</div></div>
+                  <div className="screen-role-badge">GUEST</div>
                 </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Guest begins browsing →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 2: DISCOVERY ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 02</div>
+              <div className="step-title">Discovery</div>
+            </div>
+            <p className="step-narrative">They explore the digital menu with category filters and search. Hotel information — amenities, WiFi, contact details — is always one tap away.</p>
+            <div className="grid-3">
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientMenu">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-menu']?.url} alt={experienceAssets['guest-menu']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-menu'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Digital Menu</div><div className="screen-path">Route: /menu</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientInfoTop">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-info-top']?.url} alt={experienceAssets['guest-info-top']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-info-top'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Restaurant Profile</div><div className="screen-path">Header Info</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientInfoAmenities">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-info-amenities']?.url} alt={experienceAssets['guest-info-amenities']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-info-amenities'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Amenities</div><div className="screen-path">WiFi & Services</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Guest finds something they like →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 3: SELECTION ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 03</div>
+              <div className="step-title">Selection</div>
+            </div>
+            <p className="step-narrative">Tapping an item reveals rich details — description, pricing, and an image carousel. The guest then customises with add-ons and special instructions before adding to cart.</p>
+            <div className="grid-2" style={{ maxWidth: "640px" }}>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="MODAL · ItemDetail">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-item-detail']?.url} alt={experienceAssets['guest-item-detail']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-item-detail'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Item Details</div><div className="screen-path">Selection Modal</div></div>
+                  <div className="screen-role-badge">MODAL</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="MODAL · ItemCustomize">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-item-customize']?.url} alt={experienceAssets['guest-item-customize']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-item-customize'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Customization</div><div className="screen-path">Addons & Notes</div></div>
+                  <div className="screen-role-badge">MODAL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Ready to order →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 4: CHECKOUT ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 04</div>
+              <div className="step-title">Checkout</div>
+            </div>
+            <p className="step-narrative">Items accumulate in a real-time cart. The guest selects a table, places the order, and pays instantly via M-Pesa STK Push — the order hits the kitchen in under a second.</p>
+            <div className="grid-3">
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientCart">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-cart']?.url} alt={experienceAssets['guest-cart']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-cart'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Main Cart</div><div className="screen-path">Order Summary</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="MODAL · ClientPayment">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-payment']?.url} alt={experienceAssets['guest-payment']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-payment'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Payment Gateway</div><div className="screen-path">M-Pesa STK</div></div>
+                  <div className="screen-role-badge">MODAL</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientOrders">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-orders']?.url} alt={experienceAssets['guest-orders']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-orders'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Live Orders</div><div className="screen-path">Route: /orders</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Order placed — need anything else? →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 5: TRACKING & SUPPORT ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 05</div>
+              <div className="step-title">Tracking & Support</div>
+            </div>
+            <p className="step-narrative">The guest monitors order status in real-time — every status change from the kitchen pushes instantly to their screen. Bills are itemised, and support is one tap away.</p>
+            <div className="grid-2" style={{ maxWidth: "640px" }}>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientBills">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-bills']?.url} alt={experienceAssets['guest-bills']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-bills'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Bill Breakdown</div><div className="screen-path">Route: /bill</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · ClientHelp">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-help']?.url} alt={experienceAssets['guest-help']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-help'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Help & Support</div><div className="screen-path">Route: /help</div></div>
+                  <div className="screen-role-badge">GUEST</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">There is more to explore →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 6: RETAIL COMMERCE ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 06</div>
+              <div className="step-title">Retail Commerce</div>
+            </div>
+            <p className="step-narrative">Beyond food — guests browse and purchase retail items, souvenirs, and services through an integrated e-commerce storefront with its own cart and checkout flow.</p>
+            <div className="grid-3">
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · RetailMenu">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-retail-menu']?.url} alt={experienceAssets['guest-retail-menu']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-retail-menu'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Retail Store</div><div className="screen-path">Route: /retail</div></div>
+                  <div className="screen-role-badge">RETAIL</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · RetailCategories">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-retail-categories']?.url} alt={experienceAssets['guest-retail-categories']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-retail-categories'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Product Categories</div><div className="screen-path">Retail Filter</div></div>
+                  <div className="screen-role-badge">RETAIL</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · RetailCart">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['guest-retail-cart']?.url} alt={experienceAssets['guest-retail-cart']?.title} onClick={() => setSelectedAsset(experienceAssets['guest-retail-cart'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-guest">
+                  <div><div className="screen-name">Retail Checkout</div><div className="screen-path">Retail Cart</div></div>
+                  <div className="screen-role-badge">RETAIL</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* ── 02: KITCHEN BOARD ───────────────────────────── */}
+      <section className="section role-kitchen" id="kitchen">
+        <div className="container">
+          <div className="section-header reveal">
+            <div className="section-number">02</div>
+            <div className="section-title-block">
+              <div className="section-eyebrow">Role · Kitchen</div>
+              <h2 className="section-title">THE KITCHEN<br /><span className="accent">BOARD</span></h2>
+              <p className="section-desc">A focused, real-time order board engineered for kitchen staff. Dual view modes, urgency timers, bulk column advance, and continuous socket sync ensure no order is missed or delayed.</p>
+            </div>
+            <div className="section-meta">
+              <div className="meta-pill"><span className="dot"></span> Kanban + list modes</div>
+              <div className="meta-pill"><span className="dot"></span> Urgency timer per order</div>
+              <div className="meta-pill"><span className="dot"></span> Column-level bulk advance</div>
+              <div className="meta-pill"><span className="dot"></span> Sound toggle</div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">The order arrives in the kitchen →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 1: ORDER ARRIVES ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 01</div>
+              <div className="step-title">Order Arrives</div>
+            </div>
+            <p className="step-narrative">The moment a guest places an order, it appears on the Kitchen Board in real-time via WebSocket. The Kanban view organises orders by status columns — Pending, Preparing, Ready — with live elapsed timers on every card.</p>
+            <div className="grid-2" style={{ maxWidth: "900px" }}>
+              <div className="screen-card">
+                <div className="media-frame" data-label="SCREENSHOT · Kitchen_KanbanView">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['kitchen-kanban']?.url} alt={experienceAssets['kitchen-kanban']?.title} onClick={() => setSelectedAsset(experienceAssets['kitchen-kanban'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-kitchen">
+                  <div><div className="screen-name">Kitchen Board · Kanban</div><div className="screen-path">Route: /kitchen · Kanban mode</div></div>
+                  <div className="screen-role-badge">KITCHEN</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame" data-label="SCREENSHOT · Kitchen_ListView">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['kitchen-list']?.url} alt={experienceAssets['kitchen-list']?.title} onClick={() => setSelectedAsset(experienceAssets['kitchen-list'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-kitchen">
+                  <div><div className="screen-name">Kitchen Board · List</div><div className="screen-path">Route: /kitchen · List mode</div></div>
+                  <div className="screen-role-badge">KITCHEN</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">High-volume tools →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 2: BULK OPERATIONS ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">HIGHLIGHT</div>
+              <div className="step-title">Bulk Operations</div>
+            </div>
+            <p className="step-narrative">For high-volume service, Bulk Mode and Column Quick-Advance let kitchen staff move entire batches of orders with a single action — drastically reducing interface fatigue during peak hours.</p>
+            <div className="grid-4060">
+              <div className="screen-card">
+                <div className="media-frame" data-label="SCREENSHOT · Kitchen_BulkMode">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['kitchen-list']?.url} alt={experienceAssets['kitchen-list']?.title} onClick={() => setSelectedAsset(experienceAssets['kitchen-list'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-kitchen">
+                  <div><div className="screen-name">Bulk Operations</div><div className="screen-path">/kitchen · Bulk enabled</div></div>
+                  <div className="screen-role-badge">KITCHEN</div>
+                </div>
+              </div>
+              <div className="action-panel" style={{ flex: 1 }}>
+                <div className="action-panel-title">🍳 All Kitchen Actions</div>
+                <ul className="action-list">
+                  <li className="action-item"><span className="action-num">→</span>Load active kitchen orders on mount</li>
+                  <li className="action-item"><span className="action-num">→</span>Real-time: new order + status update via socket</li>
+                  <li className="action-item"><span className="action-num">→</span>Toggle view mode: kanban ↔ list</li>
+                  <li className="action-item"><span className="action-num">→</span>Toggle sound notifications on/off</li>
+                  <li className="action-item"><span className="action-num">→</span>Enable bulk mode, select orders</li>
+                  <li className="action-item"><span className="action-num">→</span>Select all / unselect all in a status column</li>
+                  <li className="action-item"><span className="action-num">→</span>Per-column quick advance</li>
+                  <li className="action-item"><span className="action-num">→</span>Live per-order elapsed timer display</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 03: WAITER WORKFLOW ───────────────────────────── */}
+      <section className="section role-waiter" id="waiter">
+        <div className="container">
+          <div className="section-header reveal">
+            <div className="section-number">03</div>
+            <div className="section-title-block">
+              <div className="section-eyebrow">Role · Waiter</div>
+              <h2 className="section-title">THE WAITER<br /><span className="accent">WORKFLOW</span></h2>
+              <p className="section-desc">Front-of-house operations. Waiters receive assigned orders via live socket, manage status transitions, confirm payments, and communicate with admin — all from a single mobile-optimised dashboard.</p>
+            </div>
+            <div className="section-meta">
+              <div className="meta-pill"><span className="dot"></span> Live assignment toasts</div>
+              <div className="meta-pill"><span className="dot"></span> Bulk order operations</div>
+              <div className="meta-pill"><span className="dot"></span> Admin chat workspace</div>
+              <div className="meta-pill"><span className="dot"></span> Detailed action reasons</div>
+              <div className="meta-pill"><span className="dot"></span> Sound + vibration alerts</div>
+            </div>
+          </div>
+
+          <div className="reveal" style={{ marginBottom: "2px" }}>
+            <div className="media-frame video-frame" data-label="VIDEO · WAITER_WALKTHROUGH_01">
+              <div className="media-frame-inner" style={{ aspectRatio: "16/9" }}>
+                <YouTubePlayer url={experienceAssets['waiter-main']?.url} title={experienceAssets['waiter-main']?.title} />
+              </div>
+            </div>
+            <div className="screen-label band-waiter">
+              <div><div className="screen-name">Waiter Journey — Full Walkthrough</div><div className="screen-path">/waiter · /waiter/dashboard</div></div>
+              <div className="screen-role-badge">WAITER VIDEO</div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Screen-by-screen breakdown →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 1: SIGN IN ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 01</div>
+              <div className="step-title">Sign In</div>
+            </div>
+            <p className="step-narrative">Waiters authenticate with secure credentials. The session persists across shifts — no need to re-login after a break.</p>
+            <div className="grid-2" style={{ maxWidth: "640px" }}>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterLogin">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-login']?.url} alt={experienceAssets['waiter-login']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-login'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Waiter Login</div><div className="screen-path">Route: /waiter</div></div>
+                  <div className="screen-role-badge">PUBLIC</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Authenticated — dashboard loads →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 2: LIVE DASHBOARD ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 02</div>
+              <div className="step-title">Live Dashboard</div>
+            </div>
+            <p className="step-narrative">The dashboard shows all assigned orders in real-time. New assignments trigger sound and vibration alerts. The recent feed provides a live activity log of all order events.</p>
+            <div className="grid-2" style={{ maxWidth: "640px" }}>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREENSHOT · WaiterDashboard_Overview">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-dashboard']?.url} alt={experienceAssets['waiter-dashboard']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-dashboard'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Waiter Dashboard</div><div className="screen-path">Route: /waiter/dashboard</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterRecent">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-recent']?.url} alt={experienceAssets['waiter-recent']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-recent'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Recent Feed</div><div className="screen-path">Live Activity</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Coordinating with the team →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 3: TEAM COORDINATION ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 03</div>
+              <div className="step-title">Team Coordination</div>
+            </div>
+            <p className="step-narrative">View team workload balance across all waiters, configure personal alert preferences for sound and vibration, and chat directly with admin for quick coordination.</p>
+            <div className="grid-3">
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterTeam">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-team']?.url} alt={experienceAssets['waiter-team']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-team'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Team Balance</div><div className="screen-path">Workload Monitor</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterAlerts">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-alerts']?.url} alt={experienceAssets['waiter-alerts']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-alerts'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Alert Config</div><div className="screen-path">Sound & Vibration</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterChat">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-chat']?.url} alt={experienceAssets['waiter-chat']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-chat'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Staff Chat</div><div className="screen-path">Admin Communication</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="step-connector reveal"><div className="step-connector-line"></div><div className="step-connector-text">Managing the queue →</div><div className="step-connector-line"></div></div>
+
+          {/* ── STEP 4: ORDER MANAGEMENT ── */}
+          <div className="journey-step reveal">
+            <div className="journey-step-header">
+              <div className="step-number">STEP 04</div>
+              <div className="step-title">Order Management</div>
+            </div>
+            <p className="step-narrative">Queue tools enable bulk operations on multiple orders. Past orders are archived for performance tracking and commission reconciliation across shifts.</p>
+            <div className="grid-2" style={{ maxWidth: "640px" }}>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterQueue">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-queue']?.url} alt={experienceAssets['waiter-queue']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-queue'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Queue Tools</div><div className="screen-path">Bulk Operations</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+              <div className="screen-card">
+                <div className="media-frame mobile-portrait" data-label="SCREEN · WaiterHistory">
+                  <div className="media-frame-inner">
+                    <img src={experienceAssets['waiter-history']?.url} alt={experienceAssets['waiter-history']?.title} onClick={() => setSelectedAsset(experienceAssets['waiter-history'])} />
+                  </div>
+                </div>
+                <div className="screen-label band-waiter">
+                  <div><div className="screen-name">Order History</div><div className="screen-path">Past Shifts</div></div>
+                  <div className="screen-role-badge">WAITER</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+      {/* ── 04: ADMIN COMMAND CENTER ─────────────────────── */}
+      <section className="section role-admin" id="admin">
+        <div className="container">
+          <div className="section-header reveal">
+            <div className="section-number">04</div>
+            <div className="section-title-block">
+              <div className="section-eyebrow">Role · Admin</div>
+              <h2 className="section-title">THE ADMIN<br /><span className="accent">COMMAND CENTER</span></h2>
+              <p className="section-desc">The central nervous system for restaurant operations. Spanning over 20 screens organised into 6 core business concerns: Live Operations, Catalog Management, Intelligence, Incident Management, System Configuration, and Infrastructure.</p>
+            </div>
+            <div className="section-meta">
+              <div className="meta-pill"><span className="dot"></span> 6 Business Concerns</div>
+              <div className="meta-pill"><span className="dot"></span> 20+ Enterprise Screens</div>
+              <div className="meta-pill"><span className="dot"></span> Immutable Audit Trails</div>
+            </div>
+          </div>
+
+          {/* ── GROUP A: OPERATIONS & FINANCIAL CONTROL ────────── */}
+          <div className="admin-group-header reveal">
+            <div className="admin-group-letter">A</div>
+            <div><div className="admin-group-title">Live Operations & Financial Control</div><div className="admin-group-desc">The nerve center — monitor every active order, track staff, handle incidents, and reconcile payments.</div></div>
+          </div>
+          <div className="grid-4 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · AdminDashOps">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-dash-1']?.url} alt={experienceAssets['admin-dash-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-dash-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Operations Dash</div><div className="screen-path">Route: /admin</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · AdminDashInsights">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-dash-2']?.url} alt={experienceAssets['admin-dash-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-dash-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Operational Insights</div><div className="screen-path">Primary Overview</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · PaymentRecon">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-dash-payments']?.url} alt={experienceAssets['admin-dash-payments']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-dash-payments'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Payment Reconciliation</div><div className="screen-path">Financial Workspace</div></div>
+                <div className="screen-role-badge">FINANCE</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · EndOfDay">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-end-of-day']?.url} alt={experienceAssets['admin-end-of-day']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-end-of-day'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">End of Day Reporting</div><div className="screen-path">Shift Closure</div></div>
+                <div className="screen-role-badge">REPORT</div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── GROUP B: MENU & CATALOG ENGINE ─────────────── */}
+          <div className="admin-group-header reveal">
+            <div className="admin-group-letter">B</div>
+            <div><div className="admin-group-title">Menu & Catalog Engine</div><div className="admin-group-desc">Build and manage the entire digital menu — categories, items, pricing, images, allergens, and add-ons.</div></div>
+          </div>
+          <div className="grid-4 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · MenuCategories1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-menu-categories-1']?.url} alt={experienceAssets['admin-menu-categories-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-menu-categories-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Menu Categories</div><div className="screen-path">Structural Design</div></div>
+                <div className="screen-role-badge">CATALOG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · MenuCategories2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-menu-categories-2']?.url} alt={experienceAssets['admin-menu-categories-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-menu-categories-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Category Content</div><div className="screen-path">Asset Mapping</div></div>
+                <div className="screen-role-badge">CATALOG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · MenuItems1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-menu-items-1']?.url} alt={experienceAssets['admin-menu-items-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-menu-items-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Master Catalog</div><div className="screen-path">Price Engine</div></div>
+                <div className="screen-role-badge">CATALOG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · MenuItems2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-menu-items-2']?.url} alt={experienceAssets['admin-menu-items-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-menu-items-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Item Workbench</div><div className="screen-path">Grammage & Pricing</div></div>
+                <div className="screen-role-badge">CATALOG</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-3 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · RetailProducts">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-retail-catalog-products']?.url} alt={experienceAssets['admin-retail-catalog-products']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-retail-catalog-products'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Retail Inventory</div><div className="screen-path">SKU Management</div></div>
+                <div className="screen-role-badge">RETAIL</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · RetailServices">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-retail-catalog-services']?.url} alt={experienceAssets['admin-retail-catalog-services']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-retail-catalog-services'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Amenity Catalog</div><div className="screen-path">Service Config</div></div>
+                <div className="screen-role-badge">RETAIL</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · RetailCategories">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-retail-catalog-categories']?.url} alt={experienceAssets['admin-retail-catalog-categories']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-retail-catalog-categories'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Retail Taxonomy</div><div className="screen-path">Category Mapping</div></div>
+                <div className="screen-role-badge">RETAIL</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-2 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · RetailOpsHub">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-retail-1']?.url} alt={experienceAssets['admin-retail-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-retail-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Retail Command Hub</div><div className="screen-path">Live Operations</div></div>
+                <div className="screen-role-badge">RETAIL</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · RetailOrders">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-retail-orders']?.url} alt={experienceAssets['admin-retail-orders']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-retail-orders'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Retail Order Tracking</div><div className="screen-path">Fulfillment Board</div></div>
+                <div className="screen-role-badge">RETAIL</div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── GROUP C: INTELLIGENCE & ANALYTICS ──────────── */}
+          <div className="admin-group-header reveal">
+            <div className="admin-group-letter">C</div>
+            <div><div className="admin-group-title">Intelligence & Exports</div><div className="admin-group-desc">Revenue analytics, efficiency metrics, customer behavior insights, and CSV/PDF export engine.</div></div>
+          </div>
+          <div className="grid-3 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="ANALYTICS · Financials">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-analytics-1']?.url} alt={experienceAssets['admin-analytics-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-analytics-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Revenue Intelligence</div><div className="screen-path">Financial DNA</div></div>
+                <div className="screen-role-badge">ANALYTICS</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="ANALYTICS · Operations">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-analytics-2']?.url} alt={experienceAssets['admin-analytics-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-analytics-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Efficiency Metrics</div><div className="screen-path">Operational Flow</div></div>
+                <div className="screen-role-badge">ANALYTICS</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="ANALYTICS · behavior">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-analytics-3']?.url} alt={experienceAssets['admin-analytics-3']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-analytics-3'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Guest Behavior</div><div className="screen-path">Persona Analysis</div></div>
+                <div className="screen-role-badge">ANALYTICS</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-4 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="EXPORT · EngineCSV">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-export-1']?.url} alt={experienceAssets['admin-export-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-export-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">CSV Export Engine</div><div className="screen-path">Raw Data Relay</div></div>
+                <div className="screen-role-badge">DATA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="EXPORT · Statements">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-export-2']?.url} alt={experienceAssets['admin-export-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-export-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Bank Reconciliation</div><div className="screen-path">Audit Export</div></div>
+                <div className="screen-role-badge">DATA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="EXPORT · Staff">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-export-3']?.url} alt={experienceAssets['admin-export-3']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-export-3'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Commissions Report</div><div className="screen-path">Staff Performance</div></div>
+                <div className="screen-role-badge">DATA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="EXPORT · Inventory">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-export-4']?.url} alt={experienceAssets['admin-export-4']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-export-4'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Inventory Audit</div><div className="screen-path">Stock Movements</div></div>
+                <div className="screen-role-badge">DATA</div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── GROUP D: OPERATIONS & INCIDENT MGMT ─────────── */}
+          <div className="admin-group-header reveal">
+            <div className="admin-group-letter">D</div>
+            <div><div className="admin-group-title">Operations & Incident Management</div><div className="admin-group-desc">Customer issues, staff monitoring, broadcast notifications, and team communication.</div></div>
+          </div>
+          <div className="grid-3 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · CustomerMaster">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-customers-1']?.url} alt={experienceAssets['admin-customers-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-customers-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Guest Directory</div><div className="screen-path">Route: /admin/customers</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · CustomerInsights">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-customers-2']?.url} alt={experienceAssets['admin-customers-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-customers-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Guest Analytics</div><div className="screen-path">Interactions Log</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · CustomerSegments">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-customers-3']?.url} alt={experienceAssets['admin-customers-3']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-customers-3'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">VIP Segmentation</div><div className="screen-path">Priority Boards</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-4 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · StaffMonitor">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-staff-monitor']?.url} alt={experienceAssets['admin-staff-monitor']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-staff-monitor'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Staff Live Monitor</div><div className="screen-path">Floor Control</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · StaffChat">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-messages']?.url} alt={experienceAssets['admin-messages']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-messages'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Staff Chat Space</div><div className="screen-path">Unified Comms</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · Notifications">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-notifications']?.url} alt={experienceAssets['admin-notifications']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-notifications'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Alert History</div><div className="screen-path">Notification Center</div></div>
+                <div className="screen-role-badge">ADMIN</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SCREEN · IssuesBoard">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-issues']?.url} alt={experienceAssets['admin-issues']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-issues'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Issue Management</div><div className="screen-path">Incident Resolution</div></div>
+                <div className="screen-role-badge">TICKETS</div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── GROUP E: CONFIGURATION & SPACE ─────────────── */}
+          <div className="admin-group-header reveal">
+            <div className="admin-group-letter">E</div>
+            <div><div className="admin-group-title">System Configuration</div><div className="admin-group-desc">Full system setup — branding, payment providers, team management, media library, and table occupancy.</div></div>
+          </div>
+          <div className="grid-3 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · General1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-general-1']?.url} alt={experienceAssets['admin-settings-general-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-general-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Core Business</div><div className="screen-path">Identity Config</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · General2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-general-2']?.url} alt={experienceAssets['admin-settings-general-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-general-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Operational Logic</div><div className="screen-path">Routing Prefs</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · General3">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-general-3']?.url} alt={experienceAssets['admin-settings-general-3']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-general-3'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Localization & UI</div><div className="screen-path">Branding Portal</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-4 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · Team1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-team-1']?.url} alt={experienceAssets['admin-settings-team-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-team-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Access Control</div><div className="screen-path">RBAC Workspace</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · Team2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-team-2']?.url} alt={experienceAssets['admin-settings-team-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-team-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Credential Manager</div><div className="screen-path">Staff Security</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · Payments1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-payments-1']?.url} alt={experienceAssets['admin-settings-payments-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-payments-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Gateway Config</div><div className="screen-path">M-Pesa Node</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · Payments2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-payments-2']?.url} alt={experienceAssets['admin-settings-payments-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-payments-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Tax & Fees</div><div className="screen-path">Commission Logic</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-3 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="CONFIG · MediaLibrary">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-gallery']?.url} alt={experienceAssets['admin-settings-gallery']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-gallery'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Central Media</div><div className="screen-path">Asset Storage</div></div>
+                <div className="screen-role-badge">CONFIG</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SPACE · Occupancy1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-table-occupancy-1']?.url} alt={experienceAssets['admin-table-occupancy-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-table-occupancy-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Live Floor Map</div><div className="screen-path">Space Visualization</div></div>
+                <div className="screen-role-badge">SPACE</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="SPACE · Occupancy2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-table-occupancy-2']?.url} alt={experienceAssets['admin-table-occupancy-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-table-occupancy-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Session Manager</div><div className="screen-path">Table Operations</div></div>
+                <div className="screen-role-badge">SPACE</div>
+              </div>
+            </div>
+          </div>
+
+          {/* ── GROUP F: INFRASTRUCTURE NODES ─────────────── */}
+          <div className="admin-group-header reveal">
+            <div className="admin-group-letter">F</div>
+            <div><div className="admin-group-title">Infrastructure & Compliance</div><div className="admin-group-desc">Webhooks, API portal, QR engine, data export, and immutable audit trails.</div></div>
+          </div>
+          <div className="grid-4 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="INFRA · Integrations1">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-integrations-1']?.url} alt={experienceAssets['admin-integrations-1']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-integrations-1'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">External Webhooks</div><div className="screen-path">Data Relay</div></div>
+                <div className="screen-role-badge">INFRA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="INFRA · Integrations2">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-integrations-2']?.url} alt={experienceAssets['admin-integrations-2']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-integrations-2'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">API Portal</div><div className="screen-path">Developer Tokens</div></div>
+                <div className="screen-role-badge">INFRA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="INFRA · QRGenTable">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-settings-qrcodes']?.url} alt={experienceAssets['admin-settings-qrcodes']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-settings-qrcodes'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Table QR Engine</div><div className="screen-path">Dynamic Routing</div></div>
+                <div className="screen-role-badge">INFRA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="INFRA · SystemLaunchers">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-launcher-qrs']?.url} alt={experienceAssets['admin-launcher-qrs']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-launcher-qrs'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Launcher Nodes</div><div className="screen-path">Entry QR Mapping</div></div>
+                <div className="screen-role-badge">INFRA</div>
+              </div>
+            </div>
+          </div>
+          <div className="grid-2 reveal" style={{ marginBottom: "2px" }}>
+            <div className="screen-card">
+              <div className="media-frame" data-label="INFRA · AuditLogs">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-audit-logs']?.url} alt={experienceAssets['admin-audit-logs']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-audit-logs'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">System Audit Trail</div><div className="screen-path">Immutable Records</div></div>
+                <div className="screen-role-badge">INFRA</div>
+              </div>
+            </div>
+            <div className="screen-card">
+              <div className="media-frame" data-label="INFRA · Archives">
+                <div className="media-frame-inner">
+                  <img src={experienceAssets['admin-archives']?.url} alt={experienceAssets['admin-archives']?.title} onClick={() => setSelectedAsset(experienceAssets['admin-archives'])} />
+                </div>
+              </div>
+              <div className="screen-label band-admin">
+                <div><div className="screen-name">Data Archives</div><div className="screen-path">Compliance Logs</div></div>
+                <div className="screen-role-badge">INFRA</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── 05: SYSTEM FLOW ───────────────────────────────── */}
+      <section className="section">
+        <div className="container">
+          <div className="section-header reveal">
+            <div className="section-number">05</div>
+            <div className="section-title-block">
+              <div className="section-eyebrow">System Architecture</div>
+              <h2 className="section-title">HOW THE ROLES<br /><span className="accent">CONNECT</span></h2>
+              <p className="section-desc">Every order placed by a guest propagates through the full system — socket-synced in real time to kitchen, waiter, and admin simultaneously.</p>
+            </div>
+          </div>
+
+          <div className="flow-strip reveal">
+            <div className="flow-node">
+              <div className="flow-node-icon" style={{ borderColor: "#5B9BD5", color: "#5B9BD5" }}>◉</div>
+              <div className="flow-node-label" style={{ color: "#5B9BD5" }}>Guest</div>
+              <div className="flow-node-desc">Places order<br />via device UI.<br />No login required.</div>
+            </div>
+            <div className="flow-node">
+              <div className="flow-node-icon" style={{ borderColor: "#E07B54", color: "#E07B54" }}>◈</div>
+              <div className="flow-node-label" style={{ color: "#E07B54" }}>Kitchen</div>
+              <div className="flow-node-desc">Receives live order.<br />Advances through<br />kanban statuses.</div>
+            </div>
+            <div className="flow-node">
+              <div className="flow-node-icon" style={{ borderColor: "#7BC47A", color: "#7BC47A" }}>◆</div>
+              <div className="flow-node-label" style={{ color: "#7BC47A" }}>Waiter</div>
+              <div className="flow-node-desc">Gets assigned order.<br />Delivers + confirms<br />payment at table.</div>
+            </div>
+            <div className="flow-node">
+              <div className="flow-node-icon" style={{ borderColor: "var(--gold)", color: "var(--gold)" }}>◇</div>
+              <div className="flow-node-label" style={{ color: "var(--gold)" }}>Admin</div>
+              <div className="flow-node-desc">Monitors all lanes.<br />Manages team,<br />menu, analytics.</div>
+            </div>
+          </div>
+
+          <div className="grid-4 reveal" style={{ marginTop: "2px" }}>
+            <div className="action-panel">
+              <div className="action-panel-title" style={{ color: "#5B9BD5" }}>GUEST ACTIONS</div>
+              <ul className="action-list">
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Browse + filter menu</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Customise + add to cart</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Submit order with table</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Track live status</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Pay via STK or manual</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Browse retail + checkout</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#5B9BD5" }}>→</span>Raise issues</li>
+              </ul>
+            </div>
+            <div className="action-panel">
+              <div className="action-panel-title" style={{ color: "#E07B54" }}>KITCHEN ACTIONS</div>
+              <ul className="action-list">
+                <li className="action-item"><span className="action-num" style={{ color: "#E07B54" }}>→</span>Receive live order</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#E07B54" }}>→</span>Kanban / list view</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#E07B54" }}>→</span>Advance order status</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#E07B54" }}>→</span>Bulk column advance</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#E07B54" }}>→</span>Monitor urgency timers</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#E07B54" }}>→</span>Sound alerts toggle</li>
+              </ul>
+            </div>
+            <div className="action-panel">
+              <div className="action-panel-title" style={{ color: "#7BC47A" }}>WAITER ACTIONS</div>
+              <ul className="action-list">
+                <li className="action-item"><span className="action-num" style={{ color: "#7BC47A" }}>→</span>Accept assigned order</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#7BC47A" }}>→</span>Update prep/delivery status</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#7BC47A" }}>→</span>Confirm table payment</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#7BC47A" }}>→</span>Bulk multi-order ops</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#7BC47A" }}>→</span>Chat with admin</li>
+                <li className="action-item"><span className="action-num" style={{ color: "#7BC47A" }}>→</span>Cancel order</li>
+              </ul>
+            </div>
+            <div className="action-panel">
+              <div className="action-panel-title" style={{ color: "var(--gold)" }}>ADMIN ACTIONS</div>
+              <ul className="action-list">
+                <li className="action-item"><span className="action-num">→</span>Assign + reassign waiters</li>
+                <li className="action-item"><span className="action-num">→</span>EOD close + commission</li>
+                <li className="action-item"><span className="action-num">→</span>Full menu management</li>
+                <li className="action-item"><span className="action-num">→</span>Broadcast notifications</li>
+                <li className="action-item"><span className="action-num">→</span>Analytics + reports</li>
+                <li className="action-item"><span className="action-num">→</span>System configuration</li>
+                <li className="action-item"><span className="action-num">→</span>Retail catalog + orders</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER / CTA ──────────────────────────────────── */}
+      <footer className="footer">
+        <div className="footer-brand">GTSS</div>
+        <div style={{ textAlign: "center" }}>
+          <div className="hero-ctas" style={{ justifyContent: "center", marginBottom: 0 }}>
+            <Link href="/" className="btn-primary">INITIALIZE SEQUENCE →</Link>
+            <Link href="/" className="btn-secondary">VIEW ARCHITECTURE</Link>
+          </div>
+        </div>
+        <div className="footer-copy">PRODUCT_ECOSYSTEM_V4 · EA GRID</div>
+      </footer>
+      {/* ── LIGHTBOX MODAL ────────────────────────────── */}
+      {selectedAsset && (
+        <div className="lightbox-overlay" onClick={() => setSelectedAsset(null)}>
+          <div className="lightbox-content" onClick={(e) => e.stopPropagation()}>
+            <div className="lightbox-close" onClick={() => setSelectedAsset(null)}>✕</div>
+            <div className="lightbox-media">
+              {selectedAsset.type === 'youtube' ? (
+                <YouTubePlayer url={selectedAsset.url} title={selectedAsset.title} />
+              ) : (
+                <img src={selectedAsset.url} alt={selectedAsset.title} />
               )}
             </div>
-
-            {/* Screen inventory */}
-            {chapter.screenGroups.map((group, gi) => {
-              const groupKey = `${chapter.id}-${gi}`;
-              const isOpen = !!openGroups[groupKey];
-              return (
-                <div key={gi} className={`exp-screen-group ${isOpen ? "open" : ""}`}>
-                  <div className="exp-screen-group-header" onClick={() => toggleGroup(groupKey)}>
-                    <h3>{group.title} ({group.screens.length} screens)</h3>
-                    <svg className="exp-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                      <path d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                  <div className="exp-screen-group-body">
-                    <div className="exp-screen-list">
-                      {group.screens.map((screen, si) => (
-                        <div key={si} className="exp-screen-item">
-                          {screen.route && (
-                            <div className="exp-screen-item-route">{screen.route}</div>
-                          )}
-                          <div className="exp-screen-item-content">
-                            <h4>{screen.name}</h4>
-                            <div className="exp-screen-item-actions">
-                              {screen.actions.map((action, ai) => (
-                                <span key={ai}>{action}</span>
-                              ))}
-                            </div>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        ))}
-
-        {/* Bottom CTA */}
-        <div className="exp-bottom-cta">
-          <h2>Ready to transform your restaurant?</h2>
-          <p>
-            Get GTSS deployed in under an hour. No app downloads. No cloud dependency. 
-            Just a system that works — always.
-          </p>
-          <div className="exp-cta-buttons">
-            <Link href="/contact" className="exp-cta-primary">
-              Book a Demo
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </Link>
-            <Link href="/products/restaurant-manager" className="exp-cta-secondary">
-              ← Back to Overview
-            </Link>
+            <div className="lightbox-info">
+              <div className="section-eyebrow">Asset Details · {selectedAsset.id.split('-')[0].toUpperCase()}</div>
+              <h3 className="section-title" style={{ fontSize: "48px", marginBottom: "24px" }}>{selectedAsset.title}</h3>
+              <p className="section-desc" style={{ maxWidth: "100%", fontSize: "16px" }}>
+                {selectedAsset.description}
+              </p>
+              
+              <div style={{ marginTop: "auto", paddingTop: "40px", borderTop: "1px solid var(--gold-border)" }}>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--gold)", letterSpacing: "0.2em", marginBottom: "8px" }}>SYSTEM PATH</div>
+                <div style={{ fontFamily: "var(--font-mono)", fontSize: "12px", color: "var(--text-mid)" }}>GTSS_CORE // {selectedAsset.id.toUpperCase()}</div>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
-
-      {/* Lightbox */}
-      <div
-        className={`exp-lightbox ${lightbox ? "open" : ""}`}
-        onClick={() => setLightbox(null)}
-      >
-        {lightbox && (
-          <>
-            <button className="exp-lightbox-close" aria-label="Close" onClick={() => setLightbox(null)}>✕</button>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={lightbox.src} alt={lightbox.caption} onClick={(e) => e.stopPropagation()} />
-            <div className="exp-lightbox-caption">{lightbox.caption}</div>
-          </>
-        )}
-      </div>
+      )}
     </div>
   );
 }

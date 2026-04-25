@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GTSS — System Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@300;400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── TOKENS ─────────────────────────────────────────── */
+:root {
+  --gold:          #E8B84B;
+  --gold-bright:   #F5C842;
+  --gold-dim:      rgba(232,184,75,0.10);
+  --gold-border:   rgba(232,184,75,0.22);
+  --gold-glow:     rgba(232,184,75,0.06);
+  --bg:            #070707;
+  --bg-card:       #0d0d0d;
+  --bg-elevated:   #131313;
+  --bg-hover:      #181818;
+  --text:          #D0CFC8;
+  --text-dim:      #5a5a52;
+  --text-mid:      #888880;
+  --border:        rgba(255,255,255,0.06);
+  --font-display:  'Bebas Neue', sans-serif;
+  --font-mono:     'IBM Plex Mono', monospace;
+  --font-body:     'IBM Plex Sans', sans-serif;
+  --r:             2px;
+}
+
+/* ── RESET ──────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+img, video { max-width: 100%; display: block; }
+
+/* ── SCROLLBAR ──────────────────────────────────────── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--gold-border); border-radius: 2px; }
+
+/* ── PARTICLES CANVAS ───────────────────────────────── */
+#canvas { position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .45; }
+
+/* ── STICKY ROLE NAV ────────────────────────────────── */
+.role-nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 100;
+  background: rgba(7,7,7,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  padding: 0 32px;
+  height: 52px;
+  gap: 0;
+}
+.nav-brand {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  text-transform: uppercase;
+  margin-right: auto;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-brand::before {
+  content: '';
+  display: block;
+  width: 18px;
+  height: 2px;
+  background: var(--gold);
+}
+.role-tabs {
+  display: flex;
+  gap: 2px;
+}
+.role-tab {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 6px 18px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all .2s;
+  background: transparent;
+  color: var(--text-dim);
+}
+.role-tab:hover, .role-tab.active {
+  color: var(--gold);
+  border-color: var(--gold-border);
+  background: var(--gold-dim);
+}
+
+/* ── HERO ───────────────────────────────────────────── */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 0 60px 80px;
+  overflow: hidden;
+  z-index: 1;
+}
+.hero::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 60%;
+  background: linear-gradient(to top, var(--bg) 20%, transparent);
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.hero-eyebrow-line {
+  width: 48px;
+  height: 2px;
+  background: var(--gold);
+}
+.hero-eyebrow-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.hero-heading {
+  font-family: var(--font-display);
+  font-size: clamp(72px, 9vw, 130px);
+  line-height: 0.92;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  color: #fff;
+  margin-bottom: 36px;
+}
+.hero-heading .accent { color: var(--gold); }
+.hero-sub {
+  font-family: var(--font-body);
+  font-size: 15px;
+  color: var(--text-mid);
+  max-width: 480px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+}
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 64px;
+}
+.btn-primary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  background: var(--gold);
+  color: #000;
+  cursor: pointer;
+  border: none;
+  transition: all .2s;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+.btn-primary:hover { background: var(--gold-bright); transform: translateY(-1px); }
+.btn-secondary {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  background: transparent;
+  color: var(--text);
+  border: 1px solid var(--gold-border);
+  cursor: pointer;
+  transition: all .2s;
+}
+.btn-secondary:hover { border-color: var(--gold); color: var(--gold); }
+
+/* Role entry nodes in hero */
+.hero-role-nodes {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.role-node {
+  border: 1px solid var(--gold-border);
+  padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: all .25s;
+  background: var(--gold-glow);
+}
+.role-node:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  transform: translateY(-2px);
+}
+.role-node-id {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: var(--gold);
+  opacity: .7;
+}
+.role-node-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text);
+}
+.role-node-count {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-left: auto;
+  padding-left: 16px;
+}
+
+/* ── STATS BAR ──────────────────────────────────────── */
+.stats-bar {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+  background: #0a0a0a;
+}
+.stat-cell {
+  padding: 28px 40px;
+  border-right: 1px solid var(--gold-border);
+}
+.stat-cell:last-child { border-right: none; }
+.stat-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  margin-bottom: 8px;
+}
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 48px;
+  line-height: 1;
+  color: #fff;
+}
+.stat-unit {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--gold);
+  letter-spacing: 0.15em;
+  margin-left: 6px;
+}
+
+/* ── LAYOUT ─────────────────────────────────────────── */
+.container { max-width: 1400px; margin: 0 auto; padding: 0 60px; }
+.section { position: relative; z-index: 1; padding: 120px 0; }
+.section + .section { border-top: 1px solid var(--border); }
+
+/* ── SECTION HEADER ─────────────────────────────────── */
+.section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 60px;
+  margin-bottom: 72px;
+}
+.section-number {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  color: var(--gold);
+  opacity: .6;
+  padding-top: 6px;
+  white-space: nowrap;
+}
+.section-title-block { flex: 1; }
+.section-eyebrow {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.section-eyebrow::before {
+  content: '';
+  display: block;
+  width: 28px;
+  height: 1px;
+  background: var(--gold);
+}
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(48px, 5vw, 76px);
+  text-transform: uppercase;
+  line-height: 0.95;
+  color: #fff;
+}
+.section-title .accent { color: var(--gold); }
+.section-desc {
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--text-mid);
+  max-width: 380px;
+  line-height: 1.75;
+  margin-top: 20px;
+}
+.section-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+}
+.meta-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 6px 12px;
+  border: 1px solid var(--gold-border);
+  color: var(--text-dim);
+  width: fit-content;
+}
+.meta-pill .dot {
+  width: 5px; height: 5px;
+  border-radius: 50%;
+  background: var(--gold);
+  flex-shrink: 0;
+}
+
+/* ── MEDIA PLACEHOLDER ──────────────────────────────── */
+.media-frame {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  position: relative;
+  overflow: hidden;
+}
+.media-frame::before {
+  content: attr(data-label);
+  position: absolute;
+  top: 10px; left: 12px;
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  opacity: .6;
+  z-index: 2;
+}
+.media-frame-inner {
+  aspect-ratio: 16/9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 24px;
+}
+.media-frame.tall .media-frame-inner { aspect-ratio: 4/3; }
+.media-frame.square .media-frame-inner { aspect-ratio: 1/1; }
+.media-frame.wide .media-frame-inner { aspect-ratio: 21/9; }
+.placeholder-icon {
+  width: 40px; height: 40px;
+  border: 1px solid var(--gold-border);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  font-size: 16px;
+  opacity: .5;
+}
+.placeholder-title {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  text-align: center;
+}
+.placeholder-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  text-align: center;
+  line-height: 1.6;
+}
+.placeholder-hint {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-xdim);
+  text-align: center;
+  border: 1px dashed var(--text-xdim);
+  padding: 4px 10px;
+  margin-top: 4px;
+}
+/* Corner marks */
+.media-frame::after {
+  content: '';
+  position: absolute;
+  bottom: 10px; right: 12px;
+  width: 10px; height: 10px;
+  border-right: 1px solid var(--gold-border);
+  border-bottom: 1px solid var(--gold-border);
+}
+.media-frame img,
+.media-frame video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* ── VIDEO FRAME SPECIAL ────────────────────────────── */
+.video-frame .media-frame-inner { gap: 20px; }
+.play-btn {
+  width: 64px; height: 64px;
+  border: 1px solid var(--gold-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold);
+  font-size: 20px;
+  cursor: pointer;
+  transition: all .3s;
+  background: var(--gold-glow);
+}
+.play-btn:hover {
+  border-color: var(--gold);
+  background: var(--gold-dim);
+  transform: scale(1.08);
+}
+
+/* ── GRIDS ──────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2px; }
+.grid-6040 { display: grid; grid-template-columns: 60fr 40fr; gap: 2px; }
+.grid-4060 { display: grid; grid-template-columns: 40fr 60fr; gap: 2px; }
+.grid-3366 { display: grid; grid-template-columns: 1fr 1fr 2fr; gap: 2px; }
+.grid-col { display: flex; flex-direction: column; gap: 2px; }
+
+/* ── ACTION LIST ────────────────────────────────────── */
+.action-panel {
+  background: var(--bg-card);
+  border: 1px solid var(--gold-border);
+  padding: 28px 28px;
+  height: 100%;
+}
+.action-panel-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--gold-border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.action-list { list-style: none; display: flex; flex-direction: column; gap: 0; }
+.action-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-mid);
+  padding: 7px 0;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  line-height: 1.5;
+}
+.action-item:last-child { border-bottom: none; }
+.action-num {
+  color: var(--gold);
+  opacity: .5;
+  flex-shrink: 0;
+  font-size: 9px;
+  padding-top: 1px;
+}
+
+/* ── SCREEN LABEL (below media) ─────────────────────── */
+.screen-label {
+  border: 1px solid var(--gold-border);
+  border-top: none;
+  background: var(--bg-elevated);
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+.screen-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text);
+  text-transform: uppercase;
+}
+.screen-path {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-dim);
+  margin-top: 3px;
+}
+.screen-role-badge {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  padding: 3px 8px;
+  border: 1px solid var(--gold-border);
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+/* ── SCREEN CARD (frame + label combined) ───────────── */
+.screen-card { display: flex; flex-direction: column; }
+
+/* ── SUB NAV (admin sections) ───────────────────────── */
+.sub-nav {
+  display: flex;
+  border-bottom: 1px solid var(--gold-border);
+  margin-bottom: 64px;
+  gap: 0;
+}
+.sub-nav-item {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 14px 24px;
+  cursor: pointer;
+  color: var(--text-dim);
+  border-bottom: 2px solid transparent;
+  transition: all .2s;
+}
+.sub-nav-item.active, .sub-nav-item:hover {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* ── DIVIDER ────────────────────────────────────────── */
+.h-divider {
+  height: 1px;
+  background: var(--gold-border);
+  margin: 48px 0;
+}
+.section-break {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 48px;
+}
+.section-break-line { flex: 1; height: 1px; background: var(--border); }
+.section-break-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+}
+
+/* ── FLOW DIAGRAM ───────────────────────────────────── */
+.flow-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border: 1px solid var(--gold-border);
+  margin: 48px 0;
+  position: relative;
+}
+.flow-strip::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 12.5%; right: 12.5%;
+  height: 1px;
+  background: var(--gold-border);
+  z-index: 0;
+}
+.flow-node {
+  padding: 28px 20px;
+  text-align: center;
+  border-right: 1px solid var(--gold-border);
+  position: relative;
+  z-index: 1;
+}
+.flow-node:last-child { border-right: none; }
+.flow-node-icon {
+  width: 40px; height: 40px;
+  border: 1px solid var(--gold-border);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 12px;
+  font-size: 14px;
+  background: var(--bg);
+}
+.flow-node-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-mid);
+  margin-bottom: 6px;
+}
+.flow-node-desc {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-dim);
+  line-height: 1.5;
+}
+
+/* ── ADMIN ROLE COLOR ───────────────────────────────── */
+.role-guest .section-eyebrow,
+.role-guest .section-number { color: #5B9BD5; }
+.role-guest .section-eyebrow::before { background: #5B9BD5; }
+.role-guest .meta-pill .dot { background: #5B9BD5; }
+
+.role-waiter .section-eyebrow,
+.role-waiter .section-number { color: #7BC47A; }
+.role-waiter .section-eyebrow::before { background: #7BC47A; }
+.role-waiter .meta-pill .dot { background: #7BC47A; }
+
+.role-kitchen .section-eyebrow,
+.role-kitchen .section-number { color: #E07B54; }
+.role-kitchen .section-eyebrow::before { background: #E07B54; }
+.role-kitchen .meta-pill .dot { background: #E07B54; }
+
+/* ── CHAPTER BANNER ─────────────────────────────────── */
+.chapter-banner {
+  padding: 20px 0 0;
+  border-top: 1px solid var(--border);
+  margin-bottom: 60px;
+}
+
+/* ── ANNOTATION BUBBLE ──────────────────────────────── */
+.annotation {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--gold-border);
+  border-left: 3px solid var(--gold);
+  padding: 10px 14px;
+  margin-bottom: 8px;
+  width: 100%;
+}
+.annotation-icon {
+  color: var(--gold);
+  font-size: 11px;
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+.annotation-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-mid);
+  line-height: 1.5;
+}
+
+/* ── REVEAL ANIMATION ───────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s ease, transform .6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 { transition-delay: .1s; }
+.reveal-delay-2 { transition-delay: .2s; }
+.reveal-delay-3 { transition-delay: .3s; }
+
+/* ── ROLE COLOR BANDS ───────────────────────────────── */
+.band-guest { border-left: 3px solid #5B9BD5; }
+.band-waiter { border-left: 3px solid #7BC47A; }
+.band-kitchen { border-left: 3px solid #E07B54; }
+.band-admin { border-left: 3px solid var(--gold); }
+
+/* ── TICKER ─────────────────────────────────────────── */
+.ticker-wrap {
+  overflow: hidden;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 12px 0;
+  background: var(--bg-card);
+}
+.ticker {
+  display: flex;
+  gap: 60px;
+  white-space: nowrap;
+  animation: ticker 30s linear infinite;
+}
+.ticker-item {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ticker-item::before {
+  content: '//';
+  color: var(--gold);
+  opacity: .5;
+}
+@keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* ── FOOTER ─────────────────────────────────────────── */
+.footer {
+  border-top: 1px solid var(--gold-border);
+  padding: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+}
+.footer-brand {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--gold);
+}
+.footer-copy {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.15em;
+  color: var(--text-dim);
+}
+
+/* ── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 1024px) {
+  .container { padding: 0 28px; }
+  .hero { padding: 0 28px 60px; }
+  .stats-bar { grid-template-columns: repeat(2, 1fr); }
+  .grid-2, .grid-3, .grid-4, .grid-6040, .grid-4060, .grid-3366 {
+    grid-template-columns: 1fr;
+  }
+  .section-header { flex-direction: column; gap: 24px; }
+  .footer { flex-direction: column; gap: 20px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- PARTICLES -->
+<canvas id="canvas"></canvas>
+
+<!-- ── STICKY NAV ──────────────────────────────────── -->
+<nav class="role-nav">
+  <div class="nav-brand">GTSS · SYSTEM JOURNEY</div>
+  <div class="role-tabs">
+    <a class="role-tab" href="#guest">GUEST</a>
+    <a class="role-tab" href="#waiter">WAITER</a>
+    <a class="role-tab" href="#kitchen">KITCHEN</a>
+    <a class="role-tab" href="#admin">ADMIN</a>
+  </div>
+</nav>
+
+<!-- ── HERO ───────────────────────────────────────── -->
+<section class="hero">
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-line"></div>
+    <span class="hero-eyebrow-label">Product Ecosystem · System Journey</span>
+  </div>
+  <h1 class="hero-heading">THE COMPLETE<br><span class="accent">RESTAURANT</span><br>OPERATING SYSTEM.</h1>
+  <p class="hero-sub">Four precision-engineered interfaces — Guest, Waiter, Kitchen, and Admin — operating in concert through real-time socket synchronisation.</p>
+  <div class="hero-role-nodes">
+    <a href="#guest" class="role-node band-guest">
+      <div>
+        <div class="role-node-id">01 —</div>
+        <div class="role-node-name">GUEST</div>
+      </div>
+      <div class="role-node-count">9 SCREENS</div>
+    </a>
+    <a href="#waiter" class="role-node band-waiter">
+      <div>
+        <div class="role-node-id">02 —</div>
+        <div class="role-node-name">WAITER</div>
+      </div>
+      <div class="role-node-count">2 SCREENS</div>
+    </a>
+    <a href="#kitchen" class="role-node band-kitchen">
+      <div>
+        <div class="role-node-id">03 —</div>
+        <div class="role-node-name">KITCHEN</div>
+      </div>
+      <div class="role-node-count">1 SCREEN</div>
+    </a>
+    <a href="#admin" class="role-node band-admin">
+      <div>
+        <div class="role-node-id">04 —</div>
+        <div class="role-node-name">ADMIN</div>
+      </div>
+      <div class="role-node-count">20+ SCREENS</div>
+    </a>
+  </div>
+</section>
+
+<!-- ── STATS BAR ───────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat-cell">
+    <div class="stat-label">System Roles</div>
+    <div class="stat-value">04<span class="stat-unit">ACTIVE</span></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Route Screens</div>
+    <div class="stat-value">35+<span class="stat-unit">SCREENS</span></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Documented Actions</div>
+    <div class="stat-value">200+<span class="stat-unit">ACTIONS</span></div>
+  </div>
+  <div class="stat-cell">
+    <div class="stat-label">Sync Architecture</div>
+    <div class="stat-value">RT<span class="stat-unit">SOCKET</span></div>
+  </div>
+</div>
+
+<!-- ── TICKER ─────────────────────────────────────── -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">Guest Ordering Flow</span>
+    <span class="ticker-item">Waiter Dashboard</span>
+    <span class="ticker-item">Kitchen Kanban Board</span>
+    <span class="ticker-item">Admin Operations Center</span>
+    <span class="ticker-item">Real-time Socket Sync</span>
+    <span class="ticker-item">Retail Storefront</span>
+    <span class="ticker-item">M-Pesa Payment Integration</span>
+    <span class="ticker-item">Commission Reconciliation</span>
+    <span class="ticker-item">Analytics Dashboard</span>
+    <span class="ticker-item">Audit Trail Viewer</span>
+    <span class="ticker-item">Table Occupancy Board</span>
+    <span class="ticker-item">Bulk Order Operations</span>
+    <!-- duplicate for seamless loop -->
+    <span class="ticker-item">Guest Ordering Flow</span>
+    <span class="ticker-item">Waiter Dashboard</span>
+    <span class="ticker-item">Kitchen Kanban Board</span>
+    <span class="ticker-item">Admin Operations Center</span>
+    <span class="ticker-item">Real-time Socket Sync</span>
+    <span class="ticker-item">Retail Storefront</span>
+    <span class="ticker-item">M-Pesa Payment Integration</span>
+    <span class="ticker-item">Commission Reconciliation</span>
+    <span class="ticker-item">Analytics Dashboard</span>
+    <span class="ticker-item">Audit Trail Viewer</span>
+    <span class="ticker-item">Table Occupancy Board</span>
+    <span class="ticker-item">Bulk Order Operations</span>
+  </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 01 · GUEST
+═══════════════════════════════════════════════════ -->
+<section class="section" id="guest">
+<div class="container">
+
+  <div class="section-header reveal">
+    <div class="section-number role-guest">01</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow role-guest">Role · Guest</div>
+      <h2 class="section-title">THE GUEST<br><span class="accent">EXPERIENCE</span></h2>
+      <p class="section-desc">A device-native flow — no login required. Guests browse the full menu, customise orders, track live progress, manage payment, and raise issues — all from their table device.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-pill"><span class="dot" style="background:#5B9BD5"></span> No login required</div>
+      <div class="meta-pill"><span class="dot" style="background:#5B9BD5"></span> Real-time order updates</div>
+      <div class="meta-pill"><span class="dot" style="background:#5B9BD5"></span> M-Pesa STK push</div>
+      <div class="meta-pill"><span class="dot" style="background:#5B9BD5"></span> Retail storefront</div>
+    </div>
+  </div>
+
+  <!-- FULL WALKTHROUGH VIDEO -->
+  <div class="reveal" style="margin-bottom:2px;">
+    <div class="media-frame video-frame" data-label="VIDEO · GUEST_WALKTHROUGH_01">
+      <!--
+        ╔══════════════════════════════════════════════════╗
+        ║  REPLACE THIS PLACEHOLDER WITH YOUR GUEST VIDEO ║
+        ║  Example:                                        ║
+        ║  <video src="guest-walkthrough.mp4"              ║
+        ║         controls autoplay muted loop             ║
+        ║         style="width:100%;display:block">        ║
+        ║  </video>                                        ║
+        ╚══════════════════════════════════════════════════╝
+      -->
+      <div class="media-frame-inner wide" style="aspect-ratio:21/9;">
+        <div class="play-btn">▶</div>
+        <div class="placeholder-title">Guest Journey — Full Walkthrough</div>
+        <div class="placeholder-sub">Browse · Order · Track · Pay · Retail</div>
+        <div class="placeholder-hint">Replace: &lt;video src="guest-walkthrough.mp4" controls&gt;</div>
+      </div>
+    </div>
+  </div>
+  <div style="margin-bottom:48px;">
+    <div class="screen-label band-guest">
+      <div><div class="screen-name">Complete Guest Journey</div><div class="screen-path">/ · /orders · /bill · /retail · /help</div></div>
+      <div class="screen-role-badge">GUEST VIDEO</div>
+    </div>
+  </div>
+
+  <!-- GUEST SCREEN GRID ROW 1 -->
+  <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">Screen-by-screen breakdown</span><div class="section-break-line"></div></div>
+
+  <div class="grid-3 reveal" style="margin-bottom:2px;">
+    <!-- ClientHome -->
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · ClientHome">
+        <!-- Replace: <img src="client-home.png" alt="ClientHome"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">ClientHome</div>
+          <div class="placeholder-sub">Menu search, category filter,<br>offers toggle, infinite scroll, cart icon</div>
+          <div class="placeholder-hint">Replace: &lt;img src="client-home.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Client Home</div><div class="screen-path">Route: /</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <!-- CategoriesPage -->
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · CategoriesPage">
+        <!-- Replace: <img src="categories.png" alt="CategoriesPage"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Categories Page</div>
+          <div class="placeholder-sub">Search categories, open category list,<br>navigate back to home</div>
+          <div class="placeholder-hint">Replace: &lt;img src="categories.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Categories</div><div class="screen-path">Route: /categories</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <!-- CategoryItemsPage -->
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · CategoryItemsPage">
+        <!-- Replace: <img src="category-items.png" alt="CategoryItemsPage"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Category Items</div>
+          <div class="placeholder-sub">Search within category, infinite scroll,<br>item cards, open detail modal</div>
+          <div class="placeholder-hint">Replace: &lt;img src="category-items.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Category Items</div><div class="screen-path">Route: /category/:id</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food Detail Modal + Cart side-by-side + actions -->
+  <div class="grid-6040 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="MODAL · FoodDetailModal">
+        <!-- Replace: <img src="food-detail-modal.png" alt="FoodDetailModal"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">◫</div>
+          <div class="placeholder-title">Food Detail Modal</div>
+          <div class="placeholder-sub">Image carousel, addons selection, special instructions,<br>quantity, discounted total, upsell trigger</div>
+          <div class="placeholder-hint">Replace: &lt;img src="food-detail-modal.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Food Detail Modal</div><div class="screen-path">Shared surface — triggered from ClientHome, CategoryItemsPage</div></div>
+        <div class="screen-role-badge">MODAL</div>
+      </div>
+    </div>
+    <div class="grid-col">
+      <div class="screen-card">
+        <div class="media-frame tall" data-label="DRAWER · CartDrawer">
+          <!-- Replace: <img src="cart-drawer.png" alt="CartDrawer"> -->
+          <div class="media-frame-inner" style="aspect-ratio:4/3;">
+            <div class="placeholder-icon">◧</div>
+            <div class="placeholder-title">Cart Drawer</div>
+            <div class="placeholder-sub">Qty adjust, remove, clear, table number,<br>submit order, socket join</div>
+            <div class="placeholder-hint">Replace: &lt;img src="cart-drawer.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-guest">
+          <div><div class="screen-name">Cart Drawer</div><div class="screen-path">Shared surface</div></div>
+          <div class="screen-role-badge">DRAWER</div>
+        </div>
+      </div>
+      <div class="action-panel" style="flex:1;">
+        <div class="action-panel-title">🛒 Key Guest Actions</div>
+        <ul class="action-list">
+          <li class="action-item"><span class="action-num">→</span>Search + filter + offers toggle</li>
+          <li class="action-item"><span class="action-num">→</span>Browse by category or infinite scroll</li>
+          <li class="action-item"><span class="action-num">→</span>Customise item: addons + instructions</li>
+          <li class="action-item"><span class="action-num">→</span>View upsell pairings on add</li>
+          <li class="action-item"><span class="action-num">→</span>Submit food order with table number</li>
+          <li class="action-item"><span class="action-num">→</span>Live socket order status updates</li>
+          <li class="action-item"><span class="action-num">→</span>STK push + manual payment</li>
+          <li class="action-item"><span class="action-num">→</span>Raise issue with type + table</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Order Tracking + Bill Status -->
+  <div class="grid-2 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · OrderTracking">
+        <!-- Replace: <img src="order-tracking.png" alt="OrderTracking"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Order Tracking</div>
+          <div class="placeholder-sub">Active/history tabs, status filter, real-time socket updates,<br>progress timeline, staff message, BillView entry</div>
+          <div class="placeholder-hint">Replace: &lt;img src="order-tracking.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Order Tracking</div><div class="screen-path">Route: /orders</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · BillStatus">
+        <!-- Replace: <img src="bill-status.png" alt="BillStatus"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Bill Status</div>
+          <div class="placeholder-sub">Current / past unpaid / past paid tabs, payment methods,<br>copy M-Pesa details, BillView modal, pagination</div>
+          <div class="placeholder-hint">Replace: &lt;img src="bill-status.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Bill Status</div><div class="screen-path">Route: /bill</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- BillView Modal -->
+  <div class="reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="MODAL · BillView">
+        <!-- Replace: <img src="bill-view-modal.png" alt="BillView"> -->
+        <div class="media-frame-inner wide" style="aspect-ratio:21/9;">
+          <div class="placeholder-icon">◫</div>
+          <div class="placeholder-title">BillView Modal — Payment Flow</div>
+          <div class="placeholder-sub">Order lines + totals · Payment status banner · STK push initiation · Poll payment status · Retry failed STK<br>Manual payment: sim-card / cash / bank · Submit verification · Select M-Pesa subtype</div>
+          <div class="placeholder-hint">Replace: &lt;img src="bill-view-modal.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">BillView Modal</div><div class="screen-path">Shared surface — accessible from /orders and /bill</div></div>
+        <div class="screen-role-badge">MODAL</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Banner + Hotel Info + Raise Issue -->
+  <div class="grid-3 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · NotificationBanner">
+        <!-- Replace: <img src="notification-banner.png" alt="NotificationBanner"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊟</div>
+          <div class="placeholder-title">Notification Banner</div>
+          <div class="placeholder-sub">Active broadcasts, dismiss + persist,<br>live socket notifications</div>
+          <div class="placeholder-hint">Replace: &lt;img src="notification-banner.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Notification Banner</div><div class="screen-path">Global guest surface</div></div>
+        <div class="screen-role-badge">BANNER</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · HotelInfo">
+        <!-- Replace: <img src="hotel-info.png" alt="HotelInfo"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Hotel Info</div>
+          <div class="placeholder-sub">Hero, amenities, contact, image gallery,<br>staff cards, waiter portal link</div>
+          <div class="placeholder-hint">Replace: &lt;img src="hotel-info.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Hotel Info</div><div class="screen-path">Route: /info</div></div>
+        <div class="screen-role-badge">PUBLIC</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · RaiseIssue">
+        <!-- Replace: <img src="raise-issue.png" alt="RaiseIssue"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Raise Issue</div>
+          <div class="placeholder-sub">Issue type selector, table number, detail message,<br>submit + auto-redirect, success state</div>
+          <div class="placeholder-hint">Replace: &lt;img src="raise-issue.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Raise Issue</div><div class="screen-path">Route: /help</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RETAIL JOURNEY -->
+  <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">Guest · Retail Storefront</span><div class="section-break-line"></div></div>
+
+  <div class="grid-4 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame tall" data-label="SCREEN · RetailHome">
+        <!-- Replace: <img src="retail-home.png" alt="RetailHome"> -->
+        <div class="media-frame-inner" style="aspect-ratio:3/4;">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Retail Home</div>
+          <div class="placeholder-sub">Search products, service types,<br>popular cards, floating cart</div>
+          <div class="placeholder-hint">Replace: &lt;img src="retail-home.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Retail Home</div><div class="screen-path">Route: /retail</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame tall" data-label="SCREEN · RetailProductsPage">
+        <!-- Replace: <img src="retail-products.png" alt="RetailProductsPage"> -->
+        <div class="media-frame-inner" style="aspect-ratio:3/4;">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Retail Products</div>
+          <div class="placeholder-sub">Search, filter panel, sort options,<br>in-stock toggle, quick add</div>
+          <div class="placeholder-hint">Replace: &lt;img src="retail-products.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Retail Products</div><div class="screen-path">Route: /retail/category/:id</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame tall" data-label="SCREEN · RetailProductDetail">
+        <!-- Replace: <img src="retail-product-detail.png" alt="RetailProductDetail"> -->
+        <div class="media-frame-inner" style="aspect-ratio:3/4;">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Product Detail</div>
+          <div class="placeholder-sub">Image gallery, variant selector,<br>quantity, special notes, add to cart</div>
+          <div class="placeholder-hint">Replace: &lt;img src="retail-product-detail.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Product Detail</div><div class="screen-path">Route: /retail/product/:id</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame tall" data-label="SCREEN · RetailCheckout">
+        <!-- Replace: <img src="retail-checkout.png" alt="RetailCheckout"> -->
+        <div class="media-frame-inner" style="aspect-ratio:3/4;">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Retail Checkout</div>
+          <div class="placeholder-sub">Cart review, delivery location,<br>payment method, M-Pesa STK, retry</div>
+          <div class="placeholder-hint">Replace: &lt;img src="retail-checkout.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Retail Checkout</div><div class="screen-path">Route: /retail/checkout</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-2 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · RetailOrderStatus">
+        <!-- Replace: <img src="retail-order-status.png" alt="RetailOrderStatus"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Retail Order Status</div>
+          <div class="placeholder-sub">Live status timeline, real-time socket updates,<br>ordered items, BillView entry, continue shopping</div>
+          <div class="placeholder-hint">Replace: &lt;img src="retail-order-status.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Retail Order Status</div><div class="screen-path">Route: /retail/order/:id</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · RetailOrders">
+        <!-- Replace: <img src="retail-orders.png" alt="RetailOrders"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Retail Orders List</div>
+          <div class="placeholder-sub">Active/history tabs, status cards, unpaid markers,<br>pay-now trigger, real-time socket updates</div>
+          <div class="placeholder-hint">Replace: &lt;img src="retail-orders.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-guest">
+        <div><div class="screen-name">Retail Orders</div><div class="screen-path">Route: /retail-orders</div></div>
+        <div class="screen-role-badge">GUEST</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 02 · WAITER
+═══════════════════════════════════════════════════ -->
+<section class="section" id="waiter">
+<div class="container">
+
+  <div class="section-header reveal">
+    <div class="section-number role-waiter">02</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow role-waiter">Role · Waiter</div>
+      <h2 class="section-title">THE WAITER<br><span class="accent">WORKFLOW</span></h2>
+      <p class="section-desc">Front-of-house operations. Waiters receive assigned orders via live socket, manage status transitions, confirm payments, and communicate with admin — all from a single mobile-optimised dashboard.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-pill"><span class="dot" style="background:#7BC47A"></span> Live assignment toasts</div>
+      <div class="meta-pill"><span class="dot" style="background:#7BC47A"></span> Bulk order operations</div>
+      <div class="meta-pill"><span class="dot" style="background:#7BC47A"></span> Admin chat workspace</div>
+      <div class="meta-pill"><span class="dot" style="background:#7BC47A"></span> Sound + vibration alerts</div>
+    </div>
+  </div>
+
+  <!-- VIDEO + OVERVIEW SIDE BY SIDE -->
+  <div class="grid-6040 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame video-frame" data-label="VIDEO · WAITER_WALKTHROUGH_01">
+        <!--
+          Replace with your waiter walkthrough video:
+          <video src="waiter-walkthrough.mp4" controls autoplay muted loop style="width:100%;display:block"></video>
+        -->
+        <div class="media-frame-inner">
+          <div class="play-btn">▶</div>
+          <div class="placeholder-title">Waiter Dashboard — Full Walkthrough</div>
+          <div class="placeholder-sub">Login · Orders · Status Transitions · Chat · Bulk Ops</div>
+          <div class="placeholder-hint">Replace: &lt;video src="waiter-walkthrough.mp4" controls&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Waiter Journey — Full Walkthrough</div><div class="screen-path">/waiter · /waiter/dashboard</div></div>
+        <div class="screen-role-badge">WAITER VIDEO</div>
+      </div>
+    </div>
+    <div class="grid-col">
+      <div class="action-panel" style="flex:1;">
+        <div class="action-panel-title">⚡ Waiter Dashboard Actions</div>
+        <ul class="action-list">
+          <li class="action-item"><span class="action-num">01</span>Load waiter session, fetch assigned orders</li>
+          <li class="action-item"><span class="action-num">02</span>Live socket: new orders + status updates</li>
+          <li class="action-item"><span class="action-num">03</span>Team balance snapshot: per-waiter active load</li>
+          <li class="action-item"><span class="action-num">04</span>Configure sound, vibration, popup alerts</li>
+          <li class="action-item"><span class="action-num">05</span>Active · History · Chat tab navigation</li>
+          <li class="action-item"><span class="action-num">06</span>Search by order id, table, item text</li>
+          <li class="action-item"><span class="action-num">07</span>Filter active by item category</li>
+          <li class="action-item"><span class="action-num">08</span>History: last-hour vs older archive</li>
+          <li class="action-item"><span class="action-num">09</span>Priority-sort toggle</li>
+          <li class="action-item"><span class="action-num">10</span>Bulk mode: select + advance same-status</li>
+          <li class="action-item"><span class="action-num">11</span>Expand/collapse order cards for detail</li>
+          <li class="action-item"><span class="action-num">12</span>Accept → Preparing → Ready → Delivered</li>
+          <li class="action-item"><span class="action-num">13</span>Confirm payment from expanded card</li>
+          <li class="action-item"><span class="action-num">14</span>Cancel order via confirmation modal</li>
+          <li class="action-item"><span class="action-num">15</span>Send + receive admin chat messages</li>
+          <li class="action-item"><span class="action-num">16</span>Unread chat badge when off chat tab</li>
+          <li class="action-item"><span class="action-num">17</span>Paginate order list</li>
+          <li class="action-item"><span class="action-num">18</span>Logout, clear session and token</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- WAITER SCREENSHOTS GRID -->
+  <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">Waiter · Screen-by-screen breakdown</span><div class="section-break-line"></div></div>
+
+  <!-- WaiterLogin + Dashboard Overview -->
+  <div class="grid-4060 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREEN · WaiterLogin">
+        <!-- Replace: <img src="waiter-login.png" alt="WaiterLogin"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Waiter Login</div>
+          <div class="placeholder-sub">Username / password, show/hide password,<br>auto-redirect if session exists</div>
+          <div class="placeholder-hint">Replace: &lt;img src="waiter-login.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Waiter Login</div><div class="screen-path">Route: /waiter</div></div>
+        <div class="screen-role-badge">PUBLIC</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · WaiterDashboard_Overview">
+        <!-- Replace: <img src="waiter-dashboard-overview.png" alt="WaiterDashboard Overview"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Waiter Dashboard — Overview</div>
+          <div class="placeholder-sub">Team balance panel, active order count,<br>online status, unassigned totals, alert config</div>
+          <div class="placeholder-hint">Replace: &lt;img src="waiter-dashboard-overview.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Waiter Dashboard · Overview</div><div class="screen-path">Route: /waiter/dashboard</div></div>
+        <div class="screen-role-badge">WAITER</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Orders Tab + Expanded Card -->
+  <div class="grid-2 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · WaiterDashboard_ActiveOrders">
+        <!-- Replace: <img src="waiter-active-orders.png" alt="Active Orders Tab"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Active Orders Tab</div>
+          <div class="placeholder-sub">Search, category filter, order cards,<br>status badges, priority sort, pagination</div>
+          <div class="placeholder-hint">Replace: &lt;img src="waiter-active-orders.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Active Orders Tab</div><div class="screen-path">/waiter/dashboard · Active tab</div></div>
+        <div class="screen-role-badge">WAITER</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · WaiterDashboard_ExpandedCard">
+        <!-- Replace: <img src="waiter-expanded-card.png" alt="Expanded Order Card"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Expanded Order Card</div>
+          <div class="placeholder-sub">Order detail lines, status action buttons,<br>payment confirm, cancel order modal</div>
+          <div class="placeholder-hint">Replace: &lt;img src="waiter-expanded-card.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Expanded Order Card</div><div class="screen-path">/waiter/dashboard · Expanded state</div></div>
+        <div class="screen-role-badge">WAITER</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk Mode + Chat Tab -->
+  <div class="grid-2 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · WaiterDashboard_BulkMode">
+        <!-- Replace: <img src="waiter-bulk-mode.png" alt="Bulk Mode"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Bulk Operations Mode</div>
+          <div class="placeholder-sub">Multi-select orders, bulk advance<br>same-status orders, selection controls</div>
+          <div class="placeholder-hint">Replace: &lt;img src="waiter-bulk-mode.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Bulk Operations Mode</div><div class="screen-path">/waiter/dashboard · Bulk enabled</div></div>
+        <div class="screen-role-badge">WAITER</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · WaiterDashboard_Chat">
+        <!-- Replace: <img src="waiter-chat.png" alt="Chat Tab"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Chat with Admin</div>
+          <div class="placeholder-sub">Conversation thread, send message,<br>live socket messages, unread indicator</div>
+          <div class="placeholder-hint">Replace: &lt;img src="waiter-chat.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-waiter">
+        <div><div class="screen-name">Admin Chat Tab</div><div class="screen-path">/waiter/dashboard · Chat tab</div></div>
+        <div class="screen-role-badge">WAITER</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 03 · KITCHEN
+═══════════════════════════════════════════════════ -->
+<section class="section" id="kitchen">
+<div class="container">
+
+  <div class="section-header reveal">
+    <div class="section-number role-kitchen">03</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow role-kitchen">Role · Kitchen</div>
+      <h2 class="section-title">THE KITCHEN<br><span class="accent">BOARD</span></h2>
+      <p class="section-desc">A focused, real-time order board engineered for kitchen staff. Dual view modes, urgency timers, bulk column advance, and continuous socket sync ensure no order is missed or delayed.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-pill"><span class="dot" style="background:#E07B54"></span> Kanban + list modes</div>
+      <div class="meta-pill"><span class="dot" style="background:#E07B54"></span> Urgency timer per order</div>
+      <div class="meta-pill"><span class="dot" style="background:#E07B54"></span> Column-level bulk advance</div>
+      <div class="meta-pill"><span class="dot" style="background:#E07B54"></span> Sound toggle</div>
+    </div>
+  </div>
+
+  <!-- Kanban + List side by side - the two main views -->
+  <div class="grid-2 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · Kitchen_KanbanView">
+        <!-- Replace: <img src="kitchen-kanban.png" alt="Kitchen Kanban View"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Kitchen Board — Kanban View</div>
+          <div class="placeholder-sub">Status columns, order cards, per-order timer,<br>urgency signal, column quick-advance, bulk select</div>
+          <div class="placeholder-hint">Replace: &lt;img src="kitchen-kanban.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-kitchen">
+        <div><div class="screen-name">Kitchen Board · Kanban</div><div class="screen-path">Route: /kitchen · Kanban mode</div></div>
+        <div class="screen-role-badge">KITCHEN</div>
+      </div>
+    </div>
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · Kitchen_ListView">
+        <!-- Replace: <img src="kitchen-list.png" alt="Kitchen List View"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Kitchen Board — List View</div>
+          <div class="placeholder-sub">Flat list of active orders, elapsed timers,<br>status transitions, sound toggle controls</div>
+          <div class="placeholder-hint">Replace: &lt;img src="kitchen-list.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-kitchen">
+        <div><div class="screen-name">Kitchen Board · List</div><div class="screen-path">Route: /kitchen · List mode</div></div>
+        <div class="screen-role-badge">KITCHEN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bulk + Urgency detail -->
+  <div class="grid-4060 reveal" style="margin-bottom:2px;">
+    <div class="screen-card">
+      <div class="media-frame" data-label="SCREENSHOT · Kitchen_BulkMode">
+        <!-- Replace: <img src="kitchen-bulk.png" alt="Kitchen Bulk Mode"> -->
+        <div class="media-frame-inner">
+          <div class="placeholder-icon">⊞</div>
+          <div class="placeholder-title">Bulk Operations Mode</div>
+          <div class="placeholder-sub">Enable bulk, select all in column,<br>advance selected same-status orders</div>
+          <div class="placeholder-hint">Replace: &lt;img src="kitchen-bulk.png"&gt;</div>
+        </div>
+      </div>
+      <div class="screen-label band-kitchen">
+        <div><div class="screen-name">Bulk Operations</div><div class="screen-path">/kitchen · Bulk enabled</div></div>
+        <div class="screen-role-badge">KITCHEN</div>
+      </div>
+    </div>
+    <div class="action-panel" style="min-height:300px;">
+      <div class="action-panel-title">🍳 All Kitchen Actions</div>
+      <ul class="action-list">
+        <li class="action-item"><span class="action-num">01</span>Load active kitchen orders on mount</li>
+        <li class="action-item"><span class="action-num">02</span>Real-time: new order + status update via socket</li>
+        <li class="action-item"><span class="action-num">03</span>Toggle view mode: kanban ↔ list</li>
+        <li class="action-item"><span class="action-num">04</span>Toggle sound notifications on/off</li>
+        <li class="action-item"><span class="action-num">05</span>Enable bulk mode, select orders</li>
+        <li class="action-item"><span class="action-num">06</span>Select all / unselect all in a status column</li>
+        <li class="action-item"><span class="action-num">07</span>Per-column quick advance (advance all in column)</li>
+        <li class="action-item"><span class="action-num">08</span>Per-order status transition buttons</li>
+        <li class="action-item"><span class="action-num">09</span>Live per-order elapsed timer display</li>
+        <li class="action-item"><span class="action-num">10</span>Urgency signal (colour escalation over time)</li>
+        <li class="action-item"><span class="action-num">11</span>Exit to root route from header</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     CHAPTER 04 · ADMIN
+═══════════════════════════════════════════════════ -->
+<section class="section" id="admin">
+<div class="container">
+
+  <div class="section-header reveal">
+    <div class="section-number">04</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">Role · Admin</div>
+      <h2 class="section-title">THE ADMIN<br><span class="accent">COMMAND CENTER</span></h2>
+      <p class="section-desc">The full operations brain. Twenty-plus screens spanning live order management, kitchen oversight, menu authoring, retail commerce, team coordination, analytics, integrations, and system configuration.</p>
+    </div>
+    <div class="section-meta">
+      <div class="meta-pill"><span class="dot"></span> Operations</div>
+      <div class="meta-pill"><span class="dot"></span> Commerce</div>
+      <div class="meta-pill"><span class="dot"></span> Insights &amp; Control</div>
+    </div>
+  </div>
+
+  <!-- ── 04-A: OPERATIONS ───────────────────────────────── -->
+  <div id="admin-ops">
+    <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">04 — A · Operations Command</span><div class="section-break-line"></div></div>
+
+    <!-- AdminDashboard (main + pulse panel) -->
+    <div class="grid-6040 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · AdminDashboard_Lanes">
+          <!-- Replace: <img src="admin-dashboard-lanes.png" alt="AdminDashboard Lanes"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Admin Dashboard — Order Lanes</div>
+            <div class="placeholder-sub">Pending / Accepted / Preparing / Ready / Bills lane tabs · Per-row and all-filtered bulk select<br>Bulk status transitions · Payment confirm · Waiter assignment dropdown · Table change · Commission override</div>
+            <div class="placeholder-hint">Replace: &lt;img src="admin-dashboard-lanes.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Admin Dashboard · Order Lanes</div><div class="screen-path">Route: /admin</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="grid-col">
+        <div class="screen-card">
+          <div class="media-frame tall" data-label="SCREENSHOT · AdminDashboard_PulsePanel">
+            <!-- Replace: <img src="admin-pulse-panel.png" alt="Assignment Pulse Panel"> -->
+            <div class="media-frame-inner" style="aspect-ratio:3/4;">
+              <div class="placeholder-icon">⊞</div>
+              <div class="placeholder-title">Assignment Pulse Panel</div>
+              <div class="placeholder-sub">Live waiter-load spread, unassigned totals,<br>projected load cards, assignment feed</div>
+              <div class="placeholder-hint">Replace: &lt;img src="admin-pulse-panel.png"&gt;</div>
+            </div>
+          </div>
+          <div class="screen-label band-admin">
+            <div><div class="screen-name">Pulse Panel</div><div class="screen-path">/admin · Inline panel</div></div>
+            <div class="screen-role-badge">ADMIN</div>
+          </div>
+        </div>
+        <div class="annotation">
+          <span class="annotation-icon">→</span>
+          <span class="annotation-text">EOD close workflow triggers report download. Commission reconciliation runs with dry-run preview before apply. Real-time assignment toasts for auto-assign, manual reassign, and unassigned fallback.</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bills Lane + Kitchen Display -->
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · AdminDashboard_BillsLane">
+          <!-- Replace: <img src="admin-bills-lane.png" alt="Bills Lane"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Admin Dashboard — Bills Lane</div>
+            <div class="placeholder-sub">Payment status filter, mark paid/partial,<br>copy payment message, bulk payment confirm</div>
+            <div class="placeholder-hint">Replace: &lt;img src="admin-bills-lane.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Bills Lane</div><div class="screen-path">/admin · Bills tab</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · KitchenDisplay">
+          <!-- Replace: <img src="kitchen-display.png" alt="KitchenDisplay"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Kitchen Display (Admin View)</div>
+            <div class="placeholder-sub">Filter by kitchen status, search by order id/table/item,<br>sort by priority/elapsed/table, promote order status</div>
+            <div class="placeholder-hint">Replace: &lt;img src="kitchen-display.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Kitchen Display</div><div class="screen-path">Route: /admin/kitchen</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MenuManagement: Categories + Items -->
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · MenuManagement_Categories">
+          <!-- Replace: <img src="menu-categories.png" alt="MenuManagement Categories"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Menu Management — Categories</div>
+            <div class="placeholder-sub">Search categories, create/edit modal, image upload + preview,<br>delete with block state when items exist</div>
+            <div class="placeholder-hint">Replace: &lt;img src="menu-categories.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Menu · Categories</div><div class="screen-path">/admin/menu · Categories tab</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · MenuManagement_Items">
+          <!-- Replace: <img src="menu-items.png" alt="MenuManagement Items"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Menu Management — Items</div>
+            <div class="placeholder-sub">Search, availability filter, category filter, create/edit item,<br>pricing/prep/allergens, stock tracking, gallery images, addons, spicy flag</div>
+            <div class="placeholder-hint">Replace: &lt;img src="menu-items.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Menu · Items</div><div class="screen-path">/admin/menu · Items tab</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Issue + Notifications + WaiterMonitor -->
+    <div class="grid-3 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · IssueManagement">
+          <!-- Replace: <img src="issue-management.png" alt="IssueManagement"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Issue Management</div>
+            <div class="placeholder-sub">Filter open/resolved, type filter, search,<br>resolve, delete with confirm, live notifications</div>
+            <div class="placeholder-hint">Replace: &lt;img src="issue-management.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Issue Management</div><div class="screen-path">Route: /admin/issues</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · NotificationManagement">
+          <!-- Replace: <img src="notification-mgmt.png" alt="NotificationManagement"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Notification Management</div>
+            <div class="placeholder-sub">Filter active/inactive, search, create broadcast,<br>set title/message/type/expiry, delete</div>
+            <div class="placeholder-hint">Replace: &lt;img src="notification-mgmt.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Notifications</div><div class="screen-path">Route: /admin/notifications</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · WaiterMonitoring">
+          <!-- Replace: <img src="waiter-monitoring.png" alt="WaiterMonitoring"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Waiter Monitoring</div>
+            <div class="placeholder-sub">Online/workload metrics, per-waiter orders,<br>commission override, reassign, reconciliation dry-run</div>
+            <div class="placeholder-hint">Replace: &lt;img src="waiter-monitoring.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Waiter Monitor</div><div class="screen-path">Route: /admin/monitor</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AdminMessages + TableOccupancy -->
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · AdminMessages">
+          <!-- Replace: <img src="admin-messages.png" alt="AdminMessages"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Admin Messages</div>
+            <div class="placeholder-sub">Staff list + metadata, select conversation,<br>history, mark read, send, live socket</div>
+            <div class="placeholder-hint">Replace: &lt;img src="admin-messages.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Admin Messages</div><div class="screen-path">Route: /admin/messages</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · TableOccupancy">
+          <!-- Replace: <img src="table-occupancy.png" alt="TableOccupancy"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Table Occupancy Board</div>
+            <div class="placeholder-sub">Live table state counts, table grid with status colours,<br>issue/order badges, table detail modal, real-time updates</div>
+            <div class="placeholder-hint">Replace: &lt;img src="table-occupancy.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Table Occupancy</div><div class="screen-path">Route: /admin/table-occupancy</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Archives -->
+    <div class="reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · Archives">
+          <!-- Replace: <img src="archives.png" alt="Archives"> -->
+          <div class="media-frame-inner wide" style="aspect-ratio:21/9;">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Archives — Report Center</div>
+            <div class="placeholder-sub">Group reports by year + month, view archived cards, download report PDF</div>
+            <div class="placeholder-hint">Replace: &lt;img src="archives.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Archives</div><div class="screen-path">Route: /admin/archives</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04-B: COMMERCE ────────────────────────────────── -->
+  <div id="admin-commerce">
+    <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">04 — B · Commerce Hub</span><div class="section-break-line"></div></div>
+
+    <!-- CustomerManagement + RetailDashboard -->
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · CustomerManagement">
+          <!-- Replace: <img src="customer-management.png" alt="CustomerManagement"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Customer Management</div>
+            <div class="placeholder-sub">Filter active/inactive, stats cards, customer detail side panel,<br>favourite items, order history, live socket refresh</div>
+            <div class="placeholder-hint">Replace: &lt;img src="customer-management.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Customer Management</div><div class="screen-path">Route: /admin/customers</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · RetailDashboard">
+          <!-- Replace: <img src="retail-dashboard-admin.png" alt="RetailDashboard Admin"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Retail Dashboard</div>
+            <div class="placeholder-sub">KPIs + breakdown cards, revenue by service type,<br>top products, low stock alerts, order status breakdown</div>
+            <div class="placeholder-hint">Replace: &lt;img src="retail-dashboard-admin.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Retail Dashboard</div><div class="screen-path">Route: /admin/retail</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RetailCatalogManager (full width - most complex) -->
+    <div class="reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame wide" data-label="SCREENSHOT · RetailCatalogManager">
+          <!-- Replace: <img src="retail-catalog-manager.png" alt="RetailCatalogManager"> -->
+          <div class="media-frame-inner" style="aspect-ratio:21/9;">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Retail Catalog Manager</div>
+            <div class="placeholder-sub">Service Types · Categories · Products tabs · Search + filter per tab · Create/edit/delete entities · Image upload · Stock tracking + qty<br>Bookable settings: duration + capacity · Product variants management · Visibility + availability toggles</div>
+            <div class="placeholder-hint">Replace: &lt;img src="retail-catalog-manager.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Retail Catalog Manager</div><div class="screen-path">Route: /admin/retail-catalog</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RetailCatalogManager — Products detail screenshot -->
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · RetailCatalog_ProductModal">
+          <!-- Replace: <img src="retail-catalog-product-modal.png" alt="Product Modal"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">◫</div>
+            <div class="placeholder-title">Retail Catalog — Product Edit Modal</div>
+            <div class="placeholder-sub">Stock qty, bookable flag, duration, capacity,<br>add/edit/remove variants, visibility toggle</div>
+            <div class="placeholder-hint">Replace: &lt;img src="retail-catalog-product-modal.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Product Edit Modal</div><div class="screen-path">/admin/retail-catalog · Product modal</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · RetailOrderManagement">
+          <!-- Replace: <img src="retail-order-management.png" alt="RetailOrderManagement"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Retail Order Management</div>
+            <div class="placeholder-sub">Status chip filter, search, select/select all, expand card,<br>mark paid, advance status, jump to status, cancel, bulk actions</div>
+            <div class="placeholder-hint">Replace: &lt;img src="retail-order-management.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Retail Orders</div><div class="screen-path">Route: /admin/retail-orders</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── 04-C: INSIGHTS & CONTROL ──────────────────────── -->
+  <div id="admin-insights">
+    <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">04 — C · Insights &amp; Control</span><div class="section-break-line"></div></div>
+
+    <!-- Analytics (full) -->
+    <div class="reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame wide" data-label="SCREENSHOT · AnalyticsDashboard">
+          <!-- Replace: <img src="analytics-dashboard.png" alt="AnalyticsDashboard"> -->
+          <div class="media-frame-inner" style="aspect-ratio:21/9;">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Analytics Dashboard</div>
+            <div class="placeholder-sub">Period switch: today / week / month · KPI cards · Charts · Financial report with date range filter · Paginated report table</div>
+            <div class="placeholder-hint">Replace: &lt;img src="analytics-dashboard.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Analytics Dashboard</div><div class="screen-path">Route: /admin/analytics</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Audit + Integrations -->
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · AuditLogsPage">
+          <!-- Replace: <img src="audit-logs.png" alt="AuditLogsPage"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Audit Logs</div>
+            <div class="placeholder-sub">Search by action text, filter by staff id,<br>paginate, open payload modal, inspect user agent</div>
+            <div class="placeholder-hint">Replace: &lt;img src="audit-logs.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Audit Logs</div><div class="screen-path">Route: /admin/audit</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · IntegrationsPage">
+          <!-- Replace: <img src="integrations.png" alt="IntegrationsPage"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Integrations</div>
+            <div class="placeholder-sub">List + statuses, add/edit/delete integration,<br>OAuth2/API key config, test connection, sync toggles, queue + logs tabs</div>
+            <div class="placeholder-hint">Replace: &lt;img src="integrations.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Integrations</div><div class="screen-path">Route: /admin/integrations</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings Page — 5 tabs -->
+    <div class="section-break reveal"><div class="section-break-line"></div><span class="section-break-label">Settings Center — 5 configuration tabs</span><div class="section-break-line"></div></div>
+
+    <div class="grid-3 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · Settings_General">
+          <!-- Replace: <img src="settings-general.png" alt="Settings General"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Settings — General Tab</div>
+            <div class="placeholder-sub">Core hotel settings, report logo from gallery<br>or URL, demo data seed with confirm</div>
+            <div class="placeholder-hint">Replace: &lt;img src="settings-general.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Settings · General</div><div class="screen-path">/admin/settings · General</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · Settings_Payment">
+          <!-- Replace: <img src="settings-payment.png" alt="Settings Payment"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Settings — Payment Tab</div>
+            <div class="placeholder-sub">M-Pesa + manual payment toggles, edit channels<br>(phone/till/paybill), Daraja credentials + environment</div>
+            <div class="placeholder-hint">Replace: &lt;img src="settings-payment.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Settings · Payment</div><div class="screen-path">/admin/settings · Payment</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · Settings_Gallery">
+          <!-- Replace: <img src="settings-gallery.png" alt="Settings Gallery"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Settings — Gallery Tab</div>
+            <div class="placeholder-sub">Upload gallery image, delete gallery image,<br>image grid display</div>
+            <div class="placeholder-hint">Replace: &lt;img src="settings-gallery.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Settings · Gallery</div><div class="screen-path">/admin/settings · Gallery</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid-2 reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · Settings_Team">
+          <!-- Replace: <img src="settings-team.png" alt="Settings Team"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Settings — Team Tab</div>
+            <div class="placeholder-sub">Create/edit staff profile: role, credentials, image,<br>delete staff member, toggle active status</div>
+            <div class="placeholder-hint">Replace: &lt;img src="settings-team.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Settings · Team</div><div class="screen-path">/admin/settings · Team</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+      <div class="screen-card">
+        <div class="media-frame" data-label="SCREENSHOT · Settings_Network">
+          <!-- Replace: <img src="settings-network.png" alt="Settings Network"> -->
+          <div class="media-frame-inner">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Settings — Network Tab</div>
+            <div class="placeholder-sub">Server details, QR codes for customer,<br>admin, waiter, and kitchen URLs</div>
+            <div class="placeholder-hint">Replace: &lt;img src="settings-network.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Settings · Network</div><div class="screen-path">/admin/settings · Network</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DataExport -->
+    <div class="reveal" style="margin-bottom:2px;">
+      <div class="screen-card">
+        <div class="media-frame wide" data-label="SCREENSHOT · DataExport">
+          <!-- Replace: <img src="data-export.png" alt="DataExport"> -->
+          <div class="media-frame-inner" style="aspect-ratio:21/9;">
+            <div class="placeholder-icon">⊞</div>
+            <div class="placeholder-title">Data Export Center</div>
+            <div class="placeholder-sub">Date presets, format selection per export, date range per card · Sales / Orders / Issues / Feedback datasets<br>Validate ranges, download with parsed filename, per-export success/error messages</div>
+            <div class="placeholder-hint">Replace: &lt;img src="data-export.png"&gt;</div>
+          </div>
+        </div>
+        <div class="screen-label band-admin">
+          <div><div class="screen-name">Data Export</div><div class="screen-path">Route: /admin/data-export</div></div>
+          <div class="screen-role-badge">ADMIN</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /admin-insights -->
+</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     SYSTEM FLOW — HOW IT ALL CONNECTS
+═══════════════════════════════════════════════════ -->
+<section class="section">
+<div class="container">
+
+  <div class="section-header reveal">
+    <div class="section-number">05</div>
+    <div class="section-title-block">
+      <div class="section-eyebrow">System Architecture</div>
+      <h2 class="section-title">HOW THE ROLES<br><span class="accent">CONNECT</span></h2>
+      <p class="section-desc">Every order placed by a guest propagates through the full system — socket-synced in real time to kitchen, waiter, and admin simultaneously.</p>
+    </div>
+  </div>
+
+  <div class="flow-strip reveal">
+    <div class="flow-node">
+      <div class="flow-node-icon" style="border-color:#5B9BD5;color:#5B9BD5;">◉</div>
+      <div class="flow-node-label" style="color:#5B9BD5;">Guest</div>
+      <div class="flow-node-desc">Places order<br>via device UI.<br>No login required.</div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-node-icon" style="border-color:#E07B54;color:#E07B54;">◈</div>
+      <div class="flow-node-label" style="color:#E07B54;">Kitchen</div>
+      <div class="flow-node-desc">Receives live order.<br>Advances through<br>kanban statuses.</div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-node-icon" style="border-color:#7BC47A;color:#7BC47A;">◆</div>
+      <div class="flow-node-label" style="color:#7BC47A;">Waiter</div>
+      <div class="flow-node-desc">Gets assigned order.<br>Delivers + confirms<br>payment at table.</div>
+    </div>
+    <div class="flow-node">
+      <div class="flow-node-icon" style="border-color:var(--gold);color:var(--gold);">◇</div>
+      <div class="flow-node-label" style="color:var(--gold);">Admin</div>
+      <div class="flow-node-desc">Monitors all lanes.<br>Manages team,<br>menu, analytics.</div>
+    </div>
+  </div>
+
+  <div class="grid-4 reveal" style="margin-top:2px;">
+    <div class="action-panel">
+      <div class="action-panel-title" style="color:#5B9BD5;">GUEST ACTIONS</div>
+      <ul class="action-list">
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Browse + filter menu</li>
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Customise + add to cart</li>
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Submit order with table</li>
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Track live status</li>
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Pay via STK or manual</li>
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Browse retail + checkout</li>
+        <li class="action-item"><span class="action-num" style="color:#5B9BD5;">→</span>Raise issues</li>
+      </ul>
+    </div>
+    <div class="action-panel">
+      <div class="action-panel-title" style="color:#E07B54;">KITCHEN ACTIONS</div>
+      <ul class="action-list">
+        <li class="action-item"><span class="action-num" style="color:#E07B54;">→</span>Receive live order</li>
+        <li class="action-item"><span class="action-num" style="color:#E07B54;">→</span>Kanban / list view</li>
+        <li class="action-item"><span class="action-num" style="color:#E07B54;">→</span>Advance order status</li>
+        <li class="action-item"><span class="action-num" style="color:#E07B54;">→</span>Bulk column advance</li>
+        <li class="action-item"><span class="action-num" style="color:#E07B54;">→</span>Monitor urgency timers</li>
+        <li class="action-item"><span class="action-num" style="color:#E07B54;">→</span>Sound alerts toggle</li>
+      </ul>
+    </div>
+    <div class="action-panel">
+      <div class="action-panel-title" style="color:#7BC47A;">WAITER ACTIONS</div>
+      <ul class="action-list">
+        <li class="action-item"><span class="action-num" style="color:#7BC47A;">→</span>Accept assigned order</li>
+        <li class="action-item"><span class="action-num" style="color:#7BC47A;">→</span>Update prep/delivery status</li>
+        <li class="action-item"><span class="action-num" style="color:#7BC47A;">→</span>Confirm table payment</li>
+        <li class="action-item"><span class="action-num" style="color:#7BC47A;">→</span>Bulk multi-order ops</li>
+        <li class="action-item"><span class="action-num" style="color:#7BC47A;">→</span>Chat with admin</li>
+        <li class="action-item"><span class="action-num" style="color:#7BC47A;">→</span>Cancel order</li>
+      </ul>
+    </div>
+    <div class="action-panel">
+      <div class="action-panel-title" style="color:var(--gold);">ADMIN ACTIONS</div>
+      <ul class="action-list">
+        <li class="action-item"><span class="action-num">→</span>Assign + reassign waiters</li>
+        <li class="action-item"><span class="action-num">→</span>EOD close + commission</li>
+        <li class="action-item"><span class="action-num">→</span>Full menu management</li>
+        <li class="action-item"><span class="action-num">→</span>Broadcast notifications</li>
+        <li class="action-item"><span class="action-num">→</span>Analytics + reports</li>
+        <li class="action-item"><span class="action-num">→</span>System configuration</li>
+        <li class="action-item"><span class="action-num">→</span>Retail catalog + orders</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER / CTA
+═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-brand">GTSS</div>
+  <div style="text-align:center;">
+    <div class="hero-ctas" style="justify-content:center; margin-bottom:0;">
+      <a href="https://gtss.software" class="btn-primary">INITIALIZE SEQUENCE →</a>
+      <a href="https://gtss.software" class="btn-secondary">VIEW ARCHITECTURE</a>
+    </div>
+  </div>
+  <div class="footer-copy">PRODUCT_ECOSYSTEM_V4 · EA GRID</div>
+</footer>
+
+
+<!-- ══════════════════════════════════════
+     SCRIPTS
+══════════════════════════════════════ -->
+<script>
+/* ── PARTICLES ─────────────────────────────────────── */
+(function() {
+  const canvas = document.getElementById('canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, particles = [];
+
+  function resize() {
+    W = canvas.width  = window.innerWidth;
+    H = canvas.height = window.innerHeight;
+  }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const GOLD = 'rgba(232,184,75,';
+  const N = 90;
+
+  for (let i = 0; i < N; i++) {
+    particles.push({
+      x: Math.random() * 3000,
+      y: Math.random() * 3000,
+      r: Math.random() * 1.6 + 0.3,
+      vx: (Math.random() - .5) * 0.25,
+      vy: (Math.random() - .5) * 0.25,
+      a: Math.random() * 0.5 + 0.1,
+    });
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, W, H);
+    for (const p of particles) {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = W;
+      if (p.x > W) p.x = 0;
+      if (p.y < 0) p.y = H;
+      if (p.y > H) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = GOLD + p.a + ')';
+      ctx.fill();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+/* ── SCROLL REVEAL ─────────────────────────────────── */
+(function() {
+  const els = document.querySelectorAll('.reveal');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.07 });
+  els.forEach(el => obs.observe(el));
+})();
+
+/* ── STICKY NAV ACTIVE ─────────────────────────────── */
+(function() {
+  const sections = { guest: '#guest', waiter: '#waiter', kitchen: '#kitchen', admin: '#admin' };
+  const tabs = document.querySelectorAll('.role-tab');
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        const id = e.target.id;
+        tabs.forEach(t => {
+          t.classList.toggle('active', t.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { threshold: 0.3 });
+
+  ['guest','waiter','kitchen','admin'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) obs.observe(el);
+  });
+})();
+</script>
+
+</body>
+</html>

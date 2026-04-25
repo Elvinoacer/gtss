@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Sora, Bebas_Neue, Rajdhani, DM_Mono, Cormorant_Garamond } from "next/font/google";
+import { Geist, Geist_Mono, Sora, Bebas_Neue, Rajdhani, DM_Mono, Cormorant_Garamond, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
 import "./globals.css";
 import "./landing.css";
 
@@ -33,6 +33,18 @@ const rajdhani = Rajdhani({
 const dmMono = DM_Mono({
   variable: "--font-mono-dm",
   weight: ["300", "400", "500"],
+  subsets: ["latin"],
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  variable: "--font-ibm-mono",
+  weight: ["300", "400", "500", "600"],
+  subsets: ["latin"],
+});
+
+const ibmPlexSans = IBM_Plex_Sans({
+  variable: "--font-ibm-sans",
+  weight: ["300", "400", "500", "600"],
   subsets: ["latin"],
 });
 
@@ -130,7 +142,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} ${bebasNeue.variable} ${rajdhani.variable} ${dmMono.variable} ${cormorantGaramond.variable} antialiased landing-page landing-grain landing-scanline`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} ${bebasNeue.variable} ${rajdhani.variable} ${dmMono.variable} ${cormorantGaramond.variable} ${ibmPlexMono.variable} ${ibmPlexSans.variable} antialiased landing-page landing-grain landing-scanline`}
       >
         <BootOverlay />
         <CustomCursor />
