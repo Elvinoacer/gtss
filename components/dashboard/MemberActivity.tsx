@@ -85,7 +85,7 @@ export function MemberActivity({ data }: MemberActivityProps) {
                     {activity.description}
                   </p>
                   <p className="text-[9px] font-mono-dm text-[var(--gold-dim)] uppercase tracking-tighter mt-1 opacity-50">
-                    EVENT_ID: {activity.id.substring(0, 12)}
+                    EVENT_ID: {(activity.id || 'EVT_UNKNOWN').substring(0, 12)}
                   </p>
                 </div>
               </motion.div>

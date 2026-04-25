@@ -153,9 +153,12 @@ export async function getDashboardStats() {
       orderBy: { createdAt: 'desc' },
     });
     const recentActivity = recentViews.map((v) => ({
-      action: `Page viewed: ${v.path}`,
-      user: v.userId || 'Anonymous',
+      id: v.id,
+      type: 'page_view',
+      title: 'Page Accessed',
+      description: `User ${v.userId || 'Anonymous'} viewed ${v.path}`,
       time: v.createdAt.toISOString(),
+      iconName: 'Clock',
     }));
 
     return { success: true, data: { kpis, revenueChart, systemStatus, recentActivity } };

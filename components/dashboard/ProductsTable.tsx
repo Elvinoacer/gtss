@@ -96,7 +96,7 @@ export function ProductsTable({ initialProducts }: ProductsTableProps) {
                 <td className="px-6 py-5">
                   <div className="flex items-center gap-4">
                     <div className="h-10 w-10 border border-[var(--border)] bg-[rgba(212,175,55,0.03)] flex items-center justify-center text-[var(--gold)] font-bebas text-lg group-hover:border-[var(--gold-dim)] transition-colors">
-                      {product.name.substring(0, 2).toUpperCase()}
+                      {(product.name || '??').substring(0, 2).toUpperCase()}
                     </div>
                     <div>
                       <p className="font-bold text-[var(--text)] uppercase tracking-wider text-xs">
