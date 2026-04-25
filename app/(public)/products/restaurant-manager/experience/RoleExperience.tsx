@@ -270,8 +270,8 @@ export function RoleExperience() {
           </div>
 
           <div className="reveal" style={{ marginBottom: "2px" }}>
-            <div className="media-frame video-frame" data-label="VIDEO · GUEST_WALKTHROUGH_01">
-              <div className="media-frame-inner wide" style={{ aspectRatio: "21/9" }}>
+            <div className="media-frame video-frame wide" data-label="VIDEO · GUEST_WALKTHROUGH_01">
+              <div className="media-frame-inner">
                 <YouTubePlayer url={experienceAssets['guest-hero']?.url} title={experienceAssets['guest-hero']?.title} />
               </div>
             </div>
@@ -627,7 +627,7 @@ export function RoleExperience() {
 
           <div className="reveal" style={{ marginBottom: "2px" }}>
             <div className="media-frame video-frame" data-label="VIDEO · WAITER_WALKTHROUGH_01">
-              <div className="media-frame-inner" style={{ aspectRatio: "16/9" }}>
+              <div className="media-frame-inner">
                 <YouTubePlayer url={experienceAssets['waiter-main']?.url} title={experienceAssets['waiter-main']?.title} />
               </div>
             </div>
