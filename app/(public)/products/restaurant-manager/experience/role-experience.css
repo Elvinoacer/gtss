@@ -381,11 +381,11 @@ main {
   position: absolute;
   top: 10px; left: 12px;
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 10px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--gold);
-  opacity: .6;
+  opacity: .8;
   z-index: 2;
 }
 .media-frame-inner {
@@ -742,27 +742,28 @@ main {
 }
 .flow-node:last-child { border-right: none; }
 .flow-node-icon {
-  width: 40px; height: 40px;
+  width: 52px; height: 52px;
   border: 1px solid var(--gold-border);
   border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  margin: 0 auto 12px;
-  font-size: 14px;
+  margin: 0 auto 16px;
+  font-size: 18px;
   background: var(--bg);
 }
 .flow-node-label {
   font-family: var(--font-mono);
-  font-size: 10px;
-  letter-spacing: 0.14em;
+  font-size: 16px;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--text-mid);
-  margin-bottom: 6px;
+  margin-bottom: 10px;
+  font-weight: 600;
 }
 .flow-node-desc {
   font-family: var(--font-mono);
-  font-size: 8px;
+  font-size: 13px;
   color: var(--text-dim);
-  line-height: 1.5;
+  line-height: 1.6;
 }
 
 /* ── ADMIN ROLE COLOR ───────────────────────────────── */
@@ -1053,7 +1054,7 @@ main {
   .screen-label { padding: 10px 12px; }
 
   /* Media frames */
-  .media-frame::before { font-size: 7px; top: 6px; left: 8px; }
+  .media-frame::before { font-size: 10px; top: 8px; left: 10px; }
   .media-frame::after { bottom: 6px; right: 8px; width: 8px; height: 8px; }
 
   /* Action panels */
@@ -1070,9 +1071,9 @@ main {
   .flow-strip { grid-template-columns: 1fr 1fr; }
   .flow-node { padding: 20px 12px; }
   .flow-node:nth-child(2) { border-right: none; }
-  .flow-node-icon { width: 32px; height: 32px; font-size: 12px; }
-  .flow-node-label { font-size: 9px; }
-  .flow-node-desc { font-size: 7px; }
+  .flow-node-icon { width: 42px; height: 42px; font-size: 16px; }
+  .flow-node-label { font-size: 14px; margin-bottom: 8px; }
+  .flow-node-desc { font-size: 11px; }
 
   /* Lightbox */
   .lightbox-overlay { padding: 0; }

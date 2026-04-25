@@ -1,5 +1,6 @@
-import { ArrowRight, Terminal } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 export function Hero() {
   return (
@@ -28,13 +29,13 @@ export function Hero() {
         </p>
 
         <div className="hero-actions flex flex-col sm:flex-row items-stretch sm:items-center gap-4 lg:gap-5 animate-[fade-up_0.9s_0.9s_ease_forwards] opacity-0">
-          <button className="btn-primary font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--black)] bg-[var(--gold)] px-9 py-4 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(10px_0%,100%_0%,calc(100%-10px)_100%,0%_100%)] flex items-center justify-center gap-3 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/25 after:to-transparent after:-translate-x-full after:transition-transform after:duration-[0.6s] hover:after:translate-x-[200%]">
+          <Link href="/products" className="btn-primary font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--black)] bg-[var(--gold)] px-9 py-4 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(10px_0%,100%_0%,calc(100%-10px)_100%,0%_100%)] flex items-center justify-center gap-3 after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/25 after:to-transparent after:-translate-x-full after:transition-transform after:duration-[0.6s] hover:after:translate-x-[200%]">
             Initialize Sequence
             <ArrowRight className="w-3.5 h-3.5" />
-          </button>
-          <button className="btn-ghost font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--text-muted)] bg-transparent px-7 py-[15px] border border-[var(--border)] cursor-none transition-all hover:text-[var(--gold)] hover:border-[var(--border-bright)] hover:shadow-[var(--glow-gold)]">
+          </Link>
+          <Link href="/products/restaurant-manager/experience" className="btn-ghost font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--text-muted)] bg-transparent px-7 py-[15px] border border-[var(--border)] cursor-none transition-all hover:text-[var(--gold)] hover:border-[var(--border-bright)] hover:shadow-[var(--glow-gold)] flex items-center justify-center">
             View Architecture
-          </button>
+          </Link>
         </div>
       </div>
 

@@ -1,7 +1,6 @@
-"use client";
-
 import { ArrowUpRight, Database, Globe, Layers, Shield, Zap } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
 
 const bentoItems = [
   {
@@ -13,6 +12,7 @@ const bentoItems = [
     size: "lg",
     image: "/images/gtss_bento.png",
     color: "var(--gold)",
+    href: "/products/just-in-time",
   },
   {
     id: "rm",
@@ -23,6 +23,7 @@ const bentoItems = [
     size: "md",
     image: "/images/gtss_bento.png",
     color: "var(--cyan)",
+    href: "/products/restaurant-manager",
   },
   {
     id: "ec",
@@ -32,6 +33,7 @@ const bentoItems = [
     icon: Layers,
     size: "sm",
     color: "var(--gold)",
+    href: "/products/ecommerce",
   },
   {
     id: "offline",
@@ -41,6 +43,7 @@ const bentoItems = [
     icon: Database,
     size: "md",
     color: "var(--cyan)",
+    href: "/features/offline-first",
   },
   {
     id: "church",
@@ -50,6 +53,7 @@ const bentoItems = [
     icon: Shield,
     size: "sm",
     color: "var(--gold)",
+    href: "/products/church",
   },
 ];
 
@@ -74,9 +78,10 @@ export function BentoGrid() {
 
       <div className="bento-grid grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-5 auto-rows-[180px] lg:auto-rows-[220px]">
         {bentoItems.map((item) => (
-          <div
+          <Link
             key={item.id}
-            className={`bento-item group relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-md overflow-hidden transition-all hover:border-[var(--gold-dim)] hover:shadow-[0_0_30px_rgba(201,160,69,0.05)] ${
+            href={item.href}
+            className={`bento-item group relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-md overflow-hidden transition-all hover:border-[var(--gold-dim)] hover:shadow-[0_0_30px_rgba(201,160,69,0.05)] cursor-none ${
               item.size === "lg" ? "md:col-span-4 lg:col-span-4 row-span-2" : 
               item.size === "md" ? "md:col-span-2 lg:col-span-2 row-span-2" : 
               "md:col-span-2 lg:col-span-2 row-span-1"
@@ -123,7 +128,7 @@ export function BentoGrid() {
                <div className="absolute top-0 right-0 w-full h-[1px] bg-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
                <div className="absolute top-0 right-0 w-[1px] h-full bg-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </section>
