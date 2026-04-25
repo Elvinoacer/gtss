@@ -39,8 +39,8 @@ export function Hero() {
       </div>
 
 
-      <div className="hero-panel relative opacity-0 animate-[fade-in_1.2s_0.6s_ease_forwards] hidden lg:block">
-        <div className="hero-panel-frame relative border border-[var(--border)] bg-gradient-to-br from-[var(--gold)]/[0.03] to-transparent overflow-hidden aspect-[1/1.1] before:absolute before:top-0 before:left-0 before:w-10 before:h-10 before:border-t-2 before:border-l-2 before:border-[var(--gold)] after:absolute after:bottom-0 after:right-0 after:w-10 after:h-10 after:border-b-2 after:border-r-2 after:border-[var(--gold)]">
+      <div className="hero-panel relative opacity-0 animate-[fade-in_1.2s_0.6s_ease_forwards] mt-12 lg:mt-0 max-w-lg mx-auto lg:max-w-none w-full">
+        <div className="hero-panel-frame relative border border-[var(--border)] bg-gradient-to-br from-[var(--gold)]/[0.03] to-transparent overflow-hidden aspect-[4/3] lg:aspect-[1/1.1] before:absolute before:top-0 before:left-0 before:w-6 lg:w-10 before:h-6 lg:h-10 before:border-t-2 before:border-l-2 before:border-[var(--gold)] after:absolute after:bottom-0 after:right-0 after:w-6 lg:w-10 after:h-6 lg:h-10 after:border-b-2 after:border-r-2 after:border-[var(--gold)]">
           <div className="scan absolute left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-[var(--cyan)]/40 to-transparent animate-[scan-down_3s_ease-in-out_infinite] pointer-events-none"></div>
           <Image 
             src="/images/gtss_hero.png" 
@@ -50,22 +50,23 @@ export function Hero() {
             className="hero-panel-img w-full h-full object-cover opacity-60 mix-blend-luminosity filter contrast-[1.1] brightness-[0.8]"
           />
           <div className="hero-panel-overlay absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[var(--black)]/100"></div>
-          <div className="hero-panel-hud absolute bottom-6 left-6 right-6 grid grid-cols-3 gap-[1px] bg-[var(--border)]">
-            <div className="hud-cell bg-[rgba(3,5,8,0.85)] backdrop-blur-xl p-3.5 lg:p-4 flex flex-col gap-1">
-              <div className="hud-label font-mono-dm text-[8px] tracking-[0.2em] text-[var(--text-dim)] uppercase">Node Status</div>
-              <div className="hud-value font-mono-dm text-sm font-medium text-[var(--green)] uppercase">SECURE</div>
+          <div className="hero-panel-hud absolute bottom-4 lg:bottom-6 left-4 lg:left-6 right-4 lg:right-6 grid grid-cols-3 gap-[1px] bg-[var(--border)]">
+            <div className="hud-cell bg-[rgba(3,5,8,0.85)] backdrop-blur-xl p-2.5 lg:p-4 flex flex-col gap-0.5 lg:gap-1">
+              <div className="hud-label font-mono-dm text-[7px] lg:text-[8px] tracking-[0.15em] lg:tracking-[0.2em] text-[var(--text-dim)] uppercase">Node</div>
+              <div className="hud-value font-mono-dm text-[10px] lg:text-sm font-medium text-[var(--green)] uppercase">SECURE</div>
             </div>
-            <div className="hud-cell bg-[rgba(3,5,8,0.85)] backdrop-blur-xl p-3.5 lg:p-4 flex flex-col gap-1">
-              <div className="hud-label font-mono-dm text-[8px] tracking-[0.2em] text-[var(--text-dim)] uppercase">Latency</div>
-              <div className="hud-value font-mono-dm text-sm font-medium text-[var(--cyan)]">&lt;12ms</div>
+            <div className="hud-cell bg-[rgba(3,5,8,0.85)] backdrop-blur-xl p-2.5 lg:p-4 flex flex-col gap-0.5 lg:gap-1">
+              <div className="hud-label font-mono-dm text-[7px] lg:text-[8px] tracking-[0.15em] lg:tracking-[0.2em] text-[var(--text-dim)] uppercase">Lat</div>
+              <div className="hud-value font-mono-dm text-[10px] lg:text-sm font-medium text-[var(--cyan)]">&lt;12ms</div>
             </div>
-            <div className="hud-cell bg-[rgba(3,5,8,0.85)] backdrop-blur-xl p-3.5 lg:p-4 flex flex-col gap-1">
-              <div className="hud-label font-mono-dm text-[8px] tracking-[0.2em] text-[var(--text-dim)] uppercase">Uptime</div>
-              <div className="hud-value font-mono-dm text-sm font-medium text-[var(--gold)]">99.99%</div>
+            <div className="hud-cell bg-[rgba(3,5,8,0.85)] backdrop-blur-xl p-2.5 lg:p-4 flex flex-col gap-0.5 lg:gap-1">
+              <div className="hud-label font-mono-dm text-[7px] lg:text-[8px] tracking-[0.15em] lg:tracking-[0.2em] text-[var(--text-dim)] uppercase">Up</div>
+              <div className="hud-value font-mono-dm text-[10px] lg:text-sm font-medium text-[var(--gold)]">99.9%</div>
             </div>
           </div>
         </div>
       </div>
+
     </section>
   );
 }
