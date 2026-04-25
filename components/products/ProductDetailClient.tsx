@@ -116,7 +116,7 @@ function formatDate(value: Date | string | null | undefined) {
 
   return new Date(value).toLocaleDateString("en-GB", {
     day: "2-digit",
-    month: "SHORT",
+    month: "short",
     year: "numeric",
   }).toUpperCase();
 }
