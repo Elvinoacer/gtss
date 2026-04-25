@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+<title>INFRA_CORE</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;600&display=swap" rel="stylesheet">
+
+<style>
+/* === CORE ATMOSPHERE === */
+body {
+  background: radial-gradient(circle at 20% 20%, rgba(0,90,255,0.15), transparent 40%),
+              radial-gradient(circle at 80% 60%, rgba(0,255,170,0.08), transparent 40%),
+              #020617;
+  font-family: 'Inter', sans-serif;
+}
+
+/* === GLASS SYSTEM === */
+.glass {
+  background: rgba(255,255,255,0.03);
+  backdrop-filter: blur(40px);
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+/* === EDGE LIGHT === */
+.edge-glow {
+  position: relative;
+}
+.edge-glow::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(120deg, rgba(0,120,255,0.6), transparent, rgba(0,255,170,0.4));
+  opacity: 0;
+  transition: 0.4s;
+}
+.edge-glow:hover::before {
+  opacity: 1;
+}
+
+/* === BUTTON ENERGY === */
+.btn-core {
+  background: linear-gradient(135deg, #0a84ff, #00ffa3);
+  box-shadow: 0 10px 40px rgba(0,120,255,0.4);
+  transition: 0.3s;
+}
+.btn-core:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 20px 60px rgba(0,120,255,0.7);
+}
+
+/* === FLOATING MOTION === */
+.float {
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float {
+  0% { transform: translateY(0px);}
+  50% { transform: translateY(-15px);}
+  100% { transform: translateY(0px);}
+}
+
+/* === TEXT GLOW === */
+.glow-text {
+  text-shadow: 0 0 20px rgba(0,120,255,0.5);
+}
+
+/* === GRID NOISE === */
+.noise::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.7'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+}
+
+/* === PARALLAX LIGHT BLOBS === */
+.blob {
+  position:absolute;
+  width:600px;
+  height:600px;
+  filter: blur(120px);
+  opacity:0.25;
+}
+</style>
+</head>
+
+<body class="text-white overflow-x-hidden relative">
+
+<!-- LIGHT BLOBS -->
+<div class="blob bg-blue-500 top-[-200px] left-[-200px]"></div>
+<div class="blob bg-emerald-400 bottom-[-200px] right-[-200px]"></div>
+
+<!-- NAV -->
+<header class="fixed top-0 w-full z-50 glass px-10 py-6 flex justify-between items-center">
+  <div class="flex items-center gap-3 font-black text-xl tracking-tight">
+    <span class="text-blue-400 glow-text">●</span>
+    INFRA_CORE
+  </div>
+
+  <button class="btn-core px-6 py-3 rounded-lg text-xs font-bold tracking-widest">
+    DEPLOY
+  </button>
+</header>
+
+<!-- HERO -->
+<section class="min-h-screen flex items-center px-10 relative noise">
+
+  <div class="max-w-6xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
+
+    <!-- LEFT -->
+    <div>
+      <h1 class="text-6xl md:text-7xl font-black leading-tight tracking-tight">
+        SOVEREIGN<br>
+        <span class="text-blue-400 glow-text">INFRASTRUCTURE</span><br>
+        FOR CONTROL
+      </h1>
+
+      <p class="mt-6 text-gray-400 text-lg max-w-xl">
+        High-frequency secure architecture engineered for elite systems.
+        Zero compromise. Absolute control. Real-time execution layers.
+      </p>
+
+      <div class="mt-10 flex gap-4">
+        <button class="btn-core px-8 py-4 rounded-lg text-sm font-bold">
+          INITIALIZE
+        </button>
+
+        <button class="glass px-8 py-4 rounded-lg text-sm edge-glow">
+          VIEW SYSTEM
+        </button>
+      </div>
+    </div>
+
+    <!-- RIGHT -->
+    <div class="relative float">
+      <div class="glass edge-glow rounded-2xl p-6 h-[400px] flex items-center justify-center">
+
+        <div class="text-center">
+          <div class="text-5xl font-black text-blue-400 glow-text">99.98%</div>
+          <div class="text-gray-400 mt-2 text-sm tracking-widest">SYSTEM STABILITY</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+</section>
+
+<!-- ARCHITECTURE -->
+<section class="px-10 py-24">
+
+  <div class="max-w-6xl mx-auto">
+
+    <h2 class="text-3xl font-bold mb-10 tracking-wide">
+      SYSTEM ARCHITECTURE
+    </h2>
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- CARD -->
+      <div class="glass edge-glow p-6 rounded-xl hover:scale-[1.02] transition">
+        <h3 class="font-bold text-lg mb-2 text-blue-400">ROUTING CORE</h3>
+        <p class="text-gray-400 text-sm">
+          Adaptive routing with sub-millisecond precision.
+        </p>
+      </div>
+
+      <div class="glass edge-glow p-6 rounded-xl hover:scale-[1.02] transition">
+        <h3 class="font-bold text-lg mb-2 text-emerald-400">ENCRYPTION</h3>
+        <p class="text-gray-400 text-sm">
+          Self-mutating cryptographic layers.
+        </p>
+      </div>
+
+      <div class="glass edge-glow p-6 rounded-xl hover:scale-[1.02] transition">
+        <h3 class="font-bold text-lg mb-2">AI PREDICTION</h3>
+        <p class="text-gray-400 text-sm">
+          Forecast disruptions before occurrence.
+        </p>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- FOOTER -->
+<footer class="px-10 py-12 border-t border-white/10 text-sm text-gray-500 flex justify-between">
+  <div>INFRA_CORE © 2026</div>
+  <div class="tracking-widest">SYSTEM ONLINE</div>
+</footer>
+
+</body>
+</html>

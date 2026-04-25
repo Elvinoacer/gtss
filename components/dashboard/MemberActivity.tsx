@@ -2,7 +2,7 @@
 
 import { dashboardActivities } from '@/data/dashboard';
 import { motion } from 'framer-motion';
-import { History } from 'lucide-react';
+import { History, UserPlus, Ticket, Clock, CheckCircle, Terminal } from 'lucide-react';
 
 interface Activity {
   id: string;
@@ -17,8 +17,6 @@ interface MemberActivityProps {
   data?: Activity[];
 }
 
-import { UserPlus, Ticket, Clock, CheckCircle } from 'lucide-react';
-
 const iconMap: any = {
   UserPlus: UserPlus,
   Ticket: Ticket,
@@ -27,7 +25,6 @@ const iconMap: any = {
 };
 
 export function MemberActivity({ data }: MemberActivityProps) {
-  // If data is provided (even empty array), use it. Only fallback if data is undefined (e.g. during loading or error upstream)
   const activities = data !== undefined ? data : dashboardActivities;
 
   return (
@@ -35,73 +32,78 @@ export function MemberActivity({ data }: MemberActivityProps) {
       initial={{ opacity: 0, x: 20 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
-      className="bg-white dark:bg-[#1e293b] rounded-xl border border-gray-100 dark:border-gray-700/50 shadow-sm p-6 flex flex-col h-full"
+      className="bg-[rgba(255,255,255,0.02)] border border-[var(--border)] p-8 flex flex-col h-full relative overflow-hidden"
     >
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-bold text-gray-900 dark:text-white">Member Activity</h2>
-        <button className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">
+      <div className="flex items-center justify-between mb-8 relative z-10">
+        <div className="flex items-center gap-3">
+          <Terminal className="w-5 h-5 text-[var(--gold)]" />
+          <h2 className="text-xl font-bebas tracking-widest text-[var(--text)] uppercase">
+            Command_Logs
+          </h2>
+        </div>
+        <button className="text-[var(--gold-dim)] hover:text-[var(--gold)] transition-colors">
           <History className="w-5 h-5" />
         </button>
       </div>
 
-      <div className="flex-1 space-y-4 overflow-y-auto pr-1">
+      <div className="flex-1 space-y-6 overflow-y-auto pr-2 scrollbar-hide relative z-10">
         {activities.length === 0 ? (
-          <div className="flex flex-col items-center justify-center h-full text-center py-8 text-gray-400 dark:text-slate-500">
-            <History className="w-8 h-8 mb-2 opacity-50" />
-            <p className="text-sm">No recent activity</p>
+          <div className="flex flex-col items-center justify-center h-full text-center py-8 text-[var(--text-muted)]">
+            <History className="w-10 h-10 mb-4 opacity-20" />
+            <p className="text-xs uppercase tracking-widest font-mono-dm opacity-50">Null_History_Found</p>
           </div>
         ) : (
           activities.map((activity: any, index: number) => {
-          const Icon = iconMap[activity.iconName] || (activity.icon ? activity.icon : History);
-          
-          // Determine colors based on type
-          let iconBg = 'bg-gray-100 dark:bg-gray-800';
-          let iconColor = 'text-gray-600 dark:text-gray-400';
-          
-          if (activity.type === 'member_join') {
-            iconBg = 'bg-blue-50 dark:bg-blue-900/20';
-            iconColor = 'text-blue-600 dark:text-blue-400';
-          } else if (activity.type === 'ticket_update') {
-            iconBg = 'bg-amber-50 dark:bg-amber-900/20';
-            iconColor = 'text-amber-600 dark:text-amber-400';
-          }
-
-          // Use existing styles if available (fallback to dummy data styles)
-          if (activity.iconBg) iconBg = activity.iconBg;
-          if (activity.iconColor) iconColor = activity.iconColor;
-
-          return (
-            <motion.div
-              key={activity.id}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
-              className="flex gap-4 p-2 hover:bg-gray-50 dark:hover:bg-white/5 rounded-lg -mx-2 transition-colors cursor-default group"
-            >
-              <div className={`flex-shrink-0 w-8 h-8 rounded-full ${iconBg} flex items-center justify-center ${iconColor}`}>
-                <Icon className="w-4 h-4" />
-              </div>
-              <div>
-                <p className="text-sm text-gray-900 dark:text-white">
-                 {activity.title}
-                </p>
-                <p className="text-xs text-gray-500 dark:text-slate-400 mt-0.5">
-                  {activity.description}
-                </p>
-                <p className="text-[10px] text-gray-400 mt-1">
-                  {new Date(activity.time).toLocaleString(undefined, {
-                    month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit'
-                  })}
-                </p>
-              </div>
-            </motion.div>
-          );
-        }))}
+            const Icon = iconMap[activity.iconName] || (activity.icon ? activity.icon : History);
+            
+            return (
+              <motion.div
+                key={activity.id}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3, delay: 0.3 + index * 0.1 }}
+                className="flex gap-4 group cursor-default"
+              >
+                <div className="flex flex-col items-center">
+                  <div className="flex-shrink-0 w-8 h-8 border border-[var(--border)] bg-[rgba(255,255,255,0.02)] flex items-center justify-center text-[var(--gold)] group-hover:border-[var(--gold-dim)] transition-colors">
+                    <Icon className="w-4 h-4" />
+                  </div>
+                  {index !== activities.length - 1 && (
+                    <div className="w-px flex-1 bg-[var(--border)] my-2" />
+                  )}
+                </div>
+                <div className="pb-4">
+                  <div className="flex items-center gap-2 mb-1">
+                    <p className="text-xs font-bold text-[var(--text)] uppercase tracking-wider group-hover:text-[var(--gold)] transition-colors">
+                      {activity.title}
+                    </p>
+                    <span className="text-[10px] font-mono-dm text-[var(--gold-dim)] opacity-50">
+                      [{new Date(activity.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}]
+                    </span>
+                  </div>
+                  <p className="text-[11px] text-[var(--text-muted)] leading-relaxed font-cormorant italic">
+                    {activity.description}
+                  </p>
+                  <p className="text-[9px] font-mono-dm text-[var(--gold-dim)] uppercase tracking-tighter mt-1 opacity-50">
+                    EVENT_ID: {activity.id.substring(0, 12)}
+                  </p>
+                </div>
+              </motion.div>
+            );
+          })
+        )}
       </div>
 
-      <button className="w-full mt-4 py-2 text-xs font-semibold text-gray-500 dark:text-slate-400 hover:text-[#0f172a] dark:hover:text-white bg-gray-50 dark:bg-white/5 rounded-lg border border-transparent hover:border-gray-200 dark:hover:border-white/10 transition-all">
-        View All History
-      </button>
+      <motion.button
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
+        className="w-full mt-8 py-3 text-[10px] text-[var(--text-muted)] hover:text-[var(--gold)] font-bold uppercase tracking-[0.3em] transition-all border border-[var(--border)] hover:border-[var(--gold)] bg-[rgba(255,255,255,0.01)] hover:bg-[rgba(212,175,55,0.05)]"
+      >
+        Decrypt_Full_Registry
+      </motion.button>
+
+      {/* Background Pulse Effect */}
+      <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-[var(--gold)] opacity-[0.02] rounded-full blur-3xl animate-pulse pointer-events-none" />
     </motion.div>
   );
 }

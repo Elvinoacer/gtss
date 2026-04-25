@@ -7,62 +7,77 @@ import { ArrowRight } from 'lucide-react';
 
 export function ContactHero() {
   return (
-    <section className="relative py-12 md:py-20 px-4 md:px-10">
-      <div className="mx-auto max-w-[1280px] grid lg:grid-cols-2 gap-12 items-center">
+    <section className="relative pt-12 pb-12 md:pt-20 md:pb-12 px-6 lg:px-20 overflow-hidden">
+      <div className="mx-auto max-w-7xl grid lg:grid-cols-[1.1fr_0.9fr] gap-16 items-center">
         <motion.div 
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.6 }}
-          className="flex flex-col gap-6 text-left max-w-[600px]"
+          className="flex flex-col text-left"
         >
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass-card w-fit">
-            <span className="w-2 h-2 rounded-full bg-[#00C2FF]"></span>
-            <span className="text-[#00C2FF] text-xs font-bold uppercase tracking-widest">{contactHero.badge}</span>
+          <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6 flex items-center gap-3">
+            <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+            ESTABLISH_COMMUNICATION
           </div>
-          <h1 className="text-white text-4xl md:text-5xl lg:text-6xl font-black leading-tight tracking-[-0.02em]">
-            {contactHero.title.includes('Together') ? (
-              <>
-                Let's Build{' '}
-                <span className="gradient-text-static">Something Great</span>{' '}
-                Together
-              </>
-            ) : contactHero.title}
+          
+          <h1 className="font-bebas text-[clamp(48px,6vw,90px)] leading-[0.95] tracking-[0.02em] text-[var(--text)] mb-8 uppercase">
+            LET'S BUILD <span className="text-[var(--gold)]">SOVEREIGN</span> INFRASTRUCTURE.
           </h1>
-          <p className="text-white/50 text-lg leading-relaxed">
+          
+          <p className="font-cormorant text-[20px] font-light leading-relaxed text-[var(--text-muted)] max-w-2xl mb-10">
             {contactHero.description}
           </p>
-          <div className="flex flex-wrap gap-4 pt-2">
+
+          <div className="flex flex-wrap gap-5">
             <a 
               href="https://wa.me/254790670542?text=Hello%20GTSS%20Team,%20I'm%20interested%20in%20starting%20a%20project%20with%20you."
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary-glow flex items-center gap-2"
+              className="btn-primary font-mono-dm text-[11px] tracking-[0.25em] uppercase text-[var(--black)] bg-[var(--gold)] px-10 py-5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(12px_0%,100%_0%,calc(100%-12px)_100%,0%_100%)] flex items-center gap-3 justify-center"
             >
-              Start a Conversation
+              INITIALIZE_CHAT
               <ArrowRight className="w-4 h-4" />
             </a>
             <Link 
               href="/faq"
-              className="btn-glass flex items-center gap-2"
+              className="btn-ghost font-mono-dm text-[11px] tracking-[0.25em] uppercase text-[var(--text-muted)] bg-transparent px-10 py-[19px] border border-[var(--border)] cursor-none transition-all hover:text-[var(--gold)] hover:border-[var(--border-bright)] flex items-center justify-center"
             >
-              View FAQ
+              BROWSE_FAQ
             </Link>
           </div>
         </motion.div>
+
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="relative w-full aspect-video lg:aspect-square lg:h-[400px] rounded-2xl overflow-hidden"
+          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          className="relative aspect-square w-full max-w-[500px] mx-auto lg:ml-auto"
         >
-          {/* Glow effect */}
-          <div className="absolute -inset-4 bg-gradient-to-r from-[#007AFF]/20 via-[#6200EA]/20 to-[#00C2FF]/20 rounded-3xl blur-2xl opacity-60" />
+          {/* HUD Frame */}
+          <div className="absolute inset-0 border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl"></div>
           
-          <div className="relative glass-strong rounded-2xl overflow-hidden p-1.5 h-full">
+          {/* Corner Elements */}
+          <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-[var(--gold)]"></div>
+          <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[var(--gold)]"></div>
+          
+          {/* Terminal Accents */}
+          <div className="absolute top-4 right-6 font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] opacity-40">
+            VISUAL_FEED_01
+          </div>
+          
+          <div className="absolute inset-4 overflow-hidden border border-[var(--border)]">
             <div
-              className="absolute inset-0 bg-cover bg-center rounded-xl"
+              className="absolute inset-0 bg-cover bg-center grayscale hover:grayscale-0 transition-all duration-700"
               style={{ backgroundImage: `url('${contactHero.image}')` }}
-            ></div>
+            >
+              {/* Scanline Effect */}
+              <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] bg-[length:100%_4px,3px_100%] pointer-events-none opacity-20"></div>
+            </div>
+          </div>
+          
+          {/* Technical Data Overlays */}
+          <div className="absolute -bottom-4 -left-4 font-mono-dm text-[8px] bg-[var(--black)] border border-[var(--border)] px-3 py-2 text-[var(--gold-dim)] tracking-[0.1em] z-20">
+            LOC_SYNC: 0.38.112
           </div>
         </motion.div>
       </div>

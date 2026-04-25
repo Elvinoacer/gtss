@@ -1,3 +1,5 @@
+"use client";
+
 import {
   ArrowRight,
   ExternalLink,
@@ -6,12 +8,15 @@ import {
   Play,
   Sparkles,
   Video,
+  Terminal,
+  Activity,
+  MoveRight,
+  Shield,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-
-import { demoReviews } from "@/data/demo";
 import { getIcon } from "@/lib/icons";
+import { demoReviews } from "@/data/demo";
 
 interface Product {
   id: string;
@@ -32,281 +37,247 @@ interface DemoPageClientProps {
   products: Product[];
 }
 
+function getEmbedUrl(url: string) {
+  if (!url) return "";
+  if (url.includes("youtube.com/shorts/")) return url.replace("youtube.com/shorts/", "youtube.com/embed/");
+  if (url.length === 11 && !url.includes("/") && !url.includes(".") && !url.includes(" ")) return `https://www.youtube.com/embed/${url}`;
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
+  if (match && match[2].length === 11) return `https://www.youtube.com/embed/${match[2]}`;
+  if (url.includes("youtube.com/embed/")) return url;
+  return url;
+}
+
 export function DemoPageClient({ products }: DemoPageClientProps) {
   const productsWithDemos = products.filter((product) => product.demoVideoUrl);
   const otherProducts = products.filter((product) => !product.demoVideoUrl);
 
   return (
-    <div className="flex-grow flex flex-col w-full">
-      <section className="relative bg-gradient-to-b from-slate-900 via-slate-900 to-slate-800 pt-24 pb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:60px_60px]" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-500/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
+    <div className="min-h-screen bg-[var(--black)] pt-32 pb-24 overflow-hidden">
+      {/* Background HUD Grid */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03]">
+        <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>
+      </div>
 
-        <div className="max-w-[1200px] mx-auto px-4 relative z-10 text-center max-w-3xl">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/20 rounded-full text-blue-400 text-sm font-medium mb-6">
-            <Video className="w-4 h-4" />
-            Live Product Demos
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
+        {/* Hero Section */}
+        <header className="mb-24">
+          <div className="flex items-center gap-4 mb-8">
+            <div className="px-3 py-1 border border-[var(--gold-dim)] bg-[rgba(255,255,255,0.05)] text-[var(--gold)] font-mono-dm text-[10px] tracking-[0.3em] uppercase">
+              SECTOR: VIRTUAL_SANDBOX
+            </div>
+            <div className="h-[1px] flex-1 bg-[var(--border)]"></div>
+            <div className="flex items-center gap-2 font-mono-dm text-[10px] text-[var(--gold-dim)]">
+              <Activity className="w-3 h-3 text-emerald-500 animate-pulse" />
+              LIVE_STREAM_ACTIVE
+            </div>
           </div>
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tight">
-            See Our Products <span className="text-blue-500">in Action</span>
+
+          <h1 className="font-bebas text-6xl sm:text-8xl text-[var(--text)] mb-8 tracking-tighter leading-none uppercase">
+            Virtual <span className="text-[var(--gold)]">Sandbox</span> Access
           </h1>
-          <p className="text-lg md:text-xl text-slate-400 mb-8 leading-relaxed max-w-3xl mx-auto">
-            Watch walkthroughs, explore demo-ready products, and pick the best
-            GTSS platform for your business workflow.
+          
+          <p className="font-cormorant text-2xl sm:text-3xl text-[var(--text-muted)] italic max-w-3xl leading-relaxed">
+            Experience technical sovereignty in real-time. Explore video walkthroughs and live 
+            demonstrations of the GTSS software ecosystem before initiating deployment.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold shadow-lg shadow-blue-600/25 transition-all"
-            >
-              Schedule Live Demo
-            </Link>
-            <Link
-              href="/products"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white/10 hover:bg-white/20 border border-white/20 text-white rounded-xl font-bold transition-all"
-            >
-              <Package className="w-5 h-5" />
-              Browse All Products
-            </Link>
-          </div>
-        </div>
-      </section>
+        </header>
 
-      {productsWithDemos.length > 0 ? (
-        <section className="py-20 bg-white dark:bg-slate-900">
-          <div className="max-w-[1200px] mx-auto px-4">
-            <div className="text-center mb-12">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-purple-50 dark:bg-purple-900/20 rounded-full text-purple-600 dark:text-purple-400 text-sm font-medium mb-4">
-                <Play className="w-4 h-4" />
-                Video Walkthroughs
-              </div>
-              <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-                Featured Product Demos
+        {/* Featured Demos */}
+        {productsWithDemos.length > 0 && (
+          <section className="mb-32">
+            <div className="flex items-center gap-4 mb-16">
+              <Terminal className="w-5 h-5 text-[var(--gold)]" />
+              <h2 className="font-bebas text-4xl text-[var(--text)] tracking-wide uppercase">
+                Active Protocol Demonstrations
               </h2>
-              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                Watch detailed demonstrations of our most popular products.
-              </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="grid md:grid-cols-2 gap-12">
               {productsWithDemos.map((product) => {
                 const ProductIcon = getIcon(product.icon);
-
                 return (
-                  <article
-                    key={product.id}
-                    className="group bg-slate-50 dark:bg-slate-800 rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-700 hover:shadow-xl transition-all"
-                  >
-                    <div className="relative aspect-video bg-slate-900 overflow-hidden">
+                  <article key={product.id} className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.7)] overflow-hidden">
+                    <div className="aspect-video relative overflow-hidden bg-black">
+                      {/* Scanline Overlay */}
+                      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20 z-20"></div>
+                      
                       {product.images?.[0] ? (
                         <Image
                           src={product.images[0]}
                           alt={product.name}
                           fill
-                          className="object-cover opacity-85"
-                          sizes="(max-width: 768px) 100vw, 50vw"
+                          className="object-cover opacity-60 group-hover:scale-105 transition-transform duration-700"
                         />
                       ) : (
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-600 to-purple-700 opacity-90" />
+                        <div className="absolute inset-0 bg-gradient-to-br from-zinc-900 to-black" />
                       )}
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <span className="inline-flex items-center gap-2 rounded-full bg-black/60 px-4 py-2 text-sm font-bold text-white backdrop-blur-sm">
-                          <Play className="w-4 h-4" />
-                          Demo Available
-                        </span>
+                      
+                      <div className="absolute inset-0 flex items-center justify-center z-10">
+                        <div className="w-16 h-16 rounded-full border border-[var(--gold)] bg-[rgba(212,175,55,0.1)] backdrop-blur-sm flex items-center justify-center text-[var(--gold)] group-hover:scale-110 transition-transform">
+                          <Play className="w-8 h-8 fill-[var(--gold)]" />
+                        </div>
+                      </div>
+                      
+                      <div className="absolute top-4 left-4 font-mono-dm text-[8px] tracking-[0.2em] text-[var(--gold-dim)] uppercase bg-black/60 px-2 py-1 backdrop-blur-md">
+                        NODE_ACCESS: GRANTED
                       </div>
                     </div>
 
-                    <div className="p-6">
-                      <div className="flex items-start gap-4 mb-4">
-                        <div
-                          className={`shrink-0 w-12 h-12 rounded-xl ${product.iconColor} flex items-center justify-center`}
-                        >
-                          <ProductIcon className="w-6 h-6" />
+                    <div className="p-8">
+                      <div className="flex items-start gap-6 mb-8">
+                        <div className={`w-14 h-14 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] flex items-center justify-center ${product.iconColor}`}>
+                          <ProductIcon className="w-7 h-7" />
                         </div>
-                        <div className="min-w-0">
-                          <h3 className="text-xl font-bold text-slate-900 dark:text-white mb-1">
+                        <div>
+                          <h3 className="font-bebas text-3xl text-[var(--text)] mb-2 tracking-wide uppercase">
                             {product.name}
                           </h3>
-                          <p className="text-sm text-slate-500 dark:text-slate-400 line-clamp-2">
-                            {product.tagline || product.description}
+                          <p className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-50">
+                            {product.category}
                           </p>
                         </div>
                       </div>
 
-                      <div className="flex flex-wrap gap-3">
+                      <p className="font-cormorant text-xl text-[var(--text-muted)] italic leading-relaxed mb-8 line-clamp-2">
+                        {product.tagline || product.description}
+                      </p>
+
+                      <div className="flex flex-wrap gap-4">
                         <Link
                           href={`/products/${product.id}`}
-                          className="inline-flex items-center justify-center gap-2 rounded-xl bg-slate-900 dark:bg-white px-4 py-2.5 text-sm font-bold text-white dark:text-slate-900"
+                          className="h-12 px-6 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] font-bebas text-lg flex items-center gap-3 hover:border-[var(--gold)] transition-all uppercase tracking-widest text-[var(--text)]"
                         >
+                          Protocol_Details
                           <Eye className="w-4 h-4" />
-                          View Details
                         </Link>
-                        {product.demoVideoUrl ? (
-                          <a
-                            href={product.demoVideoUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-bold text-white hover:bg-blue-500"
-                          >
-                            <Play className="w-4 h-4" />
-                            Watch Demo
-                          </a>
-                        ) : null}
-                        {product.websiteUrl ? (
-                          <a
-                            href={product.websiteUrl}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center justify-center rounded-xl border border-slate-300 dark:border-slate-600 px-3 py-2.5 text-slate-600 dark:text-slate-300"
-                            aria-label={`Open ${product.name} website`}
-                          >
-                            <ExternalLink className="w-4 h-4" />
-                          </a>
-                        ) : null}
+                        
+                        <a
+                          href={product.demoVideoUrl || '#'}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="h-12 px-6 bg-[var(--gold)] text-[var(--black)] font-bebas text-lg flex items-center gap-3 hover:bg-white transition-all uppercase tracking-widest"
+                        >
+                          Initialize_Demo
+                          <Play className="w-4 h-4 fill-current" />
+                        </a>
                       </div>
                     </div>
+
+                    {/* HUD Corner */}
+                    <div className="absolute bottom-0 right-0 w-8 h-8 border-b border-r border-[var(--gold-dim)] opacity-20 group-hover:opacity-100 transition-opacity"></div>
                   </article>
                 );
               })}
             </div>
-          </div>
-        </section>
-      ) : null}
+          </section>
+        )}
 
-      {otherProducts.length > 0 ? (
-        <section className="py-20 bg-slate-50 dark:bg-slate-800">
-          <div className="max-w-[1200px] mx-auto px-4">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl font-bold text-slate-900 dark:text-white mb-4">
-                Explore More Products
+        {/* Other Products Grid */}
+        {otherProducts.length > 0 && (
+          <section className="mb-32">
+            <div className="flex items-center gap-4 mb-16">
+              <Package className="w-5 h-5 text-[var(--gold-dim)]" />
+              <h2 className="font-bebas text-3xl text-[var(--text)] tracking-wide uppercase opacity-70">
+                Secondary Ecosystem Nodes
               </h2>
-              <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-                Browse the rest of our product catalog and request a tailored
-                walkthrough.
-              </p>
+              <div className="h-[1px] flex-1 bg-[var(--border)] opacity-20"></div>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {otherProducts.slice(0, 6).map((product) => {
                 const ProductIcon = getIcon(product.icon);
-
                 return (
                   <Link
                     key={product.id}
                     href={`/products/${product.id}`}
-                    className="block p-6 bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-400 dark:hover:border-blue-500 hover:shadow-lg transition-all"
+                    className="p-6 border border-[var(--border)] bg-[rgba(255,255,255,0.02)] hover:border-[var(--gold-dim)] transition-all group relative"
                   >
-                    <div
-                      className={`w-12 h-12 rounded-xl ${product.iconColor} flex items-center justify-center mb-4`}
-                    >
-                      <ProductIcon className="w-6 h-6" />
+                    <div className="flex items-center justify-between mb-6">
+                      <div className={`w-10 h-10 border border-[var(--border)] bg-[rgba(255,255,255,0.02)] flex items-center justify-center ${product.iconColor}`}>
+                        <ProductIcon className="w-5 h-5" />
+                      </div>
+                      <ArrowRight className="w-4 h-4 text-[var(--gold-dim)] opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all" />
                     </div>
-                    <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-2">
+                    <h3 className="font-bebas text-2xl text-[var(--text)] mb-3 tracking-wide uppercase">
                       {product.name}
                     </h3>
-                    <p className="text-sm text-slate-500 dark:text-slate-400 mb-4 line-clamp-2">
+                    <p className="font-mono-dm text-[9px] tracking-[0.1em] text-[var(--text-muted)] uppercase line-clamp-2">
                       {product.tagline || product.description}
                     </p>
-                    <div className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 text-sm font-medium">
-                      Learn more
-                      <ArrowRight className="w-4 h-4" />
-                    </div>
                   </Link>
                 );
               })}
             </div>
+          </section>
+        )}
 
-            {otherProducts.length > 6 ? (
-              <div className="text-center mt-10">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center gap-2 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-bold transition-colors"
-                >
-                  View All Products
-                  <ArrowRight className="w-4 h-4" />
-                </Link>
-              </div>
-            ) : null}
-          </div>
-        </section>
-      ) : null}
-
-      <section className="py-20 bg-white dark:bg-slate-900">
-        <div className="max-w-[1200px] mx-auto px-4">
-          <div className="text-center mb-12">
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-amber-50 dark:bg-amber-900/20 rounded-full text-amber-600 dark:text-amber-400 text-sm font-medium mb-4">
-              <Sparkles className="w-4 h-4" />
-              Customer Success Stories
-            </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-slate-900 dark:text-white mb-4">
-              Trusted by Industry Leaders
+        {/* Reviews Section */}
+        <section className="mb-32 border-t border-[var(--border)] pt-24">
+          <div className="flex items-center gap-4 mb-16 justify-center">
+            <Sparkles className="w-5 h-5 text-[var(--gold)]" />
+            <h2 className="font-bebas text-4xl text-[var(--text)] tracking-wide uppercase text-center">
+              Verified Operational Feedback
             </h2>
-            <p className="text-slate-600 dark:text-slate-400">
-              See what our partners are saying about GTSS products.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-3 gap-8">
             {demoReviews.map((review) => (
-              <article
-                key={review.name}
-                className="p-6 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-200 dark:border-slate-700"
-              >
-                <div className="flex items-center gap-3 mb-4">
-                  <Image
-                    src={review.avatar}
-                    alt={review.name}
-                    width={48}
-                    height={48}
-                    className="w-12 h-12 rounded-full object-cover"
-                    loading="lazy"
-                  />
+              <article key={review.name} className="p-8 border border-[var(--border)] bg-[rgba(3,5,8,0.7)] relative group">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-12 h-12 border border-[var(--border)] overflow-hidden">
+                    <Image
+                      src={review.avatar}
+                      alt={review.name}
+                      width={48}
+                      height={48}
+                      className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all"
+                    />
+                  </div>
                   <div>
-                    <p className="font-bold text-slate-900 dark:text-white">
-                      {review.name}
-                    </p>
-                    <p className="text-sm text-slate-500 dark:text-slate-400">
-                      {review.role}
-                    </p>
+                    <h4 className="font-rajdhani text-lg font-bold text-[var(--text)] uppercase tracking-tight">{review.name}</h4>
+                    <p className="font-mono-dm text-[9px] text-[var(--gold-dim)] uppercase tracking-widest">{review.role}</p>
                   </div>
                 </div>
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed">
+                <p className="font-cormorant text-lg text-[var(--text-muted)] italic leading-relaxed">
                   &ldquo;{review.content}&rdquo;
                 </p>
               </article>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 relative overflow-hidden">
-        <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.1)_1px,transparent_1px)] bg-[size:40px_40px]" />
-        <div className="max-w-[900px] mx-auto px-4 relative z-10 text-center">
-          <h2 className="text-3xl md:text-5xl font-black text-white mb-4">
-            Ready to See It Live?
+        {/* Final CTA */}
+        <section className="text-center bg-[rgba(3,5,8,0.7)] border border-[var(--border)] p-16 relative overflow-hidden">
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-10"></div>
+          
+          <h2 className="font-bebas text-5xl sm:text-7xl text-[var(--text)] mb-8 tracking-wide leading-none uppercase relative z-10">
+            Ready to initiate <span className="text-[var(--gold)]">Protocol</span> access?
           </h2>
-          <p className="text-blue-100 text-lg mb-8">
-            Tell us your use case and we&apos;ll schedule a focused walkthrough
-            for your team.
+          <p className="font-cormorant text-2xl text-[var(--text-muted)] italic mb-12 max-w-2xl mx-auto relative z-10">
+            Contact our engineering unit to schedule a dedicated walkthrough 
+            or request private sandbox credentials.
           </p>
-          <div className="flex flex-col sm:flex-row justify-center gap-4">
+          
+          <div className="flex flex-col sm:flex-row justify-center gap-6 relative z-10">
             <Link
               href="/contact"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white text-blue-700 rounded-xl font-bold hover:bg-blue-50"
+              className="h-16 px-12 bg-[var(--gold)] text-[var(--black)] font-bebas text-2xl flex items-center gap-4 hover:bg-white transition-all group"
             >
-              Book a Demo Session
-              <ArrowRight className="w-4 h-4" />
+              <span className="tracking-widest uppercase">Request_Live_Walkthrough</span>
+              <MoveRight className="w-6 h-6 transform group-hover:translate-x-2 transition-transform" />
             </Link>
+            
             <Link
-              href="/pricing"
-              className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/40 text-white rounded-xl font-bold hover:bg-white/10"
+              href="/enterprise"
+              className="h-16 px-12 border border-[var(--border)] bg-[rgba(255,255,255,0.02)] text-[var(--text)] font-bebas text-2xl flex items-center gap-4 hover:border-[var(--gold)] transition-all"
             >
-              View Pricing
+              <Shield className="w-5 h-5 text-[var(--gold-dim)]" />
+              <span className="tracking-widest uppercase opacity-70">Enterprise_Security</span>
             </Link>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </div>
   );
 }

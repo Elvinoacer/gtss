@@ -1,161 +1,67 @@
-import {
-  ArrowRight,
-  Github,
-  Linkedin,
-  Mail,
-  Twitter,
-  type LucideIcon,
-} from "lucide-react";
-import Image from "next/image";
 import Link from "next/link";
-
-import { landingFooterLinks } from "@/data/landing";
-
-const iconMap: Record<string, LucideIcon> = {
-  Twitter,
-  Github,
-  Linkedin,
-  Mail,
-};
 
 export function Footer() {
   return (
-    <footer className="relative px-4 pb-10 pt-20 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-7xl">
-        <div className="public-panel public-card-outline overflow-hidden rounded-[2rem] p-8 sm:p-10">
-          <div className="grid gap-10 lg:grid-cols-[1.2fr_0.8fr]">
-            <div className="space-y-6">
-              <span className="public-kicker">Delivery-ready product teams</span>
-              <div className="max-w-2xl space-y-4">
-                <h2 className="public-section-title text-3xl text-white sm:text-4xl">
-                  Software that feels tailored, stable, and worth the investment.
-                </h2>
-                <p className="max-w-xl text-sm leading-7 text-white/68 sm:text-base">
-                  GTSS designs and deploys systems that carry real operations:
-                  hospitality floors, commercial workflows, internal reporting,
-                  and customer-facing digital experiences.
-                </p>
-              </div>
-
-              <div className="flex flex-wrap gap-3">
-                <Link href="/" className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-4 py-3">
-                  <Image
-                    src="/images/GTSS-logo.png"
-                    alt="GTSS Logo"
-                    width={150}
-                    height={38}
-                    className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                  />
-                  <div className="hidden sm:block">
-                    <p className="text-sm font-semibold text-white">
-                      Great Thumbs Software Solutions
-                    </p>
-                    <p className="text-xs text-white/50">
-                      Nairobi rooted, deployment focused
-                    </p>
-                  </div>
-                </Link>
-                <Link
-                  href="/contact"
-                  className="public-button-primary px-5 py-3 text-sm"
-                >
-                  Start a Project
-                  <ArrowRight className="h-4 w-4" />
-                </Link>
-              </div>
-
-              <div className="grid gap-3 sm:grid-cols-3">
-                {[
-                  { label: "Response", value: "< 24 hrs" },
-                  { label: "Markets", value: "East Africa" },
-                  { label: "Delivery", value: "Product + rollout" },
-                ].map((item) => (
-                  <div key={item.label} className="public-stat">
-                    <p className="text-lg font-semibold text-white">{item.value}</p>
-                    <p className="mt-1 text-xs uppercase tracking-[0.22em] text-white/40">
-                      {item.label}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-8 sm:grid-cols-3 lg:grid-cols-3">
-              <div className="space-y-4">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Product
-                </h3>
-                <div className="space-y-3">
-                  {landingFooterLinks.product.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className="block text-sm text-white/68 transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Company
-                </h3>
-                <div className="space-y-3">
-                  {landingFooterLinks.company.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className="block text-sm text-white/68 transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <h3 className="text-xs font-semibold uppercase tracking-[0.24em] text-white/42">
-                  Legal
-                </h3>
-                <div className="space-y-3">
-                  {landingFooterLinks.legal.map((link) => (
-                    <Link
-                      key={link.label}
-                      href={link.href}
-                      className="block text-sm text-white/68 transition-colors hover:text-white"
-                    >
-                      {link.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
+    <footer className="relative z-10 border-t border-[var(--border)] bg-[var(--black)] p-8 lg:p-20 overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold-dim)] to-transparent"></div>
+      
+      <div className="footer-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 pb-16 border-b border-[var(--border)] mb-12">
+        <div className="footer-brand space-y-6">
+          <div className="footer-brand-name font-bebas text-[28px] tracking-[0.12em] text-[var(--text)]">
+            GTSS<span>_CORE</span>
           </div>
-
-          <div className="mt-10 flex flex-col gap-5 border-t border-white/10 pt-6 md:flex-row md:items-center md:justify-between">
-            <div className="flex flex-wrap items-center gap-3">
-              {landingFooterLinks.social.map((link) => {
-                const Icon = iconMap[link.icon] || Twitter;
-                return (
-                  <Link
-                    key={link.label}
-                    href={link.href}
-                    className="flex h-11 w-11 items-center justify-center rounded-2xl border border-white/10 bg-white/5 text-white/68 transition-colors hover:border-white/20 hover:text-white"
-                  >
-                    <span className="sr-only">{link.label}</span>
-                    <Icon className="h-4 w-4" />
-                  </Link>
-                );
-              })}
-            </div>
-
-            <div className="space-y-1 text-sm text-white/48 md:text-right">
-              <p>© {new Date().getFullYear()} Great Thumbs Software Solutions.</p>
-              <p>Built in Africa for teams that need software to hold up under pressure.</p>
-            </div>
+          <p className="footer-brand-desc font-cormorant text-[15px] font-light leading-relaxed text-[var(--text-muted)] max-w-xs">
+            Practical software solutions for the world's most demanding local networks. Built for permanence and offline-first performance.
+          </p>
+          <div className="status-pill flex items-center gap-2.5 font-mono-dm text-[9px] tracking-[0.15em] text-[var(--text-muted)]">
+            <div className="status-dot w-1.5 h-1.5 rounded-full bg-[var(--green)] shadow-[0_0_8px_var(--green)]"></div>
+            ALL SYSTEMS NOMINAL
           </div>
+        </div>
+
+        <div>
+          <div className="footer-nav-title font-mono-dm text-[9px] tracking-[0.25em] text-[var(--gold)] uppercase mb-5 pb-3 border-b border-[var(--border)]">
+            Solutions
+          </div>
+          <ul className="footer-nav-list list-none flex flex-col gap-3">
+            <li><Link href="/products/justintime" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">JustInTime</Link></li>
+            <li><Link href="/products/restaurant" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Restaurant Manager</Link></li>
+            <li><Link href="/products/ecommerce" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">E-commerce Matrix</Link></li>
+            <li><Link href="/products/church" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Ecclesia Cloud</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <div className="footer-nav-title font-mono-dm text-[9px] tracking-[0.25em] text-[var(--gold)] uppercase mb-5 pb-3 border-b border-[var(--border)]">
+            Security
+          </div>
+          <ul className="footer-nav-list list-none flex flex-col gap-3">
+            <li><Link href="/security/protocols" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Protocols</Link></li>
+            <li><Link href="/security/compliance" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Compliance</Link></li>
+            <li><Link href="/security/audits" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Audit Logs</Link></li>
+            <li><Link href="/security/sovereign" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Sovereign Data</Link></li>
+          </ul>
+        </div>
+
+        <div>
+          <div className="footer-nav-title font-mono-dm text-[9px] tracking-[0.25em] text-[var(--gold)] uppercase mb-5 pb-3 border-b border-[var(--border)]">
+            Company
+          </div>
+          <ul className="footer-nav-list list-none flex flex-col gap-3">
+            <li><Link href="/about" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">About</Link></li>
+            <li><Link href="/contact" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Contact</Link></li>
+            <li><Link href="/legal" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Legal</Link></li>
+            <li><Link href="/careers" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Careers</Link></li>
+          </ul>
+        </div>
+      </div>
+
+      <div className="footer-bottom flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="footer-copy font-mono-dm text-[9px] tracking-[0.2em] text-[var(--text-dim)] uppercase">
+          © {new Date().getFullYear()} <span className="text-[var(--gold-dim)]">GTSS CORE SYSTEMS LLC.</span> All rights reserved.
+        </div>
+        <div className="footer-classification flex items-center gap-3 font-mono-dm text-[9px] tracking-[0.2em] text-[var(--red)] opacity-50 uppercase before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-[var(--red)] before:shadow-[0_0_6px_var(--red)]">
+          Classified — Sovereign Tier — Clearance Required
         </div>
       </div>
     </footer>

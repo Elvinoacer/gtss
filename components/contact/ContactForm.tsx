@@ -29,14 +29,14 @@ export function ContactForm() {
     try {
       const result = await sendEmail(data);
       if (result.success) {
-        setStatus({ type: 'success', message: 'Message sent successfully!' });
+        setStatus({ type: 'success', message: 'TRANSMISSION_COMPLETE: MESSAGE_RECEIVED' });
         (e.target as HTMLFormElement).reset();
         setAgreed(false);
       } else {
-        setStatus({ type: 'error', message: result.error || 'Something went wrong.' });
+        setStatus({ type: 'error', message: result.error || 'SYSTEM_ERROR: TRANSMISSION_FAILED' });
       }
     } catch (error) {
-      setStatus({ type: 'error', message: 'An unexpected error occurred.' });
+      setStatus({ type: 'error', message: 'CRITICAL_ERROR: NETWORK_FAILURE' });
     } finally {
       setIsSubmitting(false);
     }
@@ -47,92 +47,107 @@ export function ContactForm() {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="glass-strong rounded-2xl p-6 md:p-10"
+      className="relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl p-8 md:p-12"
     >
-      <h2 className="text-2xl font-bold text-white mb-8">
-        Send us a message
+      {/* Corner Elements */}
+      <div className="absolute top-0 left-0 w-6 h-6 border-t border-l border-[var(--gold)]"></div>
+      <div className="absolute top-4 right-6 font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold-dim)] opacity-40">
+        SECURE_INPUT_MODULE
+      </div>
+
+      <h2 className="font-bebas text-4xl text-[var(--text)] mb-10 tracking-[0.02em] uppercase">
+        INITIALIZE <span className="text-[var(--gold)]">TRANSMISSION</span>
       </h2>
-      <form className="flex flex-col gap-6" onSubmit={handleSubmit}>
-        <div className="grid md:grid-cols-2 gap-6">
-          <label className="flex flex-col gap-2">
-            <span className="text-white/70 text-sm font-medium">Full Name</span>
+
+      <form className="flex flex-col gap-8" onSubmit={handleSubmit}>
+        <div className="grid md:grid-cols-2 gap-8">
+          <label className="flex flex-col gap-3">
+            <span className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase">01. FULL_NAME</span>
             <input
               name="name"
               required
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 h-12 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all placeholder:text-white/30"
-              placeholder="Jane Doe"
+              className="w-full bg-[rgba(255,255,255,0.03)] border border-[var(--border)] px-5 h-14 text-base text-[var(--text)] focus:border-[var(--gold)] outline-none transition-all placeholder:text-[var(--text-dim)] font-rajdhani"
+              placeholder="JANE_DOE"
               type="text"
             />
           </label>
-          <label className="flex flex-col gap-2">
-            <span className="text-white/70 text-sm font-medium">Email</span>
+          <label className="flex flex-col gap-3">
+            <span className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase">02. EMAIL_ADDRESS</span>
             <input
               name="email"
               required
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 h-12 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all placeholder:text-white/30"
-              placeholder="jane@company.com"
+              className="w-full bg-[rgba(255,255,255,0.03)] border border-[var(--border)] px-5 h-14 text-base text-[var(--text)] focus:border-[var(--gold)] outline-none transition-all placeholder:text-[var(--text-dim)] font-rajdhani"
+              placeholder="JANE@SOVEREIGN.IO"
               type="email"
             />
           </label>
         </div>
-        <label className="flex flex-col gap-2">
-          <span className="text-white/70 text-sm font-medium">Subject</span>
+
+        <label className="flex flex-col gap-3">
+          <span className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase">03. SUBJECT_PROTOCOL</span>
           <div className="relative">
             <select
               name="subject"
-              className="w-full appearance-none rounded-xl border border-white/10 bg-white/5 px-4 h-12 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all cursor-pointer"
+              className="w-full appearance-none bg-[rgba(255,255,255,0.03)] border border-[var(--border)] px-5 h-14 text-base text-[var(--text)] focus:border-[var(--gold)] outline-none transition-all cursor-none font-rajdhani"
             >
-              <option className="bg-[#1a1d2d]">General Inquiry</option>
-              <option className="bg-[#1a1d2d]">Technical Support</option>
-              <option className="bg-[#1a1d2d]">Sales & Enterprise Pricing</option>
-              <option className="bg-[#1a1d2d]">Partnership Opportunities</option>
+              <option className="bg-[var(--black)]">General Inquiry</option>
+              <option className="bg-[var(--black)]">Technical Support</option>
+              <option className="bg-[var(--black)]">Sales & Enterprise Pricing</option>
+              <option className="bg-[var(--black)]">Partnership Opportunities</option>
             </select>
-            <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-white/50 w-5 h-5" />
+            <ChevronDown className="absolute right-5 top-1/2 -translate-y-1/2 pointer-events-none text-[var(--gold-dim)] w-4 h-4" />
           </div>
         </label>
-        <label className="flex flex-col gap-2">
-          <span className="text-white/70 text-sm font-medium">Message</span>
+
+        <label className="flex flex-col gap-3">
+          <span className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase">04. DATA_PAYLOAD</span>
           <textarea
             name="message"
             required
-            className="w-full rounded-xl border border-white/10 bg-white/5 p-4 text-base text-white focus:border-[#007AFF] focus:ring-1 focus:ring-[#007AFF] outline-none transition-all resize-none placeholder:text-white/30"
-            placeholder="Tell us how we can help..."
-            rows={5}
+            className="w-full bg-[rgba(255,255,255,0.03)] border border-[var(--border)] p-5 text-base text-[var(--text)] focus:border-[var(--gold)] outline-none transition-all resize-none placeholder:text-[var(--text-dim)] font-rajdhani"
+            placeholder="ENTER_MESSAGE_DETAILS..."
+            rows={6}
           ></textarea>
         </label>
-        <div className="flex items-start gap-3 mt-2">
-          <input
-            className="mt-1 rounded border-white/30 bg-white/5 text-[#007AFF] focus:ring-[#007AFF] size-4 cursor-pointer"
-            id="privacy"
-            type="checkbox"
-            checked={agreed}
-            onChange={(e) => setAgreed(e.target.checked)}
-          />
-          <label className="text-sm text-white/50 cursor-pointer" htmlFor="privacy">
-            I agree to the <Link className="text-[#00C2FF] hover:underline" href="/privacy">Privacy Policy</Link> and authorize GTSS to contact me about my inquiry.
+
+        <div className="flex items-start gap-4 mt-2">
+          <div className="relative flex items-center h-5">
+            <input
+              className="peer appearance-none w-5 h-5 border border-[var(--border)] bg-transparent checked:bg-[var(--gold)] checked:border-[var(--gold)] transition-all cursor-none"
+              id="privacy"
+              type="checkbox"
+              checked={agreed}
+              onChange={(e) => setAgreed(e.target.checked)}
+            />
+            <div className="absolute inset-0 pointer-events-none flex items-center justify-center opacity-0 peer-checked:opacity-100 transition-opacity">
+              <div className="w-2 h-2 bg-[var(--black)]"></div>
+            </div>
+          </div>
+          <label className="font-cormorant text-[15px] text-[var(--text-muted)] leading-tight cursor-none select-none" htmlFor="privacy">
+            I agree to the <Link className="text-[var(--gold)] hover:underline" href="/privacy">Privacy Policy</Link> and authorize GTSS to contact me regarding this inquiry.
           </label>
         </div>
 
         {status && (
-          <div className={`p-4 rounded-xl text-sm ${status.type === 'success' ? 'bg-green-500/20 text-green-400 border border-green-500/30' : 'bg-red-500/20 text-red-400 border border-red-500/30'}`}>
+          <div className={`p-5 border font-mono-dm text-[11px] tracking-[0.1em] ${status.type === 'success' ? 'bg-green-500/10 text-green-400 border-green-500/30' : 'bg-red-500/10 text-red-400 border-red-500/30'}`}>
             {status.message}
           </div>
         )}
 
         <button
           disabled={!agreed || isSubmitting}
-          className="mt-4 btn-primary-glow flex w-full md:w-auto md:self-start items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-6 btn-primary font-mono-dm text-[11px] tracking-[0.25em] uppercase text-[var(--black)] bg-[var(--gold)] px-12 py-5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(12px_0%,100%_0%,calc(100%-12px)_100%,0%_100%)] flex items-center justify-center gap-3 disabled:opacity-40 disabled:grayscale disabled:cursor-not-allowed"
           type="submit"
         >
           {isSubmitting ? (
             <>
-              <span>Sending...</span>
-              <Loader2 className="w-5 h-5 animate-spin" />
+              <span>TRANSMITTING...</span>
+              <Loader2 className="w-4 h-4 animate-spin" />
             </>
           ) : (
             <>
-              <span>Send Message</span>
-              <Send className="w-5 h-5" />
+              <span>SEND_TRANSMISSION</span>
+              <Send className="w-4 h-4" />
             </>
           )}
         </button>

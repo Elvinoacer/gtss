@@ -13,6 +13,8 @@ import {
   Sparkles,
   Star,
   Users,
+  Eye,
+  Play,
   type LucideIcon,
 } from "lucide-react";
 import Image from "next/image";
@@ -22,7 +24,6 @@ import type { Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
 
 import type { PublicProductDetail } from "@/lib/data/public-products";
-
 import { ProductShareButton } from "./ProductShareButton";
 
 interface ProductDetailClientProps {
@@ -43,50 +44,62 @@ function DetailSection({
   title,
 }: DetailSectionProps) {
   return (
-    <article className="public-panel rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-7">
-      <div className="mb-4 flex items-start gap-3 sm:mb-6 sm:gap-4">
-        <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 sm:h-12 sm:w-12 sm:rounded-2xl">
-          <Icon className="h-4 w-4 text-[#f3d79a] sm:h-5 sm:w-5" />
+    <article className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-6 md:p-8 relative">
+      <div className="absolute top-0 left-0 w-8 h-[1px] bg-[var(--gold)]"></div>
+      <div className="absolute top-0 left-0 w-[1px] h-8 bg-[var(--gold)]"></div>
+      
+      <div className="mb-8 flex items-start gap-4">
+        <div className="flex h-12 w-12 items-center justify-center border border-[var(--border)] bg-[rgba(255,255,255,0.03)]">
+          <Icon className="h-6 w-6 text-[var(--gold)]" />
         </div>
         <div>
-          <h2 className="text-lg font-semibold text-white sm:text-2xl">
+          <h2 className="font-bebas text-3xl text-[var(--text)] tracking-tight uppercase">
             {title}
           </h2>
           {description ? (
-            <p className="mt-1.5 text-xs leading-6 text-white/58 sm:mt-2 sm:text-base sm:leading-7">
+            <p className="mt-2 font-rajdhani text-sm text-[var(--gold-dim)] uppercase tracking-wider">
               {description}
             </p>
           ) : null}
         </div>
       </div>
 
-      {children}
+      <div className="relative">
+        {children}
+      </div>
     </article>
   );
 }
 
 function getStatusClasses(status: string | null | undefined) {
   switch (status?.toLowerCase()) {
+    case "active":
     case "live":
-      return "border-emerald-400/20 bg-emerald-400/10 text-emerald-200";
+      return "text-green-400 border-green-400/30 bg-green-400/5";
     case "beta":
-      return "border-amber-400/20 bg-amber-400/10 text-amber-100";
+      return "text-amber-400 border-amber-400/30 bg-amber-400/5";
     case "deprecated":
-      return "border-rose-400/20 bg-rose-400/10 text-rose-100";
+      return "text-rose-400 border-rose-400/30 bg-rose-400/5";
     default:
-      return "border-white/10 bg-white/5 text-white/70";
+      return "text-slate-400 border-slate-400/30 bg-slate-400/5";
   }
 }
 
 function getEmbedUrl(url: string) {
-  if (url.includes("youtube.com/watch")) {
-    return url.replace("watch?v=", "embed/");
+  if (!url) return "";
+  
+  // Handle YouTube Shorts
+  if (url.includes("youtube.com/shorts/")) {
+    return url.replace("youtube.com/shorts/", "youtube.com/embed/");
   }
 
-  if (url.includes("youtu.be/")) {
-    return url.replace("youtu.be/", "youtube.com/embed/");
-  }
+  const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+  const match = url.match(regExp);
 
+  if (match && match[2].length === 11) {
+    return `https://www.youtube.com/embed/${match[2]}`;
+  }
+  
   return url;
 }
 
@@ -101,11 +114,11 @@ function formatPrice(product: PublicProductDetail) {
 function formatDate(value: Date | string | null | undefined) {
   if (!value) return "N/A";
 
-  return new Date(value).toLocaleDateString("en-US", {
-    month: "short",
-    day: "numeric",
+  return new Date(value).toLocaleDateString("en-GB", {
+    day: "2-digit",
+    month: "SHORT",
     year: "numeric",
-  });
+  }).toUpperCase();
 }
 
 function getInitials(value: string) {
@@ -119,73 +132,67 @@ function getInitials(value: string) {
 
 const markdownComponents: Components = {
   h1: ({ children }) => (
-    <h3 className="mt-6 text-xl font-semibold tracking-tight text-white first:mt-0 sm:mt-8 sm:text-3xl">
+    <h3 className="mt-8 mb-4 font-bebas text-3xl text-[var(--text)] uppercase tracking-tight">
       {children}
     </h3>
   ),
   h2: ({ children }) => (
-    <h3 className="mt-6 text-lg font-semibold tracking-tight text-white first:mt-0 sm:mt-8 sm:text-2xl">
+    <h3 className="mt-6 mb-3 font-bebas text-2xl text-[var(--text)] uppercase tracking-tight">
       {children}
     </h3>
   ),
   h3: ({ children }) => (
-    <h4 className="mt-5 text-base font-semibold tracking-tight text-white first:mt-0 sm:mt-6 sm:text-xl">
+    <h4 className="mt-4 mb-2 font-bebas text-xl text-[var(--text)] uppercase tracking-tight">
       {children}
     </h4>
   ),
   p: ({ children }) => (
-    <p className="mt-3 text-xs leading-6 text-white/66 first:mt-0 sm:mt-4 sm:text-base sm:leading-7">
+    <p className="mt-4 first:mt-0 font-cormorant italic text-lg leading-relaxed text-[var(--text-muted)]">
       {children}
     </p>
   ),
   ul: ({ children }) => (
-    <ul className="mt-3 space-y-2 text-xs text-white/66 sm:mt-4 sm:space-y-3 sm:text-base">
+    <ul className="mt-4 space-y-3 font-rajdhani text-base text-[var(--text-muted)]">
       {children}
     </ul>
   ),
   ol: ({ children }) => (
-    <ol className="mt-3 list-decimal space-y-2 pl-4 text-xs text-white/66 sm:mt-4 sm:space-y-3 sm:pl-5 sm:text-base">
+    <ol className="mt-4 list-decimal space-y-3 pl-6 font-rajdhani text-base text-[var(--text-muted)]">
       {children}
     </ol>
   ),
-  li: ({ children }) => <li className="leading-6 sm:leading-7">{children}</li>,
+  li: ({ children }) => <li className="pl-2">{children}</li>,
   strong: ({ children }) => (
-    <strong className="font-semibold text-white">{children}</strong>
+    <strong className="font-bold text-[var(--text)]">{children}</strong>
   ),
   a: ({ children, href }) => (
     <a
       href={href}
       target="_blank"
       rel="noreferrer"
-      className="font-semibold text-[#f3d79a] underline decoration-[#f3d79a]/30 underline-offset-4 transition-colors hover:text-white"
+      className="font-medium text-[var(--gold)] hover:text-white transition-colors underline underline-offset-4 decoration-[var(--gold)]/30"
     >
       {children}
     </a>
   ),
   code: ({ children, className }) => {
     const isBlock = Boolean(className);
-
     if (isBlock) {
       return (
-        <code className="text-xs leading-6 text-[#f8e4b7] sm:text-sm sm:leading-7">
+        <code className="block p-4 font-mono-dm text-sm text-[var(--gold)] bg-[rgba(255,255,255,0.02)] border border-[var(--border)] overflow-x-auto">
           {children}
         </code>
       );
     }
-
     return (
-      <code className="rounded-md border border-white/10 bg-white/[0.05] px-1.5 py-0.5 text-[0.92em] text-[#f8e4b7]">
+      <code className="px-1.5 py-0.5 font-mono-dm text-sm text-[var(--gold)] bg-[rgba(255,255,255,0.05)] border border-[var(--border)]">
         {children}
       </code>
     );
   },
-  pre: ({ children }) => (
-    <pre className="mt-3 overflow-x-auto rounded-[1rem] border border-white/10 bg-[#05080b] p-3 text-xs sm:mt-4 sm:rounded-[1.25rem] sm:p-4 sm:text-sm">
-      {children}
-    </pre>
-  ),
+  pre: ({ children }) => <div className="my-6">{children}</div>,
   blockquote: ({ children }) => (
-    <blockquote className="mt-3 rounded-r-[1rem] border-l-2 border-[#f3d79a] bg-white/[0.03] px-4 py-3 text-sm text-white/72 sm:mt-4 sm:rounded-r-[1.25rem] sm:px-5 sm:py-4">
+    <blockquote className="mt-6 border-l-2 border-[var(--gold)] bg-[rgba(255,255,255,0.02)] px-6 py-4 italic font-cormorant text-xl text-[var(--text-muted)]">
       {children}
     </blockquote>
   ),
@@ -197,456 +204,432 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const heroImage = product.images[0] || product.logoUrl;
 
   const topStats = [
-    { label: "Pricing", value: price, icon: BarChart3 },
-    { label: "Users", value: product.activeUsers || "N/A", icon: Users },
-    { label: "Uptime", value: product.uptime || "N/A", icon: Shield },
+    { label: "PRICING_TIER", value: price, icon: BarChart3 },
+    { label: "USER_BASE", value: product.activeUsers || "N/A", icon: Users },
+    { label: "SYSTEM_UPTIME", value: product.uptime || "N/A", icon: Shield },
     {
-      label: "Model",
-      value: product.pricingModel || "custom",
+      label: "DELIVERY_MODEL",
+      value: (product.pricingModel || "custom").toUpperCase(),
       icon: Sparkles,
     },
   ];
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6 px-3 py-6 sm:px-6 lg:px-8 lg:space-y-10 lg:py-12">
-      <section className="public-panel-strong public-card-outline rounded-[1.5rem] p-4 sm:rounded-[2rem] sm:p-7 lg:p-8">
-        <div className="flex flex-wrap items-center justify-between gap-3">
+    <div className="min-h-screen bg-[var(--black)] text-[var(--text)]">
+      {/* HUD Background elements */}
+      <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
+        <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>
+      </div>
+
+      <div className="max-w-7xl mx-auto px-6 py-32 relative z-10">
+        {/* Header Navigation */}
+        <div className="flex flex-wrap items-center justify-between gap-6 mb-16 border-b border-[var(--border)] pb-8">
           <Link
             href="/products"
-            className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-2 text-xs font-semibold text-white/75 transition-colors hover:border-white/20 hover:text-white sm:px-4 sm:py-2.5 sm:text-sm"
+            className="group flex items-center gap-3 font-bebas text-xl tracking-widest text-[var(--text-muted)] hover:text-[var(--gold)] transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Products
+            <ArrowLeft className="h-5 w-5 transition-transform group-hover:-translate-x-1" />
+            BACK_TO_REGISTRY
           </Link>
-          <ProductShareButton productName={product.name} />
+          <div className="flex items-center gap-6">
+            <div className="hidden sm:block font-mono-dm text-[10px] text-[var(--gold-dim)] tracking-[0.2em]">
+              SYS_REF: {product.productId}
+            </div>
+            <ProductShareButton productName={product.name} />
+          </div>
         </div>
 
-        <div className="mt-6 grid gap-8 lg:grid-cols-[1.05fr_0.95fr]">
-          <div className="space-y-6">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-white/70 sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.18em]">
-                {product.category}
-              </span>
-              <span
-                className={`rounded-full border px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.18em] ${statusClasses}`}
-              >
-                {product.status || "draft"}
-              </span>
-              {product.version ? (
-                <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] text-white/70 sm:px-3 sm:py-1.5 sm:text-xs sm:tracking-[0.18em]">
-                  v{product.version}
+        {/* Hero Section */}
+        <section className="grid gap-12 lg:grid-cols-[1fr_450px] mb-20">
+          <div className="space-y-10">
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-3">
+                <span className="px-3 py-1 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] font-mono-dm text-[10px] tracking-widest text-[var(--gold-dim)] uppercase">
+                  {product.category}
                 </span>
-              ) : null}
-            </div>
+                <span className={`px-3 py-1 border font-mono-dm text-[10px] tracking-widest uppercase ${statusClasses}`}>
+                  {product.status || "DRAFT"}
+                </span>
+                {product.version && (
+                  <span className="px-3 py-1 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] font-mono-dm text-[10px] tracking-widest text-[var(--text-muted)]">
+                    VER_{product.version}
+                  </span>
+                )}
+              </div>
 
-            <div>
-              <h1 className="public-section-title text-3xl text-white sm:text-5xl">
+              <h1 className="font-bebas text-6xl sm:text-8xl tracking-tighter leading-none uppercase">
                 {product.name}
               </h1>
-              {product.tagline ? (
-                <p className="mt-3 max-w-2xl text-sm leading-6 text-white/68 sm:mt-4 sm:text-lg sm:leading-8">
+              
+              {product.tagline && (
+                <p className="max-w-2xl font-cormorant italic text-2xl text-[var(--gold-dim)] border-l-2 border-[var(--gold)] pl-6 py-2">
                   {product.tagline}
                 </p>
-              ) : null}
+              )}
             </div>
 
-            <div className="grid grid-cols-2 gap-2 sm:gap-3 xl:grid-cols-4">
+            {/* Top Metrics */}
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
               {topStats.map((item) => (
-                <div key={item.label} className="public-stat">
-                  <div className="flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-white/5 sm:h-10 sm:w-10 sm:rounded-2xl">
-                    <item.icon className="h-4 w-4 text-[#f3d79a] sm:h-5 sm:w-5" />
+                <div key={item.label} className="border border-[var(--border)] bg-[rgba(255,255,255,0.02)] p-6 group hover:border-[var(--gold-dim)] transition-colors">
+                  <div className="flex h-10 w-10 items-center justify-center border border-[var(--border)] bg-[rgba(255,255,255,0.03)] mb-4 group-hover:border-[var(--gold)] transition-colors">
+                    <item.icon className="h-5 w-5 text-[var(--gold)]" />
                   </div>
-                  <p className="mt-3 text-sm font-semibold text-white sm:mt-4 sm:text-lg">
+                  <p className="font-bebas text-2xl text-[var(--text)] tracking-tight">
                     {item.value}
                   </p>
-                  <p className="mt-1 text-[0.55rem] uppercase tracking-[0.14em] text-white/40 sm:text-xs sm:tracking-[0.2em]">
+                  <p className="mt-1 font-mono-dm text-[9px] uppercase tracking-widest text-[var(--gold-dim)]">
                     {item.label}
                   </p>
                 </div>
               ))}
             </div>
 
-            <div className="flex flex-col gap-3 sm:flex-row sm:gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link
                 href="/contact"
-                className="public-button-primary px-5 py-3 text-sm sm:px-6 sm:py-4 sm:text-base"
+                className="h-16 flex-1 flex items-center justify-center bg-[var(--gold)] text-[var(--black)] font-bebas text-2xl tracking-widest hover:bg-white transition-all uppercase"
               >
-                Request Demo
+                PROVISION SYSTEM
               </Link>
-              {product.websiteUrl ? (
+              {product.websiteUrl && (
                 <a
                   href={product.websiteUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="public-button-secondary px-5 py-3 text-sm sm:px-6 sm:py-4 sm:text-base"
+                  className="h-16 flex-1 flex items-center justify-center border border-[var(--border)] text-[var(--text)] font-bebas text-2xl tracking-widest hover:border-[var(--gold)] transition-all uppercase gap-3"
                 >
-                  Visit Website
+                  LIVE_INTERFACE
                   <Globe className="h-5 w-5" />
                 </a>
-              ) : null}
+              )}
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="overflow-hidden rounded-[1.2rem] border border-white/10 bg-[#05080b] sm:rounded-[1.75rem]">
-              <div className="flex items-center justify-between border-b border-white/10 px-3 py-2 text-[0.58rem] uppercase tracking-[0.16em] text-white/40 sm:px-4 sm:py-3 sm:text-xs sm:tracking-[0.24em]">
-                <span>Product Surface</span>
-                <span className="break-all text-right">{product.productId}</span>
-              </div>
-
-              <div className="relative aspect-[16/11]">
+          <div className="space-y-6">
+            <div className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-1">
+              <div className="relative aspect-[4/3] overflow-hidden border border-[var(--border)]">
                 {heroImage ? (
                   <Image
                     src={heroImage}
                     alt={product.name}
                     fill
-                    sizes="(max-width: 1024px) 100vw, 45vw"
-                    className="object-cover opacity-84"
+                    className="object-cover opacity-80"
                   />
                 ) : (
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(243,215,154,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(143,216,255,0.20),transparent_28%),linear-gradient(180deg,#0b1117_0%,#05080b_100%)]" />
+                  <div className="absolute inset-0 bg-neutral-900" />
                 )}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#05080b] via-transparent to-transparent" />
-                <div className="absolute left-3 top-3 flex h-12 w-12 items-center justify-center overflow-hidden rounded-[1rem] border border-white/10 bg-[#0a1117]/90 sm:left-4 sm:top-4 sm:h-16 sm:w-16 sm:rounded-[1.25rem]">
-                  {product.logoUrl ? (
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--black)] via-transparent to-transparent opacity-60" />
+                
+                {/* Product Identifier Overlays */}
+                <div className="absolute top-4 left-4 p-3 border border-[var(--border)] bg-[rgba(0,0,0,0.8)] backdrop-blur-md">
+                   {product.logoUrl ? (
                     <Image
                       src={product.logoUrl}
                       alt={`${product.name} logo`}
                       width={48}
                       height={48}
-                      className="h-full w-full object-cover"
+                      className="w-12 h-12 object-contain"
                     />
                   ) : (
-                    <Package className="h-5 w-5 text-[#f3d79a] sm:h-7 sm:w-7" />
+                    <Package className="h-8 w-8 text-[var(--gold)]" />
                   )}
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 sm:gap-3">
+            {/* Secondary Intel */}
+            <div className="grid grid-cols-3 gap-4">
               {[
                 {
-                  label: "Released",
+                  label: "DEPLOYED",
                   value: formatDate(product.releaseDate),
                 },
                 {
-                  label: "Lead Team",
-                  value: product.leadTeam || "GTSS",
+                  label: "AUTHORITY",
+                  value: product.leadTeam || "GTSS_CORE",
                 },
                 {
-                  label: "Product ID",
-                  value: product.productId,
+                  label: "PROTOCOL",
+                  value: product.pricingModel?.toUpperCase() || "DIRECT",
                 },
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-[1rem] border border-white/10 bg-white/[0.03] p-3 sm:rounded-[1.5rem] sm:p-4"
+                  className="border border-[var(--border)] bg-[rgba(255,255,255,0.02)] p-4"
                 >
-                  <p className="text-[0.55rem] uppercase tracking-[0.14em] text-white/38 sm:text-xs sm:tracking-[0.22em]">
+                  <p className="font-mono-dm text-[8px] uppercase tracking-widest text-[var(--gold-dim)]">
                     {item.label}
                   </p>
-                  <p className="mt-1.5 text-[0.7rem] font-semibold text-white sm:mt-2 sm:text-sm">
+                  <p className="mt-2 font-bebas text-lg text-[var(--text)] truncate">
                     {item.value}
                   </p>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="grid gap-4 sm:gap-6 lg:grid-cols-[minmax(0,1fr)_340px]">
-        <div className="space-y-6">
-          <DetailSection
-            icon={Package}
-            title="Overview"
-            description="The core narrative of the product and the problem space it addresses."
-          >
-            <ReactMarkdown
-              components={markdownComponents}
-              remarkPlugins={[remarkGfm]}
-            >
-              {product.description || "No description available yet."}
-            </ReactMarkdown>
-          </DetailSection>
-
-          {product.features.length > 0 ? (
+        {/* Content Body */}
+        <div className="grid gap-8 lg:grid-cols-[1fr_380px]">
+          <div className="space-y-8">
             <DetailSection
-              icon={Sparkles}
-              title="Key Capabilities"
-              description="High-signal features designed to improve operator confidence and execution speed."
+              icon={Package}
+              title="SYSTEM_OVERVIEW"
+              description="OBJECTIVE_AND_PARAMETERS"
             >
-              <div className="grid gap-3 sm:gap-4 md:grid-cols-2">
-                {product.features.map((feature) => (
-                  <div
-                    key={feature.id}
-                    className="rounded-[1.15rem] border border-white/10 bg-white/[0.03] p-4 sm:rounded-[1.5rem] sm:p-5"
-                  >
-                    <p className="text-[0.58rem] uppercase tracking-[0.14em] text-white/38 sm:text-xs sm:tracking-[0.2em]">
-                      Capability
-                    </p>
-                    <h3 className="mt-2 text-sm font-semibold text-white sm:text-lg">
-                      {feature.title}
-                    </h3>
-                    <p className="mt-2 text-xs leading-6 text-white/62 sm:mt-3 sm:text-sm sm:leading-7">
-                      {feature.description}
-                    </p>
-                  </div>
-                ))}
+              <div className="prose prose-invert max-w-none">
+                <ReactMarkdown
+                  components={markdownComponents}
+                  remarkPlugins={[remarkGfm]}
+                >
+                  {product.description || "No description available yet."}
+                </ReactMarkdown>
               </div>
             </DetailSection>
-          ) : null}
 
-          {product.featuresMarkdown ? (
-            <DetailSection
-              icon={BarChart3}
-              title="Feature Narrative"
-              description="Long-form detail on workflow coverage and practical outcomes."
-            >
-              <ReactMarkdown
-                components={markdownComponents}
-                remarkPlugins={[remarkGfm]}
+            {product.features.length > 0 && (
+              <DetailSection
+                icon={Sparkles}
+                title="OPERATIONAL_CAPABILITIES"
+                description="CORE_SYSTEM_MODULES"
               >
-                {product.featuresMarkdown}
-              </ReactMarkdown>
-            </DetailSection>
-          ) : null}
+                <div className="grid gap-6 md:grid-cols-2">
+                  {product.features.map((feature) => (
+                    <div
+                      key={feature.id}
+                      className="border border-[var(--border)] bg-[rgba(255,255,255,0.02)] p-6 relative group hover:border-[var(--gold-dim)] transition-colors"
+                    >
+                      <span className="font-mono-dm text-[9px] text-[var(--gold-dim)] uppercase tracking-widest block mb-4">
+                        MODULE_{feature.id.slice(0, 4)}
+                      </span>
+                      <h3 className="font-bebas text-2xl text-[var(--text)] mb-3">
+                        {feature.title}
+                      </h3>
+                      <p className="font-rajdhani text-base text-[var(--text-muted)] leading-relaxed">
+                        {feature.description}
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </DetailSection>
+            )}
 
-          {product.instructions ? (
-            <DetailSection
-              icon={CalendarDays}
-              title="Setup Guide"
-              description="Implementation notes, onboarding steps, and recommended rollout guidance."
-            >
-              <ReactMarkdown
-                components={markdownComponents}
-                remarkPlugins={[remarkGfm]}
+            {product.featuresMarkdown && (
+              <DetailSection
+                icon={BarChart3}
+                title="TECHNICAL_NARRATIVE"
+                description="WORKFLOW_ENGINEERING"
               >
-                {product.instructions}
-              </ReactMarkdown>
-            </DetailSection>
-          ) : null}
+                <ReactMarkdown
+                  components={markdownComponents}
+                  remarkPlugins={[remarkGfm]}
+                >
+                  {product.featuresMarkdown}
+                </ReactMarkdown>
+              </DetailSection>
+            )}
 
-          {product.technicalArchitecture ? (
-            <DetailSection
-              icon={Shield}
-              title="Technical Architecture"
-              description="The underlying delivery model, technical structure, and operational assumptions."
-            >
-              <ReactMarkdown
-                components={markdownComponents}
-                remarkPlugins={[remarkGfm]}
+            {product.instructions && (
+              <DetailSection
+                icon={CalendarDays}
+                title="IMPLEMENTATION_GUIDE"
+                description="DEPLOYMENT_PROTOCOL"
               >
-                {product.technicalArchitecture}
-              </ReactMarkdown>
-            </DetailSection>
-          ) : null}
+                <ReactMarkdown
+                  components={markdownComponents}
+                  remarkPlugins={[remarkGfm]}
+                >
+                  {product.instructions}
+                </ReactMarkdown>
+              </DetailSection>
+            )}
 
-          {product.images.length > 0 ? (
-            <DetailSection
-              icon={Film}
-              title="Screens and Visuals"
-              description="A closer look at how the product presents itself across real surfaces."
-            >
-              <div className="grid gap-3 sm:grid-cols-2 sm:gap-4">
-                {product.images.map((imageUrl, index) => (
-                  <a
-                    key={`${imageUrl}-${index}`}
-                    href={imageUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="overflow-hidden rounded-[1.15rem] border border-white/10 bg-[#05080b] sm:rounded-[1.5rem]"
-                  >
-                    <Image
-                      src={imageUrl}
-                      alt={`${product.name} screenshot ${index + 1}`}
-                      width={1200}
-                      height={800}
-                      className="h-full w-full object-cover transition-transform duration-500 hover:scale-[1.02]"
-                    />
-                  </a>
-                ))}
-              </div>
-            </DetailSection>
-          ) : null}
+            {product.technicalArchitecture && (
+              <DetailSection
+                icon={Shield}
+                title="ARCHITECTURAL_STANCE"
+                description="INFRASTRUCTURE_SPECIFICATIONS"
+              >
+                <ReactMarkdown
+                  components={markdownComponents}
+                  remarkPlugins={[remarkGfm]}
+                >
+                  {product.technicalArchitecture}
+                </ReactMarkdown>
+              </DetailSection>
+            )}
 
-          {product.reviews.length > 0 ? (
-            <DetailSection
-              icon={Star}
-              title="Customer Reviews"
-              description="Signals from teams already operating the product."
-            >
-              <div className="space-y-4">
-                {product.reviews.map((review) => (
-                  <div
-                    key={review.id}
-                    className="rounded-[1.15rem] border border-white/10 bg-white/[0.03] p-4 sm:rounded-[1.5rem] sm:p-5"
-                  >
-                    <div className="flex flex-wrap items-center justify-between gap-3">
-                      <div className="flex items-center gap-3">
-                        <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-[#f3d79a]/12 text-xs font-semibold text-[#f8e4b7] sm:h-11 sm:w-11 sm:rounded-2xl sm:text-sm">
-                          {getInitials(review.authorName)}
-                        </div>
-                        <div>
-                          <p className="font-semibold text-white">
-                            {review.authorName}
-                          </p>
-                          {review.authorRole ? (
-                            <p className="text-sm text-white/50">
-                              {review.authorRole}
-                            </p>
-                          ) : null}
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-1">
-                        {Array.from({ length: 5 }).map((_, index) => (
-                          <Star
-                            key={`${review.id}-star-${index}`}
-                            className={`h-4 w-4 ${
-                              index < review.rating
-                                ? "fill-[#FFD700] text-[#FFD700]"
-                                : "text-white/20"
-                            }`}
-                          />
-                        ))}
+            {product.images.length > 0 && (
+              <DetailSection
+                icon={Film}
+                title="VISUAL_TELEMETRY"
+                description="INTERFACE_SURFACES"
+              >
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {product.images.map((imageUrl, index) => (
+                    <div
+                      key={`${imageUrl}-${index}`}
+                      className="border border-[var(--border)] p-1 bg-[rgba(255,255,255,0.01)]"
+                    >
+                      <div className="relative aspect-video overflow-hidden border border-[var(--border)]">
+                        <Image
+                          src={imageUrl}
+                          alt={`${product.name} screenshot ${index + 1}`}
+                          fill
+                          className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+                        />
                       </div>
                     </div>
-
-                    <p className="mt-3 text-xs leading-6 text-white/66 sm:mt-4 sm:text-base sm:leading-7">
-                      {review.content}
-                    </p>
-                    <p className="mt-3 text-xs uppercase tracking-[0.2em] text-white/38">
-                      {formatDate(review.createdAt)}
-                    </p>
-                  </div>
-                ))}
-              </div>
-            </DetailSection>
-          ) : null}
-        </div>
-
-        <aside className="space-y-5 lg:sticky lg:top-32 lg:self-start">
-          <div className="public-panel rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-5">
-            <h3 className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-white/42 sm:text-xs sm:tracking-[0.24em]">
-              Product Details
-            </h3>
-            <div className="mt-4 space-y-3 text-xs text-white/68 sm:mt-5 sm:text-sm">
-              <p className="flex items-center justify-between gap-4">
-                <span className="inline-flex items-center gap-2 text-white/45">
-                  <CalendarDays className="h-4 w-4" /> Released
-                </span>
-                <span>{formatDate(product.releaseDate)}</span>
-              </p>
-              <p className="flex items-center justify-between gap-4">
-                <span className="text-white/45">Product ID</span>
-                <span className="font-mono text-[0.65rem] break-all text-right text-white/78 sm:text-xs">
-                  {product.productId}
-                </span>
-              </p>
-              <p className="flex items-center justify-between gap-4">
-                <span className="text-white/45">Team</span>
-                <span>{product.leadTeam || "GTSS"}</span>
-              </p>
-            </div>
+                  ))}
+                </div>
+              </DetailSection>
+            )}
           </div>
 
-          {product.health.length > 0 ? (
-            <div className="public-panel rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-5">
-              <h3 className="inline-flex items-center gap-2 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-white/42 sm:text-xs sm:tracking-[0.24em]">
-                <HeartPulse className="h-4 w-4 text-[#f3d79a]" />
-                System Health
-              </h3>
-              <div className="mt-3 space-y-3 sm:mt-4 sm:space-y-4">
-                {product.health.map((metric) => (
-                  <div key={metric.id}>
-                    <div className="mb-2 flex items-center justify-between gap-3 text-xs text-white/68 sm:text-sm">
-                      <span>{metric.label}</span>
-                      <span>{metric.value}</span>
+          <aside className="space-y-8">
+            {/* System Health */}
+            {product.health.length > 0 && (
+              <div className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-6">
+                <h3 className="flex items-center gap-3 font-bebas text-2xl text-[var(--text)] mb-6 uppercase tracking-tight">
+                  <HeartPulse className="h-5 w-5 text-[var(--gold)]" />
+                  SYSTEM_VITALS
+                </h3>
+                <div className="space-y-6">
+                  {product.health.map((metric) => (
+                    <div key={metric.id}>
+                      <div className="flex justify-between items-end mb-2">
+                        <span className="font-mono-dm text-[10px] text-[var(--gold-dim)] uppercase tracking-widest">{metric.label}</span>
+                        <span className="font-bebas text-lg text-[var(--text)]">{metric.value}</span>
+                      </div>
+                      <div className="h-[2px] bg-[var(--border)] w-full relative">
+                        <div
+                          className="h-full bg-[var(--gold)] absolute top-0 left-0"
+                          style={{ width: `${Math.min(metric.percentage, 100)}%` }}
+                        />
+                      </div>
                     </div>
-                    <div className="h-2 overflow-hidden rounded-full bg-white/10">
-                      <div
-                        className="h-full rounded-full"
-                        style={{
-                          width: `${Math.min(metric.percentage, 100)}%`,
-                          backgroundColor: metric.color,
-                        }}
-                      />
-                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Video Feed */}
+            {product.demoVideoUrl && (
+              <div className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-1">
+                <div className="border border-[var(--border)]">
+                  <div className="border-b border-[var(--border)] px-4 py-3 font-mono-dm text-[10px] text-[var(--gold-dim)] uppercase tracking-widest">
+                    VIDEO_FEED::DEMO_01
                   </div>
-                ))}
+                  <div className="aspect-video bg-black">
+                    <iframe
+                      src={getEmbedUrl(product.demoVideoUrl)}
+                      title={`${product.name} demo`}
+                      className="h-full w-full opacity-80 hover:opacity-100 transition-opacity"
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                </div>
               </div>
-            </div>
-          ) : null}
+            )}
 
-          {product.demoVideoUrl ? (
-            <div className="overflow-hidden rounded-[1.35rem] border border-white/10 bg-[#05080b] sm:rounded-[1.75rem]">
-              <div className="border-b border-white/10 px-4 py-3 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-white/42 sm:px-5 sm:py-4 sm:text-xs sm:tracking-[0.24em]">
-                Demo Video
-              </div>
-              <div className="aspect-video">
-                <iframe
-                  src={getEmbedUrl(product.demoVideoUrl)}
-                  title={`${product.name} demo`}
-                  className="h-full w-full"
-                  loading="lazy"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              </div>
-            </div>
-          ) : null}
-
-          {product.assets.length > 0 ? (
-            <div className="public-panel rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-5">
-              <h3 className="inline-flex items-center gap-2 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-white/42 sm:text-xs sm:tracking-[0.24em]">
-                <Download className="h-4 w-4 text-[#f3d79a]" />
-                Resources
-              </h3>
-              <div className="mt-3 space-y-3 sm:mt-4">
-                {product.assets.map((asset) => (
-                  <a
-                    key={asset.id}
-                    href={asset.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-white/[0.03] px-3 py-2.5 text-xs text-white/74 transition-colors hover:border-white/20 hover:text-white sm:rounded-[1.25rem] sm:px-4 sm:py-3 sm:text-sm"
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="break-words font-semibold text-white">
-                        {asset.title}
-                      </p>
-                      {asset.subtitle ? (
-                        <p className="mt-1 text-[0.58rem] uppercase tracking-[0.14em] text-white/38 sm:text-xs sm:tracking-[0.18em]">
-                          {asset.subtitle}
+            {/* Assets */}
+            {product.assets.length > 0 && (
+              <div className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-6">
+                <h3 className="flex items-center gap-3 font-bebas text-2xl text-[var(--text)] mb-6 uppercase tracking-tight">
+                  <Download className="h-5 w-5 text-[var(--gold)]" />
+                  RESOURCES
+                </h3>
+                <div className="space-y-3">
+                  {product.assets.map((asset) => (
+                    <a
+                      key={asset.id}
+                      href={asset.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="group flex items-center justify-between p-4 border border-[var(--border)] hover:border-[var(--gold-dim)] transition-all bg-[rgba(255,255,255,0.02)]"
+                    >
+                      <div className="min-w-0">
+                        <p className="font-bebas text-xl text-[var(--text)] leading-none mb-1 group-hover:text-[var(--gold)] transition-colors">
+                          {asset.title}
                         </p>
-                      ) : null}
-                    </div>
-                    <ExternalLink className="h-4 w-4 shrink-0" />
-                  </a>
-                ))}
+                        {asset.subtitle && (
+                          <p className="font-mono-dm text-[9px] text-[var(--gold-dim)] uppercase tracking-widest">
+                            {asset.subtitle}
+                          </p>
+                        )}
+                      </div>
+                      <ExternalLink className="h-4 w-4 text-[var(--gold-dim)] group-hover:text-[var(--gold)]" />
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
-          ) : null}
+            )}
 
-          {product.qrCodeUrl ? (
-            <div className="public-panel rounded-[1.35rem] p-4 text-center sm:rounded-[1.75rem] sm:p-5">
-              <h3 className="inline-flex items-center gap-2 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-white/42 sm:text-xs sm:tracking-[0.24em]">
-                <Smartphone className="h-4 w-4 text-[#f3d79a]" />
-                Quick Access
-              </h3>
-              <div className="mx-auto mt-3 w-[130px] overflow-hidden rounded-[1rem] border border-white/10 bg-white p-2 sm:mt-4 sm:w-[170px] sm:rounded-[1.25rem] sm:p-3">
-                <Image
-                  src={product.qrCodeUrl}
-                  alt="Product QR code"
-                  width={130}
-                  height={130}
-                />
+            {/* QR Registry */}
+            {product.qrCodeUrl && (
+              <div className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-6 text-center">
+                <h3 className="flex items-center justify-center gap-3 font-bebas text-2xl text-[var(--text)] mb-6 uppercase tracking-tight">
+                  <Smartphone className="h-5 w-5 text-[var(--gold)]" />
+                  QR_ACCESS
+                </h3>
+                <div className="inline-block p-4 bg-white border border-[var(--gold)] relative group">
+                   <div className="absolute inset-0 bg-[var(--gold)] opacity-0 group-hover:opacity-10 transition-opacity"></div>
+                   <Image
+                    src={product.qrCodeUrl}
+                    alt="Product QR code"
+                    width={160}
+                    height={160}
+                    className="relative z-10 invert brightness-0"
+                  />
+                </div>
+                <p className="mt-4 font-mono-dm text-[9px] text-[var(--gold-dim)] uppercase tracking-widest">
+                  SCAN_TO_INITIATE_SESSION
+                </p>
               </div>
-            </div>
-          ) : null}
-        </aside>
-      </section>
+            )}
+
+            {/* Reviews */}
+            {product.reviews.length > 0 && (
+              <div className="border border-[var(--border)] bg-[rgba(255,255,255,0.01)] p-6">
+                <h3 className="flex items-center gap-3 font-bebas text-2xl text-[var(--text)] mb-6 uppercase tracking-tight">
+                  <Star className="h-5 w-5 text-[var(--gold)]" />
+                  OPERATOR_LOGS
+                </h3>
+                <div className="space-y-6">
+                  {product.reviews.map((review) => (
+                    <div key={review.id} className="border-l border-[var(--border)] pl-4 py-1">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <p className="font-bebas text-lg text-[var(--text)] leading-none">
+                            {review.authorName}
+                          </p>
+                          <p className="font-mono-dm text-[9px] text-[var(--gold-dim)] mt-1 uppercase">
+                            {review.authorRole || "USER"}
+                          </p>
+                        </div>
+                        <div className="flex">
+                          {Array.from({ length: 5 }).map((_, index) => (
+                            <div 
+                              key={index} 
+                              className={`w-1.5 h-1.5 ml-0.5 ${index < review.rating ? 'bg-[var(--gold)]' : 'bg-white/10'}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                      <p className="font-cormorant italic text-base text-[var(--text-muted)] leading-relaxed">
+                        "{review.content}"
+                      </p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </aside>
+        </div>
+      </div>
     </div>
   );
 }

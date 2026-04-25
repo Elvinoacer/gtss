@@ -14,7 +14,7 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
   ];
 
   return (
-    <div className="space-y-6 md:space-y-10">
+    <div className="space-y-12">
       <PublicProductsFilterControls
         categories={categories}
         totalProducts={products.length}
@@ -23,26 +23,26 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
       <div
         id="public-products-empty"
         hidden
-        className="public-panel public-card-outline relative mx-auto max-w-2xl overflow-hidden rounded-[1.5rem] px-4 py-14 text-center sm:rounded-[2rem] sm:px-6 sm:py-20"
+        className="relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl py-20 px-8 text-center"
       >
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(243,215,154,0.16),transparent_36%)]" />
+        <div className="absolute top-0 left-0 w-8 h-8 border-t border-l border-rose-500/50"></div>
+        
         <div className="relative z-10">
-          <p className="text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-white/40 sm:text-xs sm:tracking-[0.24em]">
-            No matches
+          <p className="font-mono-dm text-[10px] tracking-[0.3em] text-rose-500 uppercase mb-4">
+            ERROR: NO_MATCHES_FOUND
           </p>
-          <h3 className="mt-3 text-xl font-semibold text-white sm:mt-4 sm:text-3xl">
-            No systems match that filter yet.
+          <h3 className="font-bebas text-4xl text-[var(--text)] mb-4 tracking-wide">
+            SYSTEMS_NOT_RESOLVED
           </h3>
-          <p className="mx-auto mt-3 max-w-md text-xs leading-6 text-white/62 sm:mt-4 sm:text-base sm:leading-7">
-            Try a different category or search term. You can also reach out if
-            you want GTSS to shape something more tailored around your workflow.
+          <p className="font-cormorant text-xl text-[var(--text-muted)] max-w-xl mx-auto italic leading-relaxed">
+            "No systems match the current filter parameters. Adjust your search query or protocol category to resolve available operational assets."
           </p>
         </div>
       </div>
 
       <div
         id="public-products-grid"
-        className="grid grid-cols-2 gap-3 sm:gap-5 xl:grid-cols-3"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-0 border-t border-l border-[var(--border)]"
       >
         {products.map((product) => (
           <div
@@ -50,6 +50,7 @@ export function PublicProductsClient({ products }: PublicProductsClientProps) {
             data-product-card
             data-product-category={product.category}
             data-product-search={`${product.name} ${product.description || ""} ${product.tagline || ""}`.toLowerCase()}
+            className="border-r border-b border-[var(--border)]"
           >
             <PublicProductCard {...product} />
           </div>

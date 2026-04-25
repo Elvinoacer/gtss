@@ -1,4 +1,4 @@
-import { Activity, Calendar, ExternalLink, Network } from "lucide-react";
+import { Activity, Calendar, ExternalLink, Network, Zap } from "lucide-react";
 import Link from "next/link";
 
 interface StickyCTAProps {
@@ -21,69 +21,75 @@ export function StickyCTA({
       : null;
 
   return (
-    <div className="sticky bottom-0 md:bottom-6 z-[90] w-full md:px-4">
-      <div className="relative group md:p-1.5 rounded-t-[1.5rem] md:rounded-[2rem] bg-[#0F172A]/95 md:bg-gradient-to-b md:from-white/10 md:to-white/5 backdrop-blur-3xl border-t border-white/10 md:border shadow-[0_-10px_40px_rgba(0,0,0,0.5)] md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-blue-500 to-transparent -translate-x-full group-hover:animate-[shimmer_2s_infinite]" />
-
-        <div className="bg-transparent md:bg-[#020617]/80 rounded-t-[1.5rem] md:rounded-[1.6rem] px-4 py-4 pb-6 md:pb-4 md:px-6 md:py-4 flex flex-row items-center justify-between gap-3 sm:gap-4">
-          <div className="flex items-center gap-3 flex-shrink min-w-0">
-            <div className="relative flex items-center justify-center size-8 sm:size-10 rounded-full bg-blue-500/10 border border-blue-500/30">
-              <Activity className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400" />
-              <div className="absolute inset-0 rounded-full border border-blue-400/50 animate-[ping_3s_ease-out_infinite]" />
+    <div className="sticky bottom-0 z-[90] w-full">
+      {/* HUD Background with scanline effect */}
+      <div className="relative border-t border-[var(--border)] bg-[rgba(3,5,8,0.95)] backdrop-blur-xl">
+        <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
+        
+        <div className="max-w-[1400px] mx-auto px-6 py-4 flex flex-row items-center justify-between gap-6">
+          {/* Product Identity */}
+          <div className="flex items-center gap-6 min-w-0">
+            <div className="relative hidden sm:flex items-center justify-center w-12 h-12 border border-[var(--border)] bg-[rgba(255,255,255,0.05)]">
+              <Zap className="w-5 h-5 text-[var(--gold)]" />
+              <div className="absolute -top-1 -right-1 w-2 h-2 bg-[var(--gold)] animate-pulse"></div>
             </div>
             <div className="min-w-0">
-              <p className="text-[8px] sm:text-[9px] font-bold text-blue-500 uppercase tracking-[0.2em] mb-0.5 sm:mb-1">
-                Product
+              <p className="font-mono-dm text-[8px] tracking-[0.3em] text-[var(--gold-dim)] uppercase opacity-50 mb-1">
+                ACTIVE_MODULE
               </p>
-              <p className="text-xs sm:text-sm font-bold text-white truncate max-w-[130px] sm:max-w-[200px]">
+              <h4 className="font-bebas text-xl sm:text-2xl text-[var(--text)] truncate max-w-[150px] sm:max-w-[300px] tracking-wide uppercase">
                 {productName}
-              </p>
+              </h4>
             </div>
           </div>
 
-          <div className="hidden sm:flex flex-1 justify-center overflow-hidden">
-            {displayPrice ? (
-              <div className="flex items-center justify-center gap-2 md:gap-3 px-3 md:px-4 py-2 bg-emerald-500/10 rounded-xl border border-emerald-500/20 shadow-[0_0_15px_rgba(52,211,153,0.1)]">
-                <Network className="w-4 h-4 text-emerald-400 shrink-0" />
-                <div className="hidden sm:block w-px h-4 bg-emerald-500/30" />
-                <span className="text-xs sm:text-sm font-black tracking-wider text-emerald-400 truncate">
-                  {displayPrice}
+          {/* Metrics/Price Center */}
+          <div className="hidden lg:flex flex-1 justify-center">
+            <div className="flex items-center gap-8 border-x border-[var(--border)] px-12 h-12">
+              <div className="flex flex-col items-center">
+                <span className="font-mono-dm text-[7px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-40">VALUATION</span>
+                <span className="font-rajdhani text-lg font-bold text-[var(--gold)]">
+                  {displayPrice || "FREE_ACCESS"}
                 </span>
               </div>
-            ) : (
-              <div className="flex items-center justify-center gap-2 md:gap-3 px-3 md:px-4 py-2 bg-purple-500/10 rounded-xl border border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.1)]">
-                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-purple-500 animate-pulse shrink-0" />
-                <span className="text-[10px] md:text-xs font-bold tracking-wider text-purple-400 uppercase truncate">
-                  Free
-                </span>
+              <div className="flex flex-col items-center opacity-40">
+                <span className="font-mono-dm text-[7px] tracking-[0.2em] text-[var(--text-muted)] uppercase">STATUS</span>
+                <span className="font-rajdhani text-lg font-bold text-[var(--text)]">OPERATIONAL</span>
               </div>
-            )}
+            </div>
           </div>
 
-          <div className="flex items-center gap-2 w-auto">
+          {/* Action Cluster */}
+          <div className="flex items-center gap-3">
             {externalLink && (
               <a
                 href={externalLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center justify-center h-10 w-10 sm:h-12 sm:w-12 bg-white/5 hover:bg-white/10 text-slate-300 hover:text-white border border-white/10 backdrop-blur-xl rounded-xl transition-all hover:scale-105"
-                title="Access External Protocol"
+                className="flex items-center justify-center w-12 h-12 border border-[var(--border)] bg-[rgba(255,255,255,0.02)] text-[var(--text-muted)] hover:text-[var(--gold)] hover:border-[var(--gold-dim)] transition-all cursor-none"
+                title="EXTERNAL_LINK"
               >
-                <ExternalLink className="w-4 h-4 sm:w-5 sm:h-5" />
+                <ExternalLink className="w-5 h-5" />
               </a>
             )}
             <Link
               href="/contact"
-              className="flex-none relative overflow-hidden flex items-center justify-center gap-2 h-10 sm:h-12 px-4 sm:px-6 lg:px-8 bg-blue-600 hover:bg-blue-500 text-white font-black rounded-xl transition-all shadow-[0_0_20px_rgba(37,99,235,0.4)] hover:shadow-[0_0_30px_rgba(59,130,246,0.6)] group"
+              className="relative h-12 px-8 bg-[var(--gold)] text-[var(--black)] font-bebas text-xl flex items-center gap-3 transition-all hover:bg-white active:scale-[0.98] group cursor-none overflow-hidden"
             >
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
-              <span className="relative z-10 uppercase tracking-wider text-xs sm:text-sm">
-                Request Demo
+              <span className="relative z-10 tracking-widest uppercase">
+                Initialize_Deployment
               </span>
-              <Calendar className="relative z-10 w-3 h-3 sm:w-4 sm:h-4 text-blue-200" />
+              <Activity className="relative z-10 w-4 h-4" />
+              
+              {/* Scanline overlay on button hover */}
+              <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none"></div>
             </Link>
           </div>
         </div>
+
+        {/* HUD Corners */}
+        <div className="absolute top-0 left-0 w-4 h-4 border-t-2 border-l-2 border-[var(--gold)] opacity-40 pointer-events-none"></div>
+        <div className="absolute top-0 right-0 w-4 h-4 border-t-2 border-r-2 border-[var(--gold)] opacity-40 pointer-events-none"></div>
       </div>
     </div>
   );

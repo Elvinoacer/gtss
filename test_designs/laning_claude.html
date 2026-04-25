@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>INFRA_CORE — Sovereign Infrastructure</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #030508;
+    --deep: #080b12;
+    --surface: #0d1018;
+    --surface-2: #111420;
+    --surface-3: #181c28;
+    --gold: #C9A045;
+    --gold-bright: #E8BC5A;
+    --gold-dim: #7a6128;
+    --cyan: #00D8F0;
+    --cyan-dim: #005a63;
+    --green: #00FF9D;
+    --green-dim: #003d25;
+    --red: #FF4444;
+    --text: #EDE8DF;
+    --text-muted: #6b7080;
+    --text-dim: #3a3d4a;
+    --border: rgba(201,160,69,0.15);
+    --border-bright: rgba(201,160,69,0.4);
+    --glow-gold: 0 0 40px rgba(201,160,69,0.3);
+    --glow-cyan: 0 0 40px rgba(0,216,240,0.2);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ─── CUSTOM CURSOR ─── */
+  .cursor {
+    position: fixed; top: 0; left: 0; z-index: 9999;
+    pointer-events: none; mix-blend-mode: difference;
+  }
+  .cursor-dot {
+    width: 6px; height: 6px;
+    background: var(--gold-bright);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s;
+  }
+  .cursor-ring {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold);
+    border-radius: 50%;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    transition: all 0.12s ease;
+    opacity: 0.6;
+  }
+  body:has(a:hover) .cursor-ring,
+  body:has(button:hover) .cursor-ring {
+    width: 48px; height: 48px; opacity: 1;
+    border-color: var(--gold-bright);
+  }
+
+  /* ─── GRAIN OVERLAY ─── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0; z-index: 1;
+    pointer-events: none;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    opacity: 0.5;
+  }
+
+  /* ─── SCANLINE ─── */
+  body::after {
+    content: '';
+    position: fixed; inset: 0; z-index: 2;
+    pointer-events: none;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.03) 2px,
+      rgba(0,0,0,0.03) 4px
+    );
+  }
+
+  /* ─── BG CANVAS ─── */
+  #bg-canvas {
+    position: fixed; inset: 0; z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── HEADER ─── */
+  header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+    padding: 0 48px;
+    height: 72px;
+    display: flex; align-items: center; justify-content: space-between;
+    border-bottom: 1px solid var(--border);
+    background: rgba(3,5,8,0.75);
+    backdrop-filter: blur(24px) saturate(1.5);
+  }
+  header::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.5;
+  }
+
+  .logo {
+    display: flex; align-items: center; gap: 12px;
+    text-decoration: none; cursor: none;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    border: 1px solid var(--gold);
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .logo-mark::before {
+    content: '';
+    position: absolute; inset: 3px;
+    border: 1px solid rgba(201,160,69,0.3);
+  }
+  .logo-mark-inner {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    animation: pulse-dot 2s ease-in-out infinite;
+  }
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(0.7); }
+  }
+
+  .logo-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 22px;
+    letter-spacing: 0.15em;
+    color: var(--text);
+  }
+  .logo-text span { color: var(--gold); }
+
+  .nav-status {
+    display: flex; align-items: center; gap: 32px;
+  }
+  .status-pill {
+    display: flex; align-items: center; gap: 8px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    letter-spacing: 0.15em;
+  }
+  .status-dot {
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: blink 2.5s ease-in-out infinite;
+  }
+  @keyframes blink {
+    0%, 90%, 100% { opacity: 1; }
+    95% { opacity: 0.1; }
+  }
+
+  .btn-deploy {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 10px 24px;
+    border: none;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    clip-path: polygon(8px 0%, 100% 0%, calc(100% - 8px) 100%, 0% 100%);
+  }
+  .btn-deploy::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.2) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.5s ease;
+  }
+  .btn-deploy:hover { background: var(--gold-bright); box-shadow: var(--glow-gold); }
+  .btn-deploy:hover::before { transform: translateX(200%); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative; z-index: 10;
+    min-height: 100dvh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    padding: 120px 80px 80px;
+    gap: 80px;
+    overflow: hidden;
+  }
+
+  .hero-line {
+    position: absolute;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    height: 1px;
+    opacity: 0.2;
+  }
+  .hero-line-1 { top: 25%; left: 0; right: 0; }
+  .hero-line-2 { bottom: 30%; left: 0; right: 0; opacity: 0.1; }
+
+  .hero-vline {
+    position: absolute;
+    background: linear-gradient(180deg, transparent, var(--gold), transparent);
+    width: 1px;
+    opacity: 0.15;
+  }
+  .hero-vline-1 { top: 0; bottom: 0; left: 38%; }
+
+  .hero-tag {
+    display: flex; align-items: center; gap: 10px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fade-up 0.8s 0.3s ease forwards;
+  }
+  .hero-tag-line { flex: 1; max-width: 40px; height: 1px; background: var(--gold); }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(72px, 8vw, 120px);
+    line-height: 0.92;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    margin-bottom: 40px;
+    opacity: 0;
+    animation: fade-up 0.9s 0.5s ease forwards;
+  }
+  .hero-title .accent { color: var(--gold); }
+  .hero-title .thin {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 300;
+    font-style: italic;
+    font-size: 0.75em;
+    color: var(--text-muted);
+    display: block;
+  }
+
+  .hero-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 480px;
+    margin-bottom: 48px;
+    opacity: 0;
+    animation: fade-up 0.9s 0.7s ease forwards;
+  }
+
+  .hero-actions {
+    display: flex; align-items: center; gap: 20px;
+    opacity: 0;
+    animation: fade-up 0.9s 0.9s ease forwards;
+  }
+
+  .btn-primary {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--gold);
+    padding: 16px 36px;
+    border: none;
+    cursor: none;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .btn-primary::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.25) 50%, transparent 60%);
+    transform: translateX(-100%);
+    transition: transform 0.6s ease;
+  }
+  .btn-primary:hover { background: var(--gold-bright); box-shadow: var(--glow-gold); }
+  .btn-primary:hover::before { transform: translateX(200%); }
+
+  .btn-ghost {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    background: transparent;
+    padding: 15px 28px;
+    border: 1px solid var(--border);
+    cursor: none;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn-ghost:hover {
+    color: var(--gold);
+    border-color: var(--border-bright);
+    box-shadow: var(--glow-gold);
+  }
+
+  /* ─── HERO RIGHT PANEL ─── */
+  .hero-panel {
+    position: relative;
+    opacity: 0;
+    animation: fade-in 1.2s 0.6s ease forwards;
+  }
+
+  .hero-panel-frame {
+    position: relative;
+    border: 1px solid var(--border);
+    background: linear-gradient(135deg, rgba(201,160,69,0.03), transparent);
+    overflow: hidden;
+    aspect-ratio: 1 / 1.1;
+  }
+  .hero-panel-frame::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 40px; height: 40px;
+    border-top: 2px solid var(--gold);
+    border-left: 2px solid var(--gold);
+  }
+  .hero-panel-frame::after {
+    content: '';
+    position: absolute; bottom: 0; right: 0;
+    width: 40px; height: 40px;
+    border-bottom: 2px solid var(--gold);
+    border-right: 2px solid var(--gold);
+  }
+
+  .hero-panel-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.6;
+    mix-blend-mode: luminosity;
+    filter: contrast(1.1) brightness(0.8);
+  }
+
+  .hero-panel-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(to bottom, transparent 40%, var(--black) 100%);
+  }
+
+  .hero-panel-hud {
+    position: absolute; bottom: 24px; left: 24px; right: 24px;
+    display: grid; grid-template-columns: 1fr 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+  }
+  .hud-cell {
+    background: rgba(3,5,8,0.85);
+    backdrop-filter: blur(12px);
+    padding: 14px 16px;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .hud-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 8px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .hud-value {
+    font-family: 'DM Mono', monospace;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--green);
+  }
+  .hud-value.gold { color: var(--gold); }
+  .hud-value.cyan { color: var(--cyan); }
+
+  /* Scan line animation on panel */
+  .hero-panel-frame .scan {
+    position: absolute; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, rgba(0,216,240,0.4), transparent);
+    animation: scan-down 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+  @keyframes scan-down {
+    0% { top: 0; opacity: 0; }
+    5% { opacity: 1; }
+    95% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+  }
+
+  /* ─── STATS BAR ─── */
+  .stats-bar {
+    position: relative; z-index: 10;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: linear-gradient(90deg, var(--deep), var(--surface), var(--deep));
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    overflow: hidden;
+  }
+  .stats-bar::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.6;
+  }
+
+  .stat-item {
+    padding: 40px 48px;
+    border-right: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-item:hover { background: rgba(201,160,69,0.03); }
+  .stat-item::before {
+    content: '';
+    position: absolute; top: 0; left: 0;
+    width: 2px; height: 0;
+    background: var(--gold);
+    transition: height 0.4s ease;
+  }
+  .stat-item:hover::before { height: 100%; }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 56px;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--text);
+    display: flex; align-items: baseline; gap: 4px;
+  }
+  .stat-unit {
+    font-family: 'DM Mono', monospace;
+    font-size: 18px;
+    color: var(--gold);
+  }
+  .stat-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .stat-delta {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--green);
+    margin-top: 4px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ─── SECTION SHARED ─── */
+  .section-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--gold);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 16px;
+    margin-bottom: 24px;
+  }
+  .section-label::before {
+    content: '//';
+    color: var(--gold-dim);
+  }
+  .section-label::after {
+    content: '';
+    flex: 1;
+    max-width: 60px;
+    height: 1px;
+    background: var(--gold-dim);
+  }
+
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(40px, 4vw, 64px);
+    letter-spacing: 0.05em;
+    line-height: 1;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .section-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 560px;
+  }
+
+  /* ─── BENTO GRID ─── */
+  .bento-section {
+    position: relative; z-index: 10;
+    padding: 120px 80px;
+    background: var(--deep);
+  }
+
+  .bento-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+    padding-bottom: 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .bento-grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-rows: auto auto;
+    gap: 2px;
+    background: var(--border);
+  }
+
+  .bento-card {
+    background: var(--surface);
+    padding: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s ease;
+    cursor: none;
+  }
+  .bento-card:hover { background: var(--surface-2); }
+
+  .bento-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+  .bento-card:hover::before { opacity: 1; }
+
+  .card-main { grid-column: span 8; min-height: 380px; }
+  .card-sm-1 { grid-column: span 4; }
+  .card-sm-2 { grid-column: span 4; }
+  .card-wide { grid-column: span 8; }
+
+  .card-icon {
+    width: 48px; height: 48px;
+    border: 1px solid var(--border-bright);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 32px;
+    position: relative;
+  }
+  .card-icon::after {
+    content: '';
+    position: absolute; inset: -1px;
+    background: linear-gradient(135deg, var(--gold), transparent);
+    opacity: 0.2;
+  }
+  .card-icon svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+  .card-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.08em;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+
+  .card-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 420px;
+  }
+
+  .card-footer {
+    margin-top: auto;
+    padding-top: 28px;
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .card-footer-dot {
+    width: 5px; height: 5px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  .card-main .card-bg-img {
+    position: absolute; right: 0; top: 0;
+    width: 50%; height: 100%;
+    opacity: 0.1;
+    transition: opacity 0.4s ease;
+  }
+  .card-main:hover .card-bg-img { opacity: 0.2; }
+  .card-main .card-bg-img img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    mix-blend-mode: screen;
+    filter: contrast(1.2) saturate(0.5);
+  }
+
+  .card-number {
+    position: absolute; top: 40px; right: 40px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 100px;
+    color: rgba(201,160,69,0.04);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    pointer-events: none;
+    transition: color 0.4s ease;
+  }
+  .bento-card:hover .card-number { color: rgba(201,160,69,0.07); }
+
+  /* Terminal card style */
+  .card-terminal {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--cyan);
+    line-height: 1.9;
+    letter-spacing: 0.05em;
+    background: rgba(0,20,24,0.6);
+    border: 1px solid rgba(0,216,240,0.1);
+    padding: 24px;
+    margin-top: 24px;
+  }
+  .terminal-line { display: flex; gap: 12px; }
+  .terminal-prompt { color: var(--gold-dim); }
+  .terminal-cursor {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--cyan);
+    animation: cursor-blink 1s step-end infinite;
+    vertical-align: text-bottom;
+  }
+  @keyframes cursor-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  /* ─── ARCHITECTURE / PROCESS ─── */
+  .process-section {
+    position: relative; z-index: 10;
+    padding: 120px 80px;
+    overflow: hidden;
+  }
+
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--border);
+    margin-top: 80px;
+  }
+
+  .process-step {
+    background: var(--surface);
+    padding: 56px 48px;
+    position: relative;
+    overflow: hidden;
+    cursor: none;
+    transition: background 0.4s ease;
+  }
+  .process-step:hover { background: var(--surface-2); }
+
+  .step-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 120px;
+    line-height: 1;
+    color: rgba(201,160,69,0.05);
+    position: absolute;
+    top: 20px; right: 24px;
+    transition: color 0.4s ease;
+  }
+  .process-step:hover .step-num { color: rgba(201,160,69,0.1); }
+
+  .step-code {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    margin-bottom: 24px;
+    position: relative; z-index: 1;
+  }
+
+  .step-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 36px;
+    letter-spacing: 0.06em;
+    color: var(--text);
+    margin-bottom: 20px;
+    position: relative; z-index: 1;
+  }
+
+  .step-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+    position: relative; z-index: 1;
+  }
+
+  .step-connector {
+    position: absolute; top: 50%; right: 0;
+    transform: translateY(-50%);
+    width: 2px; height: 40%;
+    background: linear-gradient(to bottom, transparent, var(--gold-dim), transparent);
+    display: none;
+  }
+
+  .step-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    background: rgba(201,160,69,0.05);
+    border: 1px solid var(--border);
+    padding: 6px 12px;
+    margin-top: 28px;
+    text-transform: uppercase;
+    position: relative; z-index: 1;
+    transition: all 0.3s ease;
+  }
+  .process-step:hover .step-tag {
+    color: var(--gold);
+    border-color: var(--border-bright);
+  }
+
+  .step-bar {
+    position: absolute; bottom: 0; left: 0;
+    height: 2px; width: 0;
+    background: var(--gold);
+    transition: width 0.6s ease;
+  }
+  .process-step:hover .step-bar { width: 100%; }
+
+  /* ─── MARQUEE ─── */
+  .marquee-section {
+    position: relative; z-index: 10;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--deep);
+    padding: 20px 0;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 20s linear infinite;
+    white-space: nowrap;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    padding: 0 48px;
+    display: flex; align-items: center; gap: 20px;
+  }
+  .marquee-item::after {
+    content: '◆';
+    color: var(--gold-dim);
+    font-size: 6px;
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    position: relative; z-index: 10;
+    border-top: 1px solid var(--border);
+    background: var(--black);
+    padding: 80px;
+  }
+  footer::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold-dim), transparent);
+  }
+
+  .footer-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 80px;
+    padding-bottom: 64px;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 48px;
+  }
+
+  .footer-brand { grid-column: span 1; }
+  .footer-brand-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 28px;
+    letter-spacing: 0.12em;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .footer-brand-name span { color: var(--gold); }
+  .footer-brand-desc {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    line-height: 1.7;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+  }
+
+  .footer-nav-title {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.25em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-nav-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .footer-nav-list a {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: var(--text-muted);
+    text-decoration: none;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+    cursor: none;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .footer-nav-list a::before {
+    content: '';
+    width: 0; height: 1px;
+    background: var(--gold);
+    transition: width 0.3s ease;
+    flex-shrink: 0;
+  }
+  .footer-nav-list a:hover { color: var(--gold); }
+  .footer-nav-list a:hover::before { width: 12px; }
+
+  .footer-bottom {
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-copy {
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+  }
+  .footer-copy span { color: var(--gold-dim); }
+
+  .footer-classification {
+    display: flex; align-items: center; gap: 12px;
+    font-family: 'DM Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    color: var(--red);
+    opacity: 0.5;
+    text-transform: uppercase;
+  }
+  .footer-classification::before {
+    content: '';
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--red);
+    box-shadow: 0 0 6px var(--red);
+  }
+
+  /* ─── ANIMATIONS ─── */
+  @keyframes fade-up {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── BOOT OVERLAY ─── */
+  #boot-overlay {
+    position: fixed; inset: 0; z-index: 2000;
+    background: var(--black);
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 24px;
+    transition: opacity 0.6s ease;
+  }
+  .boot-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 48px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+  }
+  .boot-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    min-height: 20px;
+  }
+  .boot-bar-track {
+    width: 280px; height: 1px;
+    background: var(--surface-3);
+    position: relative;
+  }
+  .boot-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--cyan));
+    width: 0;
+    transition: width 0.1s linear;
+    box-shadow: 0 0 8px var(--gold);
+  }
+
+  /* Mobile */
+  @media (max-width: 900px) {
+    header { padding: 0 24px; }
+    .hero { grid-template-columns: 1fr; padding: 100px 24px 60px; gap: 48px; }
+    .hero-panel { display: none; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); }
+    .stat-item { padding: 32px 28px; }
+    .bento-section, .process-section { padding: 80px 24px; }
+    .bento-header { flex-direction: column; align-items: flex-start; gap: 32px; }
+    .bento-grid { grid-template-columns: 1fr; }
+    .card-main, .card-sm-1, .card-sm-2, .card-wide { grid-column: span 1; }
+    .process-grid { grid-template-columns: 1fr; }
+    .footer-grid { grid-template-columns: 1fr 1fr; gap: 40px; }
+    footer { padding: 48px 24px; }
+    body { cursor: auto; }
+    .cursor { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
+<!-- Boot Overlay -->
+<div id="boot-overlay">
+  <div class="boot-logo">INFRA_CORE</div>
+  <div class="boot-text" id="boot-text"></div>
+  <div class="boot-bar-track"><div class="boot-bar-fill" id="boot-bar"></div></div>
+</div>
+
+<!-- BG Canvas -->
+<canvas id="bg-canvas"></canvas>
+
+<!-- ─── HEADER ─── -->
+<header>
+  <a class="logo" href="#">
+    <div class="logo-mark"><div class="logo-mark-inner"></div></div>
+    <span class="logo-text">INFRA<span>_CORE</span></span>
+  </a>
+  <div class="nav-status">
+    <div class="status-pill">
+      <div class="status-dot"></div>
+      ALL SYSTEMS NOMINAL
+    </div>
+    <button class="btn-deploy">DEPLOY SYSTEM</button>
+  </div>
+</header>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-line hero-line-1"></div>
+  <div class="hero-line hero-line-2"></div>
+  <div class="hero-vline hero-vline-1"></div>
+
+  <div class="hero-left">
+    <div class="hero-tag">
+      <div class="hero-tag-line"></div>
+      System Operational — Version 4.2 — Clearance: Sovereign
+    </div>
+    <h1 class="hero-title">
+      <span class="thin">Enterprise-grade</span>
+      SOVEREIGN<br/>
+      <span class="accent">INFRASTRUCTURE</span><br/>
+      FOR GLOBAL<br/>TRADE.
+    </h1>
+    <p class="hero-body">
+      Impenetrable data architectures engineered for elite logistics networks. 
+      Secure, track, and deploy assets with military-grade precision across 
+      every node of the global supply chain.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-primary">
+        Initialize Sequence
+        <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" fill="none" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-ghost">View Architecture</button>
+    </div>
+  </div>
+
+  <div class="hero-panel">
+    <div class="hero-panel-frame">
+      <div class="scan"></div>
+      <img class="hero-panel-img" src="https://lh3.googleusercontent.com/aida-public/AB6AXuABE13PQOVjI0tjdS2s9acdXOjVFSU0VJGU4Hmc55R_elVCGIP5P1PIZpj-YfZpq4NQ7vS3qCnWe5ErZwE45XNjvQdfIMOpH8a3vpG4AyvxXxnXkPKw9l3hcrjOqeRBHfwUXtz56Atjg5CF9yViN2ByzNZLxw5dpVReZ6FhLVzy3cjug_ut1iV56FKs7F3hKiekC4kWn5KQ0zDtC1eH_lKfEJeeBWE-yAM65hsfvE7uLPEJt6kFHsAieIO0fg-8P2UNlXr35CRfjw" alt="Server infrastructure"/>
+      <div class="hero-panel-overlay"></div>
+      <div class="hero-panel-hud">
+        <div class="hud-cell">
+          <div class="hud-label">Node Status</div>
+          <div class="hud-value">SECURE</div>
+        </div>
+        <div class="hud-cell">
+          <div class="hud-label">Latency</div>
+          <div class="hud-value cyan">&lt;12ms</div>
+        </div>
+        <div class="hud-cell">
+          <div class="hud-label">Uptime</div>
+          <div class="hud-value gold">99.99%</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── MARQUEE ─── -->
+<div class="marquee-section">
+  <div class="marquee-track">
+    <div class="marquee-item">Military-Grade Encryption</div>
+    <div class="marquee-item">Zero-Trust Architecture</div>
+    <div class="marquee-item">Global Trade Security</div>
+    <div class="marquee-item">Decentralized Verification</div>
+    <div class="marquee-item">Kinetic Key Rotation</div>
+    <div class="marquee-item">Hardware Abstraction</div>
+    <div class="marquee-item">Sovereign Infrastructure</div>
+    <div class="marquee-item">Real-Time Telemetry</div>
+    <div class="marquee-item">Military-Grade Encryption</div>
+    <div class="marquee-item">Zero-Trust Architecture</div>
+    <div class="marquee-item">Global Trade Security</div>
+    <div class="marquee-item">Decentralized Verification</div>
+    <div class="marquee-item">Kinetic Key Rotation</div>
+    <div class="marquee-item">Hardware Abstraction</div>
+    <div class="marquee-item">Sovereign Infrastructure</div>
+    <div class="marquee-item">Real-Time Telemetry</div>
+  </div>
+</div>
+
+<!-- ─── STATS ─── -->
+<div class="stats-bar">
+  <div class="stat-item reveal">
+    <div class="stat-num"><span class="counter" data-target="99.99">0</span><span class="stat-unit">%</span></div>
+    <div class="stat-label">System Uptime SLA</div>
+    <div class="stat-delta">↑ 0.02% this quarter</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-1">
+    <div class="stat-num"><span class="counter" data-target="2400" data-suffix="">0</span><span class="stat-unit">+</span></div>
+    <div class="stat-label">Active Global Nodes</div>
+    <div class="stat-delta">↑ 180 nodes added</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-2">
+    <div class="stat-num"><span class="counter" data-target="12" data-suffix="">0</span><span class="stat-unit">ms</span></div>
+    <div class="stat-label">Peak Latency Threshold</div>
+    <div class="stat-delta">↓ 3ms improvement</div>
+  </div>
+  <div class="stat-item reveal reveal-delay-3">
+    <div class="stat-num"><span class="counter" data-target="4" data-suffix="">0</span><span class="stat-unit">B+</span></div>
+    <div class="stat-label">Transactions Secured</div>
+    <div class="stat-delta">↑ 1.2B this cycle</div>
+  </div>
+</div>
+
+<!-- ─── BENTO GRID ─── -->
+<section class="bento-section">
+  <div class="bento-header reveal">
+    <div>
+      <div class="section-label">Solution Architecture</div>
+      <h2 class="section-title">MODULAR<br/>COMPONENTS.</h2>
+    </div>
+    <p class="section-body">
+      Precision-engineered modules for high-stakes environments. 
+      Unparalleled visibility and absolute control over global trade flows.
+    </p>
+  </div>
+
+  <div class="bento-grid reveal">
+    <!-- Main card -->
+    <div class="bento-card card-main" style="display:flex;flex-direction:column;">
+      <div class="card-bg-img">
+        <img src="https://lh3.googleusercontent.com/aida-public/AB6AXuBaGizdT_SxZOXICogetcEcotYLn7C6TY3drGyB1i7og9U_yyEuV3bUW3y50Ss1KMETyIOEo6NOxbsvggHJ5yUxuM3qSI6xX-tEgWjsZiyDWsrH1HsryE7AjEZvcaa7xJ0ukbg8YBZJ17KXXZ5-b0UrlE7Di7cfBdxZtuvGoAarVPUf4FIPPHNv5lojypLc7iF9EPh4HjxtP5wTfLJxOEkyN8AMsMkAtsjlfp7de7A-Mx2-zVMeliXZI4-B4EfUDRyv0p1dNjwCvQ" alt="Global routing"/>
+      </div>
+      <div class="card-number">01</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+      </div>
+      <div class="card-title">GLOBAL ROUTING MATRIX</div>
+      <p class="card-body">Real-time path optimization across international nodes. Secure transmission guaranteed through decentralized verification protocols operating at the edge.</p>
+      <div class="card-footer">
+        <div class="card-footer-dot"></div>
+        STATUS: ACTIVE — LATENCY &lt;12MS — 2,400 NODES
+      </div>
+    </div>
+
+    <!-- Small card 1 -->
+    <div class="bento-card card-sm-1" style="display:flex;flex-direction:column;gap:0;">
+      <div class="card-number">02</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      </div>
+      <div class="card-title">KINETIC ENCRYPTION</div>
+      <p class="card-body">Dynamic key rotation at hardware level, rendering intercept attempts mathematically impossible across all cipher suites.</p>
+      <div class="card-terminal" style="margin-top:auto;">
+        <div class="terminal-line"><span class="terminal-prompt">$</span> init_keygen --quantum</div>
+        <div class="terminal-line"><span class="terminal-prompt">›</span> rotating AES-256-GCM</div>
+        <div class="terminal-line"><span class="terminal-prompt">›</span> <span class="terminal-cursor"></span></div>
+      </div>
+    </div>
+
+    <!-- Small card 2 -->
+    <div class="bento-card card-sm-2" style="display:flex;flex-direction:column;">
+      <div class="card-number">03</div>
+      <div class="card-icon">
+        <svg viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+      </div>
+      <div class="card-title">PREDICTIVE LOGIC</div>
+      <p class="card-body">Machine learning models that anticipate supply chain disruptions before they cascade into systemic failure events.</p>
+      <div class="card-footer" style="margin-top:auto;">
+        <div class="card-footer-dot" style="background:var(--cyan);box-shadow:0 0 6px var(--cyan);"></div>
+        ML ENGINE — 98.7% ACCURACY
+      </div>
+    </div>
+
+    <!-- Wide card -->
+    <div class="bento-card card-wide" style="display:flex;align-items:center;gap:48px;">
+      <div class="card-number">04</div>
+      <div class="card-icon" style="flex-shrink:0;width:64px;height:64px;">
+        <svg viewBox="0 0 24 24" style="width:28px;height:28px;"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+      </div>
+      <div>
+        <div class="card-title">HARDWARE ABSTRACTION LAYER</div>
+        <p class="card-body" style="max-width:600px;">Deploy across any bare-metal environment seamlessly. INFRA_CORE acts as a sovereign hypervisor, ensuring consistent security postures regardless of underlying infrastructure topology.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PROCESS ─── -->
+<section class="process-section">
+  <div style="text-align:center;max-width:600px;margin:0 auto 0;" class="reveal">
+    <div class="section-label" style="justify-content:center;">Deployment Protocol</div>
+    <h2 class="section-title" style="font-size:clamp(48px,5vw,80px);">SEQUENCE<br/>EXECUTION.</h2>
+    <p class="section-body" style="margin:0 auto;text-align:center;">Three-phase initialization ensuring zero-trust compliance from edge to core.</p>
+  </div>
+
+  <div class="process-grid reveal" style="margin-top:80px;">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <div class="step-bar"></div>
+      <div class="step-code">PHASE_01 / INGESTION</div>
+      <div class="step-title">SECURE INGESTION</div>
+      <p class="step-body">Encrypted API handshakes establish sovereign tunnels for initial data telemetry. All ingress points validated against hardware-level certificates before admission.</p>
+      <div class="step-tag">
+        <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Tunnel Established
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <div class="step-bar"></div>
+      <div class="step-code">PHASE_02 / SANITIZE</div>
+      <div class="step-title">DEEP SANITIZATION</div>
+      <p class="step-body">Payloads stripped of anomalies and validated against cryptographic signatures. Multi-layer inspection engine processes 40Gb/s with no degradation in security posture.</p>
+      <div class="step-tag">
+        <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Payload Clean
+      </div>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <div class="step-bar"></div>
+      <div class="step-code">PHASE_03 / EXECUTE</div>
+      <div class="step-title">LEDGER EXECUTION</div>
+      <p class="step-body">Clean data routed through the kinetic ledger for immutable, real-time record keeping. Every transaction hash-anchored to the sovereign chain with picosecond timestamps.</p>
+      <div class="step-tag" style="color:var(--gold);border-color:var(--border-bright);">
+        <svg width="8" height="8" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        Ledger Committed
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="footer-brand-name">INFRA<span>_CORE</span></div>
+      <p class="footer-brand-desc">Sovereign infrastructure for the world's most demanding trade networks. Built for permanence.</p>
+      <div class="status-pill" style="gap:10px;">
+        <div class="status-dot"></div>
+        <span style="font-size:9px;">ALL SYSTEMS NOMINAL</span>
+      </div>
+    </div>
+    <div>
+      <div class="footer-nav-title">System</div>
+      <ul class="footer-nav-list">
+        <li><a href="#">Documentation</a></li>
+        <li><a href="#">Architecture</a></li>
+        <li><a href="#">Network Status</a></li>
+        <li><a href="#">Changelog</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-nav-title">Security</div>
+      <ul class="footer-nav-list">
+        <li><a href="#">Protocols</a></li>
+        <li><a href="#">Compliance</a></li>
+        <li><a href="#">Audit Logs</a></li>
+        <li><a href="#">Certifications</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-nav-title">Company</div>
+      <ul class="footer-nav-list">
+        <li><a href="#">About</a></li>
+        <li><a href="#">Careers</a></li>
+        <li><a href="#">Legal</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2024 <span>INFRA_CORE SYSTEMS LLC.</span> All rights reserved.</div>
+    <div class="footer-classification">Classified — Sovereign Tier — Clearance Required</div>
+  </div>
+</footer>
+
+<script>
+/* ─── CURSOR ─── */
+const cursor = document.getElementById('cursor');
+const dot = cursor.querySelector('.cursor-dot');
+const ring = cursor.querySelector('.cursor-ring');
+let mx = 0, my = 0, rx = 0, ry = 0;
+
+document.addEventListener('mousemove', e => {
+  mx = e.clientX; my = e.clientY;
+  dot.style.left = mx + 'px';
+  dot.style.top = my + 'px';
+});
+
+function animateRing() {
+  rx += (mx - rx) * 0.12;
+  ry += (my - ry) * 0.12;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(animateRing);
+}
+animateRing();
+
+/* ─── BOOT SEQUENCE ─── */
+const bootMessages = [
+  'Initializing secure boot...',
+  'Verifying hardware signatures...',
+  'Loading cryptographic modules...',
+  'Establishing sovereign tunnel...',
+  'System online.',
+];
+
+const bootText = document.getElementById('boot-text');
+const bootBar = document.getElementById('boot-bar');
+const bootOverlay = document.getElementById('boot-overlay');
+
+let msgIdx = 0;
+let progress = 0;
+
+function bootStep() {
+  if (msgIdx < bootMessages.length) {
+    bootText.textContent = bootMessages[msgIdx];
+    progress = ((msgIdx + 1) / bootMessages.length) * 100;
+    bootBar.style.width = progress + '%';
+    msgIdx++;
+    setTimeout(bootStep, msgIdx === bootMessages.length ? 400 : 280);
+  } else {
+    setTimeout(() => {
+      bootOverlay.style.opacity = '0';
+      bootOverlay.style.pointerEvents = 'none';
+      setTimeout(() => bootOverlay.remove(), 600);
+    }, 300);
+  }
+}
+bootStep();
+
+/* ─── BG CANVAS — Particle Field ─── */
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const GOLD = [201, 160, 69];
+const CYAN = [0, 216, 240];
+
+const particles = Array.from({ length: 80 }, () => ({
+  x: Math.random() * window.innerWidth,
+  y: Math.random() * window.innerHeight,
+  vx: (Math.random() - 0.5) * 0.3,
+  vy: (Math.random() - 0.5) * 0.3,
+  size: Math.random() * 1.2 + 0.3,
+  color: Math.random() > 0.7 ? CYAN : GOLD,
+  alpha: Math.random() * 0.4 + 0.1,
+}));
+
+// Glowing orbs
+const orbs = [
+  { x: 0.15, y: 0.3, r: 400, color: GOLD, alpha: 0.04 },
+  { x: 0.85, y: 0.6, r: 350, color: CYAN, alpha: 0.03 },
+  { x: 0.5, y: 0.9, r: 300, color: GOLD, alpha: 0.025 },
+];
+
+function drawFrame() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Orbs
+  orbs.forEach(orb => {
+    const grd = ctx.createRadialGradient(
+      orb.x * canvas.width, orb.y * canvas.height, 0,
+      orb.x * canvas.width, orb.y * canvas.height, orb.r
+    );
+    grd.addColorStop(0, `rgba(${orb.color[0]},${orb.color[1]},${orb.color[2]},${orb.alpha})`);
+    grd.addColorStop(1, 'transparent');
+    ctx.fillStyle = grd;
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+  });
+
+  // Particles & connections
+  particles.forEach((p, i) => {
+    p.x += p.vx; p.y += p.vy;
+    if (p.x < 0) p.x = canvas.width;
+    if (p.x > canvas.width) p.x = 0;
+    if (p.y < 0) p.y = canvas.height;
+    if (p.y > canvas.height) p.y = 0;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fillStyle = `rgba(${p.color[0]},${p.color[1]},${p.color[2]},${p.alpha})`;
+    ctx.fill();
+
+    // Connect nearby particles
+    for (let j = i + 1; j < particles.length; j++) {
+      const q = particles[j];
+      const dx = p.x - q.x, dy = p.y - q.y;
+      const dist = Math.sqrt(dx*dx + dy*dy);
+      if (dist < 120) {
+        ctx.beginPath();
+        ctx.moveTo(p.x, p.y);
+        ctx.lineTo(q.x, q.y);
+        const a = (1 - dist / 120) * 0.06;
+        ctx.strokeStyle = `rgba(${GOLD[0]},${GOLD[1]},${GOLD[2]},${a})`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      }
+    }
+  });
+
+  requestAnimationFrame(drawFrame);
+}
+drawFrame();
+
+/* ─── SCROLL REVEAL ─── */
+const reveals = document.querySelectorAll('.reveal');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('visible');
+      io.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => io.observe(el));
+
+/* ─── COUNTER ANIMATION ─── */
+function animateCounter(el) {
+  const target = parseFloat(el.dataset.target);
+  const isDecimal = target % 1 !== 0;
+  const duration = 1800;
+  const start = performance.now();
+
+  function step(now) {
+    const t = Math.min((now - start) / duration, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const val = target * ease;
+    el.textContent = isDecimal ? val.toFixed(2) : Math.floor(val).toLocaleString();
+    if (t < 1) requestAnimationFrame(step);
+    else el.textContent = isDecimal ? target.toFixed(2) : target.toLocaleString();
+  }
+  requestAnimationFrame(step);
+}
+
+const counterIO = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('.counter').forEach(animateCounter);
+      counterIO.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.3 });
+document.querySelectorAll('.stats-bar').forEach(el => counterIO.observe(el));
+</script>
+</body>
+</html>

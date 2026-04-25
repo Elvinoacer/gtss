@@ -40,7 +40,7 @@ export function PublicProductsFilterControls({
 
     const countNode = document.getElementById("public-products-count");
     if (countNode) {
-      countNode.textContent = String(visibleCount);
+      countNode.textContent = String(visibleCount).padStart(2, '0');
     }
 
     const grid = document.getElementById("public-products-grid");
@@ -52,34 +52,37 @@ export function PublicProductsFilterControls({
 
   return (
     <section className="relative z-40 md:sticky md:top-24">
-      <div className="public-panel public-card-outline rounded-[1.35rem] p-3 sm:rounded-[1.75rem] sm:p-5">
-        <div className="flex flex-col gap-4 lg:flex-row lg:items-center">
-          <div className="relative flex-1">
-            <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/38 sm:left-4 sm:h-5 sm:w-5" />
+      <div className="relative border border-[var(--border)] bg-[rgba(3,5,8,0.7)] backdrop-blur-xl p-5 lg:p-6">
+        {/* HUD Border Accents */}
+        <div className="absolute top-0 left-0 w-4 h-[1px] bg-[var(--gold)]"></div>
+        <div className="absolute top-0 left-0 w-[1px] h-4 bg-[var(--gold)]"></div>
+        
+        <div className="flex flex-col gap-6 lg:flex-row lg:items-center">
+          <div className="relative flex-1 group">
+            <Search className="absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-[var(--gold-dim)] transition-colors group-focus-within:text-[var(--gold)]" />
             <input
               type="search"
-              placeholder="Search products, workflows, or use cases"
+              placeholder="SEARCH_CATALOG: WORKFLOWS / USE_CASES / SYSTEMS"
               value={searchQuery}
               onChange={(event) => setSearchQuery(event.target.value)}
-              className="w-full rounded-[1rem] border border-white/10 bg-white/[0.04] py-3 pl-10 pr-4 text-sm text-white outline-none transition-colors placeholder:text-white/35 focus:border-white/20 sm:rounded-[1.25rem] sm:py-4 sm:pl-12 sm:text-base"
+              className="w-full bg-[rgba(255,255,255,0.03)] border border-[var(--border)] py-4 pl-12 pr-6 text-sm text-[var(--text)] outline-none transition-all placeholder:text-[var(--text-dim)] focus:border-[var(--gold)] font-mono-dm uppercase tracking-wider cursor-none"
             />
           </div>
 
-          <div className="flex items-center justify-between gap-3 rounded-[1rem] border border-white/10 bg-white/[0.04] px-3 py-2.5 sm:rounded-[1.25rem] sm:px-4 sm:py-3 lg:min-w-[180px]">
+          <div className="flex items-center justify-between gap-6 border border-[var(--border)] bg-[rgba(255,255,255,0.02)] px-6 py-3 min-w-[200px]">
             <div>
-              <p className="text-[0.6rem] uppercase tracking-[0.16em] text-white/35 sm:text-xs sm:tracking-[0.22em]">
-                Visible
+              <p className="font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-50 mb-1">
+                SYSTEMS_RESOLVED
               </p>
-              <p className="text-xs font-semibold text-white sm:text-sm">
-                <span id="public-products-count">{totalProducts}</span>{" "}
-                systems
+              <p className="font-rajdhani text-lg font-bold text-[var(--text)] tracking-tight">
+                <span id="public-products-count">{String(totalProducts).padStart(2, '0')}</span> ACTIVE_NODES
               </p>
             </div>
-            <div className="h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(74,222,128,0.95)]" />
+            <div className="h-2 w-2 bg-[var(--gold)] shadow-[var(--glow-gold)] animate-pulse" />
           </div>
         </div>
 
-        <div className="mt-3 flex flex-wrap gap-2 sm:mt-4">
+        <div className="mt-6 flex flex-wrap gap-3">
           {categories.map((category) => {
             const isActive = selectedCategory === category;
 
@@ -88,10 +91,10 @@ export function PublicProductsFilterControls({
                 key={category}
                 type="button"
                 onClick={() => setSelectedCategory(category)}
-                className={`rounded-full px-3 py-2 text-[0.72rem] font-semibold transition-colors sm:px-4 sm:py-2.5 sm:text-sm ${
+                className={`font-mono-dm text-[10px] tracking-[0.2em] uppercase px-5 py-2.5 transition-all cursor-none border ${
                   isActive
-                    ? "bg-[linear-gradient(135deg,#f3d79a,#8fd8ff)] text-slate-950"
-                    : "border border-white/10 bg-white/[0.03] text-white/68 hover:border-white/20 hover:text-white"
+                    ? "bg-[var(--gold)] text-[var(--black)] border-[var(--gold)]"
+                    : "bg-transparent text-[var(--text-muted)] border-[var(--border)] hover:border-[var(--gold-dim)] hover:text-[var(--text)]"
                 }`}
               >
                 {category}

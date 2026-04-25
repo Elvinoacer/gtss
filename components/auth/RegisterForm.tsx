@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, Lock, Briefcase, Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Mail, Lock, Briefcase, Eye, EyeOff, ArrowRight, User, Terminal, Shield } from 'lucide-react';
 import { useState, FormEvent } from 'react';
 import Link from 'next/link';
 import { registerUser } from '@/lib/actions/auth';
@@ -34,10 +34,10 @@ export function RegisterForm() {
     if (/[0-9]/.test(password)) score++;
     if (/[^A-Za-z0-9]/.test(password)) score++;
 
-    if (score <= 2) return { score: 1, label: 'Weak', color: 'bg-red-500' };
-    if (score <= 4) return { score: 2, label: 'Fair', color: 'bg-yellow-500' };
-    if (score <= 5) return { score: 3, label: 'Good', color: 'bg-blue-500' };
-    return { score: 4, label: 'Strong', color: 'bg-green-500' };
+    if (score <= 2) return { score: 1, label: 'LOW_ENTROPY', color: 'bg-rose-500' };
+    if (score <= 4) return { score: 2, label: 'DECENT_ENTROPY', color: 'bg-amber-500' };
+    if (score <= 5) return { score: 3, label: 'HIGH_ENTROPY', color: 'bg-blue-500' };
+    return { score: 4, label: 'SOVEREIGN_GRADE', color: 'bg-emerald-500' };
   };
 
   const passwordStrength = calculatePasswordStrength(formData.password);
@@ -49,12 +49,12 @@ export function RegisterForm() {
     try {
       const result = await registerUser(formData);
       if (!result.success) {
-        setError(result.error || 'Registration failed');
+        setError(result.error || 'REGISTRATION_ERROR: REJECTED');
       } else {
         window.location.href = '/login';
       }
     } catch (err) {
-      setError('An unexpected error occurred. Please try again.');
+      setError('SYSTEM_EXCEPTION: UPLINK_FAILURE');
     } finally {
       setIsLoading(false);
     }
@@ -72,304 +72,198 @@ export function RegisterForm() {
   };
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6 }}
-      className="w-full max-w-[480px] z-10 relative"
-    >
-      {/* Registration Card */}
-      <div className="bg-white dark:bg-slate-800 rounded-xl shadow-2xl dark:shadow-black/50 overflow-hidden border border-slate-200 dark:border-slate-700/50">
-        {/* Card Header */}
-        <motion.div
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="px-8 pt-8 pb-4"
-        >
-          <h1 className="text-2xl font-bold text-slate-900 dark:text-white mb-2">
-            Join the Team
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Create your internal account to access GTSS platforms.
-          </p>
-        </motion.div>
+    <div className="w-full max-w-xl">
+      <header className="mb-12">
+        <div className="flex items-center gap-3 mb-6">
+          <div className="w-10 h-10 border border-[var(--gold-dim)] bg-[rgba(212,175,55,0.05)] flex items-center justify-center">
+            <Terminal className="w-5 h-5 text-[var(--gold)]" />
+          </div>
+          <span className="font-mono-dm text-[10px] tracking-[0.4em] text-[var(--gold-dim)] uppercase">
+            PERSONNEL_REGISTRATION_v4
+          </span>
+        </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="px-8 pb-8 flex flex-col gap-5">
-          {error && (
-            <div className="p-3 text-sm font-medium text-red-600 bg-red-100 dark:bg-red-500/10 dark:text-red-400 rounded-lg border border-red-500/20">
-              {error}
-            </div>
-          )}
-          {/* Name Fields */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-            className="flex gap-4"
-          >
-            <div className="flex-1 space-y-1.5">
-              <label
-                className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                htmlFor="firstName"
-              >
-                First Name
-              </label>
+        <h1 className="font-bebas text-5xl text-[var(--text)] mb-4 tracking-wide uppercase leading-none">
+          Identity <span className="text-[var(--gold)]">Registration</span>
+        </h1>
+        <p className="font-cormorant text-xl text-[var(--text-muted)] italic">
+          Register your internal credentials to access restricted GTSS operational nodes.
+        </p>
+      </header>
+
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {error && (
+          <div className="p-4 border border-rose-500/30 bg-rose-500/5 text-rose-500 font-mono-dm text-[10px] tracking-widest uppercase flex items-center gap-3">
+            <Shield className="w-4 h-4" />
+            {error}
+          </div>
+        )}
+
+        <div className="grid grid-cols-2 gap-6">
+          <div className="space-y-2">
+            <label className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-60">
+              First_Name
+            </label>
+            <div className="relative">
               <input
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 focus:border-[#2563eb] transition-all"
-                id="firstName"
+                className="w-full h-14 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] px-6 font-rajdhani text-lg font-bold text-[var(--text)] placeholder:text-[var(--text-muted)] placeholder:opacity-30 focus:outline-none focus:border-[var(--gold)] transition-all"
                 name="firstName"
-                placeholder="Jane"
+                placeholder="JANE"
                 type="text"
                 value={formData.firstName}
                 onChange={handleChange}
                 required
               />
             </div>
-            <div className="flex-1 space-y-1.5">
-              <label
-                className="text-sm font-medium text-slate-700 dark:text-slate-300"
-                htmlFor="lastName"
-              >
-                Last Name
-              </label>
+          </div>
+          <div className="space-y-2">
+            <label className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-60">
+              Last_Name
+            </label>
+            <div className="relative">
               <input
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 px-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 focus:border-[#2563eb] transition-all"
-                id="lastName"
+                className="w-full h-14 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] px-6 font-rajdhani text-lg font-bold text-[var(--text)] placeholder:text-[var(--text-muted)] placeholder:opacity-30 focus:outline-none focus:border-[var(--gold)] transition-all"
                 name="lastName"
-                placeholder="Doe"
+                placeholder="DOE"
                 type="text"
                 value={formData.lastName}
                 onChange={handleChange}
                 required
               />
             </div>
-          </motion.div>
+          </div>
+        </div>
 
-          {/* Email Field */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.4 }}
-            className="space-y-1.5"
-          >
-            <label
-              className="text-sm font-medium text-slate-700 dark:text-slate-300"
-              htmlFor="email"
-            >
-              Corporate Email
-            </label>
-            <div className="relative group">
-              <Mail className="absolute left-3 top-2.5 text-slate-400 w-5 h-5 group-focus-within:text-[#2563eb] transition-colors" />
-              <input
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 pl-10 pr-4 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 focus:border-[#2563eb] transition-all"
-                id="email"
-                name="email"
-                placeholder="jane.doe@gtss.internal"
-                type="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
+        <div className="space-y-2">
+          <label className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-60">
+            Corporate_Email
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Mail className="w-4 h-4 text-[var(--gold-dim)] opacity-40 group-focus-within:opacity-100 transition-opacity" />
             </div>
-          </motion.div>
-
-          {/* Department Select */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.5 }}
-            className="space-y-1.5"
-          >
-            <label
-              className="text-sm font-medium text-slate-700 dark:text-slate-300"
-              htmlFor="department"
-            >
-              Department
-            </label>
-            <div className="relative group">
-              <Briefcase className="absolute left-3 top-2.5 text-slate-400 w-5 h-5 group-focus-within:text-[#2563eb] transition-colors" />
-              <select
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 pl-10 pr-10 py-2.5 text-sm text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 focus:border-[#2563eb] appearance-none transition-all cursor-pointer"
-                id="department"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                required
-              >
-                <option value="" disabled>
-                  Select your department
-                </option>
-                <option value="eng">Engineering</option>
-                <option value="prod">Product Management</option>
-                <option value="design">Design</option>
-                <option value="hr">Human Resources</option>
-                <option value="sales">Sales &amp; Marketing</option>
-              </select>
-              <motion.div
-                animate={{ rotate: formData.department ? 180 : 0 }}
-                className="absolute right-3 top-2.5 text-slate-400 pointer-events-none"
-              >
-                ▼
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* Password Field */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.6 }}
-            className="space-y-1.5"
-          >
-            <label
-              className="text-sm font-medium text-slate-700 dark:text-slate-300"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <div className="relative group">
-              <Lock className="absolute left-3 top-2.5 text-slate-400 w-5 h-5 group-focus-within:text-[#2563eb] transition-colors" />
-              <input
-                className="w-full rounded-lg bg-slate-50 dark:bg-slate-900/50 border border-slate-300 dark:border-slate-600 pl-10 pr-10 py-2.5 text-sm text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-[#2563eb]/50 focus:border-[#2563eb] transition-all"
-                id="password"
-                name="password"
-                placeholder="Create a password"
-                type={showPassword ? 'text' : 'password'}
-                value={formData.password}
-                onChange={handleChange}
-                required
-              />
-              <button
-                className="absolute right-3 top-2.5 text-slate-400 hover:text-slate-200 focus:outline-none"
-                type="button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? (
-                  <EyeOff className="w-5 h-5" />
-                ) : (
-                  <Eye className="w-5 h-5" />
-                )}
-              </button>
-            </div>
-
-            {/* Password Strength Meter */}
-            {formData.password && (
-              <motion.div
-                initial={{ opacity: 0, height: 0 }}
-                animate={{ opacity: 1, height: 'auto' }}
-                className="pt-2"
-              >
-                <div className="flex gap-1.5 h-1.5 mb-2">
-                  {[1, 2, 3, 4].map((level) => (
-                    <motion.div
-                      key={level}
-                      initial={{ scaleX: 0 }}
-                      animate={{ scaleX: 1 }}
-                      transition={{ duration: 0.3, delay: level * 0.1 }}
-                      className={`flex-1 rounded-full transition-colors duration-300 ${
-                        level <= passwordStrength.score
-                          ? passwordStrength.color
-                          : 'bg-slate-700'
-                      }`}
-                    />
-                  ))}
-                </div>
-                <p className="text-xs text-slate-500 dark:text-slate-400">
-                  Password strength: {passwordStrength.label}. Must be at least
-                  8 characters with 1 special symbol.
-                </p>
-              </motion.div>
-            )}
-          </motion.div>
-
-          {/* Terms Checkbox */}
-          <motion.div
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.7 }}
-            className="flex items-start gap-3 mt-2"
-          >
             <input
-              className="mt-1 w-4 h-4 rounded border-slate-600 bg-slate-800 text-[#2563eb] focus:ring-offset-slate-900 focus:ring-[#2563eb]"
-              id="agreedToTerms"
-              name="agreedToTerms"
-              type="checkbox"
-              checked={formData.agreedToTerms}
+              className="w-full h-14 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] px-12 font-rajdhani text-lg font-bold text-[var(--text)] placeholder:text-[var(--text-muted)] placeholder:opacity-30 focus:outline-none focus:border-[var(--gold)] transition-all"
+              name="email"
+              placeholder="IDENTITY@GTSS.INTERNAL"
+              type="email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
-            <label
-              className="text-xs text-slate-500 dark:text-slate-400 leading-normal"
-              htmlFor="agreedToTerms"
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <label className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-60">
+            Operational_Unit
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Briefcase className="w-4 h-4 text-[var(--gold-dim)] opacity-40 group-focus-within:opacity-100 transition-opacity" />
+            </div>
+            <select
+              className="w-full h-14 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] px-12 font-rajdhani text-lg font-bold text-[var(--text)] focus:outline-none focus:border-[var(--gold)] appearance-none transition-all cursor-pointer"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              required
             >
-              I agree to the{' '}
-              <Link
-                className="text-[#2563eb] hover:text-[#1d4ed8] underline"
-                href="#"
-              >
-                Internal Data Policy
-              </Link>{' '}
-              and{' '}
-              <Link
-                className="text-[#2563eb] hover:text-[#1d4ed8] underline"
-                href="#"
-              >
-                Terms of Service
-              </Link>
-              .
-            </label>
-          </motion.div>
+              <option value="" disabled className="bg-[var(--black)]">SELECT_DEPARTMENT</option>
+              <option value="eng" className="bg-[var(--black)] text-white font-rajdhani">ENGINEERING</option>
+              <option value="prod" className="bg-[var(--black)] text-white font-rajdhani">PRODUCT_MANAGEMENT</option>
+              <option value="design" className="bg-[var(--black)] text-white font-rajdhani">DESIGN</option>
+              <option value="hr" className="bg-[var(--black)] text-white font-rajdhani">HUMAN_RESOURCES</option>
+              <option value="sales" className="bg-[var(--black)] text-white font-rajdhani">SALES_MARKETING</option>
+            </select>
+          </div>
+        </div>
 
-          {/* Submit Button */}
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.8 }}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full mt-2 bg-[#2563eb] hover:bg-[#1d4ed8] text-white font-semibold py-3 px-4 rounded-lg shadow-lg shadow-[#2563eb]/20 transition-all disabled:bg-slate-400 disabled:shadow-none flex items-center justify-center gap-2 group"
-            type="submit"
-            disabled={isLoading || !formData.agreedToTerms}
-          >
-            {isLoading ? (
-              <motion.div
-                animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
-                className="w-5 h-5 border-2 border-white border-t-transparent rounded-full"
-              />
-            ) : (
-              <>
-                <span>Register Access</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </>
-            )}
-          </motion.button>
-
-          {/* Divider */}
-          <div className="relative flex py-2 items-center">
-            <div className="flex-grow border-t border-slate-300 dark:border-slate-700"></div>
-            <span className="flex-shrink-0 mx-4 text-xs text-slate-500 dark:text-slate-400 uppercase">
-              Or
-            </span>
-            <div className="flex-grow border-t border-slate-300 dark:border-slate-700"></div>
+        <div className="space-y-2">
+          <label className="font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-60">
+            Security_Key
+          </label>
+          <div className="relative group">
+            <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+              <Lock className="w-4 h-4 text-[var(--gold-dim)] opacity-40 group-focus-within:opacity-100 transition-opacity" />
+            </div>
+            <input
+              className="w-full h-14 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] px-12 font-rajdhani text-lg font-bold text-[var(--text)] placeholder:text-[var(--text-muted)] placeholder:opacity-30 focus:outline-none focus:border-[var(--gold)] transition-all"
+              name="password"
+              placeholder="ENCRYPT_PASSWORD"
+              type={showPassword ? 'text' : 'password'}
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+            <button
+              className="absolute right-4 top-4 text-[var(--gold-dim)] opacity-40 hover:opacity-100 transition-opacity"
+              type="button"
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+            </button>
           </div>
 
-          {/* Sign In Link */}
-          <div className="text-center">
-            <p className="text-sm text-slate-500 dark:text-slate-400">
-              Already have an internal account?{' '}
-              <Link
-                className="text-[#2563eb] hover:text-[#1d4ed8] font-medium"
-                href="/login"
-              >
-                Sign In
-              </Link>
-            </p>
-          </div>
-        </form>
+          {/* Security Meter */}
+          {formData.password && (
+            <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pt-2">
+              <div className="flex gap-1 h-1 mb-2">
+                {[1, 2, 3, 4].map((level) => (
+                  <div
+                    key={level}
+                    className={`flex-1 ${level <= passwordStrength.score ? passwordStrength.color : 'bg-[var(--border)]'} transition-colors`}
+                  />
+                ))}
+              </div>
+              <div className="flex justify-between font-mono-dm text-[8px] tracking-widest text-[var(--gold-dim)] uppercase">
+                <span>STRENGTH: {passwordStrength.label}</span>
+                <span>MIN_8_CHARS</span>
+              </div>
+            </motion.div>
+          )}
+        </div>
+
+        <div className="flex items-start gap-4 py-4">
+          <input
+            className="mt-1 w-4 h-4 border-[var(--border)] bg-transparent text-[var(--gold)] focus:ring-0 cursor-pointer"
+            id="agreedToTerms"
+            name="agreedToTerms"
+            type="checkbox"
+            checked={formData.agreedToTerms}
+            onChange={handleChange}
+            required
+          />
+          <label className="font-mono-dm text-[9px] text-[var(--text-muted)] leading-relaxed uppercase tracking-widest" htmlFor="agreedToTerms">
+            I acknowledge the <span className="text-[var(--gold-dim)] underline">Internal Data Policy</span> and <span className="text-[var(--gold-dim)] underline">Security protocols</span>.
+          </label>
+        </div>
+
+        <button
+          type="submit"
+          disabled={isLoading || !formData.agreedToTerms}
+          className="relative w-full h-16 bg-[var(--gold)] text-[var(--black)] font-bebas text-2xl flex items-center justify-center gap-4 transition-all hover:bg-white disabled:opacity-50 overflow-hidden group"
+        >
+          {isLoading ? (
+            <motion.div animate={{ rotate: 360 }} transition={{ duration: 1, repeat: Infinity, ease: 'linear' }} className="w-6 h-6 border-2 border-[var(--black)] border-t-transparent" />
+          ) : (
+            <>
+              <span className="tracking-widest uppercase">Register_Personnel</span>
+              <ArrowRight className="w-6 h-6 transform group-hover:translate-x-2 transition-transform" />
+            </>
+          )}
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,transparent,rgba(255,255,255,0.4),transparent)] -translate-x-full group-hover:animate-[shimmer_1.5s_infinite] pointer-events-none"></div>
+        </button>
+      </form>
+
+      <div className="mt-8 text-center">
+        <p className="font-mono-dm text-[10px] text-[var(--text-muted)] uppercase tracking-widest">
+          Already verified?{' '}
+          <Link className="text-[var(--gold-dim)] hover:text-[var(--gold)] transition-colors" href="/login">
+            INITIATE_LOGIN
+          </Link>
+        </p>
       </div>
-    </motion.div>
+    </div>
   );
 }

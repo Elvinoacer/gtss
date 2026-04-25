@@ -1,36 +1,20 @@
-import { MinimalHeader } from '@/components/layout/MinimalHeader';
+import { Suspense } from 'react';
 import { RegisterForm } from '@/components/auth/RegisterForm';
-import { BackgroundEffects } from '@/components/layout/BackgroundEffects';
-import Link from 'next/link';
+import { VisualPanel } from '@/components/auth/VisualPanel';
 
 export default function RegisterPage() {
   return (
-    <div className="bg-slate-50 dark:bg-[#020617] min-h-screen flex flex-col items-center justify-center text-slate-900 dark:text-white p-4 relative">
-      <MinimalHeader />
-      <BackgroundEffects />
-
-      <main className="w-full max-w-[480px] z-10 relative mt-16 sm:mt-0">
-        <RegisterForm />
-
-        {/* Footer Info */}
-        <div className="mt-8 text-center space-y-2">
-          <p className="text-xs text-slate-500 dark:text-slate-600">
-            © 2024 Great Thumbs Software Solutions. Internal Use Only.
-          </p>
-          <div className="flex justify-center gap-4 text-xs text-slate-500 dark:text-slate-600">
-            <Link className="hover:text-slate-400 transition-colors" href="#">
-              Privacy
-            </Link>
-            <span>•</span>
-            <Link className="hover:text-slate-400 transition-colors" href="#">
-              Security
-            </Link>
-            <span>•</span>
-            <Link className="hover:text-slate-400 transition-colors" href="#">
-              Contact IT
-            </Link>
-          </div>
+    <div className="min-h-screen flex flex-col bg-[var(--black)]">
+      <main className="flex-1 flex flex-col lg:grid lg:grid-cols-[1fr_1.2fr] h-screen overflow-hidden">
+        {/* Left Side: Register Form */}
+        <div className="flex-1 flex items-center justify-center p-8 sm:p-12 lg:p-20 bg-[var(--black)] relative z-30 overflow-y-auto">
+          <Suspense fallback={<div className="font-mono-dm text-[10px] text-[var(--gold-dim)] animate-pulse">SYNCHRONIZING_PERSONNEL_REGISTRY...</div>}>
+            <RegisterForm />
+          </Suspense>
         </div>
+
+        {/* Right Side: Visual Panel */}
+        <VisualPanel />
       </main>
     </div>
   );

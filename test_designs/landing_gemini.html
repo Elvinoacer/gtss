@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>GTSS - Global Trade Security Systems</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;800&family=Space+Grotesk:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        background: "#030305",
+                        surface: "#0a0a0c",
+                        "surface-raised": "#121215",
+                        accent: "#00E5FF", // Cold, expensive tech cyan
+                        "accent-dim": "rgba(0, 229, 255, 0.1)",
+                        "text-main": "#ffffff",
+                        "text-muted": "#888891",
+                        border: "rgba(255, 255, 255, 0.08)",
+                    },
+                    fontFamily: {
+                        sans: ["Inter", "sans-serif"],
+                        mono: ["Space Grotesk", "monospace"],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-delayed': 'float 6s ease-in-out 3s infinite',
+                        'pulse-glow': 'pulse-glow 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                        'scanline': 'scanline 8s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-15px)' },
+                        },
+                        'pulse-glow': {
+                            '0%, 100%': { opacity: 0.3 },
+                            '50%': { opacity: 0.7 },
+                        },
+                        scanline: {
+                            '0%': { transform: 'translateY(-100%)' },
+                            '100%': { transform: 'translateY(100vh)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #030305;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        /* Cinematic Noise Overlay */
+        .bg-noise {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            opacity: 0.03;
+            background-image: url('data:image/svg+xml,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+        }
+
+        /* Smoked Glass Elements */
+        .premium-glass {
+            background: linear-gradient(145deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .premium-glass:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+            box-shadow: 0 10px 40px -10px rgba(0, 229, 255, 0.15), inset 0 0 20px rgba(0, 229, 255, 0.02);
+            transform: translateY(-4px);
+        }
+
+        /* Metallic Gradient Text */
+        .text-gradient-metallic {
+            background: linear-gradient(to bottom right, #ffffff 20%, #71717a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Premium Buttons */
+        .btn-primary {
+            background: #ffffff;
+            color: #000000;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover {
+            box-shadow: 0 0 20px rgba(255,255,255,0.3);
+            transform: scale(1.02);
+        }
+        
+        .btn-outline {
+            background: transparent;
+            color: #ffffff;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            border-color: #00E5FF;
+            color: #00E5FF;
+            box-shadow: inset 0 0 15px rgba(0,229,255,0.1);
+        }
+
+        /* Ambient Glows */
+        .ambient-glow-cyan {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(0,229,255,0.08) 0%, rgba(0,0,0,0) 70%);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        /* Grid Background */
+        .tech-grid {
+            position: absolute;
+            inset: 0;
+            background-size: 50px 50px;
+            background-image: linear-gradient(to right, rgba(255,255,255,0.02) 1px, transparent 1px),
+                              linear-gradient(to bottom, rgba(255,255,255,0.02) 1px, transparent 1px);
+            mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            -webkit-mask-image: linear-gradient(to bottom, black 40%, transparent 100%);
+            pointer-events: none;
+        }
+        
+        .scanline {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, transparent, #00E5FF, transparent);
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased relative overflow-x-hidden selection:bg-accent selection:text-black">
+    <div class="bg-noise"></div>
+
+    <header class="fixed top-0 w-full border-b border-border z-50 bg-background/50 backdrop-blur-xl transition-all duration-300">
+        <div class="flex items-center justify-between px-8 py-5 max-w-screen-2xl mx-auto">
+            <div class="flex items-center gap-3 cursor-pointer group">
+                <span class="material-symbols-outlined text-text-main group-hover:text-accent transition-colors duration-300">target</span>
+                <span class="text-xl font-mono font-bold tracking-widest text-text-main">INFRA<span class="text-text-muted">_CORE</span></span>
+            </div>
+            <button class="font-mono tracking-[0.15em] text-[11px] uppercase font-bold px-6 py-2.5 rounded-sm btn-primary">
+                Deploy System
+            </button>
+        </div>
+    </header>
+
+    <main class="flex-grow pt-[80px]">
+        
+        <section class="relative min-h-[90vh] flex flex-col justify-center px-8 py-20 overflow-hidden">
+            <div class="tech-grid"></div>
+            <div class="scanline animate-scanline"></div>
+            
+            <div class="ambient-glow-cyan top-1/4 -right-20 animate-pulse-glow"></div>
+            <div class="ambient-glow-cyan bottom-0 -left-40 animate-pulse-glow" style="animation-delay: 2s;"></div>
+
+            <div class="max-w-screen-2xl mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-12 relative z-10 items-center">
+                
+                <div class="lg:col-span-7 flex flex-col gap-8">
+                    <div class="inline-flex items-center gap-3 w-fit px-4 py-1.5 rounded-full border border-border bg-surface/50 backdrop-blur-md">
+                        <div class="w-1.5 h-1.5 rounded-full bg-accent animate-pulse"></div>
+                        <span class="font-mono text-[10px] tracking-widest text-text-muted uppercase">System Operational // V.4.2</span>
+                    </div>
+                    
+                    <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter leading-[1.1]">
+                        <span class="text-gradient-metallic">SOVEREIGN</span><br/>
+                        <span class="text-text-main">INFRASTRUCTURE</span>
+                    </h1>
+                    
+                    <p class="text-lg text-text-muted max-w-xl font-light leading-relaxed">
+                        Impenetrable data architectures designed for elite logistics networks. Secure, track, and deploy assets with military-grade precision across the global supply chain.
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-4 pt-4">
+                        <button class="btn-primary px-8 py-4 rounded-sm font-mono text-[11px] uppercase tracking-[0.2em] flex items-center gap-3">
+                            Initialize Sequence
+                            <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                        </button>
+                        <button class="btn-outline px-8 py-4 rounded-sm font-mono text-[11px] uppercase tracking-[0.2em]">
+                            View Architecture
+                        </button>
+                    </div>
+                </div>
+
+                <div class="lg:col-span-5 relative hidden lg:block h-[600px] animate-float">
+                    <div class="absolute inset-0 premium-glass rounded-2xl overflow-hidden flex items-center justify-center">
+                        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-accent-dim via-transparent to-transparent opacity-50"></div>
+                        
+                        <div class="w-48 h-48 border border-border rounded-full flex items-center justify-center relative">
+                            <div class="absolute inset-0 border border-accent/30 rounded-full animate-[spin_10s_linear_infinite]"></div>
+                            <div class="absolute inset-4 border border-border rounded-full animate-[spin_15s_linear_infinite_reverse]"></div>
+                            <span class="material-symbols-outlined text-accent text-6xl drop-shadow-[0_0_15px_rgba(0,229,255,0.5)]">shield_lock</span>
+                        </div>
+
+                        <div class="absolute bottom-6 left-6 right-6 premium-glass p-5 rounded-xl border-t border-border flex items-center justify-between">
+                            <div>
+                                <p class="font-mono text-[10px] tracking-widest text-text-muted mb-1">NODE_STATUS</p>
+                                <p class="font-mono text-sm tracking-widest text-accent">SECURE</p>
+                            </div>
+                            <div class="flex gap-1">
+                                <div class="w-1 h-4 bg-accent rounded-full animate-pulse"></div>
+                                <div class="w-1 h-6 bg-accent rounded-full animate-pulse" style="animation-delay: 0.2s"></div>
+                                <div class="w-1 h-3 bg-accent rounded-full animate-pulse" style="animation-delay: 0.4s"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="px-8 py-24 relative z-20 bg-background">
+            <div class="max-w-screen-2xl mx-auto flex flex-col gap-16">
+                
+                <div class="flex flex-col gap-4 max-w-2xl">
+                    <h2 class="text-3xl md:text-4xl font-bold text-text-main tracking-tight">SOLUTION ARCHITECTURE</h2>
+                    <p class="text-text-muted font-light leading-relaxed">Modular components designed for high-stakes environments, providing unparalleled visibility and control over global trade flows.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-12 gap-6 auto-rows-[320px]">
+                    
+                    <div class="md:col-span-8 premium-glass rounded-2xl p-8 flex flex-col justify-between group relative overflow-hidden">
+                        <div class="absolute right-0 top-0 w-2/3 h-full bg-[radial-gradient(ellipse_at_right,_var(--tw-gradient-stops))] from-accent-dim to-transparent opacity-20 group-hover:opacity-40 transition-opacity duration-700"></div>
+                        
+                        <div class="relative z-10 flex flex-col gap-6 max-w-md">
+                            <div class="w-12 h-12 rounded-full bg-surface border border-border flex items-center justify-center">
+                                <span class="material-symbols-outlined text-text-main group-hover:text-accent transition-colors">language</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-semibold text-text-main mb-3">GLOBAL ROUTING MATRIX</h3>
+                                <p class="text-text-muted font-light">Real-time path optimization across international nodes. Secure transmission guaranteed through decentralized verification protocols.</p>
+                            </div>
+                        </div>
+                        <div class="relative z-10 mt-auto flex items-center gap-3">
+                            <div class="w-2 h-2 rounded-full bg-accent animate-pulse"></div>
+                            <span class="font-mono text-[11px] tracking-widest text-accent uppercase">Latency < 12ms</span>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-4 premium-glass rounded-2xl p-8 flex flex-col justify-between group">
+                        <div class="flex flex-col gap-4">
+                            <div class="w-12 h-12 rounded-full bg-surface border border-border flex items-center justify-center">
+                                <span class="material-symbols-outlined text-text-main group-hover:text-accent transition-colors">fingerprint</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-text-main">KINETIC ENCRYPTION</h3>
+                            <p class="text-sm text-text-muted font-light leading-relaxed">Dynamic key rotation at the hardware level, rendering intercept attempts mathematically unviable.</p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-4 premium-glass rounded-2xl p-8 flex flex-col justify-between group">
+                        <div class="flex flex-col gap-4">
+                            <div class="w-12 h-12 rounded-full bg-surface border border-border flex items-center justify-center">
+                                <span class="material-symbols-outlined text-text-main group-hover:text-accent transition-colors">troubleshoot</span>
+                            </div>
+                            <h3 class="text-lg font-semibold text-text-main">PREDICTIVE LOGIC</h3>
+                            <p class="text-sm text-text-muted font-light leading-relaxed">Machine learning models that anticipate supply chain disruptions before they cascade.</p>
+                        </div>
+                    </div>
+
+                    <div class="md:col-span-8 premium-glass rounded-2xl p-8 flex flex-col justify-center group overflow-hidden relative">
+                        <div class="absolute -right-20 -top-20 w-64 h-64 bg-accent opacity-5 blur-[100px] group-hover:opacity-10 transition-opacity duration-700"></div>
+                        <div class="flex items-center gap-8 relative z-10">
+                            <div class="flex-shrink-0">
+                                <span class="material-symbols-outlined text-6xl text-border group-hover:text-accent/50 transition-colors duration-500">memory</span>
+                            </div>
+                            <div>
+                                <h3 class="text-2xl font-semibold text-text-main mb-3">HARDWARE ABSTRACTION</h3>
+                                <p class="text-text-muted font-light max-w-xl">Deploy across any bare-metal environment seamlessly. GTSS acts as a sovereign hypervisor, ensuring consistent security postures regardless of underlying infrastructure.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <section class="px-8 py-32 relative z-20">
+            <div class="max-w-screen-lg mx-auto flex flex-col gap-20">
+                
+                <div class="flex flex-col gap-4 text-center items-center">
+                    <h2 class="font-mono text-sm tracking-[0.3em] text-text-muted uppercase">Deployment Protocol</h2>
+                    <div class="w-12 h-px bg-accent"></div>
+                </div>
+
+                <div class="flex flex-col w-full relative pt-8">
+                    <div class="absolute left-8 md:left-1/2 top-0 bottom-0 w-px bg-border transform md:-translate-x-1/2"></div>
+
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center w-full mb-24 group">
+                        <div class="hidden md:flex w-1/2 justify-end pr-16 text-right">
+                            <div class="flex flex-col gap-3">
+                                <h4 class="font-mono text-xl text-text-main tracking-widest">01. INGESTION</h4>
+                                <p class="text-text-muted font-light max-w-xs ml-auto">Secure API handshakes establish encrypted tunnels for initial data telemetry.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute left-8 md:left-1/2 w-4 h-4 rounded-full bg-background border border-accent transform -translate-x-1/2 mt-1 md:mt-0 z-10 group-hover:shadow-[0_0_20px_rgba(0,229,255,0.6)] group-hover:bg-accent transition-all duration-300"></div>
+                        
+                        <div class="flex md:hidden w-full pl-20 flex-col gap-3">
+                            <h4 class="font-mono text-xl text-text-main tracking-widest">01. INGESTION</h4>
+                            <p class="text-text-muted font-light">Secure API handshakes establish encrypted tunnels for initial data telemetry.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center w-full mb-24 group">
+                        <div class="hidden md:block w-1/2 pr-16"></div>
+                        
+                        <div class="absolute left-8 md:left-1/2 w-4 h-4 rounded-full bg-background border border-text-muted transform -translate-x-1/2 mt-1 md:mt-0 z-10 group-hover:border-accent group-hover:shadow-[0_0_20px_rgba(0,229,255,0.6)] group-hover:bg-accent transition-all duration-300"></div>
+                        
+                        <div class="flex w-full pl-20 md:pl-16 md:w-1/2 flex-col gap-3">
+                            <h4 class="font-mono text-xl text-text-main tracking-widest">02. SANITIZATION</h4>
+                            <p class="text-text-muted font-light max-w-xs">Payloads are stripped of anomalies and validated against cryptographic signatures.</p>
+                        </div>
+                    </div>
+
+                    <div class="relative flex flex-col md:flex-row items-start md:items-center w-full group">
+                        <div class="hidden md:flex w-1/2 justify-end pr-16 text-right">
+                            <div class="flex flex-col gap-3">
+                                <h4 class="font-mono text-xl text-text-main tracking-widest">03. EXECUTION</h4>
+                                <p class="text-text-muted font-light max-w-xs ml-auto">Clean data is routed through the kinetic ledger for immutable record keeping.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="absolute left-8 md:left-1/2 w-4 h-4 rounded-full bg-background border border-text-muted transform -translate-x-1/2 mt-1 md:mt-0 z-10 group-hover:border-accent group-hover:shadow-[0_0_20px_rgba(0,229,255,0.6)] group-hover:bg-accent transition-all duration-300"></div>
+                        
+                        <div class="flex md:hidden w-full pl-20 flex-col gap-3">
+                            <h4 class="font-mono text-xl text-text-main tracking-widest">03. EXECUTION</h4>
+                            <p class="text-text-muted font-light">Clean data is routed through the kinetic ledger for immutable record keeping.</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="w-full border-t border-border bg-surface mt-20">
+        <div class="flex flex-col md:flex-row items-center justify-between px-8 py-10 w-full max-w-screen-2xl mx-auto gap-8">
+            <div class="flex items-center gap-2 text-text-muted opacity-50">
+                <span class="material-symbols-outlined text-sm">target</span>
+                <span class="font-mono text-[10px] uppercase tracking-widest">INFRA_CORE</span>
+            </div>
+            
+            <nav class="flex flex-wrap justify-center gap-8">
+                <a class="font-mono tracking-[0.2em] text-[9px] uppercase text-text-muted hover:text-accent transition-colors duration-300" href="#">Documentation</a>
+                <a class="font-mono tracking-[0.2em] text-[9px] uppercase text-text-muted hover:text-accent transition-colors duration-300" href="#">Network Status</a>
+                <a class="font-mono tracking-[0.2em] text-[9px] uppercase text-text-muted hover:text-accent transition-colors duration-300" href="#">Protocols</a>
+            </nav>
+            
+            <div class="font-mono tracking-[0.2em] text-[9px] uppercase text-text-muted/40">
+                © 2026 INFRA_CORE.
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

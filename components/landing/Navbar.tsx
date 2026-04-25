@@ -1,121 +1,28 @@
-import { ArrowRight, Menu } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-
-import { landingNavbarLinks } from "@/data/landing";
+import Link from "next/image";
 
 export function Navbar() {
   return (
-    <nav className="sticky top-0 z-50 w-full px-3 pt-3 sm:px-6 sm:pt-5">
-      <div className="mx-auto max-w-7xl">
-        <div className="public-panel public-card-outline rounded-[1.75rem] px-4 py-3 sm:px-5 lg:px-7">
-          <div className="flex items-center justify-between gap-4">
-            <Link
-              href="/"
-              className="group flex min-w-0 items-center gap-3 overflow-hidden"
-            >
-              <div className="rounded-2xl border border-white/10 bg-white/5 p-2 shadow-[0_12px_30px_rgba(0,0,0,0.32)]">
-                <Image
-                  src="/images/GTSS-logo.png"
-                  alt="GTSS Logo"
-                  width={140}
-                  height={36}
-                  priority
-                  className="h-8 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.03]"
-                />
-              </div>
-              <div className="hidden min-w-0 sm:block">
-                <p className="truncate text-sm font-semibold text-white">
-                  Great Thumbs Software Solutions
-                </p>
-                <p className="truncate text-xs text-white/55">
-                  Enterprise systems for African operators
-                </p>
-              </div>
-            </Link>
-
-            <div className="hidden items-center gap-2 lg:flex">
-              {landingNavbarLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="rounded-full px-4 py-2 text-sm font-medium text-white/68 transition-colors hover:bg-white/6 hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              ))}
-            </div>
-
-            <div className="hidden items-center gap-3 md:flex">
-              <Link
-                href="/login"
-                className="rounded-full px-4 py-2 text-sm font-semibold text-white/70 transition-colors hover:text-white"
-              >
-                Sign In
-              </Link>
-              <Link
-                href="/contact"
-                className="public-button-primary px-5 py-3 text-sm"
-              >
-                Schedule a Call
-                <ArrowRight className="h-4 w-4" />
-              </Link>
-            </div>
-
-            <details className="relative md:hidden">
-              <summary className="list-none rounded-full border border-white/10 bg-white/5 p-3 text-white transition-colors hover:bg-white/10">
-                <span className="sr-only">Toggle menu</span>
-                <Menu className="h-5 w-5" />
-              </summary>
-
-              <div className="absolute right-0 top-full mt-3 w-[min(21rem,calc(100vw-1.5rem))]">
-                <div className="public-panel rounded-[1.5rem] p-4 shadow-[0_30px_80px_rgba(0,0,0,0.5)]">
-                  <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-[0.22em] text-white/45">
-                    Navigate
-                  </p>
-                  <div className="space-y-1">
-                    {landingNavbarLinks.map((link) => (
-                      <Link
-                        key={link.label}
-                        href={link.href}
-                        className="block rounded-2xl px-4 py-3 text-base font-medium text-white/75 transition-colors hover:bg-white/6 hover:text-white"
-                      >
-                        {link.label}
-                      </Link>
-                    ))}
-                  </div>
-
-                  <div className="mt-4 space-y-2 border-t border-white/10 pt-4">
-                    <Link
-                      href="/login"
-                      className="block rounded-2xl px-4 py-3 text-center text-sm font-semibold text-white/75 transition-colors hover:bg-white/6 hover:text-white"
-                    >
-                      Sign In
-                    </Link>
-                    <Link
-                      href="/contact"
-                      className="public-button-primary flex w-full px-5 py-3 text-sm"
-                    >
-                      Schedule a Call
-                      <ArrowRight className="h-4 w-4" />
-                    </Link>
-                  </div>
-                </div>
-              </div>
-            </details>
-          </div>
-
-          <div className="mt-3 hidden items-center justify-between border-t border-white/8 pt-3 lg:flex">
-            <p className="text-xs font-medium uppercase tracking-[0.24em] text-white/35">
-              Built for hospitality, commerce, education, and field teams
-            </p>
-            <div className="flex items-center gap-2 text-xs text-white/55">
-              <span className="h-2 w-2 rounded-full bg-emerald-400 shadow-[0_0_12px_rgba(74,222,128,0.9)]" />
-              <span>Deployments running across East Africa</span>
-            </div>
-          </div>
+    <header className="fixed top-0 left-0 right-0 z-[500] px-6 lg:px-12 h-[72px] flex items-center justify-between border-b border-[var(--border)] bg-[rgba(3,5,8,0.75)] backdrop-blur-3xl transition-all">
+      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent opacity-50"></div>
+      
+      <a className="logo flex items-center gap-3 no-underline cursor-none" href="/">
+        <div className="logo-mark w-8 h-8 border border-[var(--gold)] relative flex items-center justify-center after:absolute after:inset-[3px] after:border after:border-[rgba(201,160,69,0.3)]">
+          <div className="logo-mark-inner w-2 h-2 bg-[var(--gold)] animate-[pulse-dot_2s_ease-in-out_infinite]"></div>
         </div>
+        <span className="logo-text font-bebas text-[22px] tracking-[0.15em] text-[var(--text)]">
+          GTSS<span>_CORE</span>
+        </span>
+      </a>
+
+      <div className="nav-status flex items-center gap-8">
+        <div className="status-pill hidden sm:flex items-center gap-2 font-mono-dm text-[10px] text-[var(--text-muted)] tracking-[0.15em]">
+          <div className="status-dot w-1.5 h-1.5 rounded-full bg-[var(--green)] shadow-[0_0_8px_var(--green)] animate-[blink_2.5s_ease-in-out_infinite]"></div>
+          ALL SYSTEMS NOMINAL
+        </div>
+        <button className="btn-deploy font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--black)] bg-[var(--gold)] px-6 py-2.5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(8px_0%,100%_0%,calc(100%-8px)_100%,0%_100%)] after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full after:transition-transform after:duration-500 hover:after:translate-x-[200%]">
+          DEPLOY SYSTEM
+        </button>
       </div>
-    </nav>
+    </header>
   );
 }

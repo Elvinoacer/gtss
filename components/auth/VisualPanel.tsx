@@ -2,28 +2,26 @@
 
 import { motion } from 'framer-motion';
 import { useState, useEffect } from 'react';
+import { Activity, Shield, Terminal, Zap, Cpu } from 'lucide-react';
 
-const features = [
+const READOUTS = [
   {
-    title: 'Secure & Scalable Infrastructure',
-    description:
-      'Manage your software products, platforms, and teams from a centralized secure dashboard.',
-    image:
-      'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=800&auto=format&fit=crop&q=80',
+    id: "INFRA_01",
+    title: 'Sovereign Infrastructure',
+    description: 'Centralized command for technical assets and organizational deployments.',
+    stats: { nodes: "24_ACTIVE", security: "AES-256", latency: "0.002MS" }
   },
   {
-    title: 'Product Lifecycle Management',
-    description:
-      'Streamline product creation, documentation, deployment, and sales from one unified platform.',
-    image:
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&auto=format&fit=crop&q=80',
+    id: "PROD_02",
+    title: 'Product Orchestration',
+    description: 'Unified management of lifecycle, documentation, and operational scaling.',
+    stats: { version: "v4.0.2", registry: "GTSS_CENTRAL", health: "100%" }
   },
   {
-    title: 'Role-Based Team Access',
-    description:
-      'Empower your team with granular permissions and role-based access control for enhanced security.',
-    image:
-      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=800&auto=format&fit=crop&q=80',
+    id: "TEAM_03",
+    title: 'Node Authorization',
+    description: 'Granular access control and permission governance for enterprise nodes.',
+    stats: { rbac: "ENABLED", mfa: "MANDATORY", logs: "ENCRYPTED" }
   },
 ];
 
@@ -32,101 +30,100 @@ export function VisualPanel() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % features.length);
-    }, 5000);
-
+      setCurrentIndex((prev) => (prev + 1) % READOUTS.length);
+    }, 6000);
     return () => clearInterval(interval);
   }, []);
 
   return (
-    <div className="hidden lg:flex flex-1 relative bg-gradient-to-br from-[#0f172a] to-[#1e293b] dark:from-[#020617] dark:to-[#0f172a] items-center justify-center overflow-hidden">
-      {/* Background pattern decorative elements */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(#2563eb_1px,transparent_1px)] [background-size:20px_20px]"></div>
+    <div className="hidden lg:flex flex-1 relative bg-[var(--black)] items-center justify-center overflow-hidden border-l border-[var(--border)]">
+      {/* Background HUD Patterns */}
+      <div className="absolute inset-0 opacity-[0.03] pointer-events-none" 
+           style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '60px 60px' }}>
       </div>
+      
+      {/* Scanline Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20 z-20"></div>
 
-      {/* Animated gradient orbs */}
-      <motion.div
-        animate={{
-          x: [0, 100, 0],
-          y: [0, -100, 0],
-          scale: [1, 1.2, 1],
-        }}
-        transition={{
-          duration: 20,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="absolute top-20 right-20 w-72 h-72 bg-[#2563eb]/20 rounded-full blur-3xl"
-      />
-      <motion.div
-        animate={{
-          x: [0, -100, 0],
-          y: [0, 100, 0],
-          scale: [1, 1.3, 1],
-        }}
-        transition={{
-          duration: 25,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
-        className="absolute bottom-20 left-20 w-96 h-96 bg-[#10b981]/10 rounded-full blur-3xl"
-      />
+      {/* Decorative Orbs */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[var(--gold)] opacity-[0.05] rounded-full blur-[120px] -translate-y-1/2 translate-x-1/2"></div>
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500 opacity-[0.03] rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2"></div>
 
-      {/* Content */}
-      <div className="relative z-10 p-12 max-w-lg text-center">
-        <motion.div
-          key={currentIndex}
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          exit={{ opacity: 0, scale: 0.9 }}
-          transition={{ duration: 0.7 }}
-          className="mb-8 relative inline-block"
+      {/* Content HUD */}
+      <div className="relative z-10 w-full max-w-xl px-12">
+        <header className="mb-12">
+          <div className="flex items-center gap-4 mb-6">
+            <div className="px-3 py-1 border border-[var(--gold-dim)] bg-[rgba(212,175,55,0.05)] text-[var(--gold)] font-mono-dm text-[10px] tracking-[0.3em] uppercase">
+              SYSTEM_READOUT: {READOUTS[currentIndex].id}
+            </div>
+            <div className="h-[1px] flex-1 bg-[var(--border)] opacity-30"></div>
+          </div>
+          
+          <motion.h3
+            key={`title-${currentIndex}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            className="font-bebas text-6xl text-[var(--text)] mb-4 tracking-wide uppercase leading-none"
+          >
+            {READOUTS[currentIndex].title}
+          </motion.h3>
+          
+          <motion.p
+            key={`desc-${currentIndex}`}
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ delay: 0.1 }}
+            className="font-cormorant text-2xl text-[var(--text-muted)] italic leading-relaxed"
+          >
+            {READOUTS[currentIndex].description}
+          </motion.p>
+        </header>
+
+        {/* Technical Data Grid */}
+        <motion.div 
+          key={`stats-${currentIndex}`}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 0.2 }}
+          className="grid grid-cols-3 gap-4 mb-16"
         >
-          <div className="absolute inset-0 bg-[#2563eb]/30 blur-3xl rounded-full"></div>
-          <img
-            alt={features[currentIndex].title}
-            className="relative rounded-2xl shadow-2xl border border-white/10 w-full h-64 object-cover"
-            src={features[currentIndex].image}
-          />
+          {Object.entries(READOUTS[currentIndex].stats).map(([label, value]) => (
+            <div key={label} className="border border-[var(--border)] bg-[rgba(255,255,255,0.02)] p-4 flex flex-col gap-1">
+              <span className="font-mono-dm text-[8px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-40">{label}</span>
+              <span className="font-rajdhani text-lg font-bold text-[var(--text)]">{value}</span>
+            </div>
+          ))}
         </motion.div>
 
-        <motion.h3
-          key={`title-${currentIndex}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2 }}
-          className="text-white text-2xl font-bold mb-4"
-        >
-          {features[currentIndex].title}
-        </motion.h3>
-
-        <motion.p
-          key={`desc-${currentIndex}`}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3 }}
-          className="text-slate-300 text-lg leading-relaxed"
-        >
-          {features[currentIndex].description}
-        </motion.p>
-
-        {/* Pagination Dots */}
-        <div className="mt-12 flex justify-center gap-2">
-          {features.map((_, index) => (
-            <motion.button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                index === currentIndex ? 'bg-[#2563eb] w-8' : 'bg-slate-600'
-              }`}
-              whileHover={{ scale: 1.2 }}
-              whileTap={{ scale: 0.9 }}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
+        {/* HUD Elements */}
+        <div className="flex items-center justify-between font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold-dim)] uppercase">
+          <div className="flex items-center gap-6">
+            <div className="flex items-center gap-2">
+              <Activity className="w-3 h-3 text-emerald-500 animate-pulse" />
+              TELEMETRY_CONNECTED
+            </div>
+            <div className="flex items-center gap-2">
+              <Shield className="w-3 h-3 text-[var(--gold-dim)]" />
+              ROOT_AUTHORIZED
+            </div>
+          </div>
+          
+          {/* Pagination */}
+          <div className="flex gap-4">
+            {READOUTS.map((_, i) => (
+              <button 
+                key={i} 
+                onClick={() => setCurrentIndex(i)}
+                className={`w-6 h-[2px] transition-all ${i === currentIndex ? 'bg-[var(--gold)]' : 'bg-[var(--border)]'}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
+
+      {/* Frame HUD Decorations */}
+      <div className="absolute top-8 left-8 w-12 h-12 border-t border-l border-[var(--gold-dim)] opacity-20"></div>
+      <div className="absolute bottom-8 right-8 w-12 h-12 border-b border-r border-[var(--gold-dim)] opacity-20"></div>
     </div>
   );
 }

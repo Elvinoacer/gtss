@@ -1,27 +1,15 @@
-import { 
-  PricingHero, 
-  PricingCards, 
-  PricingSocialProof, 
-  PricingFAQ
-} from '@/components/pricing';
 import { Metadata } from 'next';
+import { PricingClient } from './PricingClient';
 
 export const metadata: Metadata = {
-  title: "Pricing",
-  description: "Flexible pricing models for every business. Choose from one-time payments, subscriptions, or platform access.",
+  title: "Pricing Protocols",
+  description: "Flexible pricing models for technical sovereignty. Choose from Sovereign Units, Enterprise Nodes, or Strategic Partnerships.",
   openGraph: {
-    title: "GTSS Pricing - Flexible & Transparent",
-    description: "Flexible pricing models for every business. Choose from one-time payments, subscriptions, or platform access.",
+    title: "GTSS Pricing Protocols",
+    description: "Flexible pricing models for technical sovereignty.",
   },
 };
 
 export default function PricingPage() {
-  return (
-    <>
-      <PricingHero />
-      <PricingCards />
-      <PricingSocialProof />
-      <PricingFAQ />
-    </>
-  );
+  return <PricingClient />;
 }

@@ -34,7 +34,7 @@ function formatPrice(
   priceUSD: number | null | undefined,
   priceKES: number | null | undefined,
 ) {
-  if (pricingModel === "free") return "Free";
+  if (pricingModel === "free") return "FREE_ACCESS";
   if (priceUSD != null) return `$${priceUSD}`;
   if (priceKES != null) return `KES ${priceKES.toLocaleString()}`;
   return pricing;
@@ -58,74 +58,84 @@ export function PublicProductCard({
   const price = formatPrice(pricing, pricingModel, priceUSD, priceKES);
 
   return (
-    <article className="group public-panel public-card-outline flex h-full flex-col overflow-hidden rounded-[1.2rem] transition-transform duration-300 hover:-translate-y-1 sm:rounded-[1.75rem]">
-      <Link href={`/products/${id}`} className="flex h-full flex-col">
-        <div className="relative h-36 overflow-hidden border-b border-white/10 bg-[#05080b] sm:h-60">
+    <article className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-[var(--border-bright)] hover:shadow-[var(--glow-gold-dim)] overflow-hidden">
+      <Link href={`/products/${id}`} className="flex flex-col cursor-none">
+        {/* Visual Feed */}
+        <div className="relative h-48 overflow-hidden border-b border-[var(--border)]">
           {images[0] ? (
             <Image
               src={images[0]}
               alt={name}
               fill
               sizes="(max-width: 640px) 50vw, (max-width: 1024px) 100vw, 33vw"
-              className="object-cover opacity-82 transition-transform duration-700 group-hover:scale-105"
+              className="object-cover grayscale group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105 opacity-60 group-hover:opacity-100"
             />
           ) : (
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(243,215,154,0.18),transparent_28%),radial-gradient(circle_at_bottom_right,rgba(143,216,255,0.20),transparent_28%),linear-gradient(180deg,#0b1117_0%,#05080b_100%)]" />
+            <div className="absolute inset-0 bg-[rgba(255,255,255,0.02)]" />
           )}
-          <div className="absolute inset-0 bg-gradient-to-t from-[#06090d] via-transparent to-transparent" />
+          
+          {/* Scanline Effect */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none opacity-20"></div>
 
-          <div className="absolute left-3 top-3 flex items-center gap-2 sm:left-5 sm:top-5">
-            <span className="rounded-full border border-white/10 bg-[#0a1117]/85 px-2 py-1 text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-white/72 sm:px-3 sm:py-1.5 sm:text-[0.7rem] sm:tracking-[0.18em]">
-              {category}
-            </span>
+          {/* Overlays */}
+          <div className="absolute inset-0 bg-gradient-to-t from-[var(--black)] via-transparent to-transparent opacity-60" />
+
+          {/* Tags */}
+          <div className="absolute top-4 left-4 font-mono-dm text-[8px] tracking-[0.2em] border border-[var(--gold-dim)] px-2 py-1 bg-[var(--black)] text-[var(--gold)] uppercase z-10">
+            {category}
           </div>
-
-          <div className="absolute right-3 top-3 rounded-full border border-white/10 bg-[#0a1117]/85 px-2 py-1 text-[0.52rem] font-semibold uppercase tracking-[0.12em] text-white/72 sm:right-5 sm:top-5 sm:px-3 sm:py-1.5 sm:text-[0.7rem] sm:tracking-[0.18em]">
+          
+          <div className="absolute top-4 right-4 font-mono-dm text-[8px] tracking-[0.2em] bg-[var(--gold-dim)] text-[var(--black)] px-2 py-1 uppercase z-10 opacity-70 group-hover:opacity-100 transition-opacity">
             {status}
           </div>
-        </div>
-
-        <div className="relative -mt-6 px-3 sm:-mt-10 sm:px-6">
-          <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-[1rem] border border-white/10 bg-[#0a1117] shadow-[0_20px_45px_rgba(0,0,0,0.35)] sm:h-20 sm:w-20 sm:rounded-[1.5rem]">
+          
+          {/* Product Logo Overlay */}
+          <div className="absolute bottom-4 left-4 w-12 h-12 border border-[var(--border)] bg-[var(--black)] p-1 z-10 transition-transform group-hover:scale-110">
             {logoUrl ? (
               <Image
                 src={logoUrl}
                 alt={name}
-                width={80}
-                height={80}
-                className="h-full w-full object-cover"
+                width={48}
+                height={48}
+                className="h-full w-full object-cover grayscale group-hover:grayscale-0"
               />
             ) : (
-              <Package className="h-5 w-5 text-[#f3d79a] sm:h-8 sm:w-8" />
+              <div className="h-full w-full flex items-center justify-center">
+                <Package className="h-5 w-5 text-[var(--gold-dim)]" />
+              </div>
             )}
           </div>
         </div>
 
-        <div className="flex h-full flex-col px-3 pb-3 pt-2 sm:px-6 sm:pb-6 sm:pt-5">
-          <div className="flex-1">
-            <h3 className="text-sm font-semibold leading-tight text-white transition-colors group-hover:text-[#f8e4b7] sm:text-2xl">
+        {/* Content */}
+        <div className="p-6">
+          <div className="flex justify-between items-start mb-4">
+            <h3 className="font-bebas text-3xl text-[var(--text)] group-hover:text-[var(--gold)] transition-colors tracking-wide">
               {name}
             </h3>
-            <p className="mt-2 line-clamp-2 text-[0.68rem] leading-4 text-white/62 sm:mt-3 sm:line-clamp-3 sm:text-base sm:leading-7">
-              {summary}
-            </p>
-          </div>
-
-          <div className="mt-4 flex items-end justify-between gap-2 border-t border-white/10 pt-3 sm:mt-8 sm:gap-4 sm:pt-5">
-            <div>
-              <p className="text-[0.52rem] uppercase tracking-[0.14em] text-white/38 sm:text-xs sm:tracking-[0.2em]">
-                Pricing
-              </p>
-              <p className="mt-1 text-sm font-semibold text-white sm:text-xl">
-                {price}
-              </p>
+            <div className="p-2 border border-[var(--border)] text-[var(--gold-dim)] group-hover:bg-[var(--gold)] group-hover:text-[var(--black)] transition-all">
+              <ArrowUpRight className="h-4 w-4" />
             </div>
+          </div>
+          
+          <p className="font-rajdhani text-base text-[var(--text-muted)] line-clamp-2 mb-6 leading-snug">
+            {summary}
+          </p>
 
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] text-white transition-colors group-hover:border-white/20 group-hover:bg-white group-hover:text-slate-950 sm:h-12 sm:w-12 sm:rounded-2xl">
-              <ArrowUpRight className="h-4 w-4 sm:h-5 sm:w-5" />
+          <div className="pt-4 border-t border-[var(--border)] flex justify-between items-center">
+            <div className="flex flex-col">
+              <span className="font-mono-dm text-[8px] tracking-[0.2em] text-[var(--gold-dim)] uppercase opacity-50 mb-1">UNIT_VALUATION</span>
+              <span className="font-rajdhani text-lg font-bold text-[var(--text)] tracking-tight uppercase">{price}</span>
+            </div>
+            
+            <div className="font-mono-dm text-[8px] tracking-[0.1em] text-[var(--gold-dim)] opacity-30">
+              ID: {id.slice(0, 8).toUpperCase()}
             </div>
           </div>
         </div>
+        
+        {/* Card Accents */}
+        <div className="absolute bottom-0 right-0 w-4 h-4 border-b border-r border-[var(--gold)] opacity-0 group-hover:opacity-100 transition-opacity"></div>
       </Link>
     </article>
   );

@@ -10,37 +10,43 @@ export function ContactInfo() {
       initial={{ opacity: 0, x: 20 }}
       whileInView={{ opacity: 1, x: 0 }}
       viewport={{ once: true }}
-      className="bg-white dark:bg-[#1a1d2d] rounded-2xl shadow-sm border border-gray-100 dark:border-gray-800 p-6 md:p-8"
+      className="relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl p-8 md:p-10"
     >
-      <h3 className="text-xl font-bold text-[#111218] dark:text-white mb-6">
-        Contact Information
+      {/* Corner Accent */}
+      <div className="absolute top-0 right-0 w-6 h-6 border-t border-r border-[var(--gold)]"></div>
+      
+      <h3 className="font-bebas text-3xl text-[var(--text)] mb-8 tracking-[0.02em] uppercase">
+        COMMUNICATION <span className="text-[var(--gold)]">CHANNELS</span>
       </h3>
-      <div className="flex flex-col gap-6">
-        <a className="flex items-start gap-4 group" href={`mailto:${contactInfo.email}`}>
-          <div className="size-10 rounded-full bg-[#1337ec]/10 flex items-center justify-center shrink-0 group-hover:bg-[#1337ec] group-hover:text-white transition-colors text-[#1337ec]">
-            <Mail className="w-5 h-5" />
+
+      <div className="flex flex-col gap-8">
+        <a className="group flex items-start gap-6 cursor-none" href={`mailto:${contactInfo.email}`}>
+          <div className="w-12 h-12 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] flex items-center justify-center transition-all group-hover:border-[var(--gold)] group-hover:bg-[rgba(201,160,69,0.1)]">
+            <Mail className="w-5 h-5 text-[var(--gold)]" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Email us</span>
-            <span className="text-base font-semibold text-[#111218] dark:text-white">{contactInfo.email}</span>
-          </div>
-        </a>
-        <a className="flex items-start gap-4 group" href={`tel:+254790670542`}>
-          <div className="size-10 rounded-full bg-[#1337ec]/10 flex items-center justify-center shrink-0 group-hover:bg-[#1337ec] group-hover:text-white transition-colors text-[#1337ec]">
-            <Phone className="w-5 h-5" />
-          </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Call us</span>
-            <span className="text-base font-semibold text-[#111218] dark:text-white">{contactInfo.phone}</span>
+          <div className="flex flex-col pt-1">
+            <span className="font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold-dim)] uppercase mb-1">EMAIL_TRANSMISSION</span>
+            <span className="font-rajdhani text-xl font-semibold text-[var(--text)] tracking-tight group-hover:text-[var(--gold)] transition-colors">{contactInfo.email}</span>
           </div>
         </a>
-        <div className="flex items-start gap-4">
-          <div className="size-10 rounded-full bg-[#1337ec]/10 flex items-center justify-center shrink-0 text-[#1337ec]">
-            <MapPin className="w-5 h-5" />
+
+        <a className="group flex items-start gap-6 cursor-none" href={`tel:+254790670542`}>
+          <div className="w-12 h-12 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] flex items-center justify-center transition-all group-hover:border-[var(--gold)] group-hover:bg-[rgba(201,160,69,0.1)]">
+            <Phone className="w-5 h-5 text-[var(--gold)]" />
           </div>
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-gray-500 dark:text-gray-400">Visit us</span>
-            <span className="text-base font-semibold text-[#111218] dark:text-white whitespace-pre-line">
+          <div className="flex flex-col pt-1">
+            <span className="font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold-dim)] uppercase mb-1">VOICE_UPLINK</span>
+            <span className="font-rajdhani text-xl font-semibold text-[var(--text)] tracking-tight group-hover:text-[var(--gold)] transition-colors">{contactInfo.phone}</span>
+          </div>
+        </a>
+
+        <div className="flex items-start gap-6">
+          <div className="w-12 h-12 border border-[var(--border)] bg-[rgba(255,255,255,0.03)] flex items-center justify-center">
+            <MapPin className="w-5 h-5 text-[var(--gold)]" />
+          </div>
+          <div className="flex flex-col pt-1">
+            <span className="font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold-dim)] uppercase mb-1">COORDINATE_LOCATION</span>
+            <span className="font-rajdhani text-lg font-medium text-[var(--text-muted)] tracking-tight whitespace-pre-line leading-tight">
               {contactInfo.address}
             </span>
           </div>

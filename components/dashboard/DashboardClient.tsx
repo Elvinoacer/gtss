@@ -1,7 +1,7 @@
 'use client';
 
 import { StatCard, RevenueChart, SystemStatus, ProductsTable, MemberActivity } from '@/components/dashboard';
-import { DollarSign, Package, Users, Server, Calendar, ChevronDown } from 'lucide-react';
+import { DollarSign, Package, Users, Server, Calendar, ChevronDown, Activity } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
 import { getProducts } from '@/lib/actions/products';
 
@@ -29,61 +29,64 @@ export function DashboardClient({ initialProducts, dashboardStats }: DashboardCl
 
   const kpis = dashboardStats?.kpis || [
     {
-      label: 'Total Revenue (MRR)',
+      label: 'TOTAL_REVENUE_MRR',
       value: '$0',
-      trend: { value: '0%', type: 'neutral' },
+      trend: { value: '0%', direction: 'neutral' },
       iconName: 'DollarSign',
     },
     {
-      label: 'Active Products',
+      label: 'ACTIVE_SYSTEM_NODES',
       value: '0',
-      trend: { value: '0 New', type: 'neutral' },
+      trend: { value: '0 New', direction: 'neutral' },
       iconName: 'Package',
     },
     {
-      label: 'Team Utilization',
+      label: 'OPERATIONAL_CAPACITY',
       value: '0',
-      trend: { value: '0%', type: 'neutral' },
+      trend: { value: '0%', direction: 'neutral' },
       iconName: 'Users',
     },
     {
-      label: 'Server Uptime',
+      label: 'INFRASTRUCTURE_UPTIME',
       value: '99.9%',
-      trend: { value: 'Stable', type: 'neutral' },
+      trend: { value: 'Stable', direction: 'neutral' },
       iconName: 'Server',
     },
   ];
 
   return (
-    <div className="max-w-7xl mx-auto space-y-8">
+    <div className="max-w-[1600px] mx-auto space-y-10">
       {/* Page Heading */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 border-b border-[var(--border)] pb-8">
         <div>
-          <h1 className="text-3xl font-black tracking-tight text-gray-900 dark:text-white">
-            Welcome back, Founder
+          <div className="flex items-center gap-2 mb-2">
+            <Activity className="w-4 h-4 text-[var(--gold)]" />
+            <span className="text-[10px] font-mono-dm text-[var(--gold-dim)] uppercase tracking-widest">System_Status: Operational</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bebas tracking-wider text-[var(--text)] uppercase">
+            Command <span className="text-[var(--gold)]">Center</span>
           </h1>
-          <p className="text-gray-500 dark:text-slate-400 mt-1">
-            Here is your company overview
+          <p className="font-cormorant italic text-xl text-[var(--text-muted)] mt-2">
+            Enterprise-grade management & strategic oversight
           </p>
         </div>
-        <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-slate-400 bg-white dark:bg-[#1e293b] px-3 py-1.5 rounded-lg border border-gray-200 dark:border-gray-700 cursor-pointer hover:border-gray-300 dark:hover:border-gray-600 transition-colors">
-          <Calendar className="w-4 h-4" />
-          <span>Last 30 Days</span>
-          <ChevronDown className="w-4 h-4" />
+        <div className="flex items-center gap-3 bg-[rgba(255,255,255,0.02)] border border-[var(--border)] px-4 py-2 hover:border-[var(--gold-dim)] transition-colors cursor-pointer group">
+          <Calendar className="w-4 h-4 text-[var(--gold-dim)] group-hover:text-[var(--gold)]" />
+          <span className="text-xs font-mono-dm uppercase tracking-widest text-[var(--text-muted)] group-hover:text-[var(--text)]">Timeframe: Last 30 Days</span>
+          <ChevronDown className="w-4 h-4 text-[var(--gold-dim)]" />
         </div>
       </div>
 
       {/* KPI Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         {kpis.map((kpi: any, index: number) => {
           const Icon = iconMap[kpi.iconName] || DollarSign;
-             // trend from backend might differ slightly in structure, adapting here
-           const trendType = kpi.trend.direction === 'up' ? 'increase' : kpi.trend.direction === 'down' ? 'decrease' : 'neutral';
-           const change = {
-             value: kpi.trend.value,
-             type: trendType as 'increase' | 'decrease' | 'neutral',
-             label: kpi.trend.label
-           };
+          const trendType = kpi.trend.direction === 'up' ? 'increase' : kpi.trend.direction === 'down' ? 'decrease' : 'neutral';
+          const change = {
+            value: kpi.trend.value,
+            type: trendType as 'increase' | 'decrease' | 'neutral',
+            label: kpi.trend.label
+          };
 
           return (
             <StatCard
@@ -99,19 +102,23 @@ export function DashboardClient({ initialProducts, dashboardStats }: DashboardCl
       </div>
 
       {/* Middle Section: Charts & Health */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <RevenueChart data={dashboardStats?.revenueChart || []} />
         </div>
-        <SystemStatus data={dashboardStats?.systemStatus} />
+        <div className="h-full">
+          <SystemStatus data={dashboardStats?.systemStatus} />
+        </div>
       </div>
 
       {/* Bottom Section: Active Products Table & Member Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2">
           <ProductsTable initialProducts={products} />
         </div>
-        <MemberActivity data={dashboardStats?.recentActivity} />
+        <div>
+          <MemberActivity data={dashboardStats?.recentActivity} />
+        </div>
       </div>
     </div>
   );

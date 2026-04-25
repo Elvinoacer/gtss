@@ -1,17 +1,14 @@
 import { Suspense } from 'react';
-import { Header } from '@/components/layout/Header';
 import { LoginForm } from '@/components/auth/LoginForm';
 import { VisualPanel } from '@/components/auth/VisualPanel';
 
 export default function LoginPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 dark:bg-[#020617]">
-      <Header />
-      
-      <main className="flex-1 flex flex-col md:flex-row h-full">
+    <div className="min-h-screen flex flex-col bg-[var(--black)]">
+      <main className="flex-1 flex flex-col lg:grid lg:grid-cols-[1fr_1.2fr] h-screen overflow-hidden">
         {/* Left Side: Login Form */}
-        <div className="flex-1 flex items-center justify-center p-6 md:p-12 lg:p-20 bg-white dark:bg-[#0f172a]">
-          <Suspense fallback={<div>Loading...</div>}>
+        <div className="flex-1 flex items-center justify-center p-8 sm:p-12 lg:p-20 bg-[var(--black)] relative z-30">
+          <Suspense fallback={<div className="font-mono-dm text-[10px] text-[var(--gold-dim)] animate-pulse">SYNCHRONIZING_ACCESS_PORTAL...</div>}>
             <LoginForm />
           </Suspense>
         </div>

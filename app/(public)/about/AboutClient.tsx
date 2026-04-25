@@ -1,4 +1,4 @@
-import { Globe, Linkedin, Sparkles, Twitter } from "lucide-react";
+import { ArrowRight, Globe, Linkedin, Sparkles, Twitter } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import type { TeamMember } from "@/src/generated/client";
@@ -62,110 +62,117 @@ function canRenderRemoteImage(src: string | null | undefined) {
 
 export function AboutClient({ teamMembers }: AboutClientProps) {
   return (
-    <main className="flex-1 px-3 pb-20 pt-6 sm:px-6 lg:px-8 lg:pt-14">
-      <div className="mx-auto max-w-7xl space-y-16 sm:space-y-24">
-        <section className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+    <main className="flex-1 px-6 lg:px-20 pb-20 pt-16">
+      <div className="mx-auto max-w-7xl space-y-32">
+        {/* Hero Section */}
+        <section className="grid gap-16 lg:grid-cols-[1.1fr_0.9fr] items-center">
           <div className="max-w-3xl">
-            <span className="public-kicker">About GTSS</span>
-            <h1 className="public-section-title mt-5 text-3xl text-white sm:mt-6 sm:text-5xl lg:text-6xl">
-              We build the software layer that helps modern African businesses
-              operate with more confidence.
+            <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6 flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+              ABOUT_GTSS_CORE
+            </div>
+            <h1 className="font-bebas text-[clamp(48px,6vw,90px)] leading-[0.95] tracking-[0.02em] text-[var(--text)] mb-8">
+              WE BUILD THE SOFTWARE LAYER FOR <span className="text-[var(--gold)]">SOVEREIGN</span> OPERATIONS.
             </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/66 sm:mt-6 sm:text-lg sm:leading-8">
+            <p className="font-cormorant text-[20px] font-light leading-relaxed text-[var(--text-muted)] max-w-2xl mb-10">
               GTSS designs and deploys practical software systems for operators
               who need more than a flashy interface. We care about launch
               quality, day-two usability, and whether the system still feels
               solid when real customers and real teams are leaning on it.
             </p>
 
-            <div className="mt-5 flex flex-wrap gap-2 sm:mt-8 sm:gap-3">
+            <div className="flex flex-wrap gap-4 mb-10">
               {["Built in Africa", "Deployment-minded", "Premium by design"].map(
                 (item) => (
-                  <span key={item} className="public-chip text-[0.68rem] sm:text-sm">
+                  <span key={item} className="font-mono-dm text-[10px] tracking-[0.15em] uppercase text-[var(--text-muted)] px-4 py-2 border border-[var(--border)] bg-[rgba(3,5,8,0.4)]">
                     {item}
                   </span>
                 ),
               )}
             </div>
 
-            <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:gap-4 sm:flex-row">
+            <div className="flex flex-col sm:flex-row gap-5">
               <Link
                 href="/products"
-                className="public-button-primary px-5 py-3 text-sm sm:px-6 sm:py-4 sm:text-base"
+                className="btn-primary font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--black)] bg-[var(--gold)] px-9 py-4 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(10px_0%,100%_0%,calc(100%-10px)_100%,0%_100%)] flex items-center gap-3 justify-center"
               >
                 Explore Products
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
               <Link
                 href="/contact"
-                className="public-button-secondary px-5 py-3 text-sm sm:px-6 sm:py-4 sm:text-base"
+                className="btn-ghost font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--text-muted)] bg-transparent px-9 py-[15px] border border-[var(--border)] cursor-none transition-all hover:text-[var(--gold)] hover:border-[var(--border-bright)] flex items-center justify-center"
               >
                 Talk to GTSS
               </Link>
             </div>
           </div>
 
-          <div className="public-panel-strong public-card-outline rounded-[1.5rem] p-4 sm:rounded-[2rem] sm:p-6">
-            <div className="grid grid-cols-2 gap-2 sm:gap-4">
+          <div className="relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl p-8 lg:p-12 overflow-hidden before:absolute before:top-0 before:left-0 before:w-8 before:h-8 before:border-t before:border-l before:border-[var(--gold)] after:absolute after:bottom-0 after:right-0 after:w-8 after:h-8 after:border-b after:border-r after:border-[var(--gold)]">
+            <div className="grid grid-cols-2 gap-px bg-[var(--border)] overflow-hidden">
               {[
                 { value: "50+", label: "project surfaces delivered" },
-                { value: "East Africa", label: "primary operating context" },
-                { value: "Offline-aware", label: "default design posture" },
-                { value: "Operator-first", label: "workflow philosophy" },
+                { value: "EA", label: "primary context (East Africa)" },
+                { value: "OFFLINE", label: "default design posture" },
+                { value: "OPERATOR", label: "workflow philosophy" },
               ].map((item) => (
                 <div
                   key={item.label}
-                  className="rounded-[1rem] border border-white/10 bg-white/[0.03] p-3 sm:rounded-[1.5rem] sm:p-5"
+                  className="bg-[rgba(3,5,8,0.8)] p-6 lg:p-8"
                 >
-                  <p className="text-base font-semibold text-white sm:text-2xl">
+                  <p className="font-bebas text-3xl lg:text-4xl text-[var(--gold)]">
                     {item.value}
                   </p>
-                  <p className="mt-1 text-[0.55rem] uppercase tracking-[0.14em] text-white/40 sm:mt-2 sm:text-xs sm:tracking-[0.22em]">
+                  <p className="font-mono-dm text-[9px] uppercase tracking-[0.2em] text-[var(--text-dim)] mt-2">
                     {item.label}
                   </p>
                 </div>
               ))}
             </div>
 
-            <div className="mt-3 rounded-[1.2rem] border border-white/10 bg-[linear-gradient(135deg,rgba(243,215,154,0.10),rgba(143,216,255,0.10))] p-4 sm:mt-4 sm:rounded-[1.75rem] sm:p-6">
-              <p className="text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-white/40 sm:text-xs sm:tracking-[0.24em]">
+            <div className="mt-8 pt-8 border-t border-[var(--border)]">
+              <p className="font-mono-dm text-[9px] font-semibold uppercase tracking-[0.25em] text-[var(--gold-dim)] mb-4">
                 Operating thesis
               </p>
-              <p className="mt-2 text-base font-semibold text-white sm:mt-3 sm:text-lg">
-                Good software should reduce noise, make the business look more
+              <p className="font-cormorant text-xl lg:text-2xl font-light italic text-[var(--text)] leading-relaxed">
+                "Good software should reduce noise, make the business look more
                 capable, and give teams clearer control of the work in front of
-                them.
+                them."
               </p>
             </div>
           </div>
         </section>
 
-        <section className="grid gap-8 lg:grid-cols-[0.95fr_1.05fr]">
+        {/* Principles Section */}
+        <section className="grid gap-20 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <span className="public-kicker">Our approach</span>
-            <h2 className="public-section-title mt-5 text-2xl text-white sm:mt-6 sm:text-4xl lg:text-5xl">
-              GTSS sits at the intersection of product polish and operating
-              reality.
+            <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6 flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+              OUR_APPROACH
+            </div>
+            <h2 className="font-bebas text-5xl lg:text-7xl text-[var(--text)] leading-none tracking-[0.02em] mb-8">
+              POLISH MEETS <span className="text-[var(--gold)]">REALITY.</span>
             </h2>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-white/66 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="font-cormorant text-xl font-light text-[var(--text-muted)] leading-relaxed">
               We do not think of software as a disconnected digital artifact.
               It is part of how a company presents itself, coordinates work,
               settles payments, tracks accountability, and grows.
             </p>
           </div>
 
-          <div className="grid gap-4">
+          <div className="flex flex-col gap-6">
             {principles.map((principle) => (
               <article
                 key={principle.title}
-                className="public-panel rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-6"
+                className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.4)] p-8 lg:p-10 transition-all hover:border-[var(--gold-dim)] hover:bg-[rgba(3,5,8,0.6)]"
               >
-                <p className="text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-[#8fd8ff] sm:text-xs sm:tracking-[0.22em]">
-                  Principle
-                </p>
-                <h3 className="mt-2 text-lg font-semibold text-white sm:mt-3 sm:text-2xl">
+                <div className="absolute top-4 right-6 font-mono-dm text-[10px] tracking-[0.2em] text-[var(--gold-dim)] opacity-40 group-hover:opacity-100 transition-opacity">
+                  PROTOCOL_0{principles.indexOf(principle) + 1}
+                </div>
+                <h3 className="font-rajdhani text-2xl lg:text-3xl font-semibold tracking-tight text-[var(--text)] mb-4 uppercase">
                   {principle.title}
                 </h3>
-                <p className="mt-2 text-xs leading-6 text-white/62 sm:mt-3 sm:text-base sm:leading-7">
+                <p className="font-cormorant text-[17px] lg:text-[19px] font-light leading-relaxed text-[var(--text-muted)]">
                   {principle.description}
                 </p>
               </article>
@@ -173,41 +180,51 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
           </div>
         </section>
 
+        {/* Capabilities Section */}
         <section>
-          <div className="max-w-3xl">
-            <span className="public-kicker">What we build</span>
-            <h2 className="public-section-title mt-5 text-2xl text-white sm:mt-6 sm:text-4xl lg:text-5xl">
-              GTSS is designed to be useful where execution pressure is high.
+          <div className="max-w-3xl mb-16">
+            <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6 flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+              CORE_CAPABILITIES
+            </div>
+            <h2 className="font-bebas text-5xl lg:text-7xl text-[var(--text)] leading-none tracking-[0.02em]">
+              DESIGNED FOR <span className="text-[var(--gold)]">PRESSURE.</span>
             </h2>
           </div>
 
-          <div className="mt-6 grid gap-4 sm:mt-10 sm:gap-5 lg:grid-cols-3">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {capabilities.map((capability) => (
               <article
                 key={capability.title}
-                className="public-panel public-card-outline rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-7"
+                className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.4)] p-8 lg:p-10 flex flex-col justify-between aspect-square hover:border-[var(--gold-dim)] transition-all"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-xl border border-white/10 bg-white/5 sm:h-12 sm:w-12 sm:rounded-2xl">
-                  <Sparkles className="h-4 w-4 text-[#f3d79a] sm:h-5 sm:w-5" />
+                <div className="w-12 h-12 border border-[var(--border)] flex items-center justify-center bg-[var(--black)] group-hover:border-[var(--gold)] transition-colors">
+                  <Sparkles className="w-6 h-6 text-[var(--gold)]" />
                 </div>
-                <h3 className="mt-4 text-lg font-semibold text-white sm:mt-8 sm:text-2xl">
-                  {capability.title}
-                </h3>
-                <p className="mt-2 text-xs leading-6 text-white/62 sm:mt-3 sm:text-base sm:leading-7">
-                  {capability.copy}
-                </p>
+                <div>
+                  <h3 className="font-rajdhani text-2xl lg:text-3xl font-semibold tracking-tight text-[var(--text)] mb-4 uppercase">
+                    {capability.title}
+                  </h3>
+                  <p className="font-cormorant text-[17px] font-light leading-relaxed text-[var(--text-muted)]">
+                    {capability.copy}
+                  </p>
+                </div>
               </article>
             ))}
           </div>
         </section>
 
+        {/* Team Section */}
         <section>
-          <div className="max-w-3xl">
-            <span className="public-kicker">The team</span>
-            <h2 className="public-section-title mt-5 text-2xl text-white sm:mt-6 sm:text-4xl lg:text-5xl">
-              The people shaping GTSS.
+          <div className="max-w-3xl mb-16">
+            <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6 flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+              THE_PERSONNEL
+            </div>
+            <h2 className="font-bebas text-5xl lg:text-7xl text-[var(--text)] leading-none tracking-[0.02em] mb-8">
+              SHAPING <span className="text-[var(--gold)]">GTSS.</span>
             </h2>
-            <p className="mt-4 text-sm leading-6 text-white/66 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="font-cormorant text-xl font-light text-[var(--text-muted)] max-w-2xl">
               Engineers, operators, and builders focused on making software
               genuinely useful for businesses that cannot afford fragile
               systems.
@@ -215,129 +232,117 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
           </div>
 
           {teamMembers.length > 0 ? (
-            <div className="mt-6 grid gap-4 sm:mt-10 sm:gap-5 md:grid-cols-2 xl:grid-cols-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {teamMembers.map((member) => (
                 <article
                   key={member.id}
-                  className="public-panel public-card-outline flex h-full flex-col rounded-[1.35rem] p-4 sm:rounded-[1.75rem] sm:p-7"
+                  className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.4)] p-8 flex flex-col hover:border-[var(--gold-dim)] transition-all"
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-6 mb-8">
                     {member.avatar && canRenderRemoteImage(member.avatar) ? (
-                      <div className="relative h-12 w-12 overflow-hidden rounded-[1rem] border border-white/10 sm:h-16 sm:w-16 sm:rounded-[1.25rem]">
+                      <div className="relative h-20 w-20 grayscale hover:grayscale-0 transition-all border border-[var(--border)] p-1">
                         <Image
                           src={member.avatar}
                           alt={member.name}
                           fill
                           className="object-cover"
-                          sizes="64px"
+                          sizes="80px"
                         />
                       </div>
                     ) : (
-                      <div className="flex h-12 w-12 items-center justify-center rounded-[1rem] bg-[linear-gradient(135deg,rgba(243,215,154,0.25),rgba(143,216,255,0.25))] text-sm font-semibold text-white sm:h-16 sm:w-16 sm:rounded-[1.25rem] sm:text-lg">
+                      <div className="w-20 h-20 border border-[var(--border)] flex items-center justify-center font-bebas text-3xl text-[var(--gold-dim)] bg-[rgba(201,160,69,0.05)]">
                         {getInitials(member.name)}
                       </div>
                     )}
 
-                    <div className="min-w-0 flex-1">
-                      <h3 className="truncate text-base font-semibold text-white sm:text-xl">
+                    <div className="min-w-0 flex-1 pt-1">
+                      <h3 className="font-rajdhani text-2xl font-semibold tracking-tight text-[var(--text)] mb-1 uppercase">
                         {member.name}
                       </h3>
-                      <p className="mt-1 text-[0.58rem] font-semibold uppercase tracking-[0.14em] text-[#8fd8ff] sm:text-xs sm:tracking-[0.2em]">
+                      <div className="font-mono-dm text-[9px] tracking-[0.2em] text-[var(--gold)] uppercase mb-2">
                         {member.role}
-                      </p>
-                      <p className="mt-1.5 text-[0.58rem] uppercase tracking-[0.14em] text-white/35 sm:mt-2 sm:text-xs sm:tracking-[0.18em]">
-                        Joined {member.joinDate || "GTSS early team"}
-                      </p>
+                      </div>
+                      <div className="font-mono-dm text-[8px] tracking-[0.15em] text-[var(--text-dim)] uppercase">
+                        Active since {member.joinDate || "Origin"}
+                      </div>
                     </div>
                   </div>
 
-                  <p className="mt-4 flex-1 text-xs leading-6 text-white/62 sm:mt-5 sm:text-base sm:leading-7">
+                  <p className="font-cormorant text-[17px] font-light leading-relaxed text-[var(--text-muted)] flex-1 mb-8">
                     {member.bio ||
                       "Focused on building dependable systems, clear workflows, and product experiences that feel polished without becoming fragile."}
                   </p>
 
-                  <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-4 sm:mt-6 sm:gap-3 sm:pt-5">
-                    {member.portfolioUrl ? (
-                      <Link
-                        href={member.portfolioUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/65 transition-colors hover:border-white/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-2xl"
-                        aria-label="Portfolio"
-                      >
-                        <Globe className="h-4 w-4" />
+                  <div className="flex items-center gap-3 pt-6 border-t border-[var(--border)]">
+                    {member.portfolioUrl && (
+                      <Link href={member.portfolioUrl} className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--text-dim)] hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all">
+                        <Globe className="w-4 h-4" />
                       </Link>
-                    ) : null}
-                    {member.linkedinUrl ? (
-                      <Link
-                        href={member.linkedinUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/65 transition-colors hover:border-white/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-2xl"
-                        aria-label="LinkedIn"
-                      >
-                        <Linkedin className="h-4 w-4" />
+                    )}
+                    {member.linkedinUrl && (
+                      <Link href={member.linkedinUrl} className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--text-dim)] hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all">
+                        <Linkedin className="w-4 h-4" />
                       </Link>
-                    ) : null}
-                    {member.twitterUrl ? (
-                      <Link
-                        href={member.twitterUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-white/65 transition-colors hover:border-white/20 hover:text-white sm:h-10 sm:w-10 sm:rounded-2xl"
-                        aria-label="Twitter"
-                      >
-                        <Twitter className="h-4 w-4" />
+                    )}
+                    {member.twitterUrl && (
+                      <Link href={member.twitterUrl} className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--text-dim)] hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all">
+                        <Twitter className="w-4 h-4" />
                       </Link>
-                    ) : null}
+                    )}
                   </div>
                 </article>
               ))}
             </div>
           ) : (
-            <div className="public-panel public-card-outline mt-6 rounded-[1.35rem] px-4 py-10 text-center sm:mt-10 sm:rounded-[1.75rem] sm:px-6 sm:py-16">
-              <p className="text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-white/38 sm:text-xs sm:tracking-[0.22em]">
-                Team profiles
-              </p>
-              <p className="mt-3 text-xl font-semibold text-white sm:mt-4 sm:text-3xl">
-                Team profiles are being refreshed.
-              </p>
-              <p className="mx-auto mt-3 max-w-2xl text-xs leading-6 text-white/62 sm:mt-4 sm:text-base sm:leading-7">
+            <div className="border border-[var(--border)] bg-[rgba(3,5,8,0.6)] p-20 text-center relative overflow-hidden">
+              <div className="absolute inset-0 opacity-5 pointer-events-none flex items-center justify-center font-bebas text-[200px] select-none">
+                REFRESHING
+              </div>
+              <div className="font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6">
+                SYSTEM_STATUS: UPDATE_IN_PROGRESS
+              </div>
+              <h3 className="font-bebas text-4xl text-[var(--text)] mb-6">
+                TEAM PROFILES BEING REFRESHED.
+              </h3>
+              <p className="font-cormorant text-lg font-light text-[var(--text-muted)] max-w-xl mx-auto">
                 GTSS is actively building the public team roster. If you want to
                 meet the people behind a project or product line, reach out and
-                we&apos;ll make the right introduction directly.
+                we'll make the right introduction directly.
               </p>
             </div>
           )}
         </section>
 
-        <section className="public-panel-strong public-card-outline rounded-[1.5rem] p-5 sm:rounded-[2rem] sm:p-10 lg:p-14">
-          <div className="max-w-3xl">
-            <span className="public-kicker">Work with GTSS</span>
-            <h2 className="public-section-title mt-5 text-2xl text-white sm:mt-6 sm:text-4xl lg:text-5xl">
-              If the business needs a stronger digital operating layer, we can
-              help shape it.
+        {/* CTA Section */}
+        <section className="relative border border-[var(--border)] bg-[var(--black)] p-12 lg:p-20 text-center overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent"></div>
+          <div className="max-w-3xl mx-auto relative z-10">
+            <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-8 mx-auto w-fit flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+              INITIALIZE_PARTNERSHIP
+            </div>
+            <h2 className="font-bebas text-6xl lg:text-8xl text-[var(--text)] mb-10 tracking-[0.02em]">
+              SHAPE YOUR <span className="text-[var(--gold)]">LAYER.</span>
             </h2>
-            <p className="mt-4 text-sm leading-6 text-white/66 sm:mt-5 sm:text-lg sm:leading-8">
+            <p className="font-cormorant text-xl font-light text-[var(--text-muted)] mb-12 max-w-xl mx-auto leading-relaxed">
               Whether you need a product walkthrough, a deployment plan, or a
               more tailored delivery path, GTSS is built to meet the work where
               it actually happens.
             </p>
-          </div>
-
-          <div className="mt-6 flex flex-col gap-3 sm:mt-8 sm:gap-4 sm:flex-row">
-            <Link
-              href="/contact"
-              className="public-button-primary px-5 py-3 text-sm sm:px-6 sm:py-4 sm:text-base"
-            >
-              Start the Conversation
-            </Link>
-            <Link
-              href="/products"
-              className="public-button-secondary px-5 py-3 text-sm sm:px-6 sm:py-4 sm:text-base"
-            >
-              Browse the Product Suite
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-5 justify-center">
+              <Link
+                href="/contact"
+                className="btn-primary font-mono-dm text-[11px] tracking-[0.25em] uppercase text-[var(--black)] bg-[var(--gold)] px-12 py-5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(12px_0%,100%_0%,calc(100%-12px)_100%,0%_100%)] flex items-center gap-3 justify-center"
+              >
+                Start the Conversation
+              </Link>
+              <Link
+                href="/products"
+                className="btn-ghost font-mono-dm text-[11px] tracking-[0.25em] uppercase text-[var(--text-muted)] bg-transparent px-10 py-[19px] border border-[var(--border)] cursor-none transition-all hover:text-[var(--gold)] hover:border-[var(--border-bright)] flex items-center justify-center"
+              >
+                Browse Product Suite
+              </Link>
+            </div>
           </div>
         </section>
       </div>

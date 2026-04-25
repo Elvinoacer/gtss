@@ -1,54 +1,40 @@
-import dynamic from "next/dynamic";
-
-import { Navbar } from "@/components/landing/Navbar";
 import { Hero } from "@/components/landing/Hero";
-import { Footer } from "@/components/landing/Footer";
+import { StatsBar } from "@/components/landing/StatsBar";
+import { BentoGrid } from "@/components/landing/BentoGrid";
+import { SequenceExecution } from "@/components/landing/SequenceExecution";
 import { DeferredViewTracker } from "@/components/analytics/DeferredViewTracker";
-
-const TrustBar = dynamic(() =>
-  import("@/components/landing/TrustBar").then((mod) => mod.TrustBar),
-);
-
-const Features = dynamic(() =>
-  import("@/components/landing/Features").then((mod) => mod.Features),
-);
-
-const HowItWorks = dynamic(() =>
-  import("@/components/landing/HowItWorks").then((mod) => mod.HowItWorks),
-);
-
-const Testimonials = dynamic(() =>
-  import("@/components/landing/Testimonials").then((mod) => mod.Testimonials),
-);
-
-const CTA = dynamic(() =>
-  import("@/components/landing/CTA").then((mod) => mod.CTA),
-);
 
 export default function LandingPage() {
   return (
-    <div className="landing-page public-shell overflow-x-hidden text-white antialiased">
-      <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-        <div className="public-grid" />
-        <div className="public-mesh" />
-        <div className="gradient-orb gradient-orb-blue h-[420px] w-[420px] -left-24 top-8 opacity-40 sm:h-[540px] sm:w-[540px]" />
-        <div className="gradient-orb gradient-orb-gold h-[360px] w-[360px] -right-10 top-24 opacity-35 sm:h-[460px] sm:w-[460px]" />
-        <div className="gradient-orb gradient-orb-purple bottom-0 left-1/3 h-[320px] w-[320px] opacity-20 sm:h-[420px] sm:w-[420px]" />
-      </div>
-
-      <div className="relative z-10 flex min-h-screen w-full flex-col">
-        <Navbar />
-        <DeferredViewTracker />
-        <main>
-          <Hero />
-          <TrustBar />
-          <Features />
-          <HowItWorks />
-          <Testimonials />
-          <CTA />
-        </main>
-        <Footer />
-      </div>
+    <div className="relative min-h-screen">
+      <DeferredViewTracker />
+      
+      <main className="relative">
+        <Hero />
+        <StatsBar />
+        <BentoGrid />
+        <SequenceExecution />
+        
+        {/* Contact CTA Section */}
+        <section className="cta relative z-10 px-6 lg:px-20 py-32 bg-[var(--black)] text-center border-t border-[var(--border)] overflow-hidden">
+          <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent"></div>
+          <div className="max-w-3xl mx-auto">
+            <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-6 mx-auto w-fit flex items-center gap-3">
+              <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
+              INITIALIZE_PARTNERSHIP
+            </div>
+            <h2 className="font-bebas text-6xl lg:text-8xl text-[var(--text)] mb-8 tracking-[0.02em]">
+              READY TO <span className="text-[var(--gold)]">DOMINATE?</span>
+            </h2>
+            <p className="font-cormorant text-xl font-light text-[var(--text-muted)] mb-12 max-w-xl mx-auto">
+              Secure your infrastructure with the most robust offline-first software ecosystem in the region.
+            </p>
+            <button className="btn-primary font-mono-dm text-[12px] tracking-[0.25em] uppercase text-[var(--black)] bg-[var(--gold)] px-12 py-5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(12px_0%,100%_0%,calc(100%-12px)_100%,0%_100%)] after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full after:transition-transform after:duration-[0.7s] hover:after:translate-x-[200%]">
+              REQUEST SYSTEM ACCESS
+            </button>
+          </div>
+        </section>
+      </main>
     </div>
   );
 }

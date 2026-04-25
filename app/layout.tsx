@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Sora } from "next/font/google";
+import { Geist, Geist_Mono, Sora, Bebas_Neue, Rajdhani, DM_Mono, Cormorant_Garamond } from "next/font/google";
 import "./globals.css";
+import "./landing.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,6 +15,30 @@ const geistMono = Geist_Mono({
 
 const sora = Sora({
   variable: "--font-sora",
+  subsets: ["latin"],
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-bebas",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const rajdhani = Rajdhani({
+  variable: "--font-rajdhani",
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin"],
+});
+
+const dmMono = DM_Mono({
+  variable: "--font-mono-dm",
+  weight: ["300", "400", "500"],
+  subsets: ["latin"],
+});
+
+const cormorantGaramond = Cormorant_Garamond({
+  variable: "--font-cormorant",
+  weight: ["300", "400", "500", "600", "700"],
   subsets: ["latin"],
 });
 
@@ -93,6 +118,10 @@ export const metadata: Metadata = {
   },
 };
 
+import { BootOverlay } from "@/components/landing/BootOverlay";
+import { CustomCursor } from "@/components/landing/CustomCursor";
+import { BackgroundCanvas } from "@/components/landing/BackgroundCanvas";
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -101,8 +130,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} ${bebasNeue.variable} ${rajdhani.variable} ${dmMono.variable} ${cormorantGaramond.variable} antialiased landing-page landing-grain landing-scanline`}
       >
+        <BootOverlay />
+        <CustomCursor />
+        <BackgroundCanvas />
         {children}
       </body>
     </html>
