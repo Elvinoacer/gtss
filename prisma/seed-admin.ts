@@ -3,6 +3,8 @@ import { PrismaPg } from "@prisma/adapter-pg";
 import pg from "pg";
 import "dotenv/config";
 
+import bcrypt from "bcryptjs";
+
 const connectionString = process.env.DATABASE_URL;
 const pool = new pg.Pool({ connectionString });
 const adapter = new PrismaPg(pool);
@@ -10,7 +12,8 @@ const prisma = new PrismaClient({ adapter });
 
 async function main() {
   const adminEmail = "admin@gtss.com";
-  const adminPassword = "adminpassword"; // Plain text for now as per plan
+  const rawPassword = "adminpassword";
+  const hashedPassword = await bcrypt.hash(rawPassword, 10);
 
   const existingAdmin = await prisma.user.findUnique({
     where: { email: adminEmail },
@@ -20,14 +23,18 @@ async function main() {
     await prisma.user.create({
       data: {
         email: adminEmail,
-        password: adminPassword,
+        password: hashedPassword,
         role: Role.ADMIN,
         name: "Admin User",
       },
     });
     console.log("Admin user created");
   } else {
-    console.log("Admin user already exists");
+    await prisma.user.update({
+      where: { email: adminEmail },
+      data: { password: hashedPassword },
+    });
+    console.log("Admin user password updated");
   }
 }
 
