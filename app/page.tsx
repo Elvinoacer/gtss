@@ -3,6 +3,7 @@ import { StatsBar } from "@/components/landing/StatsBar";
 import { BentoGrid } from "@/components/landing/BentoGrid";
 import { SequenceExecution } from "@/components/landing/SequenceExecution";
 import { DeferredViewTracker } from "@/components/analytics/DeferredViewTracker";
+import Link from "next/link";
 
 export default function LandingPage() {
   return (
@@ -29,9 +30,9 @@ export default function LandingPage() {
             <p className="font-cormorant text-lg lg:text-xl font-light text-[var(--text-muted)] mb-10 lg:mb-12 max-w-xl mx-auto">
               Secure your infrastructure with the most robust offline-first software ecosystem in the region.
             </p>
-            <button className="btn-primary font-mono-dm text-[11px] lg:text-[12px] tracking-[0.2em] lg:tracking-[0.25em] uppercase text-[var(--black)] bg-[var(--gold)] px-10 lg:px-12 py-4 lg:py-5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(12px_0%,100%_0%,calc(100%-12px)_100%,0%_100%)] after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full after:transition-transform after:duration-[0.7s] hover:after:translate-x-[200%]">
+            <Link href="/contact" className="btn-primary inline-flex items-center justify-center font-mono-dm text-[11px] lg:text-[12px] tracking-[0.2em] lg:tracking-[0.25em] uppercase text-[var(--black)] bg-[var(--gold)] px-10 lg:px-12 py-4 lg:py-5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(12px_0%,100%_0%,calc(100%-12px)_100%,0%_100%)] after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full after:transition-transform after:duration-[0.7s] hover:after:translate-x-[200%]">
               REQUEST SYSTEM ACCESS
-            </button>
+            </Link>
           </div>
         </section>
 

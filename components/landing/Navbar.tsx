@@ -14,6 +14,18 @@ export function Navbar() {
         </span>
       </Link>
 
+      <div className="nav-links hidden lg:flex items-center gap-10">
+        <Link href="/products/restaurant-manager" className="font-rajdhani text-[13px] font-bold tracking-[0.15em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)]">
+          Restaurant Manager
+        </Link>
+        <Link href="/products" className="font-rajdhani text-[13px] font-bold tracking-[0.15em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)]">
+          All Products
+        </Link>
+        <Link href="/about" className="font-rajdhani text-[13px] font-bold tracking-[0.15em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)]">
+          Intelligence
+        </Link>
+      </div>
+
       <div className="nav-status flex items-center gap-8">
         <div className="status-pill hidden sm:flex items-center gap-2 font-mono-dm text-[10px] text-[var(--text-muted)] tracking-[0.15em]">
           <div className="status-dot w-1.5 h-1.5 rounded-full bg-[var(--green)] shadow-[0_0_8px_var(--green)] animate-[blink_2.5s_ease-in-out_infinite]"></div>
