@@ -50,6 +50,15 @@ const nextConfig: NextConfig = {
       },
     ];
   },
+  async redirects() {
+    return [
+      {
+        source: "/products/cmkwglu7u000004jv50w2cmcj",
+        destination: "/products/restaurant-manager",
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
