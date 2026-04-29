@@ -165,13 +165,13 @@ export function RoleExperience() {
             <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#4CAF50", boxShadow: "0 0 10px rgba(76,175,80,0.4)" }}></div>
             ALL SYSTEMS NOMINAL
           </div>
-          <Link
-            href="https://gtss.software"
+          <button
+            onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
             className="btn-primary"
             style={{ padding: "6px 14px", fontSize: "9px", height: "auto", background: "var(--gold)", color: "#000", borderRadius: "2px", clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
           >
-            DEPLOY SYSTEM
-          </Link>
+            COPILOT TEST
+          </button>
         </div>
       </nav>
 
@@ -1418,16 +1418,103 @@ export function RoleExperience() {
         </div>
       </section>
 
+      {/* ── PRICING & FINALIZATION ───────────────────────── */}
+      <section className="section" style={{ background: "rgba(10,15,20,0.8)", borderTop: "1px solid var(--gold-border)" }}>
+        <div className="container">
+          <div className="section-header reveal">
+            <div className="section-number">05</div>
+            <div className="section-title-block">
+              <div className="section-eyebrow">Finalization · Deployment</div>
+              <h2 className="section-title">SYSTEM<br /><span className="accent">INVESTMENT</span></h2>
+              <p className="section-desc">Transparent pricing and infrastructure requirements for the GTSS Restaurant Manager ecosystem.</p>
+            </div>
+          </div>
+
+          <div className="grid-3 reveal">
+            {/* Core Plan */}
+            <div className="action-panel" style={{ background: "rgba(255,255,255,0.03)" }}>
+              <div className="action-panel-title">GTSS CORE</div>
+              <div style={{ fontSize: "32px", fontWeight: "bold", color: "white", marginBottom: "8px" }}>$40<span style={{ fontSize: "12px", color: "var(--text-dim)" }}>/MO</span></div>
+              <p style={{ fontSize: "12px", color: "var(--text-dim)", marginBottom: "24px" }}>For small cafes and food trucks.</p>
+              <ul className="action-list">
+                <li className="action-item">Offline ordering portal</li>
+                <li className="action-item">Kitchen Display (Basic)</li>
+                <li className="action-item">Daily CSV Exports</li>
+              </ul>
+            </div>
+
+            {/* Pro Plan */}
+            <div className="action-panel" style={{ border: "1px solid var(--gold)", background: "rgba(232,184,75,0.05)" }}>
+              <div className="action-panel-title" style={{ color: "var(--gold)" }}>GTSS PRO</div>
+              <div style={{ fontSize: "32px", fontWeight: "bold", color: "white", marginBottom: "8px" }}>$100<span style={{ fontSize: "12px", color: "var(--text-dim)" }}>/MO</span></div>
+              <p style={{ fontSize: "12px", color: "var(--text-dim)", marginBottom: "24px" }}>For busy restaurants & hotels.</p>
+              <ul className="action-list">
+                <li className="action-item">M-Pesa STK Integration</li>
+                <li className="action-item">Staff Accountability</li>
+                <li className="action-item">Live Occupancy View</li>
+                <li className="action-item">Unlimited Tables</li>
+              </ul>
+            </div>
+
+            {/* Nexus Plan */}
+            <div className="action-panel" style={{ background: "rgba(255,255,255,0.03)" }}>
+              <div className="action-panel-title">GTSS NEXUS</div>
+              <div style={{ fontSize: "32px", fontWeight: "bold", color: "white", marginBottom: "8px" }}>$250+<span style={{ fontSize: "12px", color: "var(--text-dim)" }}>/MO</span></div>
+              <p style={{ fontSize: "12px", color: "var(--text-dim)", marginBottom: "24px" }}>For enterprise hotel chains.</p>
+              <ul className="action-list">
+                <li className="action-item">Business Central Sync</li>
+                <li className="action-item">Multi-site Deployment</li>
+                <li className="action-item">Priority Support SLA</li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="grid-2 reveal" style={{ marginTop: "40px" }}>
+             <div className="action-panel">
+                <div className="action-panel-title">INFRASTRUCTURE REQUIREMENTS</div>
+                <p style={{ fontSize: "13px", color: "var(--text-dim)", marginBottom: "20px" }}>To ensure 100% offline resilience, the following hardware is required for on-site deployment:</p>
+                <div style={{ display: "flex", gap: "20px", alignItems: "center" }}>
+                   <div style={{ width: "120px", height: "80px", position: "relative", borderRadius: "8px", overflow: "hidden", border: "1px solid rgba(255,255,255,0.1)" }}>
+                      <img src="/images/gtss_local_server_router_1777357301707.png" alt="Router" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+                   </div>
+                   <ul className="action-list" style={{ flex: 1 }}>
+                      <li className="action-item">GTSS Edge Router (Optimized)</li>
+                      <li className="action-item">Local Node Server (i5 8GB min)</li>
+                      <li className="action-item">Dedicated Local Network (LAN)</li>
+                   </ul>
+                </div>
+             </div>
+             <div className="action-panel">
+                <div className="action-panel-title">SUPPORT & SLA</div>
+                <ul className="action-list">
+                   <li className="action-item">24/7 Remote Technical Support</li>
+                   <li className="action-item">On-site Staff Training (2 Days)</li>
+                   <li className="action-item">Weekly Performance Audits</li>
+                   <li className="action-item">Hardware Replacement Warranty</li>
+                </ul>
+             </div>
+          </div>
+        </div>
+      </section>
+
       {/* ── FOOTER / CTA ──────────────────────────────────── */}
       <footer className="footer">
         <div className="footer-brand">GTSS</div>
         <div style={{ textAlign: "center" }}>
-          <div className="hero-ctas" style={{ justifyContent: "center", marginBottom: 0 }}>
-            <Link href="/" className="btn-primary">INITIALIZE SEQUENCE →</Link>
-            <Link href="/" className="btn-secondary">VIEW ARCHITECTURE</Link>
+          <div className="hero-ctas" style={{ justifyContent: "center", marginBottom: "24px" }}>
+            <button 
+              onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
+              className="btn-primary" 
+              style={{ padding: "16px 32px", fontSize: "14px" }}
+            >
+              INITIALIZE COPILOT TEST →
+            </button>
           </div>
+          <p style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-dim)", letterSpacing: "0.2em" }}>
+            SECURE_HANDSHAKE_READY // PORT_8080
+          </p>
         </div>
-        <div className="footer-copy">PRODUCT_ECOSYSTEM_V4 · EA GRID</div>
+        <div className="footer-copy">PRODUCT_ECOSYSTEM_V5 · EA GRID</div>
       </footer>
       {/* ── LIGHTBOX MODAL ────────────────────────────── */}
       {selectedAsset && (

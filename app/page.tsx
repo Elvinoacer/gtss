@@ -3,9 +3,12 @@ import { StatsBar } from "@/components/landing/StatsBar";
 import { BentoGrid } from "@/components/landing/BentoGrid";
 import { SequenceExecution } from "@/components/landing/SequenceExecution";
 import { DeferredViewTracker } from "@/components/analytics/DeferredViewTracker";
+import { getPublicProducts } from "@/lib/data/public-products";
 import Link from "next/link";
 
-export default function LandingPage() {
+export default async function LandingPage() {
+  const products = await getPublicProducts();
+
   return (
     <div className="relative min-h-screen">
       <DeferredViewTracker />
@@ -13,7 +16,7 @@ export default function LandingPage() {
       <main className="relative">
         <Hero />
         <StatsBar />
-        <BentoGrid />
+        <BentoGrid products={products} />
         <SequenceExecution />
         
         {/* Contact CTA Section */}

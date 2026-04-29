@@ -1,70 +1,55 @@
 import { ArrowUpRight, Database, Globe, Layers, Shield, Zap } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { PublicProductListItem } from "@/lib/data/public-products";
+import { getIcon } from "@/lib/icons";
 
-const bentoItems = [
-  {
-    id: "jit",
-    title: "JustInTime",
-    subtitle: "Community Matrix",
-    description: "The primary engine for decentralized community service access. Connecting local talent with institutional demand in real-time.",
-    icon: Globe,
-    size: "lg",
-    image: "/images/gtss_bento.png",
-    color: "var(--gold)",
-    href: "/products/just-in-time",
-  },
-  {
-    id: "rm",
-    title: "Restaurant Manager",
-    subtitle: "Offline Command",
-    description: "High-performance POS systems that never sleep. Built for the chaos of high-volume hospitality floors.",
-    icon: Zap,
-    size: "md",
-    image: "/images/gtss_bento.png",
-    color: "var(--cyan)",
-    href: "/products/restaurant-manager",
-  },
-  {
-    id: "ec",
-    title: "E-commerce Matrix",
-    subtitle: "Multi-Vendor Core",
-    description: "Enterprise-grade digital storefronts designed for African commerce dynamics.",
-    icon: Layers,
-    size: "sm",
-    color: "var(--gold)",
-    href: "/products/ecommerce",
-  },
-  {
+interface BentoGridProps {
+  products: PublicProductListItem[];
+}
+
+export function BentoGrid({ products }: BentoGridProps) {
+  // Map database products to bento items
+  const dbItems = products.map((product, index) => ({
+    id: product.id,
+    title: product.name,
+    subtitle: product.tagline || product.category,
+    description: product.description || "",
+    icon: getIcon(product.icon),
+    size: index === 0 ? "lg" : index === 1 ? "md" : "sm",
+    image: product.images[0] || "/images/gtss_bento.png",
+    color: product.iconColor || "var(--gold)",
+    href: `/products/${product.id}`,
+  }));
+
+  // Add the "Offline First" feature as a static item if it's not in the DB
+  const offlineFeature = {
     id: "offline",
     title: "Offline First",
     subtitle: "Resilience Engine",
     description: "Our proprietary architecture ensuring 100% operational continuity during network outages.",
     icon: Database,
-    size: "md",
+    size: "md" as const,
     color: "var(--cyan)",
     href: "/features/offline-first",
-  },
-  {
-    id: "church",
-    title: "Ecclesia Cloud",
-    subtitle: "Faith Management",
-    description: "Streamlined administration and financial tracking for modern religious institutions.",
-    icon: Shield,
-    size: "sm",
-    color: "var(--gold)",
-    href: "/products/church",
-  },
-];
+    image: "/images/gtss_bento.png"
+  };
 
-export function BentoGrid() {
+  // Combine items, putting DB products first, then features
+  const bentoItems = [...dbItems];
+  
+  // If we have fewer than 5 items, add the offline feature
+  if (bentoItems.length < 6) {
+    bentoItems.push(offlineFeature);
+  }
+
   return (
     <section className="bento relative z-10 px-6 lg:px-20 py-16 lg:py-24 bg-[rgba(3,5,8,0.3)]">
       <div className="bento-header mb-12 lg:mb-16 flex flex-col md:flex-row md:items-end justify-between gap-6 lg:gap-8">
         <div className="max-w-xl">
           <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-4 flex items-center gap-3">
             <div className="w-8 h-[1px] bg-[var(--gold)]"></div>
-            PRODUCT_ECOSYSTEM_V4
+            PRODUCT_ECOSYSTEM_V5
           </div>
           <h2 className="section-title font-bebas text-4xl lg:text-7xl text-[var(--text)] leading-none tracking-[0.02em]">
             SYSTEM <span className="text-[var(--gold)]">ARCHITECTURE</span><br/>
@@ -77,7 +62,7 @@ export function BentoGrid() {
       </div>
 
       <div className="bento-grid grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-4 lg:gap-5 auto-rows-[180px] lg:auto-rows-[220px]">
-        {bentoItems.map((item) => (
+        {bentoItems.map((item, index) => (
           <Link
             key={item.id}
             href={item.href}
