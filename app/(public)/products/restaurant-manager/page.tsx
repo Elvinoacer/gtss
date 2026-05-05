@@ -8,6 +8,15 @@ import {
   WifiOff,
   Server,
   Smartphone,
+  FileWarning,
+  BarChart3,
+  Receipt,
+  UserX,
+  Clock,
+  Wrench,
+  Wifi,
+  Quote,
+  Check,
 } from "lucide-react";
 
 import { RestaurantManagerLeadForm } from "./RestaurantManagerLeadForm";
@@ -40,13 +49,13 @@ export default function RestaurantManagerPage() {
               Even when the internet does. GTSS Restaurant Manager is built for the realities of local hospitality — where connectivity is a luxury, but service is non-negotiable.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link href="/products/restaurant-manager/experience" className="public-button-primary px-8 py-5 text-lg">
-                EXPLORE EXPERIENCE
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-              <a href="#demo-form" className="public-button-secondary px-8 py-5 text-lg border-white/10 hover:bg-white/5">
+              <a href="#demo-form" className="public-button-primary px-8 py-5 text-lg">
                 BOOK A DEMO
+                <ArrowRight className="h-5 w-5" />
               </a>
+              <Link href="/products/restaurant-manager/experience" className="public-button-secondary px-8 py-5 text-lg border-white/10 hover:bg-white/5">
+                SEE IT IN ACTION
+              </Link>
             </div>
           </div>
           <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
@@ -82,18 +91,26 @@ export default function RestaurantManagerPage() {
               THE SILENT REVENUE KILLER.
             </h2>
             <p className="mt-6 text-lg leading-relaxed text-white/60">
-              When the cloud goes down, your operation shouldn't. Traditional POS systems leave staff blind and guests frustrated during outages. Manual tickets lead to errors, lost revenue, and damaged trust.
+              When the cloud goes down, your operation shouldn&apos;t. Traditional POS systems leave staff blind and guests frustrated during outages. Manual tickets lead to errors, lost revenue, and damaged trust.
             </p>
-            <div className="mt-8 grid gap-6">
-              <div className="flex gap-4">
-                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10">
-                  <Zap className="h-5 w-5 text-[var(--gold)]" />
+            <div className="mt-8 grid gap-5">
+              {[
+                { icon: Zap, title: "Loss of Visibility", desc: "Managers can't track occupancy or revenue in real-time during drops. You're flying blind." },
+                { icon: UserX, title: "Staff Errors & Theft", desc: "Paper tickets are untraceable. Discrepancies between the kitchen and the till go unnoticed until it's too late." },
+                { icon: Receipt, title: "Reconciliation Chaos", desc: "M-Pesa vs cash vs till never match at end of day. Hours lost chasing numbers that should reconcile themselves." },
+                { icon: WifiOff, title: "Lost Orders During Outages", desc: "Guests who walked out because their order got lost when the internet dropped. Revenue you'll never recover." },
+                { icon: BarChart3, title: "No Data to Decide", desc: "What's selling? Who's performing? Where are you bleeding money? Without data, you're guessing." },
+              ].map((item) => (
+                <div key={item.title} className="flex gap-4">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10">
+                    <item.icon className="h-5 w-5 text-[var(--gold)]" />
+                  </div>
+                  <div>
+                    <h4 className="font-semibold text-white">{item.title}</h4>
+                    <p className="text-sm text-white/50">{item.desc}</p>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="font-semibold text-white">Loss of Visibility</h4>
-                  <p className="text-sm text-white/50">Managers can't track occupancy or revenue in real-time during drops.</p>
-                </div>
-              </div>
+              ))}
             </div>
           </div>
         </section>
@@ -110,7 +127,7 @@ export default function RestaurantManagerPage() {
               <span className="resmg-title-accent">CLOUD SECOND.</span>
             </h2>
             <p className="mt-8 text-xl leading-relaxed text-white/70">
-              We deploy a dedicated local server on your premises. All orders, payments, and kitchen alerts run on your local network instantly. When the internet returns, GTSS automatically syncs everything to the cloud and your ERP.
+              Your restaurant runs on its own engine — so you&apos;re never at the mercy of your ISP, your cloud provider, or a Safaricom outage. We deploy a dedicated local server on your premises. All orders, payments, and kitchen alerts run instantly on your local network. When internet returns, everything syncs automatically to the cloud and your ERP.
             </p>
             <div className="mt-12 grid gap-8 sm:grid-cols-2">
               <div className="p-6 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md">
@@ -125,6 +142,52 @@ export default function RestaurantManagerPage() {
           </div>
         </section>
 
+        {/* Social Proof */}
+        <section className="relative">
+          <div className="mx-auto max-w-3xl text-center">
+            <div className="p-8 lg:p-12 rounded-[2rem] border border-white/8 bg-white/[0.02]">
+              <Quote className="mx-auto h-10 w-10 text-[var(--gold)] opacity-40 mb-6" />
+              <blockquote className="text-xl sm:text-2xl leading-relaxed text-white/85 italic">
+                &ldquo;Orders used to get lost every time the internet dropped. With GTSS, the kitchen keeps running regardless. We stopped losing revenue we didn&apos;t even know we were losing.&rdquo;
+              </blockquote>
+              <div className="mt-6 flex items-center justify-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[var(--gold)] to-[#8fd8ff] flex items-center justify-center text-black font-bold text-sm">JK</div>
+                <div className="text-left">
+                  <p className="text-sm font-semibold text-white">James K.</p>
+                  <p className="text-xs text-white/50">Nairobi Grand Hotel · Pilot Customer</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* How It Works — 3 Steps */}
+        <section>
+          <div className="text-center mb-12">
+            <span className="public-kicker">How It Works</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              LIVE IN <span className="resmg-title-accent">THREE STEPS.</span>
+            </h2>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {[
+              { step: "01", icon: Wrench, title: "We deploy your local server", desc: "Our team sets it up on-site. Takes one day. No IT team required on your end." },
+              { step: "02", icon: Clock, title: "Staff go live on day 2", desc: "Waiters, kitchen, and admin are all trained and running. We don't leave until you're confident." },
+              { step: "03", icon: Wifi, title: "Internet syncs automatically", desc: "Your ERP always has clean, reconciled data. Cloud and local stay perfectly in sync." },
+            ].map((item) => (
+              <div key={item.step} className="relative p-6 lg:p-8 rounded-2xl border border-white/10 bg-white/[0.03]">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="text-xs font-mono font-bold text-[var(--gold)] tracking-widest">{item.step}</span>
+                  <item.icon className="h-5 w-5 text-white/40" />
+                </div>
+                <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
+                <p className="text-sm text-white/55 leading-relaxed">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-6 text-center text-sm text-white/40">That&apos;s it. No IT team required. No downtime.</p>
+        </section>
+
         {/* Section 03: The Experience (The Benefit) */}
         <section className="grid gap-12 lg:grid-cols-2 lg:items-center">
           <div className="max-w-xl">
@@ -135,15 +198,20 @@ export default function RestaurantManagerPage() {
             <p className="mt-6 text-lg leading-relaxed text-white/60">
               Guests scan a QR code and order from their own phones. No app downloads. No logins. Just instant service. Waiters get alerts where they are, and kitchen staff stay focused on the next ticket.
             </p>
-            <div className="mt-10 space-y-4">
-               <div className="flex items-center gap-3">
-                  <Smartphone className="h-5 w-5 text-[var(--gold)]" />
-                  <span className="text-white/80">0s Login Time for Guests</span>
-               </div>
-               <div className="flex items-center gap-3">
-                  <ShieldCheck className="h-5 w-5 text-[var(--gold)]" />
-                  <span className="text-white/80">Audit Confidence & Integrity</span>
-               </div>
+            <div className="mt-10 space-y-5">
+              {[
+                { icon: Smartphone, text: "Your guests order in 60 seconds flat — no app, no login, just scan and go." },
+                { icon: ShieldCheck, text: "No more paper tickets. No more fraud. Every order is tracked, timestamped, and audited." },
+                { icon: Receipt, text: "Reconcile M-Pesa automatically — close the books in minutes, not hours." },
+                { icon: WifiOff, text: "Your kitchen never misses a ticket — even when the internet does." },
+              ].map((item) => (
+                <div key={item.text} className="flex items-start gap-3">
+                  <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--gold)]/15">
+                    <item.icon className="h-3.5 w-3.5 text-[var(--gold)]" />
+                  </div>
+                  <span className="text-white/80 text-sm leading-relaxed">{item.text}</span>
+                </div>
+              ))}
             </div>
           </div>
           <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10">
@@ -156,15 +224,83 @@ export default function RestaurantManagerPage() {
           </div>
         </section>
 
+        {/* Pricing Section */}
+        <section>
+          <div className="text-center mb-12">
+            <span className="public-kicker">Transparent Pricing</span>
+            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
+              PLANS THAT <span className="resmg-title-accent">SCALE WITH YOU.</span>
+            </h2>
+            <p className="mt-4 text-white/50 max-w-2xl mx-auto">From a single cafe to a hotel chain. Pick the plan that fits — upgrade anytime.</p>
+          </div>
+          <div className="grid gap-6 sm:grid-cols-3">
+            {/* Core Plan */}
+            <div className="p-6 lg:p-8 rounded-2xl border border-white/10 bg-white/[0.03]">
+              <p className="text-xs font-bold tracking-[0.2em] text-white/50 uppercase">GTSS Core</p>
+              <div className="mt-3 flex items-baseline gap-1">
+                <span className="text-4xl font-bold text-white">$40</span>
+                <span className="text-sm text-white/40">/mo</span>
+              </div>
+              <p className="mt-2 text-sm text-white/50">Cafes & small restaurants</p>
+              <div className="mt-6 space-y-3">
+                {["Local server included", "Guest QR ordering", "Kitchen display board", "M-Pesa integration", "Daily CSV exports"].map((f) => (
+                  <div key={f} className="flex items-center gap-2 text-sm text-white/70">
+                    <Check className="h-4 w-4 text-[var(--gold)] shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Pro Plan */}
+            <div className="relative p-6 lg:p-8 rounded-2xl border border-[var(--gold)]/40 bg-[var(--gold)]/[0.04] shadow-[0_0_60px_-30px_rgba(232,184,75,0.3)]">
+              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-[var(--gold)] text-black text-[10px] font-bold tracking-widest uppercase">Most Popular</div>
+              <p className="text-xs font-bold tracking-[0.2em] text-[var(--gold)] uppercase">GTSS Pro</p>
+              <div className="mt-3 flex items-baseline gap-1">
+                <span className="text-4xl font-bold text-white">$100</span>
+                <span className="text-sm text-white/40">/mo</span>
+              </div>
+              <p className="mt-2 text-sm text-white/50">Busy restaurants & boutique hotels</p>
+              <div className="mt-6 space-y-3">
+                {["Everything in Core", "Multi-floor support", "Staff accountability & tracking", "Commission reconciliation", "Live occupancy view", "Unlimited tables"].map((f) => (
+                  <div key={f} className="flex items-center gap-2 text-sm text-white/70">
+                    <Check className="h-4 w-4 text-[var(--gold)] shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+            {/* Nexus Plan */}
+            <div className="p-6 lg:p-8 rounded-2xl border border-white/10 bg-white/[0.03]">
+              <p className="text-xs font-bold tracking-[0.2em] text-white/50 uppercase">GTSS Nexus</p>
+              <div className="mt-3 flex items-baseline gap-1">
+                <span className="text-4xl font-bold text-white">$250+</span>
+                <span className="text-sm text-white/40">/mo</span>
+              </div>
+              <p className="mt-2 text-sm text-white/50">Large hotels & chains</p>
+              <div className="mt-6 space-y-3">
+                {["Everything in Pro", "Multi-branch management", "ERP & Business Central sync", "Priority support SLA", "Custom integrations"].map((f) => (
+                  <div key={f} className="flex items-center gap-2 text-sm text-white/70">
+                    <Check className="h-4 w-4 text-[var(--gold)] shrink-0" />
+                    {f}
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
         {/* Lead Form Section */}
         <section id="demo-form" className="scroll-mt-32">
           <div className="public-panel-strong public-card-outline rounded-4xl p-6 lg:p-12">
             <div className="grid gap-12 lg:grid-cols-[0.4fr_0.6fr]">
               <div>
-                <span className="public-kicker text-[var(--gold)]">Secure Access</span>
-                <h2 className="text-4xl font-bold text-white mt-4">INITIALIZE <br />DEPLOYMENT.</h2>
+                <span className="public-kicker text-[var(--gold)]">Get Started</span>
+                <h2 className="text-4xl font-bold text-white mt-4">READY TO RUN<br />A TIGHTER SHIP?</h2>
                 <p className="mt-6 text-white/50 leading-relaxed">
-                  Ready to secure your restaurant's infrastructure? Fill out the form and our team will reach out for a full system audit.
+                  Book a free 30-minute walkthrough with our team. We&apos;ll show you exactly how GTSS works in your restaurant — no commitment, no pressure. Most restaurants are live within a week.
+                </p>
+                <p className="mt-4 text-xs text-[var(--gold)]/70 leading-relaxed">
+                  We onboard a limited number of restaurants per month to ensure a quality rollout.
                 </p>
               </div>
               <div>

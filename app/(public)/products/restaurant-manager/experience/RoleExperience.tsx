@@ -168,6 +168,7 @@ export function RoleExperience() {
           <button
             onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
             className="btn-primary"
+            title="Chat with our AI demo assistant on Telegram"
             style={{ padding: "6px 14px", fontSize: "9px", height: "auto", background: "var(--gold)", color: "#000", borderRadius: "2px", clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
           >
             COPILOT TEST
@@ -210,23 +211,22 @@ export function RoleExperience() {
         </div>
       </section>
 
-      {/* ── STATS BAR ───────────────────────────────────── */}
       <div className="stats-bar">
         <div className="stat-cell">
-          <div className="stat-label">System Roles</div>
-          <div className="stat-value">04<span className="stat-unit">ACTIVE</span></div>
+          <div className="stat-label">Coverage</div>
+          <div className="stat-value">Every role<span className="stat-unit">GUEST TO ADMIN</span></div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">Route Screens</div>
-          <div className="stat-value">35+<span className="stat-unit">SCREENS</span></div>
+          <div className="stat-label">Resilience</div>
+          <div className="stat-value">Offline<span className="stat-unit">CAPABLE</span></div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">Documented Actions</div>
-          <div className="stat-value">200+<span className="stat-unit">ACTIONS</span></div>
+          <div className="stat-label">Speed</div>
+          <div className="stat-value">&lt;2s<span className="stat-unit">SCAN TO KITCHEN</span></div>
         </div>
         <div className="stat-cell">
-          <div className="stat-label">Sync Architecture</div>
-          <div className="stat-value">RT<span className="stat-unit">SOCKET</span></div>
+          <div className="stat-label">Payments</div>
+          <div className="stat-value">M-Pesa<span className="stat-unit">RECONCILED</span></div>
         </div>
       </div>
 
@@ -289,7 +289,7 @@ export function RoleExperience() {
               <div className="step-number">STEP 01</div>
               <div className="step-title">Arrival</div>
             </div>
-            <p className="step-narrative">A guest scans the table QR code and arrives at the welcome screen — no login, no download, instant access to the full restaurant experience.</p>
+            <p className="step-narrative">The moment they scan, they&apos;re already ordering. No app to download. No account to create. No waiting for a waiter to bring a laminated menu. Just instant access to everything your restaurant offers — from their own phone.</p>
             <div className="grid-2" style={{ maxWidth: "640px" }}>
               <div className="screen-card">
                 <div className="media-frame mobile-portrait" data-label="SCREEN · ClientLanding">
@@ -313,7 +313,7 @@ export function RoleExperience() {
               <div className="step-number">STEP 02</div>
               <div className="step-title">Discovery</div>
             </div>
-            <p className="step-narrative">They explore the digital menu with category filters and search. Hotel information — amenities, WiFi, contact details — is always one tap away.</p>
+            <p className="step-narrative">Your entire menu, beautifully presented and always up to date. Guests browse by category, search by name, and find hotel amenities — all from their table. No printed menus to reprint when prices change.</p>
             <div className="grid-3">
               <div className="screen-card">
                 <div className="media-frame mobile-portrait" data-label="SCREEN · ClientMenu">
@@ -359,7 +359,7 @@ export function RoleExperience() {
               <div className="step-number">STEP 03</div>
               <div className="step-title">Selection</div>
             </div>
-            <p className="step-narrative">Tapping an item reveals rich details — description, pricing, and an image carousel. The guest then customises with add-ons and special instructions before adding to cart.</p>
+            <p className="step-narrative">Rich item details with photos and pricing — your guest knows exactly what they&apos;re getting. Add-ons, special instructions, dietary notes — all captured before the order ever reaches the kitchen. No miscommunication.</p>
             <div className="grid-2" style={{ maxWidth: "640px" }}>
               <div className="screen-card">
                 <div className="media-frame mobile-portrait" data-label="MODAL · ItemDetail">
@@ -394,7 +394,7 @@ export function RoleExperience() {
               <div className="step-number">STEP 04</div>
               <div className="step-title">Checkout</div>
             </div>
-            <p className="step-narrative">Items accumulate in a real-time cart. The guest selects a table, places the order, and pays instantly via M-Pesa STK Push — the order hits the kitchen in under a second.</p>
+            <p className="step-narrative">One tap to pay. M-Pesa STK push fires instantly — the guest confirms on their phone, and the order hits the kitchen in under a second. No waiting for the bill. No flagging down a waiter. No cash disputes.</p>
             <div className="grid-3">
               <div className="screen-card">
                 <div className="media-frame mobile-portrait" data-label="SCREEN · ClientCart">
@@ -440,7 +440,7 @@ export function RoleExperience() {
               <div className="step-number">STEP 05</div>
               <div className="step-title">Tracking & Support</div>
             </div>
-            <p className="step-narrative">The guest monitors order status in real-time — every status change from the kitchen pushes instantly to their screen. Bills are itemised, and support is one tap away.</p>
+            <p className="step-narrative">Your guest watches their order move from &ldquo;received&rdquo; to &ldquo;preparing&rdquo; to &ldquo;ready&rdquo; — live, on their phone. No anxious wondering. The bill is itemised and transparent. And if something goes wrong, help is one tap away.</p>
             <div className="grid-2" style={{ maxWidth: "640px" }}>
               <div className="screen-card">
                 <div className="media-frame mobile-portrait" data-label="SCREEN · ClientBills">
@@ -475,7 +475,7 @@ export function RoleExperience() {
               <div className="step-number">STEP 06</div>
               <div className="step-title">Retail Commerce</div>
             </div>
-            <p className="step-narrative">Beyond food — guests browse and purchase retail items, souvenirs, and services through an integrated e-commerce storefront with its own cart and checkout flow.</p>
+            <p className="step-narrative">Your restaurant isn&apos;t just a kitchen — it&apos;s a brand. Guests browse and buy retail items, souvenirs, and services through a built-in storefront. A second revenue stream that costs you nothing extra to run.</p>
             <div className="grid-3">
               <div className="screen-card">
                 <div className="media-frame mobile-portrait" data-label="SCREEN · RetailMenu">
@@ -1497,23 +1497,44 @@ export function RoleExperience() {
         </div>
       </section>
 
-      {/* ── FOOTER / CTA ──────────────────────────────────── */}
+      {/* ── CLOSING CTA ──────────────────────────────────── */}
+      <section className="section" style={{ background: "linear-gradient(180deg, rgba(10,15,20,0.6) 0%, rgba(232,184,75,0.08) 100%)", borderTop: "1px solid var(--gold-border)" }}>
+        <div className="container" style={{ textAlign: "center", maxWidth: "720px" }}>
+          <div className="reveal">
+            <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", letterSpacing: "0.3em", color: "var(--gold)", marginBottom: "24px", opacity: 0.7 }}>SYSTEM READY</div>
+            <h2 className="section-title" style={{ fontSize: "clamp(36px, 6vw, 64px)", marginBottom: "24px" }}>
+              YOU&apos;VE SEEN THE<br /><span className="accent">COMPLETE SYSTEM.</span>
+            </h2>
+            <p className="section-desc" style={{ maxWidth: "100%", fontSize: "18px", lineHeight: "1.8", marginBottom: "16px" }}>
+              Now let&apos;s put it in your restaurant. Most restaurants are live within a week. We handle the setup — you handle the guests.
+            </p>
+            <p style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-dim)", letterSpacing: "0.15em", marginBottom: "40px" }}>
+              We onboard a limited number of restaurants per month to ensure a quality rollout.
+            </p>
+            <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center" }}>
+              <Link
+                href="/products/restaurant-manager#demo-form"
+                className="btn-primary"
+                style={{ padding: "18px 40px", fontSize: "15px", letterSpacing: "0.15em" }}
+              >
+                BOOK YOUR FREE DEMO →
+              </Link>
+              <button
+                onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
+                style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-dim)", letterSpacing: "0.15em", background: "none", border: "none", cursor: "pointer", padding: "8px 0", transition: "color 0.2s" }}
+                onMouseOver={(e) => (e.currentTarget.style.color = 'var(--gold)')}
+                onMouseOut={(e) => (e.currentTarget.style.color = 'var(--text-dim)')}
+              >
+                Prefer to explore on your own? Chat with our Telegram demo bot →
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── FOOTER ──────────────────────────────────── */}
       <footer className="footer">
         <div className="footer-brand">GTSS</div>
-        <div style={{ textAlign: "center" }}>
-          <div className="hero-ctas" style={{ justifyContent: "center", marginBottom: "24px" }}>
-            <button 
-              onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
-              className="btn-primary" 
-              style={{ padding: "16px 32px", fontSize: "14px" }}
-            >
-              INITIALIZE COPILOT TEST →
-            </button>
-          </div>
-          <p style={{ fontFamily: "var(--font-mono)", fontSize: "10px", color: "var(--text-dim)", letterSpacing: "0.2em" }}>
-            SECURE_HANDSHAKE_READY // PORT_8080
-          </p>
-        </div>
         <div className="footer-copy">PRODUCT_ECOSYSTEM_V5 · EA GRID</div>
       </footer>
       {/* ── LIGHTBOX MODAL ────────────────────────────── */}
