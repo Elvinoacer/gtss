@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { experienceAssets } from "./experience-data";
 import { YouTubePlayer } from "./YouTubePlayer";
+import { RestaurantManagerLeadForm } from "../RestaurantManagerLeadForm";
 import "./role-experience.css";
 
 /* ── PARTICLES BACKGROUND ────────────────────────────── */
@@ -1499,26 +1500,24 @@ export function RoleExperience() {
 
       {/* ── CLOSING CTA ──────────────────────────────────── */}
       <section className="section" style={{ background: "linear-gradient(180deg, rgba(10,15,20,0.6) 0%, rgba(232,184,75,0.08) 100%)", borderTop: "1px solid var(--gold-border)" }}>
-        <div className="container" style={{ textAlign: "center", maxWidth: "720px" }}>
+        <div className="container" style={{ maxWidth: "1000px" }}>
           <div className="reveal">
-            <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", letterSpacing: "0.3em", color: "var(--gold)", marginBottom: "24px", opacity: 0.7 }}>SYSTEM READY</div>
-            <h2 className="section-title" style={{ fontSize: "clamp(36px, 6vw, 64px)", marginBottom: "24px" }}>
-              YOU&apos;VE SEEN THE<br /><span className="accent">COMPLETE SYSTEM.</span>
-            </h2>
-            <p className="section-desc" style={{ maxWidth: "100%", fontSize: "18px", lineHeight: "1.8", marginBottom: "16px" }}>
-              Now let&apos;s put it in your restaurant. Most restaurants are live within a week. We handle the setup — you handle the guests.
-            </p>
-            <p style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-dim)", letterSpacing: "0.15em", marginBottom: "40px" }}>
-              We onboard a limited number of restaurants per month to ensure a quality rollout.
-            </p>
-            <div style={{ display: "flex", flexDirection: "column", gap: "16px", alignItems: "center" }}>
-              <Link
-                href="/products/restaurant-manager#demo-form"
-                className="btn-primary"
-                style={{ padding: "18px 40px", fontSize: "15px", letterSpacing: "0.15em" }}
-              >
-                BOOK YOUR FREE DEMO →
-              </Link>
+            <div style={{ textAlign: "center", marginBottom: "40px" }}>
+              <div style={{ fontFamily: "var(--font-mono)", fontSize: "10px", letterSpacing: "0.3em", color: "var(--gold)", marginBottom: "24px", opacity: 0.7 }}>SYSTEM READY</div>
+              <h2 className="section-title" style={{ fontSize: "clamp(36px, 6vw, 64px)", marginBottom: "24px" }}>
+                YOU&apos;VE SEEN THE<br /><span className="accent">COMPLETE SYSTEM.</span>
+              </h2>
+              <p className="section-desc" style={{ maxWidth: "100%", fontSize: "18px", lineHeight: "1.8", marginBottom: "16px" }}>
+                Now let&apos;s put it in your restaurant. Most restaurants are live within a week. We handle the setup — you handle the guests.
+              </p>
+              <p style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-dim)", letterSpacing: "0.15em", marginBottom: "40px" }}>
+                We onboard a limited number of restaurants per month to ensure a quality rollout.
+              </p>
+            </div>
+            <div style={{ margin: "0 auto", maxWidth: "800px" }}>
+              <RestaurantManagerLeadForm />
+            </div>
+            <div style={{ display: "flex", justifyContent: "center", marginTop: "32px" }}>
               <button
                 onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
                 style={{ fontFamily: "var(--font-mono)", fontSize: "11px", color: "var(--text-dim)", letterSpacing: "0.15em", background: "none", border: "none", cursor: "pointer", padding: "8px 0", transition: "color 0.2s" }}

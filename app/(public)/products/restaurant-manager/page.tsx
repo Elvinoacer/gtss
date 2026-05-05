@@ -17,9 +17,8 @@ import {
   Wifi,
   Quote,
   Check,
+  PlayCircle,
 } from "lucide-react";
-
-import { RestaurantManagerLeadForm } from "./RestaurantManagerLeadForm";
 
 export const dynamic = "force-static";
 
@@ -49,12 +48,9 @@ export default function RestaurantManagerPage() {
               Even when the internet does. GTSS Restaurant Manager is built for the realities of local hospitality — where connectivity is a luxury, but service is non-negotiable.
             </p>
             <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <a href="#demo-form" className="public-button-primary px-8 py-5 text-lg">
-                BOOK A DEMO
+              <Link href="/products/restaurant-manager/experience" className="public-button-primary px-8 py-5 text-lg w-full sm:w-auto text-center">
+                EXPLORE THE EXPERIENCE
                 <ArrowRight className="h-5 w-5" />
-              </a>
-              <Link href="/products/restaurant-manager/experience" className="public-button-secondary px-8 py-5 text-lg border-white/10 hover:bg-white/5">
-                SEE IT IN ACTION
               </Link>
             </div>
           </div>
@@ -111,6 +107,12 @@ export default function RestaurantManagerPage() {
                   </div>
                 </div>
               ))}
+            </div>
+            <div className="mt-10">
+              <Link href="/products/restaurant-manager/experience" className="public-button-secondary px-8 py-4 text-base border-white/10 hover:bg-white/5 inline-flex">
+                <PlayCircle className="h-5 w-5 mr-2 text-[var(--gold)]" />
+                SEE HOW WE FIX THIS
+              </Link>
             </div>
           </div>
         </section>
@@ -185,7 +187,13 @@ export default function RestaurantManagerPage() {
               </div>
             ))}
           </div>
-          <p className="mt-6 text-center text-sm text-white/40">That&apos;s it. No IT team required. No downtime.</p>
+          <div className="mt-10 text-center flex flex-col items-center">
+            <p className="text-sm text-white/40 mb-6">That&apos;s it. No IT team required. No downtime.</p>
+            <Link href="/products/restaurant-manager/experience" className="public-button-secondary px-8 py-4 text-base border-white/10 hover:bg-white/5 inline-flex">
+              <PlayCircle className="h-5 w-5 mr-2 text-[var(--gold)]" />
+              EXPLORE THE FLOW
+            </Link>
+          </div>
         </section>
 
         {/* Section 03: The Experience (The Benefit) */}
@@ -289,27 +297,28 @@ export default function RestaurantManagerPage() {
           </div>
         </section>
 
-        {/* Lead Form Section */}
-        <section id="demo-form" className="scroll-mt-32">
-          <div className="public-panel-strong public-card-outline rounded-4xl p-6 lg:p-12">
-            <div className="grid gap-12 lg:grid-cols-[0.4fr_0.6fr]">
-              <div>
-                <span className="public-kicker text-[var(--gold)]">Get Started</span>
-                <h2 className="text-4xl font-bold text-white mt-4">READY TO RUN<br />A TIGHTER SHIP?</h2>
-                <p className="mt-6 text-white/50 leading-relaxed">
-                  Book a free 30-minute walkthrough with our team. We&apos;ll show you exactly how GTSS works in your restaurant — no commitment, no pressure. Most restaurants are live within a week.
-                </p>
-                <p className="mt-4 text-xs text-[var(--gold)]/70 leading-relaxed">
-                  We onboard a limited number of restaurants per month to ensure a quality rollout.
-                </p>
-              </div>
-              <div>
-                <RestaurantManagerLeadForm />
-              </div>
+        {/* Push to Experience CTA Section */}
+        <section className="relative overflow-hidden">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,184,75,0.15),transparent_70%)]"></div>
+          <div className="public-panel-strong public-card-outline rounded-4xl p-10 lg:p-16 text-center relative z-10">
+            <span className="public-kicker text-[var(--gold)] mb-6">Interactive Tour</span>
+            <h2 className="text-4xl lg:text-6xl font-bold text-white mt-4 mb-6 leading-tight">
+              SEE GTSS IN YOUR<br />REAL SERVICE FLOW.
+            </h2>
+            <p className="mt-6 text-white/60 leading-relaxed max-w-2xl mx-auto text-lg mb-10">
+              Stop guessing if the software will work for your team. Take our interactive journey through the eyes of a Guest, Waiter, Kitchen, and Admin.
+            </p>
+            <div className="flex flex-col items-center justify-center gap-6">
+              <Link href="/products/restaurant-manager/experience" className="public-button-primary px-10 py-5 text-xl w-full sm:w-auto shadow-[0_0_40px_rgba(232,184,75,0.4)]">
+                ENTER THE EXPERIENCE
+                <ArrowRight className="h-6 w-6" />
+              </Link>
+              <p className="text-xs tracking-[0.15em] text-white/40 font-mono uppercase">
+                35+ Screens · Full System Flow · Real UI
+              </p>
             </div>
           </div>
         </section>
-
       </div>
     </div>
   );
