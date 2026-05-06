@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
-import DOMPurify from "isomorphic-dompurify";
 
 import { prisma } from "@/lib/prisma";
 import { sendLeadAlertEmail } from "@/lib/email";
@@ -13,10 +12,6 @@ const publicLeadSchema = z.object({
   interest: z.string().trim().min(2).max(180),
   source: z.string().trim().min(2).max(120).optional(),
 });
-
-function sanitize(value: string): string {
-  return DOMPurify.sanitize(value).trim();
-}
 
 export async function POST(request: NextRequest) {
   try {
@@ -34,12 +29,12 @@ export async function POST(request: NextRequest) {
     }
 
     const sanitizedPayload = {
-      name: sanitize(parsed.data.name),
-      phone: sanitize(parsed.data.phone),
-      email: sanitize(parsed.data.email),
-      company: sanitize(parsed.data.company),
-      interest: sanitize(parsed.data.interest),
-      source: sanitize(parsed.data.source || "Restaurant Manager Landing"),
+      name: parsed.data.name.trim(),
+      phone: parsed.data.phone.trim(),
+      email: parsed.data.email.trim(),
+      company: parsed.data.company.trim(),
+      interest: parsed.data.interest.trim(),
+      source: (parsed.data.source || "Restaurant Manager Landing").trim(),
     };
 
     await prisma.lead.create({

@@ -1,7 +1,6 @@
 "use server";
 
 import { sendContactEmail } from "@/lib/email";
-import DOMPurify from "isomorphic-dompurify";
 
 export async function sendEmail(formData: {
   name: string;
@@ -11,10 +10,10 @@ export async function sendEmail(formData: {
 }) {
   const { name, email, subject, message } = formData;
 
-  const cleanName = DOMPurify.sanitize(name);
-  const cleanEmail = DOMPurify.sanitize(email);
-  const cleanSubject = DOMPurify.sanitize(subject);
-  const cleanMessage = DOMPurify.sanitize(message);
+  const cleanName = name.trim();
+  const cleanEmail = email.trim();
+  const cleanSubject = subject.trim();
+  const cleanMessage = message.trim();
 
   try {
     return await sendContactEmail({
