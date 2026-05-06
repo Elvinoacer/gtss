@@ -3,7 +3,7 @@ import { z } from "zod";
 import DOMPurify from "isomorphic-dompurify";
 
 import { prisma } from "@/lib/prisma";
-import { transporter } from "@/lib/email";
+import { sendLeadAlertEmail } from "@/lib/email";
 
 const publicLeadSchema = z.object({
   name: z.string().trim().min(2).max(120),
@@ -16,45 +16,6 @@ const publicLeadSchema = z.object({
 
 function sanitize(value: string): string {
   return DOMPurify.sanitize(value).trim();
-}
-
-async function sendLeadAlertEmail(payload: {
-  name: string;
-  phone: string;
-  email: string;
-  company: string;
-  interest: string;
-  source: string;
-}) {
-  const recipient = process.env.EMAIL_SERVER_USER;
-  if (!recipient) {
-    return;
-  }
-
-  await transporter.sendMail({
-    from: process.env.EMAIL_FROM || recipient,
-    to: recipient,
-    subject: `Restaurant Manager Lead: ${payload.company}`,
-    text: [
-      "New Restaurant Manager lead submitted",
-      `Name: ${payload.name}`,
-      `Email: ${payload.email}`,
-      `Phone: ${payload.phone}`,
-      `Company: ${payload.company}`,
-      `Interest: ${payload.interest}`,
-      `Source: ${payload.source}`,
-    ].join("\n"),
-    html: `
-      <h3>New Restaurant Manager Lead</h3>
-      <p><strong>Name:</strong> ${payload.name}</p>
-      <p><strong>Email:</strong> ${payload.email}</p>
-      <p><strong>Phone:</strong> ${payload.phone}</p>
-      <p><strong>Company:</strong> ${payload.company}</p>
-      <p><strong>Interest:</strong> ${payload.interest}</p>
-      <p><strong>Source:</strong> ${payload.source}</p>
-      <p><strong>Received:</strong> ${new Date().toLocaleString()}</p>
-    `,
-  });
 }
 
 export async function POST(request: NextRequest) {

@@ -7,7 +7,6 @@ Below is a **clean, opinionated tech stack** grouped by purpose, with brief reas
 ### **Frontend + Backend (Fullstack)**
 
 - **Next.js (App Router)**
-
   - Server Components + API routes
   - One codebase for frontend & backend
   - Great for SaaS dashboards and public pages
@@ -15,21 +14,18 @@ Below is a **clean, opinionated tech stack** grouped by purpose, with brief reas
 ### **Language**
 
 - **TypeScript**
-
   - Type safety across frontend, backend, Prisma
   - Critical for a long-lived platform like GTSS
 
 ### **Database**
 
 - **PostgreSQL**
-
   - Reliable, scalable, relational
   - Perfect for products, members, sales, roles
 
 ### **ORM**
 
 - **Prisma**
-
   - Strong schema modeling
   - Easy migrations
   - Excellent with Next.js + PostgreSQL
@@ -41,7 +37,6 @@ Below is a **clean, opinionated tech stack** grouped by purpose, with brief reas
 ### **Styling**
 
 - **Tailwind CSS**
-
   - Fast UI development
   - Consistent design system
   - Works perfectly with dashboards
@@ -49,7 +44,6 @@ Below is a **clean, opinionated tech stack** grouped by purpose, with brief reas
 ### **Animations**
 
 - **Framer Motion**
-
   - Page transitions
   - Micro-interactions
   - Smooth UX for admin tools
@@ -57,7 +51,6 @@ Below is a **clean, opinionated tech stack** grouped by purpose, with brief reas
 ### **Icons**
 
 - **Lucide React**
-
   - Clean, modern icons
   - Lightweight and consistent
 
@@ -68,14 +61,12 @@ Below is a **clean, opinionated tech stack** grouped by purpose, with brief reas
 ### **Server State / Fetching**
 
 - **TanStack React Query**
-
   - Caching, background refetch
   - Perfect for dashboards and analytics
 
 ### **Client State (when needed)**
 
 - **Zustand**
-
   - Simple, scalable state management
   - Less boilerplate than Redux
 
@@ -93,14 +84,12 @@ This combo prevents bad data from ever reaching your DB.
 ### **Auth**
 
 - **Auth.js (NextAuth v5)**
-
   - Credentials + OAuth support
   - Works well with App Router
 
 ### **Authorization**
 
 - **Role-Based Access Control (RBAC)**
-
   - Implemented via Prisma + middleware
   - Matches GTSS roles perfectly
 
@@ -111,13 +100,11 @@ This combo prevents bad data from ever reaching your DB.
 ### **File Storage**
 
 - **Cloudinary** or **S3-compatible storage**
-
   - For demo videos, screenshots, docs
 
 ### **QR Code Generation**
 
 - **qrcode** or **qrcode.react**
-
   - Server-side generation
   - Export PNG / SVG
 
@@ -128,14 +115,12 @@ This combo prevents bad data from ever reaching your DB.
 ### **App Analytics**
 
 - **PostHog** (self-hosted or cloud)
-
   - Product usage analytics
   - Feature adoption tracking
 
 ### **Error Tracking**
 
 - **Sentry**
-
   - Frontend + backend error visibility
 
 ### **Performance**
@@ -156,7 +141,6 @@ You can abstract payments per product.
 ## 🧠 Background Jobs & Automation
 
 - **Inngest** or **BullMQ + Redis**
-
   - Email sending
   - Commission calculations
   - Report generation
@@ -165,8 +149,7 @@ You can abstract payments per product.
 
 ## 📧 Communication
 
-- **Nodemailer** (transactional emails)
-- **Resend** (modern email API, optional)
+- **Resend** (transactional emails and branded HTML templates)
 - **WhatsApp Business API** (later)
 
 ---
@@ -186,7 +169,6 @@ You can abstract payments per product.
 ### **CI/CD**
 
 - **GitHub Actions**
-
   - Linting
   - Tests
   - Build checks
