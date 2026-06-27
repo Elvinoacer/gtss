@@ -2,8 +2,11 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-const FROM = process.env.EMAIL_FROM || "GTSS <onboarding@resend.dev>";
-const ADMIN = process.env.ADMIN_EMAIL || "support@gtss.software";
+// Until gtss.software domain is verified in Resend, use the safe onboarding sender
+const FROM = "GTSS <onboarding@resend.dev>";
+// Extract plain email from "Name <email>" format if present
+const rawAdmin = process.env.ADMIN_EMAIL || "support@gtss.software";
+const ADMIN = rawAdmin.match(/<(.+)>/)?.[1] ?? rawAdmin;
 
 interface ContactPayload {
   name: string;
@@ -67,9 +70,13 @@ export async function POST(request: NextRequest) {
     });
 
     if (adminError) {
-      console.error("Resend admin error:", adminError);
+      console.error("Resend admin error:", JSON.stringify(adminError));
       return NextResponse.json(
-        { success: false, errors: ["Failed to send message. Please try again."] },
+        {
+          success: false,
+          errors: ["Failed to send message. Please try again."],
+          _debug: adminError,
+        },
         { status: 500 }
       );
     }
