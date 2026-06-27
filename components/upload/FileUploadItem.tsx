@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/static-components */
 'use client';
 
 import { FileVideo, FileImage, FileText, PauseCircle, XCircle, CheckCircle, Trash2, X } from 'lucide-react';

@@ -1,33 +1,7 @@
-import { auth } from "@/auth"
-import { NextResponse } from "next/server"
-import { Role } from "@/prisma/generated/client"
- 
-export default auth((req) => {
-  const isLoggedIn = !!req.auth
-  const protectedRoutes = ["/dashboard", "/analytics", "/customers", "/leads", "/docs", "/deployments"]
-  const isOnProtected = protectedRoutes.some(route => req.nextUrl.pathname.startsWith(route))
-  const isOnAuth = req.nextUrl.pathname.startsWith("/login") || req.nextUrl.pathname.startsWith("/register")
-  
-  if (isOnProtected) {
-    if (isLoggedIn) {
-      if (req.auth?.user?.role !== Role.ADMIN) {
-        return NextResponse.redirect(new URL("/", req.nextUrl))
-      }
-      return // Allow access
-    }
-    return NextResponse.redirect(new URL("/login", req.nextUrl)) // Redirect unauthenticated users to login
-  }
+import NextAuth from 'next-auth';
+import { authConfig } from './auth.config';
 
-  if (isOnAuth) {
-    if (isLoggedIn) {
-      if (req.auth?.user?.role === Role.ADMIN) {
-        return NextResponse.redirect(new URL("/dashboard", req.nextUrl))
-      }
-      return NextResponse.redirect(new URL("/", req.nextUrl))
-    }
-    return // Allow access to auth pages
-  }
-})
+export const proxy = NextAuth(authConfig).auth;
  
 // Optionally, don't invoke Middleware on some paths
 export const config = {

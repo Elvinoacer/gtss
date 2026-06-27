@@ -1531,11 +1531,7 @@ export function RoleExperience() {
         </div>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────── */}
-      <footer className="footer">
-        <div className="footer-brand">GTSS</div>
-        <div className="footer-copy">PRODUCT_ECOSYSTEM_V5 · EA GRID</div>
-      </footer>
+      {/* Footer removed to prevent double footers with the root layout */}
       {/* ── LIGHTBOX MODAL ────────────────────────────── */}
       {selectedAsset && (
         <div className="lightbox-overlay" onClick={() => setSelectedAsset(null)}>

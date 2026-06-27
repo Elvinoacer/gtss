@@ -55,16 +55,19 @@ export async function POST(request: NextRequest) {
       console.error("Failed to send lead notification email:", emailError);
     }
 
-    // 2. Send styled confirmation to the visitor
-    await sendVisitorConfirmationEmail({
-      to: sanitizedPayload.email,
-      name: sanitizedPayload.name,
-      subject: "We received your demo request – GTSS",
-      title: "Hi {name}, thanks for your interest!",
-      intro: "We've received your request for a demo of the Restaurant Manager. Our team will get back to you within <strong>24 hours</strong> to set up a time.",
-      detailLabel: "Your Interest",
-      detailValue: sanitizedPayload.interest,
-    });
+    try {
+      await sendVisitorConfirmationEmail({
+        to: sanitizedPayload.email,
+        name: sanitizedPayload.name,
+        subject: "We received your demo request – GTSS",
+        title: "Hi {name}, thanks for your interest!",
+        intro: "We've received your request for a demo of the Restaurant Manager. Our team will get back to you within <strong>24 hours</strong> to set up a time.",
+        detailLabel: "Your Interest",
+        detailValue: sanitizedPayload.interest,
+      });
+    } catch (emailError) {
+      console.error("Failed to send visitor confirmation email:", emailError);
+    }
 
     return NextResponse.json({
       success: true,
