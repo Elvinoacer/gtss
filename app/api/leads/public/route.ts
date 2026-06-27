@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod";
 
 import { prisma } from "@/lib/prisma";
-import { sendLeadAlertEmail } from "@/lib/email";
+import { sendLeadAlertEmail, sendVisitorConfirmationEmail } from "@/lib/email";
 
 const publicLeadSchema = z.object({
   name: z.string().trim().min(2).max(120),
@@ -54,6 +54,17 @@ export async function POST(request: NextRequest) {
     } catch (emailError) {
       console.error("Failed to send lead notification email:", emailError);
     }
+
+    // 2. Send styled confirmation to the visitor
+    await sendVisitorConfirmationEmail({
+      to: sanitizedPayload.email,
+      name: sanitizedPayload.name,
+      subject: "We received your demo request – GTSS",
+      title: "Hi {name}, thanks for your interest!",
+      intro: "We've received your request for a demo of the Restaurant Manager. Our team will get back to you within <strong>24 hours</strong> to set up a time.",
+      detailLabel: "Your Interest",
+      detailValue: sanitizedPayload.interest,
+    });
 
     return NextResponse.json({
       success: true,

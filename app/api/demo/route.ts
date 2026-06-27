@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import { sendDemoAlertEmail, sendVisitorConfirmationEmail } from "@/lib/email";
 
 interface DemoPayload {
   name: string;
@@ -35,16 +36,36 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Log the demo request (real email integration can be added later)
-    console.log("🎯 Demo Request Submission:", {
+    const payload = {
       name: name.trim(),
       email: email.trim(),
       phone: phone?.trim() || "(no phone)",
       product: product?.trim() || "(no product selected)",
       date: date?.trim() || "(no date)",
       message: message?.trim() || "(no message)",
-      timestamp: new Date().toISOString(),
-    });
+    };
+
+    // 1. Notify admin
+    try {
+      await sendDemoAlertEmail(payload);
+    } catch (adminError) {
+      console.error("Demo admin email error:", adminError);
+    }
+
+    // 2. Send styled confirmation to visitor
+    try {
+      await sendVisitorConfirmationEmail({
+        to: payload.email,
+        name: payload.name,
+        subject: "We received your demo request – GTSS",
+        title: "Hi {name}, your demo request is received!",
+        intro: "Thanks for requesting a demo of our solutions. Our team will contact you within <strong>24 hours</strong> to schedule a convenient time.",
+        detailLabel: "Requested Product",
+        detailValue: payload.product,
+      });
+    } catch (visitorError) {
+      console.error("Demo confirmation email error:", visitorError);
+    }
 
     return NextResponse.json({
       success: true,

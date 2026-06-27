@@ -1,6 +1,6 @@
 "use server";
 
-import { sendContactEmail } from "@/lib/email";
+import { sendContactEmail, sendVisitorConfirmationEmail } from "@/lib/email";
 
 export async function sendEmail(formData: {
   name: string;
@@ -16,12 +16,26 @@ export async function sendEmail(formData: {
   const cleanMessage = message.trim();
 
   try {
-    return await sendContactEmail({
+    const adminResult = await sendContactEmail({
       name: cleanName,
       email: cleanEmail,
       subject: cleanSubject,
       message: cleanMessage,
     });
+
+    if (adminResult.success) {
+      await sendVisitorConfirmationEmail({
+        to: cleanEmail,
+        name: cleanName,
+        subject: "We received your message – GTSS",
+        title: "Hi {name}, thanks for reaching out!",
+        intro: "We've received your message and our team will get back to you within <strong>24 hours</strong>. We appreciate your interest in our solutions.",
+        detailLabel: "Your message",
+        detailValue: cleanMessage,
+      });
+    }
+
+    return adminResult;
   } catch (error) {
     console.error("Error sending email:", error);
     return {
