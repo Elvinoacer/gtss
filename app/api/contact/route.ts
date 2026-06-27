@@ -2,8 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
-// Until gtss.software domain is verified in Resend, use the safe onboarding sender
-const FROM = "GTSS <onboarding@resend.dev>";
+const FROM = process.env.EMAIL_FROM || "GTSS <support@gtss.software>";
 // Extract plain email from "Name <email>" format if present
 const rawAdmin = process.env.ADMIN_EMAIL || "support@gtss.software";
 const ADMIN = rawAdmin.match(/<(.+)>/)?.[1] ?? rawAdmin;
