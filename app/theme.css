@@ -1,0 +1,79 @@
+/* =============================================
+   GTSS Dual-Theme System
+   Light (default for public) / Dark (default for dashboard & enterprise)
+   ============================================= */
+
+/* ─── LIGHT THEME (public default) ─── */
+:root,
+[data-theme="light"] {
+  --bg: #F8FAFC;
+  --bg-surface: #FFFFFF;
+  --bg-surface-2: #F1F5F9;
+  --bg-surface-3: #E2E8F0;
+  --accent: #2563EB;
+  --accent-bright: #3B82F6;
+  --accent-dim: #1D4ED8;
+  --accent-glow: 0 0 30px rgba(37, 99, 235, 0.15);
+  --green: #10B981;
+  --green-dim: #059669;
+  --cyan: #0EA5E9;
+  --red: #EF4444;
+  --gold: #D97706;
+  --gold-bright: #F59E0B;
+  --gold-dim: #92400E;
+  --text: #0F172A;
+  --text-muted: #6B7280;
+  --text-dim: #94A3B8;
+  --border: rgba(15, 23, 42, 0.10);
+  --border-bright: rgba(15, 23, 42, 0.20);
+  --hero-gradient: linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 50%, #ECFDF5 100%);
+  --section-alt: #F1F5F9;
+  --cta-gradient: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(15, 23, 42, 0.08);
+  --card-hover-border: rgba(37, 99, 235, 0.25);
+  --card-hover-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
+  --stat-bg: rgba(241, 245, 249, 0.8);
+  --nav-bg: rgba(248, 250, 252, 0.85);
+  --footer-bg: #0F172A;
+  --footer-text: #E2E8F0;
+  --footer-text-muted: #94A3B8;
+  --footer-border: rgba(255, 255, 255, 0.08);
+}
+
+/* ─── DARK THEME (dashboard & enterprise default) ─── */
+[data-theme="dark"] {
+  --bg: #030508;
+  --bg-surface: #080b12;
+  --bg-surface-2: #0d1018;
+  --bg-surface-3: #181c28;
+  --accent: #C9A045;
+  --accent-bright: #E8BC5A;
+  --accent-dim: #7a6128;
+  --accent-glow: 0 0 40px rgba(201, 160, 69, 0.3);
+  --green: #00FF9D;
+  --green-dim: #003d25;
+  --cyan: #00D8F0;
+  --red: #FF4444;
+  --gold: #C9A045;
+  --gold-bright: #E8BC5A;
+  --gold-dim: #7a6128;
+  --text: #EDE8DF;
+  --text-muted: #6b7080;
+  --text-dim: #3a3d4a;
+  --border: rgba(201, 160, 69, 0.15);
+  --border-bright: rgba(201, 160, 69, 0.4);
+  --hero-gradient: linear-gradient(135deg, #030508 0%, #080b12 50%, #030508 100%);
+  --section-alt: rgba(3, 5, 8, 0.3);
+  --cta-gradient: linear-gradient(135deg, #C9A045 0%, #E8BC5A 100%);
+  --card-bg: rgba(3, 5, 8, 0.6);
+  --card-border: rgba(201, 160, 69, 0.15);
+  --card-hover-border: rgba(201, 160, 69, 0.3);
+  --card-hover-shadow: 0 0 30px rgba(201, 160, 69, 0.05);
+  --stat-bg: rgba(3, 5, 8, 0.85);
+  --nav-bg: rgba(3, 5, 8, 0.75);
+  --footer-bg: #030508;
+  --footer-text: #EDE8DF;
+  --footer-text-muted: #6b7080;
+  --footer-border: rgba(201, 160, 69, 0.15);
+}

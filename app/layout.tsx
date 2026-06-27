@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Sora, Bebas_Neue, Rajdhani, DM_Mono, Cormorant_Garamond, IBM_Plex_Mono, IBM_Plex_Sans } from "next/font/google";
+import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
-import "./landing.css";
+import "./theme.css";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Navbar } from "@/components/landing/Navbar";
+import { Footer } from "@/components/landing/Footer";
+import { WhatsAppButton } from "@/components/landing/WhatsAppButton";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -13,90 +17,36 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const sora = Sora({
-  variable: "--font-sora",
-  subsets: ["latin"],
-});
-
-const bebasNeue = Bebas_Neue({
-  variable: "--font-bebas",
-  weight: "400",
-  subsets: ["latin"],
-});
-
-const rajdhani = Rajdhani({
-  variable: "--font-rajdhani",
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-});
-
-const dmMono = DM_Mono({
-  variable: "--font-mono-dm",
-  weight: ["300", "400", "500"],
-  subsets: ["latin"],
-});
-
-const ibmPlexMono = IBM_Plex_Mono({
-  variable: "--font-ibm-mono",
-  weight: ["300", "400", "500", "600"],
-  subsets: ["latin"],
-});
-
-const ibmPlexSans = IBM_Plex_Sans({
-  variable: "--font-ibm-sans",
-  weight: ["300", "400", "500", "600"],
-  subsets: ["latin"],
-});
-
-const cormorantGaramond = Cormorant_Garamond({
-  variable: "--font-cormorant",
-  weight: ["300", "400", "500", "600", "700"],
-  subsets: ["latin"],
-});
-
-const baseUrl = process.env.NEXT_PUBLIC_APP_URL
-  ? process.env.NEXT_PUBLIC_APP_URL
-  : process.env.VERCEL_URL
-    ? `https://${process.env.VERCEL_URL}`
-    : "http://localhost:3000";
-
 export const metadata: Metadata = {
-  metadataBase: new URL(baseUrl),
-  title: {
-    default: "GTSS - Great Thumbs Software Solutions",
-    template: "%s | GTSS",
-  },
+  metadataBase: new URL("https://gtss.vercel.app"),
+  title: "GTSS - Great Thumbs Software Solutions",
   description:
     "Practical, scalable software products for real-world local problems. Empowering businesses across Africa with digital infrastructure.",
   keywords: [
     "Software Solutions",
     "Africa",
     "Kenya",
+    "Nairobi",
     "Business Software",
     "SaaS",
     "E-commerce",
     "Church Management",
     "Hotel System",
+    "Restaurant Manager",
+    "M-Pesa",
+    "Offline-first",
     "Local Business",
   ],
   authors: [{ name: "GTSS Team" }, { name: "Elvin Omondi" }],
   creator: "GTSS",
   publisher: "GTSS",
-  formatDetection: {
-    email: false,
-    address: false,
-    telephone: false,
-  },
   icons: {
     icon: "/images/GTSS-logo.png",
-    shortcut: "/images/GTSS-logo.png",
-    apple: "/images/GTSS-logo.png",
   },
   openGraph: {
     title: "GTSS - Great Thumbs Software Solutions",
     description:
       "Practical, scalable software products for real-world local problems. Building the digital foundation for Africa's growth.",
-    url: "https://gtss.vercel.app",
     siteName: "GTSS",
     locale: "en_US",
     type: "website",
@@ -115,24 +65,8 @@ export const metadata: Metadata = {
     description:
       "Practical. Scalable. Trusted. Building the digital foundation for Africa's growth.",
     images: ["/images/marketing_banner.png"],
-    creator: "@Elvinoace",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
   },
 };
-
-import { BootOverlay } from "@/components/landing/BootOverlay";
-import { CustomCursor } from "@/components/landing/CustomCursor";
-import { BackgroundCanvas } from "@/components/landing/BackgroundCanvas";
 
 export default function RootLayout({
   children,
@@ -140,14 +74,19 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sora.variable} ${bebasNeue.variable} ${rajdhani.variable} ${dmMono.variable} ${cormorantGaramond.variable} ${ibmPlexMono.variable} ${ibmPlexSans.variable} antialiased landing-page landing-grain landing-scanline`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        style={{ background: "var(--bg)", color: "var(--text)" }}
       >
-        <BootOverlay />
-        <CustomCursor />
-        <BackgroundCanvas />
-        {children}
+        <ThemeProvider defaultTheme="light">
+          <div className="relative flex min-h-screen flex-col overflow-x-hidden">
+            <Navbar />
+            <main className="flex-grow pt-[72px]">{children}</main>
+            <Footer />
+            <WhatsAppButton />
+          </div>
+        </ThemeProvider>
       </body>
     </html>
   );

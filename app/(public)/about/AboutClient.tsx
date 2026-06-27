@@ -1,7 +1,7 @@
-import { ArrowRight, Globe, Linkedin, Sparkles, Twitter } from "lucide-react";
+import { ArrowRight, Globe, Network, Sparkles, MessageCircle } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import type { TeamMember } from "@/src/generated/client";
+import type { TeamMember } from "@/prisma/generated/client";
 
 interface AboutClientProps {
   teamMembers: TeamMember[];
@@ -281,12 +281,12 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
                     )}
                     {member.linkedinUrl && (
                       <Link href={member.linkedinUrl} className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--text-dim)] hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all">
-                        <Linkedin className="w-4 h-4" />
+                        <Network className="w-4 h-4" />
                       </Link>
                     )}
                     {member.twitterUrl && (
                       <Link href={member.twitterUrl} className="w-9 h-9 border border-[var(--border)] flex items-center justify-center text-[var(--text-dim)] hover:text-[var(--gold)] hover:border-[var(--gold)] transition-all">
-                        <Twitter className="w-4 h-4" />
+                        <MessageCircle className="w-4 h-4" />
                       </Link>
                     )}
                   </div>

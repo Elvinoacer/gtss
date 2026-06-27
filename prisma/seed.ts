@@ -1,4 +1,4 @@
-import { PrismaClient, Role } from '../src/generated/client';
+import { PrismaClient, Role } from './generated/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 import 'dotenv/config';
@@ -14,9 +14,8 @@ import { mediaAssetsList } from '../data/media';
 import { docContentData, docErrorCodes } from '../data/docs';
 
 
-const connectionString = process.env.DATABASE_URL;
-const pool = new pg.Pool({ connectionString });
-const adapter = new PrismaPg(pool);
+const connectionString = process.env.DATABASE_URL!;
+const adapter = new PrismaPg({ connectionString });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {

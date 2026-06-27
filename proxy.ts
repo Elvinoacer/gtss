@@ -1,6 +1,6 @@
 import { auth } from "@/auth"
 import { NextResponse } from "next/server"
-import { Role } from "@/src/generated/client"
+import { Role } from "@/prisma/generated/client"
  
 export default auth((req) => {
   const isLoggedIn = !!req.auth

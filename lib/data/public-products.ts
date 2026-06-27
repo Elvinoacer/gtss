@@ -1,6 +1,6 @@
 import { cache } from "react";
 import { unstable_cache } from "next/cache";
-import type { Prisma } from "@/src/generated/client";
+import type { Prisma } from "@/prisma/generated/client";
 
 import { prisma } from "@/lib/prisma";
 

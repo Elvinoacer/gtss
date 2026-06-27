@@ -5,7 +5,7 @@ import { useSession } from 'next-auth/react';
 import { DashboardLayout } from '@/components/dashboard/DashboardLayout';
 import Link from 'next/link';
 import { motion } from 'framer-motion';
-import { ArrowLeft, User, Mail, Briefcase, Globe, FileText, Loader2, Upload, Twitter, Linkedin, Users } from 'lucide-react';
+import { ArrowLeft, User, Mail, Briefcase, Globe, FileText, Loader2, Upload, MessageCircle, Network, Users } from 'lucide-react';
 import { useState } from 'react';
 import { createTeamMember } from '@/lib/actions/teams';
 import { useRouter } from 'next/navigation';
@@ -176,7 +176,7 @@ export default function TeamCreatePage() {
             {/* Twitter URL */}
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[#111827] dark:text-white mb-2">
-                <Twitter className="w-4 h-4 text-[#6B7280]" />
+                <MessageCircle className="w-4 h-4 text-[#6B7280]" />
                 Twitter URL
               </label>
               <input
@@ -191,7 +191,7 @@ export default function TeamCreatePage() {
             {/* LinkedIn URL */}
             <div>
               <label className="flex items-center gap-2 text-sm font-medium text-[#111827] dark:text-white mb-2">
-                <Linkedin className="w-4 h-4 text-[#6B7280]" />
+                <Network className="w-4 h-4 text-[#6B7280]" />
                 LinkedIn URL
               </label>
               <input

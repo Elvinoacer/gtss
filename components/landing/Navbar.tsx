@@ -1,40 +1,107 @@
+"use client";
+
 import Link from "next/link";
+import Image from "next/image";
+import { ThemeToggle } from "./ThemeToggle";
+import { Menu, X, Phone } from "lucide-react";
+import { useState } from "react";
 
 export function Navbar() {
+  const [mobileOpen, setMobileOpen] = useState(false);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-[500] px-6 lg:px-12 h-[72px] flex items-center justify-between border-b border-[var(--border)] bg-[rgba(3,5,8,0.75)] backdrop-blur-3xl transition-all">
-      <div className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent opacity-50"></div>
-      
-      <Link className="logo flex items-center gap-3 no-underline cursor-none" href="/">
-        <div className="logo-mark w-8 h-8 border border-[var(--gold)] relative flex items-center justify-center after:absolute after:inset-[3px] after:border after:border-[rgba(201,160,69,0.3)]">
-          <div className="logo-mark-inner w-2 h-2 bg-[var(--gold)] animate-[pulse-dot_2s_ease-in-out_infinite]"></div>
-        </div>
-        <span className="logo-text font-bebas text-[22px] tracking-[0.15em] text-[var(--text)]">
-          GTSS<span>_CORE</span>
+    <header className="fixed top-0 left-0 right-0 z-[500] px-6 lg:px-12 h-[72px] flex items-center justify-between border-b border-[var(--border)] bg-[var(--nav-bg)] backdrop-blur-3xl transition-all">
+      {/* Brand */}
+      <Link className="flex items-center gap-3 no-underline" href="/">
+        <Image
+          src="/images/GTSS-logo.png"
+          alt="GTSS Logo"
+          width={32}
+          height={32}
+          className="w-8 h-8 rounded"
+        />
+        <span className="font-semibold text-base tracking-tight text-[var(--text)] hidden sm:block">
+          Great Thumbs Software Solutions
+        </span>
+        <span className="font-semibold text-base tracking-tight text-[var(--text)] sm:hidden">
+          GTSS
         </span>
       </Link>
 
-      <div className="nav-links hidden lg:flex items-center gap-10">
-        <Link href="/products/restaurant-manager" className="font-rajdhani text-[13px] font-bold tracking-[0.15em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)]">
-          Restaurant Manager
+      {/* Desktop Navigation */}
+      <nav className="hidden lg:flex items-center gap-8">
+        <Link
+          href="/products"
+          className="text-sm font-medium text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+        >
+          Products
         </Link>
-        <Link href="/products" className="font-rajdhani text-[13px] font-bold tracking-[0.15em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)]">
-          All Products
+        <Link
+          href="/pricing"
+          className="text-sm font-medium text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+        >
+          Pricing
         </Link>
-        <Link href="/about" className="font-rajdhani text-[13px] font-bold tracking-[0.15em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)]">
-          Intelligence
+        <Link
+          href="/about"
+          className="text-sm font-medium text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+        >
+          About
         </Link>
+        <Link
+          href="/contact"
+          className="text-sm font-medium text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+        >
+          Contact
+        </Link>
+      </nav>
+
+      {/* Right Actions */}
+      <div className="flex items-center gap-3">
+        <span className="hidden md:inline-flex items-center gap-2 text-xs font-medium text-[var(--text-muted)] bg-[var(--bg-surface-2)] px-3 py-1.5 rounded-full">
+          Nairobi, Kenya
+        </span>
+        <ThemeToggle />
+        <a
+          href="tel:+254790670542"
+          className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--accent)] px-3 py-2"
+        >
+          <Phone className="w-3.5 h-3.5" />
+          Call Us
+        </a>
+        <Link
+          href="/contact"
+          className="hidden sm:inline-flex items-center justify-center text-sm font-semibold text-white bg-[var(--accent)] px-5 py-2.5 rounded-lg no-underline transition-all hover:bg-[var(--accent-bright)] hover:shadow-[var(--accent-glow)]"
+        >
+          Schedule a Call
+        </Link>
+        {/* Mobile hamburger */}
+        <button
+          className="lg:hidden w-9 h-9 flex items-center justify-center text-[var(--text)]"
+          onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label="Toggle menu"
+        >
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
 
-      <div className="nav-status flex items-center gap-8">
-        <div className="status-pill hidden sm:flex items-center gap-2 font-mono-dm text-[10px] text-[var(--text-muted)] tracking-[0.15em]">
-          <div className="status-dot w-1.5 h-1.5 rounded-full bg-[var(--green)] shadow-[0_0_8px_var(--green)] animate-[blink_2.5s_ease-in-out_infinite]"></div>
-          ALL SYSTEMS NOMINAL
+      {/* Mobile Menu */}
+      {mobileOpen && (
+        <div className="absolute top-[72px] left-0 right-0 bg-[var(--bg-surface)] border-b border-[var(--border)] p-6 flex flex-col gap-4 lg:hidden z-[499]">
+          <Link href="/products" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>Products</Link>
+          <Link href="/pricing" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>Pricing</Link>
+          <Link href="/about" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>About</Link>
+          <Link href="/contact" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>Contact</Link>
+          <a href="tel:+254790670542" className="text-base font-medium text-[var(--text-muted)] no-underline flex items-center gap-2" onClick={() => setMobileOpen(false)}><Phone className="w-4 h-4" /> Call Us</a>
+          <Link
+            href="/contact"
+            className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[var(--accent)] px-5 py-2.5 rounded-lg no-underline"
+            onClick={() => setMobileOpen(false)}
+          >
+            Schedule a Call
+          </Link>
         </div>
-        <Link href="/contact" className="btn-deploy font-mono-dm text-[11px] tracking-[0.2em] uppercase text-[var(--black)] bg-[var(--gold)] px-6 py-2.5 border-none cursor-none relative overflow-hidden transition-all hover:bg-[var(--gold-bright)] hover:shadow-[var(--glow-gold)] [clip-path:polygon(8px_0%,100%_0%,calc(100%-8px)_100%,0%_100%)] after:content-[''] after:absolute after:inset-0 after:bg-gradient-to-br after:from-transparent after:via-white/20 after:to-transparent after:-translate-x-full after:transition-transform after:duration-500 hover:after:translate-x-[200%]">
-          DEPLOY SYSTEM
-        </Link>
-      </div>
+      )}
     </header>
   );
 }

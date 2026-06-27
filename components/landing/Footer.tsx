@@ -1,67 +1,227 @@
 import Link from "next/link";
+import Image from "next/image";
+import { Phone, Mail } from "lucide-react";
 
 export function Footer() {
   return (
-    <footer className="relative z-10 border-t border-[var(--border)] bg-[var(--black)] p-8 lg:p-20 overflow-hidden">
-      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold-dim)] to-transparent"></div>
-      
-      <div className="footer-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 pb-16 border-b border-[var(--border)] mb-12">
-        <div className="footer-brand space-y-6">
-          <div className="footer-brand-name font-bebas text-[28px] tracking-[0.12em] text-[var(--text)]">
-            GTSS<span>_CORE</span>
+    <footer className="relative z-10 bg-[var(--footer-bg)] text-[var(--footer-text)] overflow-hidden">
+      <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--accent)] to-transparent opacity-30" />
+
+      <div className="max-w-7xl mx-auto px-6 lg:px-20 pt-16 pb-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 lg:gap-16 pb-12 border-b border-[var(--footer-border)]">
+          {/* Brand Column */}
+          <div className="space-y-5">
+            <div className="flex items-center gap-3">
+              <Image
+                src="/images/GTSS-logo.png"
+                alt="GTSS Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8 rounded"
+              />
+              <span className="text-lg font-bold tracking-tight text-[var(--footer-text)]">
+                Great Thumbs Software Solutions
+              </span>
+            </div>
+            <p className="text-sm text-[var(--footer-text-muted)] leading-relaxed max-w-xs">
+              Practical software for hotels, restaurants, shops, churches, and service
+              teams across East Africa. Built in Nairobi.
+            </p>
+
+            {/* Contact Info */}
+            <div className="space-y-2">
+              <a
+                href="tel:+254790670542"
+                className="flex items-center gap-2 text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+              >
+                <Phone className="w-4 h-4 shrink-0" />
+                <span>+254 790 670 542</span>
+              </a>
+              <a
+                href="mailto:info@gtss.co.ke"
+                className="flex items-center gap-2 text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+              >
+                <Mail className="w-4 h-4 shrink-0" />
+                <span>info@gtss.co.ke</span>
+              </a>
+            </div>
+
+            <div className="text-xs text-[var(--footer-text-muted)]">
+              Response: &lt;24 hrs &middot; Markets: East Africa &middot; Delivery: Product + rollout
+            </div>
+
+            {/* Social Media Icons */}
+            <div className="flex items-center gap-4 pt-2">
+              {/* X / Twitter */}
+              <a
+                href="#"
+                aria-label="Follow us on X (Twitter)"
+                className="text-[var(--footer-text-muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  stroke="none"
+                >
+                  <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                </svg>
+              </a>
+              {/* LinkedIn */}
+              <a
+                href="#"
+                aria-label="Follow us on LinkedIn"
+                className="text-[var(--footer-text-muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  stroke="none"
+                >
+                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                </svg>
+              </a>
+              {/* GitHub */}
+              <a
+                href="#"
+                aria-label="Follow us on GitHub"
+                className="text-[var(--footer-text-muted)] transition-colors hover:text-[var(--accent)]"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="currentColor"
+                  stroke="none"
+                >
+                  <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                </svg>
+              </a>
+            </div>
           </div>
-          <p className="footer-brand-desc font-cormorant text-[15px] font-light leading-relaxed text-[var(--text-muted)] max-w-xs">
-            Practical software solutions for the world's most demanding local networks. Built for permanence and offline-first performance.
-          </p>
-          <div className="status-pill flex items-center gap-2.5 font-mono-dm text-[9px] tracking-[0.15em] text-[var(--text-muted)]">
-            <div className="status-dot w-1.5 h-1.5 rounded-full bg-[var(--green)] shadow-[0_0_8px_var(--green)]"></div>
-            ALL SYSTEMS NOMINAL
+
+          {/* Solutions Column */}
+          <div>
+            <div className="text-[10px] tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-5 pb-3 border-b border-[var(--footer-border)]">
+              Solutions
+            </div>
+            <ul className="list-none flex flex-col gap-3">
+              <li>
+                <Link href="/products/restaurant-manager" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Restaurant Manager
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/ecommerce" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  E-commerce Platform
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/church" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Church Management System
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/hotel-ordering" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Hotel Ordering System
+                </Link>
+              </li>
+              <li>
+                <Link href="/products/just-in-time" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  JustInTime
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Trust & Legal Column */}
+          <div>
+            <div className="text-[10px] tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-5 pb-3 border-b border-[var(--footer-border)]">
+              Trust &amp; Legal
+            </div>
+            <ul className="list-none flex flex-col gap-3">
+              <li>
+                <Link href="/pricing" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Pricing
+                </Link>
+              </li>
+              <li>
+                <Link href="/security" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Security
+                </Link>
+              </li>
+              <li>
+                <Link href="/privacy" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link href="/terms" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Terms of Service
+                </Link>
+              </li>
+              <li>
+                <Link href="/faq" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  FAQ
+                </Link>
+              </li>
+              <li>
+                <Link href="/accessibility" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Accessibility
+                </Link>
+              </li>
+            </ul>
+          </div>
+
+          {/* Company Column */}
+          <div>
+            <div className="text-[10px] tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-5 pb-3 border-b border-[var(--footer-border)]">
+              Company
+            </div>
+            <ul className="list-none flex flex-col gap-3">
+              <li>
+                <Link href="/about" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  About
+                </Link>
+              </li>
+              <li>
+                <Link href="/contact" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Contact
+                </Link>
+              </li>
+              <li>
+                <Link href="/demo" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                  Request a Demo
+                </Link>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/254790670542"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
+                  WhatsApp Us
+                </a>
+              </li>
+            </ul>
           </div>
         </div>
 
-        <div>
-          <div className="footer-nav-title font-mono-dm text-[9px] tracking-[0.25em] text-[var(--gold)] uppercase mb-5 pb-3 border-b border-[var(--border)]">
-            Solutions
+        {/* Bottom Bar */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4 pt-8">
+          <div className="text-[11px] text-[var(--footer-text-muted)] tracking-wide">
+            &copy; {new Date().getFullYear()} Great Thumbs Software Solutions. All rights reserved.
           </div>
-          <ul className="footer-nav-list list-none flex flex-col gap-3">
-            <li><Link href="/products/just-in-time" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">JustInTime</Link></li>
-            <li><Link href="/products/restaurant-manager" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Restaurant Manager</Link></li>
-            <li><Link href="/products/ecommerce" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">E-commerce Matrix</Link></li>
-            <li><Link href="/products/church" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Ecclesia Cloud</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <div className="footer-nav-title font-mono-dm text-[9px] tracking-[0.25em] text-[var(--gold)] uppercase mb-5 pb-3 border-b border-[var(--border)]">
-            Security
+          <div className="text-[11px] text-[var(--footer-text-muted)] tracking-wide">
+            Nairobi, Kenya &middot; Built with purpose for East African businesses
           </div>
-          <ul className="footer-nav-list list-none flex flex-col gap-3">
-            <li><Link href="/security" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Protocols</Link></li>
-            <li><Link href="/security" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Compliance</Link></li>
-            <li><Link href="/security" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Audit Logs</Link></li>
-            <li><Link href="/security" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Sovereign Data</Link></li>
-          </ul>
-        </div>
-
-        <div>
-          <div className="footer-nav-title font-mono-dm text-[9px] tracking-[0.25em] text-[var(--gold)] uppercase mb-5 pb-3 border-b border-[var(--border)]">
-            Company
-          </div>
-          <ul className="footer-nav-list list-none flex flex-col gap-3">
-            <li><Link href="/about" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">About</Link></li>
-            <li><Link href="/contact" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Contact</Link></li>
-            <li><Link href="/terms" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Legal</Link></li>
-            <li><Link href="/contact" className="font-rajdhani text-sm font-medium tracking-[0.08em] text-[var(--text-muted)] uppercase no-underline transition-colors hover:text-[var(--gold)] flex items-center gap-2 before:content-[''] before:w-0 before:h-[1px] before:bg-[var(--gold)] before:transition-all hover:before:w-3">Careers</Link></li>
-          </ul>
-        </div>
-      </div>
-
-      <div className="footer-bottom flex flex-col md:flex-row justify-between items-center gap-6">
-        <div className="footer-copy font-mono-dm text-[9px] tracking-[0.2em] text-[var(--text-dim)] uppercase">
-          © {new Date().getFullYear()} <span className="text-[var(--gold-dim)]">GTSS CORE SYSTEMS LLC.</span> All rights reserved.
-        </div>
-        <div className="footer-classification flex items-center gap-3 font-mono-dm text-[9px] tracking-[0.2em] text-[var(--red)] opacity-50 uppercase before:content-[''] before:w-1.5 before:h-1.5 before:rounded-full before:bg-[var(--red)] before:shadow-[0_0_6px_var(--red)]">
-          Classified — Sovereign Tier — Clearance Required
         </div>
       </div>
     </footer>
