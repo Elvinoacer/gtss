@@ -1,7 +1,12 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
-@custom-variant dark (&:is(.dark *));
+/* Tailwind dark variant — applies when inside .dark (global theme toggle)
+   OR inside .dark-canvas (pages that are always dark by design).
+   This ensures dark: variants work correctly on dark-canvas pages
+   (dashboard, login, register, restaurant-manager, etc.) even when
+   the global theme is set to "light". */
+@custom-variant dark (&:is(.dark *, .dark-canvas *));
 
 @theme inline {
   --color-background: var(--background);

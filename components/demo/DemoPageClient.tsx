@@ -53,7 +53,7 @@ export function DemoPageClient({ products }: DemoPageClientProps) {
   const otherProducts = products.filter((product) => !product.demoVideoUrl);
 
   return (
-    <div className="min-h-screen bg-[var(--black)] pt-32 pb-24 overflow-hidden">
+    <div className="dark-canvas min-h-screen bg-[var(--black)] pt-32 pb-24 overflow-hidden">
       {/* Background HUD Grid */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03]">
         <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>

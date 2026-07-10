@@ -38,7 +38,7 @@ export function BootOverlay() {
   return (
     <div
       id="boot-overlay"
-      className="fixed inset-0 z-[2000] bg-[var(--black)] flex flex-col items-center justify-center gap-6 transition-opacity duration-600 ease"
+      className="dark-canvas fixed inset-0 z-[2000] bg-[var(--black)] flex flex-col items-center justify-center gap-6 transition-opacity duration-600 ease"
       style={{ opacity: msgIdx === bootMessages.length ? 0 : 1 }}
     >
       <div className="boot-logo font-bebas text-5xl tracking-[0.2em] text-[var(--gold)]">

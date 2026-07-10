@@ -30,7 +30,7 @@ export const metadata: Metadata = {
 
 export default function RestaurantManagerPage() {
   return (
-    <div className="resmg-page relative px-3 pb-32 pt-8 sm:px-6 lg:px-8 lg:pt-10 bg-[var(--black)] text-[var(--text)]">
+    <div className="dark-canvas resmg-page relative px-3 pb-32 pt-8 sm:px-6 lg:px-8 lg:pt-10 bg-[var(--black)] text-[var(--text)]">
       <div className="resmg-halo resmg-halo-a" aria-hidden="true" />
       <div className="resmg-halo resmg-halo-b" aria-hidden="true" />
 

@@ -43,7 +43,16 @@ export function ThemeProvider({ children, defaultTheme = "light" }: ThemeProvide
 
   useEffect(() => {
     if (mounted) {
-      document.documentElement.setAttribute("data-theme", theme);
+      const root = document.documentElement;
+      // Set the data-theme attribute for our custom CSS variables (theme.css)
+      root.setAttribute("data-theme", theme);
+      // Toggle the .dark class for Tailwind's dark: variants (globals.css, shadcn/ui)
+      // This ensures both theme systems stay in sync.
+      if (theme === "dark") {
+        root.classList.add("dark");
+      } else {
+        root.classList.remove("dark");
+      }
       localStorage.setItem("gtss-theme", theme);
     }
   }, [theme, mounted]);

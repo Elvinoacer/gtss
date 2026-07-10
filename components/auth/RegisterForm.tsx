@@ -169,7 +169,7 @@ export function RegisterForm() {
               onChange={handleChange}
               required
             >
-              <option value="" disabled className="bg-[var(--black)]">SELECT_DEPARTMENT</option>
+              <option value="" disabled className="bg-[var(--black)] text-white">SELECT_DEPARTMENT</option>
               <option value="eng" className="bg-[var(--black)] text-white font-rajdhani">ENGINEERING</option>
               <option value="prod" className="bg-[var(--black)] text-white font-rajdhani">PRODUCT_MANAGEMENT</option>
               <option value="design" className="bg-[var(--black)] text-white font-rajdhani">DESIGN</option>

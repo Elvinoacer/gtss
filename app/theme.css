@@ -1,6 +1,19 @@
 /* =============================================
    GTSS Dual-Theme System
    Light (default for public) / Dark (default for dashboard & enterprise)
+
+   IMPORTANT — "dark canvas" pages:
+   Several public/dashboard pages (restaurant-manager, pricing, security,
+   enterprise, demo, login, register, product-detail, dashboard) were designed
+   for a dark background and use `text-white`, `border-white/10`, `bg-white/5`,
+   etc. These pages MUST always render on a dark canvas regardless of the
+   global light/dark theme toggle, otherwise white-on-white cloaked text
+   appears (accessibility / WCAG 1.4.3 failure).
+
+   To enforce this, those page roots carry the `.dark-canvas` utility class
+   (defined below), which locally scopes the CSS custom properties to the dark
+   palette. The global `:root` / `[data-theme]` blocks remain theme-aware for
+   pages that are genuinely theme-aware (home page, navbar, footer, etc.).
    ============================================= */
 
 /* ─── LIGHT THEME (public default) ─── */
@@ -39,6 +52,21 @@
   --footer-text: #E2E8F0;
   --footer-text-muted: #94A3B8;
   --footer-border: rgba(255, 255, 255, 0.08);
+
+  /* ── Dark-canvas palette (always dark, regardless of theme) ──
+     These variables were previously only defined in app/landing.css,
+     which was never imported. They are required by every page that uses
+     `bg-[var(--black)]`, `bg-[var(--surface-3)]`, `text-[var(--glow-gold)]`,
+     etc. We define them with the dark palette values in BOTH themes because
+     the pages that consume them are designed exclusively for dark canvases. */
+  --black: #030508;
+  --deep: #080b12;
+  --surface: #0d1018;
+  --surface-2: #111420;
+  --surface-3: #181c28;
+  --cyan-dim: #005a63;
+  --glow-gold: 0 0 40px rgba(201, 160, 69, 0.3);
+  --glow-cyan: 0 0 40px rgba(0, 216, 240, 0.2);
 }
 
 /* ─── DARK THEME (dashboard & enterprise default) ─── */
@@ -76,4 +104,207 @@
   --footer-text: #EDE8DF;
   --footer-text-muted: #6b7080;
   --footer-border: rgba(201, 160, 69, 0.15);
+
+  /* Dark-canvas palette (same values in dark theme — always dark) */
+  --black: #030508;
+  --deep: #080b12;
+  --surface: #0d1018;
+  --surface-2: #111420;
+  --surface-3: #181c28;
+  --cyan-dim: #005a63;
+  --glow-gold: 0 0 40px rgba(201, 160, 69, 0.3);
+  --glow-cyan: 0 0 40px rgba(0, 216, 240, 0.2);
+}
+
+/* ─── DARK CANVAS SCOPE ───
+   Apply `.dark-canvas` to any page root that is designed for a dark
+   background (uses `text-white`, `border-white/10`, `bg-white/5`, etc.).
+   This locally overrides the theme-aware text/border/gold variables to
+   their dark-palette values so that text is always light-on-dark,
+   regardless of the global theme toggle.
+
+   This prevents the white-on-white cloaked-text accessibility failure
+   (WCAG 1.4.3 Contrast Minimum) that occurred when the global theme
+   was set to "light" but the page content assumed a dark canvas. */
+.dark-canvas {
+  --bg: #030508;
+  --bg-surface: #080b12;
+  --bg-surface-2: #0d1018;
+  --bg-surface-3: #181c28;
+  --accent: #C9A045;
+  --accent-bright: #E8BC5A;
+  --accent-dim: #7a6128;
+  --accent-glow: 0 0 40px rgba(201, 160, 69, 0.3);
+  --gold: #C9A045;
+  --gold-bright: #E8BC5A;
+  --gold-dim: #7a6128;
+  --text: #EDE8DF;
+  --text-muted: #6b7080;
+  --text-dim: #3a3d4a;
+  --border: rgba(201, 160, 69, 0.15);
+  --border-bright: rgba(201, 160, 69, 0.4);
+  --card-bg: rgba(3, 5, 8, 0.6);
+  --card-border: rgba(201, 160, 69, 0.15);
+  --card-hover-border: rgba(201, 160, 69, 0.3);
+  --card-hover-shadow: 0 0 30px rgba(201, 160, 69, 0.05);
+  --stat-bg: rgba(3, 5, 8, 0.85);
+  --nav-bg: rgba(3, 5, 8, 0.75);
+  --section-alt: rgba(3, 5, 8, 0.3);
+
+  background: var(--black);
+  color: var(--text);
+}
+
+/* ─── PUBLIC UTILITY CLASSES ───
+   These classes were referenced across the restaurant-manager page,
+   landing components, and lead forms but were never defined in any
+   stylesheet. Defining them here ensures consistent styling and
+   prevents unstyled/invisible content. They are scoped to dark-canvas
+   pages by default (gold-on-dark aesthetic). */
+
+.public-kicker {
+  display: inline-block;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 6px 14px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 999px;
+  background: rgba(201, 160, 69, 0.08);
+}
+
+.public-section-title {
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.public-panel {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.5rem;
+}
+
+.public-panel-strong {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(201, 160, 69, 0.2);
+  border-radius: 1.5rem;
+  box-shadow: 0 0 60px -30px rgba(201, 160, 69, 0.15);
+}
+
+.public-card-outline {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 1.5rem;
+}
+
+.public-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-geist-mono), ui-monospace, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold);
+  padding: 4px 10px;
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  background: rgba(201, 160, 69, 0.06);
+}
+
+.public-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #030508;
+  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+  border: none;
+  border-radius: 0.75rem;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
+  box-shadow: 0 8px 30px -10px rgba(201, 160, 69, 0.5);
+}
+
+.public-button-primary:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+  box-shadow: 0 12px 40px -10px rgba(201, 160, 69, 0.65);
+}
+
+.public-button-primary:active {
+  transform: translateY(0);
+}
+
+.public-button-primary:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+.public-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--text);
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 0.75rem;
+  padding: 16px 32px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+}
+
+.public-button-secondary:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(201, 160, 69, 0.4);
+  transform: translateY(-1px);
+}
+
+.public-button-secondary:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+}
+
+/* ─── ACCESSIBILITY: focus-visible defaults ───
+   Ensure all interactive elements have a visible focus indicator
+   for keyboard users (WCAG 2.4.7 Focus Visible). */
+.dark-canvas a:focus-visible,
+.dark-canvas button:focus-visible,
+.dark-canvas input:focus-visible,
+.dark-canvas select:focus-visible,
+.dark-canvas textarea:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* ─── ACCESSIBILITY: reduced motion ───
+   Respect user preference for reduced motion (WCAG 2.3.3 Animation
+   from Interactions). */
+@media (prefers-reduced-motion: reduce) {
+  .public-button-primary,
+  .public-button-secondary {
+    transition: none;
+  }
+  .public-button-primary:hover,
+  .public-button-secondary:hover {
+    transform: none;
+  }
 }

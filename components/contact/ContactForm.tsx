@@ -174,12 +174,12 @@ export function ContactForm() {
               name="subject"
               className="w-full appearance-none bg-[rgba(255,255,255,0.03)] border border-[var(--border)] px-5 h-14 text-base text-[var(--text)] focus:border-[var(--gold)] outline-none transition-all cursor-none font-rajdhani"
             >
-              <option className="bg-[var(--black)]">General Inquiry</option>
-              <option className="bg-[var(--black)]">Technical Support</option>
-              <option className="bg-[var(--black)]">
+              <option value="general" className="bg-[var(--black)] text-white">General Inquiry</option>
+              <option value="tech" className="bg-[var(--black)] text-white">Technical Support</option>
+              <option value="sales" className="bg-[var(--black)] text-white">
                 Sales & Enterprise Pricing
               </option>
-              <option className="bg-[var(--black)]">
+              <option value="partnership" className="bg-[var(--black)] text-white">
                 Partnership Opportunities
               </option>
             </select>

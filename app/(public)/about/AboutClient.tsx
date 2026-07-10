@@ -314,7 +314,7 @@ export function AboutClient({ teamMembers }: AboutClientProps) {
         </section>
 
         {/* CTA Section */}
-        <section className="relative border border-[var(--border)] bg-[var(--black)] p-12 lg:p-20 text-center overflow-hidden">
+        <section className="dark-canvas relative border border-[var(--border)] bg-[var(--black)] p-12 lg:p-20 text-center overflow-hidden">
           <div className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-[var(--gold)] to-transparent"></div>
           <div className="max-w-3xl mx-auto relative z-10">
             <div className="section-tag font-mono-dm text-[9px] tracking-[0.3em] text-[var(--gold)] uppercase mb-8 mx-auto w-fit flex items-center gap-3">

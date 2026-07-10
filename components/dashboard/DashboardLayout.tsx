@@ -19,7 +19,7 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   return (
-    <div className="font-rajdhani bg-[var(--black)] text-[var(--text)] h-screen overflow-hidden flex selection:bg-[var(--gold)] selection:text-[var(--black)]">
+    <div className="dark-canvas font-rajdhani bg-[var(--black)] text-[var(--text)] h-screen overflow-hidden flex selection:bg-[var(--gold)] selection:text-[var(--black)]">
       <Sidebar user={user} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
       <main className="flex-1 flex flex-col min-w-0 bg-[var(--black)] relative overflow-hidden">

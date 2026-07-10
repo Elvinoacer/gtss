@@ -215,7 +215,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
   ];
 
   return (
-    <div className="min-h-screen bg-[var(--black)] text-[var(--text)]">
+    <div className="dark-canvas min-h-screen bg-[var(--black)] text-[var(--text)]">
       {/* HUD Background elements */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03] z-0">
         <div className="absolute inset-0" style={{ backgroundImage: 'linear-gradient(var(--border) 1px, transparent 1px), linear-gradient(90deg, var(--border) 1px, transparent 1px)', backgroundSize: '100px 100px' }}></div>

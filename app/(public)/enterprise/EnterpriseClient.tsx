@@ -24,7 +24,7 @@ const ENTERPRISE_CAPABILITIES = [
 
 export function EnterpriseClient() {
   return (
-    <div className="min-h-screen bg-[var(--black)] pt-32 pb-24 overflow-hidden">
+    <div className="dark-canvas min-h-screen bg-[var(--black)] pt-32 pb-24 overflow-hidden">
       {/* Background Decorative HUD */}
       <div className="fixed inset-0 pointer-events-none opacity-[0.03]">
         <div className="absolute inset-0" style={{ backgroundImage: 'radial-gradient(var(--border) 1px, transparent 1px)', backgroundSize: '50px 50px' }}></div>
