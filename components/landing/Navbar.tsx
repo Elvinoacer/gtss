@@ -13,19 +13,11 @@ export function Navbar() {
     <header className="fixed top-0 left-0 right-0 z-[500] px-6 lg:px-12 h-[72px] flex items-center justify-between border-b border-[var(--border)] bg-[var(--nav-bg)] backdrop-blur-3xl transition-all">
       {/* Brand */}
       <Link className="flex items-center gap-3 no-underline" href="/">
-        <Image
-          src="/images/GTSS-logo.png"
-          alt="GTSS Logo"
-          width={32}
-          height={32}
-          className="w-8 h-8 rounded"
-        />
+        <Image src="/images/GTSS-logo.png" alt="GTSS Logo" width={32} height={32} className="w-8 h-8 rounded" />
         <span className="font-semibold text-base tracking-tight text-[var(--text)] hidden sm:block">
           Great Thumbs Software Solutions
         </span>
-        <span className="font-semibold text-base tracking-tight text-[var(--text)] sm:hidden">
-          GTSS
-        </span>
+        <span className="font-semibold text-base tracking-tight text-[var(--text)] sm:hidden">GTSS</span>
       </Link>
 
       {/* Desktop Navigation */}
@@ -63,7 +55,7 @@ export function Navbar() {
         </span>
         <ThemeToggle />
         <a
-          href="tel:+254790670542"
+          href="tel:+254792156094"
           className="hidden sm:inline-flex items-center gap-1.5 text-sm font-medium text-[var(--text-muted)] no-underline transition-colors hover:text-[var(--accent)] px-3 py-2"
         >
           <Phone className="w-3.5 h-3.5" />
@@ -88,11 +80,41 @@ export function Navbar() {
       {/* Mobile Menu */}
       {mobileOpen && (
         <div className="absolute top-[72px] left-0 right-0 bg-[var(--bg-surface)] border-b border-[var(--border)] p-6 flex flex-col gap-4 lg:hidden z-[499]">
-          <Link href="/products" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>Products</Link>
-          <Link href="/pricing" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>Pricing</Link>
-          <Link href="/about" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>About</Link>
-          <Link href="/contact" className="text-base font-medium text-[var(--text)] no-underline" onClick={() => setMobileOpen(false)}>Contact</Link>
-          <a href="tel:+254790670542" className="text-base font-medium text-[var(--text-muted)] no-underline flex items-center gap-2" onClick={() => setMobileOpen(false)}><Phone className="w-4 h-4" /> Call Us</a>
+          <Link
+            href="/products"
+            className="text-base font-medium text-[var(--text)] no-underline"
+            onClick={() => setMobileOpen(false)}
+          >
+            Products
+          </Link>
+          <Link
+            href="/pricing"
+            className="text-base font-medium text-[var(--text)] no-underline"
+            onClick={() => setMobileOpen(false)}
+          >
+            Pricing
+          </Link>
+          <Link
+            href="/about"
+            className="text-base font-medium text-[var(--text)] no-underline"
+            onClick={() => setMobileOpen(false)}
+          >
+            About
+          </Link>
+          <Link
+            href="/contact"
+            className="text-base font-medium text-[var(--text)] no-underline"
+            onClick={() => setMobileOpen(false)}
+          >
+            Contact
+          </Link>
+          <a
+            href="tel:+254792156094"
+            className="text-base font-medium text-[var(--text-muted)] no-underline flex items-center gap-2"
+            onClick={() => setMobileOpen(false)}
+          >
+            <Phone className="w-4 h-4" /> Call Us
+          </a>
           <Link
             href="/contact"
             className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[var(--accent)] px-5 py-2.5 rounded-lg no-underline"

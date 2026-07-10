@@ -38,7 +38,18 @@ const sections = [
     title: "Contact for Accessibility Issues",
     content: [
       "If you encounter any accessibility barriers while using GTSS products, we want to know. Your feedback directly informs our development priorities and helps us build better software for everyone.",
-      <>Reach us at <a href="mailto:info@gtss.co.ke" className="text-[var(--accent)] no-underline hover:underline">info@gtss.co.ke</a> or call <a href="tel:+254790670542" className="text-[var(--accent)] no-underline hover:underline">+254 790 670 542</a>. Please include the product name, the specific issue you encountered, and the assistive technology you are using. We aim to respond within 48 hours and resolve issues in our next release cycle.</>,
+      <>
+        Reach us at{" "}
+        <a href="mailto:info@gtss.software" className="text-[var(--accent)] no-underline hover:underline">
+          info@gtss.software
+        </a>{" "}
+        or call{" "}
+        <a href="tel:+254792156094" className="text-[var(--accent)] no-underline hover:underline">
+          +254 790 670 542
+        </a>
+        . Please include the product name, the specific issue you encountered, and the assistive technology you are
+        using. We aim to respond within 48 hours and resolve issues in our next release cycle.
+      </>,
     ] as ReactNode[],
   },
 ];
@@ -55,8 +66,7 @@ export default function AccessibilityPage() {
               Accessibility
             </div>
             <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Accessibility{" "}
-              <span className="text-[var(--accent)]">Statement</span>
+              Accessibility <span className="text-[var(--accent)]">Statement</span>
             </h1>
             <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
               GTSS is committed to making our software accessible to all users.
@@ -77,16 +87,11 @@ export default function AccessibilityPage() {
                 <div className="w-12 h-12 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0">
                   <section.icon className="w-6 h-6 text-[var(--accent)]" />
                 </div>
-                <h2 className="text-xl font-semibold text-[var(--text)]">
-                  {section.title}
-                </h2>
+                <h2 className="text-xl font-semibold text-[var(--text)]">{section.title}</h2>
               </div>
               <div className="space-y-4">
                 {section.content.map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="text-sm text-[var(--text-muted)] leading-relaxed"
-                  >
+                  <p key={i} className="text-sm text-[var(--text-muted)] leading-relaxed">
                     {paragraph}
                   </p>
                 ))}

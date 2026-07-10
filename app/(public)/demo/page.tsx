@@ -49,11 +49,7 @@ export default function DemoPage() {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<
-      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-    >
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
@@ -69,16 +65,14 @@ export default function DemoPage() {
               Demo Request Received!
             </h1>
             <p className="text-base text-[var(--text-muted)] leading-relaxed mb-8">
-              Thank you, {formData.name || "there"}! Our team will reach out to
-              you within 24 hours to schedule your personalized walkthrough.
+              Thank you, {formData.name || "there"}! Our team will reach out to you within 24 hours to schedule your
+              personalized walkthrough.
             </p>
             <p className="text-sm text-[var(--text-muted)] mb-2">
-              <strong className="text-[var(--text)]">Product:</strong>{" "}
-              {formData.product || "Not specified"}
+              <strong className="text-[var(--text)]">Product:</strong> {formData.product || "Not specified"}
             </p>
             <p className="text-sm text-[var(--text-muted)] mb-8">
-              <strong className="text-[var(--text)]">Preferred Date:</strong>{" "}
-              {formData.date || "Not specified"}
+              <strong className="text-[var(--text)]">Preferred Date:</strong> {formData.date || "Not specified"}
             </p>
 
             {/* Secondary CTAs */}
@@ -114,12 +108,10 @@ export default function DemoPage() {
               Demo
             </div>
             <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Request a{" "}
-              <span className="text-[var(--accent)]">Demo</span>
+              Request a <span className="text-[var(--accent)]">Demo</span>
             </h1>
             <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              See GTSS products in action. Schedule a live walkthrough with our
-              team.
+              See GTSS products in action. Schedule a live walkthrough with our team.
             </p>
           </div>
         </div>
@@ -136,10 +128,7 @@ export default function DemoPage() {
             >
               {/* Name */}
               <div>
-                <label
-                  htmlFor="name"
-                  className="block text-sm font-medium text-[var(--text)] mb-2"
-                >
+                <label htmlFor="name" className="block text-sm font-medium text-[var(--text)] mb-2">
                   Full Name <span className="text-[var(--red)]">*</span>
                 </label>
                 <input
@@ -156,10 +145,7 @@ export default function DemoPage() {
 
               {/* Email */}
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-medium text-[var(--text)] mb-2"
-                >
+                <label htmlFor="email" className="block text-sm font-medium text-[var(--text)] mb-2">
                   Email Address <span className="text-[var(--red)]">*</span>
                 </label>
                 <input
@@ -176,10 +162,7 @@ export default function DemoPage() {
 
               {/* Phone / WhatsApp */}
               <div>
-                <label
-                  htmlFor="phone"
-                  className="block text-sm font-medium text-[var(--text)] mb-2"
-                >
+                <label htmlFor="phone" className="block text-sm font-medium text-[var(--text)] mb-2">
                   Phone / WhatsApp <span className="text-[var(--red)]">*</span>
                 </label>
                 <input
@@ -196,10 +179,7 @@ export default function DemoPage() {
 
               {/* Product Interest */}
               <div>
-                <label
-                  htmlFor="product"
-                  className="block text-sm font-medium text-[var(--text)] mb-2"
-                >
+                <label htmlFor="product" className="block text-sm font-medium text-[var(--text)] mb-2">
                   Product Interest <span className="text-[var(--red)]">*</span>
                 </label>
                 <select
@@ -221,10 +201,7 @@ export default function DemoPage() {
 
               {/* Preferred Date */}
               <div>
-                <label
-                  htmlFor="date"
-                  className="block text-sm font-medium text-[var(--text)] mb-2"
-                >
+                <label htmlFor="date" className="block text-sm font-medium text-[var(--text)] mb-2">
                   Preferred Date
                 </label>
                 <input
@@ -239,10 +216,7 @@ export default function DemoPage() {
 
               {/* Message */}
               <div>
-                <label
-                  htmlFor="message"
-                  className="block text-sm font-medium text-[var(--text)] mb-2"
-                >
+                <label htmlFor="message" className="block text-sm font-medium text-[var(--text)] mb-2">
                   Message
                 </label>
                 <textarea
@@ -288,23 +262,19 @@ export default function DemoPage() {
           {/* Contact Info Sidebar */}
           <div className="space-y-6">
             <div className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6">
-              <h3 className="text-lg font-semibold text-[var(--text)] mb-4">
-                Contact Information
-              </h3>
+              <h3 className="text-lg font-semibold text-[var(--text)] mb-4">Contact Information</h3>
               <div className="space-y-4">
                 <div className="flex items-start gap-3">
                   <div className="w-10 h-10 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0">
                     <Mail className="w-5 h-5 text-[var(--accent)]" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-[var(--text)]">
-                      Email
-                    </p>
+                    <p className="text-sm font-medium text-[var(--text)]">Email</p>
                     <a
-                      href="mailto:info@gtss.co.ke"
+                      href="mailto:info@gtss.software"
                       className="text-sm text-[var(--text-muted)] no-underline hover:text-[var(--accent)] transition-colors"
                     >
-                      info@gtss.co.ke
+                      info@gtss.software
                     </a>
                   </div>
                 </div>
@@ -313,11 +283,9 @@ export default function DemoPage() {
                     <Phone className="w-5 h-5 text-[var(--accent)]" />
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-[var(--text)]">
-                      Phone
-                    </p>
+                    <p className="text-sm font-medium text-[var(--text)]">Phone</p>
                     <a
-                      href="tel:+254790670542"
+                      href="tel:+254792156094"
                       className="text-sm text-[var(--text-muted)] no-underline hover:text-[var(--accent)] transition-colors"
                     >
                       +254 790 670 542
@@ -328,9 +296,7 @@ export default function DemoPage() {
             </div>
 
             <div className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6">
-              <h3 className="text-lg font-semibold text-[var(--text)] mb-3">
-                What to Expect
-              </h3>
+              <h3 className="text-lg font-semibold text-[var(--text)] mb-3">What to Expect</h3>
               <ul className="space-y-3">
                 {[
                   "30-minute live product walkthrough",
@@ -338,10 +304,7 @@ export default function DemoPage() {
                   "Custom pricing based on your needs",
                   "No commitment required",
                 ].map((item) => (
-                  <li
-                    key={item}
-                    className="flex items-start gap-2 text-sm text-[var(--text-muted)]"
-                  >
+                  <li key={item} className="flex items-start gap-2 text-sm text-[var(--text-muted)]">
                     <CheckCircle className="w-4 h-4 text-[var(--green)] shrink-0 mt-0.5" />
                     {item}
                   </li>

@@ -7,19 +7,22 @@ import Link from "next/link";
 
 const testimonials = [
   {
-    quote: "Our kitchen used to lose orders between the waitstaff and the cooks. Since GTSS installed Restaurant Manager, every order hits the kitchen display instantly — even when the internet drops, which happens daily here.",
+    quote:
+      "Our kitchen used to lose orders between the waitstaff and the cooks. Since GTSS installed Restaurant Manager, every order hits the kitchen display instantly — even when the internet drops, which happens daily here.",
     name: "Grace Wanjiku",
     title: "Owner, Java House Eldoret",
     product: "Restaurant Manager",
   },
   {
-    quote: "We looked at three different church management tools. GTSS was the only one that understood how contributions work in a Kenyan church — M-Pesa, cash, bank transfer, all tracked in one place.",
+    quote:
+      "We looked at three different church management tools. GTSS was the only one that understood how contributions work in a Kenyan church — M-Pesa, cash, bank transfer, all tracked in one place.",
     name: "Pastor David Ochieng",
     title: "Grace Community Church, Nakuru",
     product: "Church Management System",
   },
   {
-    quote: "The team came in, set everything up on our local server, trained our front desk staff, and was done in under three weeks. When the hotel Wi-Fi went down last week, the system didn't even blink.",
+    quote:
+      "The team came in, set everything up on our local server, trained our front desk staff, and was done in under three weeks. When the hotel Wi-Fi went down last week, the system didn't even blink.",
     name: "Ahmed Hassan",
     title: "Manager, Rift Valley Lodge",
     product: "Hotel Ordering System",
@@ -42,9 +45,7 @@ export default function LandingPage() {
               <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4">
                 Trusted by East African Businesses
               </div>
-              <h2 className="text-3xl lg:text-4xl font-bold text-[var(--text)] tracking-tight">
-                What our clients say
-              </h2>
+              <h2 className="text-3xl lg:text-4xl font-bold text-[var(--text)] tracking-tight">What our clients say</h2>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               {testimonials.map((t, i) => (
@@ -82,8 +83,8 @@ export default function LandingPage() {
               <span className="text-[var(--accent)]">let&apos;s talk.</span>
             </h2>
             <p className="text-base lg:text-lg text-[var(--text-muted)] mb-10 max-w-xl mx-auto leading-relaxed">
-              From a single workflow to a full operating stack, GTSS helps East African teams
-              launch systems that work the first day and keep working.
+              From a single workflow to a full operating stack, GTSS helps East African teams launch systems that work
+              the first day and keep working.
             </p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
@@ -93,7 +94,7 @@ export default function LandingPage() {
                 View Our Products
               </Link>
               <a
-                href="https://wa.me/254790670542?text=Hi%20GTSS%2C%20I%27m%20interested%20in%20your%20software%20products."
+                href="https://wa.me/254792156094?text=Hi%20GTSS%2C%20I%27m%20interested%20in%20your%20software%20products."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[#25D366] px-8 py-3.5 rounded-lg no-underline transition-all hover:bg-[#20bd5a]"

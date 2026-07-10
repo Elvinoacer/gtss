@@ -29,11 +29,8 @@ type SendEmailResult = {
 const resendApiKey = process.env.RESEND_API_KEY?.trim();
 const resendClient = resendApiKey ? new Resend(resendApiKey) : null;
 const defaultFromAddress =
-  process.env.EMAIL_FROM?.trim() ||
-  process.env.ADMIN_EMAIL?.trim() ||
-  "GTSS <support@gtss.software>";
-const defaultRecipientAddress =
-  process.env.ADMIN_EMAIL?.trim() || process.env.EMAIL_FROM?.trim();
+  process.env.EMAIL_FROM?.trim() || process.env.ADMIN_EMAIL?.trim() || "GTSS <support@gtss.software>";
+const defaultRecipientAddress = process.env.ADMIN_EMAIL?.trim() || process.env.EMAIL_FROM?.trim();
 
 function escapeHtml(value: string): string {
   return value
@@ -51,9 +48,7 @@ function normalizeText(value: string, multiline = false): string {
 
 function normalizeHtml(value: string, multiline = false): string {
   const escaped = escapeHtml(value.trim());
-  return multiline
-    ? escaped.replace(/\r?\n/g, "<br />")
-    : escaped.replace(/\r?\n/g, " ");
+  return multiline ? escaped.replace(/\r?\n/g, "<br />") : escaped.replace(/\r?\n/g, " ");
 }
 
 function formatTimestamp(date = new Date()): string {
@@ -72,10 +67,7 @@ function buildEmailText(payload: NotificationEmail, sentAt: string): string {
     normalizeText(payload.intro, true),
     "",
     ...payload.details.map((detail) => {
-      const renderedValue = normalizeText(
-        detail.value,
-        Boolean(detail.multiline),
-      );
+      const renderedValue = normalizeText(detail.value, Boolean(detail.multiline));
       return `${detail.label}: ${renderedValue}`;
     }),
   ];
@@ -183,9 +175,7 @@ function buildEmailHtml(payload: NotificationEmail, sentAt: string): string {
 </html>`;
 }
 
-async function sendNotificationEmail(
-  payload: NotificationEmail,
-): Promise<SendEmailResult> {
+async function sendNotificationEmail(payload: NotificationEmail): Promise<SendEmailResult> {
   if (!resendClient) {
     const error = "Missing RESEND_API_KEY.";
     console.error(error);
@@ -219,11 +209,7 @@ async function sendNotificationEmail(
   return { success: true };
 }
 
-export async function sendProductViewEmail(
-  productName: string,
-  productId: string,
-  viewerId?: string,
-) {
+export async function sendProductViewEmail(productName: string, productId: string, viewerId?: string) {
   const sentAt = formatTimestamp();
   const result = await sendNotificationEmail({
     to: defaultRecipientAddress || defaultFromAddress,
@@ -231,8 +217,7 @@ export async function sendProductViewEmail(
     eyebrow: "Product activity",
     title: "New product view recorded",
     preheader: `A customer viewed ${productName} in GTSS.`,
-    intro:
-      "A product view was captured in the dashboard. Review the details below for the latest activity.",
+    intro: "A product view was captured in the dashboard. Review the details below for the latest activity.",
     details: [
       { label: "Product", value: productName },
       { label: "Product ID", value: productId },
@@ -240,26 +225,17 @@ export async function sendProductViewEmail(
       { label: "Recorded", value: sentAt },
     ],
     sentAt,
-    footerNote:
-      "This notification was generated automatically from GTSS analytics.",
+    footerNote: "This notification was generated automatically from GTSS analytics.",
   });
 
   if (!result.success) {
-    console.error(
-      `Error sending product view email for ${productName}:`,
-      result.error,
-    );
+    console.error(`Error sending product view email for ${productName}:`, result.error);
   }
 
   return result;
 }
 
-export async function sendContactEmail(formData: {
-  name: string;
-  email: string;
-  subject: string;
-  message: string;
-}) {
+export async function sendContactEmail(formData: { name: string; email: string; subject: string; message: string }) {
   const sentAt = formatTimestamp();
   return sendNotificationEmail({
     to: defaultRecipientAddress || defaultFromAddress,
@@ -267,8 +243,7 @@ export async function sendContactEmail(formData: {
     eyebrow: "Contact form",
     title: "New contact form submission",
     preheader: `New message from ${formData.name} regarding ${formData.subject}.`,
-    intro:
-      "Someone reached out through the GTSS contact form. Reply directly to continue the conversation.",
+    intro: "Someone reached out through the GTSS contact form. Reply directly to continue the conversation.",
     details: [
       { label: "Name", value: formData.name },
       { label: "Email", value: formData.email },
@@ -278,8 +253,7 @@ export async function sendContactEmail(formData: {
     ],
     replyTo: formData.email,
     sentAt,
-    footerNote:
-      "Reply directly to this email to continue the conversation with the sender.",
+    footerNote: "Reply directly to this email to continue the conversation with the sender.",
   });
 }
 
@@ -298,8 +272,7 @@ export async function sendLeadAlertEmail(payload: {
     eyebrow: "Lead notification",
     title: "New restaurant manager lead",
     preheader: `A new lead was submitted from ${payload.company}.`,
-    intro:
-      "A new lead came in from the public demo form. Use the contact details below to follow up.",
+    intro: "A new lead came in from the public demo form. Use the contact details below to follow up.",
     details: [
       { label: "Name", value: payload.name },
       { label: "Email", value: payload.email },
@@ -311,8 +284,7 @@ export async function sendLeadAlertEmail(payload: {
     ],
     replyTo: payload.email,
     sentAt,
-    footerNote:
-      "Reply directly to this email to continue the conversation with the lead.",
+    footerNote: "Reply directly to this email to continue the conversation with the lead.",
   });
 }
 
@@ -412,7 +384,7 @@ export async function sendVisitorConfirmationEmail(payload: {
 
                       <div style="margin-top:28px;text-align:center;">
                         <p style="font-size:14px;color:#4b463c;margin:0 0 14px;">Need immediate assistance? Chat with us directly:</p>
-                        <a href="https://wa.me/254790670542" style="display:inline-block;padding:14px 32px;border-radius:14px;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:0.02em;">💬 Chat on WhatsApp</a>
+                        <a href="https://wa.me/254792156094" style="display:inline-block;padding:14px 32px;border-radius:14px;background:#25D366;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;letter-spacing:0.02em;">💬 Chat on WhatsApp</a>
                       </div>
                     </td>
                   </tr>
@@ -441,7 +413,7 @@ export async function sendVisitorConfirmationEmail(payload: {
       subject: payload.subject,
       html,
     });
-    
+
     if (error) {
       console.error("Error sending visitor confirmation email:", error);
       return { success: false, error: error.message };

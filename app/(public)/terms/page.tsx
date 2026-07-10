@@ -34,7 +34,7 @@ const sections = [
   {
     title: "4. Limitation of Liability",
     paragraphs: [
-      "GTSS provides software on an \"as is\" basis without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability or fitness for a particular purpose.",
+      'GTSS provides software on an "as is" basis without warranties of any kind, either express or implied, including but not limited to implied warranties of merchantability or fitness for a particular purpose.',
       "In no event shall GTSS, its directors, employees, or agents be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in connection with the use of our products or services. Our total liability shall not exceed the amount you paid for the specific product or service giving rise to the claim.",
     ] as ReactNode[],
   },
@@ -49,8 +49,18 @@ const sections = [
     title: "6. Contact",
     paragraphs: [
       "If you have questions about these Terms of Service, please contact us:",
-      <>Email: <a href="mailto:info@gtss.co.ke" className="text-[var(--accent)] no-underline hover:underline">info@gtss.co.ke</a></>,
-      <>Phone: <a href="tel:+254790670542" className="text-[var(--accent)] no-underline hover:underline">+254 790 670 542</a></>,
+      <>
+        Email:{" "}
+        <a href="mailto:info@gtss.software" className="text-[var(--accent)] no-underline hover:underline">
+          info@gtss.software
+        </a>
+      </>,
+      <>
+        Phone:{" "}
+        <a href="tel:+254792156094" className="text-[var(--accent)] no-underline hover:underline">
+          +254 790 670 542
+        </a>
+      </>,
       "We recommend reviewing these terms periodically to stay informed of any updates.",
     ] as ReactNode[],
   },
@@ -68,12 +78,10 @@ export default function TermsPage() {
               Legal
             </div>
             <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Terms of{" "}
-              <span className="text-[var(--accent)]">Service</span>
+              Terms of <span className="text-[var(--accent)]">Service</span>
             </h1>
             <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              Last updated: June 2026. By using GTSS products and services,
-              you agree to these terms.
+              Last updated: June 2026. By using GTSS products and services, you agree to these terms.
             </p>
           </div>
         </div>
@@ -88,16 +96,11 @@ export default function TermsPage() {
                 <div className="w-8 h-8 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0">
                   <Scale className="w-4 h-4 text-[var(--accent)]" />
                 </div>
-                <h2 className="text-lg font-semibold text-[var(--text)]">
-                  {section.title}
-                </h2>
+                <h2 className="text-lg font-semibold text-[var(--text)]">{section.title}</h2>
               </div>
               <div className="space-y-3 pl-11">
                 {section.paragraphs.map((paragraph, i) => (
-                  <p
-                    key={i}
-                    className="text-sm text-[var(--text-muted)] leading-relaxed"
-                  >
+                  <p key={i} className="text-sm text-[var(--text-muted)] leading-relaxed">
                     {paragraph}
                   </p>
                 ))}

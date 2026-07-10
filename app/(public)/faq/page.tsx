@@ -43,7 +43,19 @@ const faqs = [
   },
   {
     question: "How do I contact support?",
-    answer: <>You can reach us at <a href="mailto:info@gtss.co.ke" className="text-[var(--accent)] no-underline hover:underline">info@gtss.co.ke</a> or call <a href="tel:+254790670542" className="text-[var(--accent)] no-underline hover:underline">+254 790 670 542</a>. We respond to all inquiries within 24 hours.</>,
+    answer: (
+      <>
+        You can reach us at{" "}
+        <a href="mailto:info@gtss.software" className="text-[var(--accent)] no-underline hover:underline">
+          info@gtss.software
+        </a>{" "}
+        or call{" "}
+        <a href="tel:+254792156094" className="text-[var(--accent)] no-underline hover:underline">
+          +254 790 670 542
+        </a>
+        . We respond to all inquiries within 24 hours.
+      </>
+    ),
   },
 ];
 
@@ -65,12 +77,10 @@ export default function FAQPage() {
               FAQ
             </div>
             <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Frequently Asked{" "}
-              <span className="text-[var(--accent)]">Questions</span>
+              Frequently Asked <span className="text-[var(--accent)]">Questions</span>
             </h1>
             <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              Find answers to common questions about GTSS, our products, and how
-              we can help your business grow.
+              Find answers to common questions about GTSS, our products, and how we can help your business grow.
             </p>
           </div>
         </div>
@@ -90,13 +100,9 @@ export default function FAQPage() {
               >
                 <div className="flex items-center gap-4">
                   <div className="w-10 h-10 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0">
-                    <HelpCircle
-                      className="w-5 h-5 text-[var(--accent)]"
-                    />
+                    <HelpCircle className="w-5 h-5 text-[var(--accent)]" />
                   </div>
-                  <span className="text-base font-semibold text-[var(--text)]">
-                    {faq.question}
-                  </span>
+                  <span className="text-base font-semibold text-[var(--text)]">{faq.question}</span>
                 </div>
                 <ChevronDown
                   className={`w-5 h-5 text-[var(--text-muted)] shrink-0 transition-transform duration-300 ${
@@ -106,15 +112,11 @@ export default function FAQPage() {
               </button>
               <div
                 className={`overflow-hidden transition-all duration-300 ${
-                  openIndex === index
-                    ? "max-h-96 opacity-100"
-                    : "max-h-0 opacity-0"
+                  openIndex === index ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
                 }`}
               >
                 <div className="px-6 pb-6 pl-20">
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                    {faq.answer}
-                  </p>
+                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">{faq.answer}</p>
                 </div>
               </div>
             </div>
@@ -125,12 +127,9 @@ export default function FAQPage() {
       {/* CTA */}
       <section className="px-6 lg:px-20 py-16 border-t border-[var(--border)] bg-[var(--section-alt)]">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl lg:text-4xl font-bold text-[var(--text)] mb-4">
-            Still have questions?
-          </h2>
+          <h2 className="text-2xl lg:text-4xl font-bold text-[var(--text)] mb-4">Still have questions?</h2>
           <p className="text-base text-[var(--text-muted)] mb-8 leading-relaxed">
-            We&apos;re here to help. Reach out and our team will get back to you
-            within 24 hours.
+            We&apos;re here to help. Reach out and our team will get back to you within 24 hours.
           </p>
           <Link
             href="/contact"

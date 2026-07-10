@@ -12,37 +12,31 @@ export function Footer() {
           {/* Brand Column */}
           <div className="space-y-5">
             <div className="flex items-center gap-3">
-              <Image
-                src="/images/GTSS-logo.png"
-                alt="GTSS Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8 rounded"
-              />
+              <Image src="/images/GTSS-logo.png" alt="GTSS Logo" width={32} height={32} className="w-8 h-8 rounded" />
               <span className="text-lg font-bold tracking-tight text-[var(--footer-text)]">
                 Great Thumbs Software Solutions
               </span>
             </div>
             <p className="text-sm text-[var(--footer-text-muted)] leading-relaxed max-w-xs">
-              Practical software for hotels, restaurants, shops, churches, and service
-              teams across East Africa. Built in Nairobi.
+              Practical software for hotels, restaurants, shops, churches, and service teams across East Africa. Built
+              in Nairobi.
             </p>
 
             {/* Contact Info */}
             <div className="space-y-2">
               <a
-                href="tel:+254790670542"
+                href="tel:+254792156094"
                 className="flex items-center gap-2 text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
               >
                 <Phone className="w-4 h-4 shrink-0" />
                 <span>+254 790 670 542</span>
               </a>
               <a
-                href="mailto:info@gtss.co.ke"
+                href="mailto:info@gtss.software"
                 className="flex items-center gap-2 text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
               >
                 <Mail className="w-4 h-4 shrink-0" />
-                <span>info@gtss.co.ke</span>
+                <span>info@gtss.software</span>
               </a>
             </div>
 
@@ -113,27 +107,42 @@ export function Footer() {
             </div>
             <ul className="list-none flex flex-col gap-3">
               <li>
-                <Link href="/products/restaurant-manager" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/products/restaurant-manager"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Restaurant Manager
                 </Link>
               </li>
               <li>
-                <Link href="/products/ecommerce" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/products/ecommerce"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   E-commerce Platform
                 </Link>
               </li>
               <li>
-                <Link href="/products/church" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/products/church"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Church Management System
                 </Link>
               </li>
               <li>
-                <Link href="/products/hotel-ordering" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/products/hotel-ordering"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Hotel Ordering System
                 </Link>
               </li>
               <li>
-                <Link href="/products/just-in-time" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/products/just-in-time"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   JustInTime
                 </Link>
               </li>
@@ -147,32 +156,50 @@ export function Footer() {
             </div>
             <ul className="list-none flex flex-col gap-3">
               <li>
-                <Link href="/pricing" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/pricing"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Pricing
                 </Link>
               </li>
               <li>
-                <Link href="/security" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/security"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Security
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/privacy"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Privacy Policy
                 </Link>
               </li>
               <li>
-                <Link href="/terms" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/terms"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Terms of Service
                 </Link>
               </li>
               <li>
-                <Link href="/faq" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/faq"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/accessibility" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/accessibility"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Accessibility
                 </Link>
               </li>
@@ -186,23 +213,32 @@ export function Footer() {
             </div>
             <ul className="list-none flex flex-col gap-3">
               <li>
-                <Link href="/about" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/about"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   About
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/contact"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/demo" className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]">
+                <Link
+                  href="/demo"
+                  className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"
+                >
                   Request a Demo
                 </Link>
               </li>
               <li>
                 <a
-                  href="https://wa.me/254790670542"
+                  href="https://wa.me/254792156094"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-[var(--footer-text-muted)] no-underline transition-colors hover:text-[var(--accent)]"

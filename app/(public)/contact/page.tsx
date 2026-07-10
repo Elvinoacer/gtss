@@ -2,23 +2,9 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Mail,
-  Phone,
-  MapPin,
-  Send,
-  CheckCircle2,
-  Loader2,
-  MessageCircle,
-  AlertCircle,
-} from "lucide-react";
+import { Mail, Phone, MapPin, Send, CheckCircle2, Loader2, MessageCircle, AlertCircle } from "lucide-react";
 
-const subjectOptions = [
-  "General Inquiry",
-  "Technical Support",
-  "Sales & Pricing",
-  "Partnership",
-];
+const subjectOptions = ["General Inquiry", "Technical Support", "Sales & Pricing", "Partnership"];
 
 interface FormData {
   name: string;
@@ -43,9 +29,7 @@ export default function ContactPage() {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
   };
@@ -98,8 +82,7 @@ export default function ContactPage() {
               Get in <span className="text-[var(--accent)]">Touch.</span>
             </h1>
             <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              Have questions about our products? We&apos;re here to help. Fill out the
-              form or reach out directly.
+              Have questions about our products? We&apos;re here to help. Fill out the form or reach out directly.
             </p>
           </div>
         </div>
@@ -115,9 +98,7 @@ export default function ContactPage() {
                 <div className="w-14 h-14 rounded-full bg-[var(--green)]/10 flex items-center justify-center mx-auto mb-5">
                   <CheckCircle2 className="w-7 h-7" style={{ color: "var(--green)" }} />
                 </div>
-                <h3 className="text-xl font-semibold text-[var(--text)] mb-2">
-                  Thank you!
-                </h3>
+                <h3 className="text-xl font-semibold text-[var(--text)] mb-2">Thank you!</h3>
                 <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                   We&apos;ll be in touch within 24 hours.
                 </p>
@@ -130,10 +111,7 @@ export default function ContactPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-5">
                   {/* Name */}
                   <div>
-                    <label
-                      htmlFor="name"
-                      className="block text-sm font-medium text-[var(--text)] mb-2"
-                    >
+                    <label htmlFor="name" className="block text-sm font-medium text-[var(--text)] mb-2">
                       Name
                     </label>
                     <input
@@ -150,10 +128,7 @@ export default function ContactPage() {
 
                   {/* Email */}
                   <div>
-                    <label
-                      htmlFor="email"
-                      className="block text-sm font-medium text-[var(--text)] mb-2"
-                    >
+                    <label htmlFor="email" className="block text-sm font-medium text-[var(--text)] mb-2">
                       Email
                     </label>
                     <input
@@ -171,10 +146,7 @@ export default function ContactPage() {
 
                 {/* Company / Organization */}
                 <div className="mb-5">
-                  <label
-                    htmlFor="company"
-                    className="block text-sm font-medium text-[var(--text)] mb-2"
-                  >
+                  <label htmlFor="company" className="block text-sm font-medium text-[var(--text)] mb-2">
                     Company / Organization
                   </label>
                   <input
@@ -190,10 +162,7 @@ export default function ContactPage() {
 
                 {/* Subject */}
                 <div className="mb-5">
-                  <label
-                    htmlFor="subject"
-                    className="block text-sm font-medium text-[var(--text)] mb-2"
-                  >
+                  <label htmlFor="subject" className="block text-sm font-medium text-[var(--text)] mb-2">
                     Subject
                   </label>
                   <select
@@ -217,10 +186,7 @@ export default function ContactPage() {
 
                 {/* Message */}
                 <div className="mb-5">
-                  <label
-                    htmlFor="message"
-                    className="block text-sm font-medium text-[var(--text)] mb-2"
-                  >
+                  <label htmlFor="message" className="block text-sm font-medium text-[var(--text)] mb-2">
                     Message
                   </label>
                   <textarea
@@ -255,9 +221,8 @@ export default function ContactPage() {
                       className="mt-1 w-4 h-4 rounded border-[var(--card-border)] text-[var(--accent)] focus:ring-[var(--accent)] accent-[var(--accent)]"
                     />
                     <span className="text-sm text-[var(--text-muted)] leading-relaxed">
-                      I agree that my data will be processed in accordance with
-                      GTSS&apos;s privacy policy and understand my information will
-                      be used solely to respond to my inquiry.
+                      I agree that my data will be processed in accordance with GTSS&apos;s privacy policy and
+                      understand my information will be used solely to respond to my inquiry.
                     </span>
                   </label>
                 </div>
@@ -288,34 +253,38 @@ export default function ContactPage() {
           <div className="flex flex-col gap-6">
             {/* Contact Info */}
             <div className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 lg:p-8">
-              <h3 className="text-lg font-semibold text-[var(--text)] mb-6">
-                Contact Information
-              </h3>
+              <h3 className="text-lg font-semibold text-[var(--text)] mb-6">Contact Information</h3>
 
               <div className="space-y-5">
                 <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0" style={{ color: "var(--accent)" }}>
+                  <div
+                    className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0"
+                    style={{ color: "var(--accent)" }}
+                  >
                     <Mail className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-xs text-[var(--text-muted)] mb-0.5">Email</div>
                     <a
-                      href="mailto:info@gtss.co.ke"
+                      href="mailto:info@gtss.software"
                       className="text-sm font-medium text-[var(--text)] no-underline hover:text-[var(--accent)] transition-colors"
                     >
-                      info@gtss.co.ke
+                      info@gtss.software
                     </a>
                   </div>
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0" style={{ color: "var(--green)" }}>
+                  <div
+                    className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0"
+                    style={{ color: "var(--green)" }}
+                  >
                     <Phone className="w-4 h-4" />
                   </div>
                   <div>
                     <div className="text-xs text-[var(--text-muted)] mb-0.5">Phone</div>
                     <a
-                      href="tel:+254790670542"
+                      href="tel:+254792156094"
                       className="text-sm font-medium text-[var(--text)] no-underline hover:text-[var(--accent)] transition-colors"
                     >
                       +254 790 670 542
@@ -324,7 +293,10 @@ export default function ContactPage() {
                 </div>
 
                 <div className="flex items-start gap-4">
-                  <div className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0" style={{ color: "var(--gold)" }}>
+                  <div
+                    className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0"
+                    style={{ color: "var(--gold)" }}
+                  >
                     <MapPin className="w-4 h-4" />
                   </div>
                   <div>
@@ -341,19 +313,20 @@ export default function ContactPage() {
 
             {/* WhatsApp */}
             <a
-              href="https://wa.me/254790670542"
+              href="https://wa.me/254792156094"
               target="_blank"
               rel="noopener noreferrer"
               className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 lg:p-8 no-underline block transition-all hover:border-[var(--card-hover-border)] group"
             >
               <div className="flex items-start gap-4">
-                <div className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0" style={{ color: "var(--green)" }}>
+                <div
+                  className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0"
+                  style={{ color: "var(--green)" }}
+                >
                   <MessageCircle className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-[var(--text)] mb-1">
-                    Or message us on WhatsApp
-                  </h4>
+                  <h4 className="text-sm font-semibold text-[var(--text)] mb-1">Or message us on WhatsApp</h4>
                   <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                     Get a quick response via WhatsApp. We typically reply within minutes during business hours.
                   </p>
@@ -367,13 +340,14 @@ export default function ContactPage() {
             {/* Response SLA */}
             <div className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 lg:p-8">
               <div className="flex items-start gap-4">
-                <div className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0" style={{ color: "var(--green)" }}>
+                <div
+                  className="w-9 h-9 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0"
+                  style={{ color: "var(--green)" }}
+                >
                   <CheckCircle2 className="w-4 h-4" />
                 </div>
                 <div>
-                  <h4 className="text-sm font-semibold text-[var(--text)] mb-1">
-                    Response Guarantee
-                  </h4>
+                  <h4 className="text-sm font-semibold text-[var(--text)] mb-1">Response Guarantee</h4>
                   <p className="text-sm text-[var(--text-muted)] leading-relaxed">
                     We respond to all inquiries within 24 hours.
                   </p>
