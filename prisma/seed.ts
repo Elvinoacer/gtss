@@ -15,7 +15,8 @@ import { docContentData, docErrorCodes } from '../data/docs';
 
 
 const connectionString = process.env.DATABASE_URL!;
-const adapter = new PrismaPg({ connectionString });
+const pool = new pg.Pool({ connectionString });
+const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
 
 async function main() {

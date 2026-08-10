@@ -85,7 +85,7 @@ export async function getSalesData() {
     });
 
     // We want last 6 months in order
-    const last6Months = [];
+    const last6Months: Array<{ month: string; actual: number; target: number; highlight: boolean }> = [];
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
       d.setMonth(d.getMonth() - i);
