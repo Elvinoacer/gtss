@@ -15,6 +15,7 @@ import {
   Sparkles,
   ArrowRight,
   ShieldCheck,
+  Play,
 } from "lucide-react";
 import { catalog, whatsappUrl } from "@/data/site";
 
@@ -147,23 +148,48 @@ export function BentoGrid() {
                 </div>
 
                 {/* Card Action Footer */}
-                <div className="mt-6 pt-4 border-t border-[var(--border)] flex items-center justify-between">
-                  <Link
-                    href={product.href}
-                    className="inline-flex items-center gap-1.5 text-xs font-bold text-[var(--text)] hover:text-[var(--gold-luxury)] transition-colors group-hover:translate-x-0.5"
-                  >
-                    <span>View System Details</span>
-                    <ArrowUpRight className="h-4 w-4" />
-                  </Link>
+                <div className="mt-6 pt-4 border-t border-[var(--border)] flex flex-col gap-3">
+                  {product.id === "pharmacy-platform" && (
+                    <div className="flex items-center gap-2">
+                      <a
+                        href="https://pharmacy-template-tier2.vercel.app/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-1.5 px-2.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] text-center flex items-center justify-center gap-1 transition-colors shadow-xs"
+                      >
+                        <span>Live Store</span>
+                        <ArrowUpRight className="h-3 w-3" />
+                      </a>
+                      <a
+                        href="https://youtu.be/sdgmLqLf6B0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="flex-1 py-1.5 px-2.5 rounded-lg border border-[var(--border)] bg-[var(--bg-surface-2)] text-[var(--text)] hover:text-red-500 font-semibold text-[11px] text-center flex items-center justify-center gap-1 transition-colors"
+                      >
+                        <Play className="h-3 w-3 text-red-500 fill-red-500/20" />
+                        <span>Watch Demo</span>
+                      </a>
+                    </div>
+                  )}
 
-                  <a
-                    href={whatsappUrl(`Hi GTSS, I'm interested in a live demo for ${product.title}.`)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
-                  >
-                    Request Demo
-                  </a>
+                  <div className="flex items-center justify-between text-xs">
+                    <Link
+                      href={product.href}
+                      className="inline-flex items-center gap-1.5 font-bold text-[var(--text)] hover:text-[var(--gold-luxury)] transition-colors group-hover:translate-x-0.5"
+                    >
+                      <span>View Details</span>
+                      <ArrowUpRight className="h-3.5 w-3.5" />
+                    </Link>
+
+                    <a
+                      href={whatsappUrl(`Hi GTSS, I'm interested in a live demo for ${product.title}.`)}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-semibold text-emerald-600 dark:text-emerald-400 hover:underline"
+                    >
+                      Request Demo
+                    </a>
+                  </div>
                 </div>
               </div>
             </div>

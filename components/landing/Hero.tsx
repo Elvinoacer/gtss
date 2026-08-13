@@ -20,6 +20,8 @@ import {
   ShoppingBag,
   GraduationCap,
   Briefcase,
+  Play,
+  ArrowUpRight,
 } from "lucide-react";
 import { catalog, whatsappUrl } from "@/data/site";
 
@@ -381,7 +383,7 @@ export function Hero() {
 
                 {/* Overlaid Interactive Trigger Bar */}
                 <div className="absolute bottom-3 left-3 right-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 p-3 rounded-xl bg-[var(--card-bg)]/95 backdrop-blur-md border border-[var(--border)] shadow-lg">
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <button
                       type="button"
                       onClick={triggerMpesaTest}
@@ -401,10 +403,34 @@ export function Hero() {
                       ) : (
                         <>
                           <Smartphone className="h-3.5 w-3.5" />
-                          <span>Test Live M-Pesa STK Prompt</span>
+                          <span>Test Live M-Pesa STK</span>
                         </>
                       )}
                     </button>
+
+                    {activeTab.id === "pharmacy-platform" && (
+                      <>
+                        <a
+                          href="https://pharmacy-template-tier2.vercel.app/"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-[var(--bg-surface-2)] border border-emerald-500/40 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                        >
+                          <span>Live Store</span>
+                          <ArrowUpRight className="h-3.5 w-3.5" />
+                        </a>
+
+                        <a
+                          href="https://youtu.be/sdgmLqLf6B0"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="px-3 py-1.5 rounded-lg bg-[var(--bg-surface-2)] border border-[var(--border)] text-[var(--text)] hover:text-red-500 text-xs font-bold flex items-center gap-1.5 transition-colors"
+                        >
+                          <Play className="h-3.5 w-3.5 text-red-500 fill-red-500/20" />
+                          <span>Video Demo</span>
+                        </a>
+                      </>
+                    )}
                   </div>
 
                   <Link

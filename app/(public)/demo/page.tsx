@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react";
+import { AlertCircle, CheckCircle2, Loader2, ArrowUpRight, Play } from "lucide-react";
 import { catalog, mailUrl, site, telUrl } from "@/data/site";
 import { PageHeader } from "@/components/site/PageHeader";
 
@@ -118,6 +118,39 @@ export default function DemoPage() {
         </form>
 
         <aside className="space-y-4">
+          <div className="border border-emerald-500/30 bg-emerald-500/[0.04] p-5 rounded-lg">
+            <div className="flex items-center gap-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-emerald-600 dark:text-emerald-400">
+                Flagship Live Deployed App
+              </p>
+            </div>
+            <h4 className="mt-2 text-sm font-bold text-[var(--text)]">PharmaCare OS</h4>
+            <p className="mt-1 text-xs text-[var(--text-muted)] leading-relaxed">
+              Experience the live customer website running in production with 24/7 AI chatbot and M-Pesa.
+            </p>
+            <div className="mt-4 space-y-2">
+              <a
+                href="https://pharmacy-template-tier2.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs text-center flex items-center justify-center gap-1.5 transition-colors shadow-sm"
+              >
+                <span>Launch Live Website</span>
+                <ArrowUpRight className="h-3.5 w-3.5" />
+              </a>
+              <a
+                href="https://youtu.be/sdgmLqLf6B0"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full py-2 px-3 rounded border border-[var(--border)] bg-[var(--bg-surface-2)] text-[var(--text)] font-semibold text-xs text-center flex items-center justify-center gap-1.5 hover:bg-[var(--bg-surface-3)] transition-colors"
+              >
+                <Play className="h-3.5 w-3.5 text-red-500 fill-red-500/20" />
+                <span>Watch Video Walkthrough</span>
+              </a>
+            </div>
+          </div>
+
           <div className="border border-[var(--card-border)] bg-[var(--card-bg)] p-5">
             <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">Reach us directly</p>
             <p className="mt-3 text-sm">

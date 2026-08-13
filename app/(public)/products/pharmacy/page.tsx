@@ -28,6 +28,8 @@ import {
   FileText,
   AlertTriangle,
   Lock,
+  Play,
+  ExternalLink,
 } from "lucide-react";
 import { SiteCTA } from "@/components/site/SiteCTA";
 import { site, telUrl, whatsappUrl } from "@/data/site";
@@ -276,14 +278,27 @@ export default function PharmacyPlatformPage() {
 
             {/* CTA Group */}
             <div className="mt-8 flex flex-wrap items-center gap-3.5 sm:gap-4">
-              <Link href="/demo" className="luxury-btn-gold">
-                <span>Book Live Pharmacy Walkthrough</span>
-                <ArrowRight className="h-4 w-4" />
-              </Link>
+              <a
+                href="https://pharmacy-template-tier2.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="luxury-btn-gold"
+              >
+                <span>Launch Live Deployed Store</span>
+                <ArrowUpRight className="h-4 w-4" />
+              </a>
+
+              <a
+                href="#video-demo"
+                className="luxury-btn-outline"
+              >
+                <Play className="h-4 w-4 text-emerald-500 fill-emerald-500/20" />
+                <span>Watch Video Demo</span>
+              </a>
 
               <a
                 href={whatsappUrl(
-                  "Hi GTSS, I want to put my pharmacy online with PharmaCare OS. Let's discuss."
+                  "Hi GTSS, I saw the live deployed pharmacy at https://pharmacy-template-tier2.vercel.app/ and video walkthrough. I'd like to deploy this."
                 )}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -314,29 +329,48 @@ export default function PharmacyPlatformPage() {
             </div>
           </div>
 
-          {/* Hero Visual Card */}
+          {/* Hero Visual Card with Direct Live Launch Link */}
           <div className="relative">
             <div className="relative rounded-2xl overflow-hidden border border-[var(--border-bright)] bg-[var(--card-bg)] shadow-2xl">
-              <div className="relative aspect-[16/10] w-full">
+              <a
+                href="https://pharmacy-template-tier2.vercel.app/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="block relative aspect-[16/10] w-full group cursor-pointer"
+                title="Click to open live deployed pharmacy demo"
+              >
                 <Image
                   src="/images/pharmacy_platform_hero.jpg"
-                  alt="PharmaCare OS Interface Preview"
+                  alt="PharmaCare OS Live Deployed Interface Preview"
                   fill
                   sizes="(max-width: 1024px) 100vw, 50vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 group-hover:scale-105"
                   priority
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)]/80 via-transparent to-transparent" />
-              </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)]/90 via-transparent to-transparent" />
+                
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/40 backdrop-blur-xs">
+                  <span className="px-4 py-2 rounded-xl bg-emerald-600 text-white font-bold text-xs flex items-center gap-2 shadow-xl">
+                    <span>Open Live Store (tier2.vercel.app)</span>
+                    <ArrowUpRight className="h-4 w-4" />
+                  </span>
+                </div>
+              </a>
 
               <div className="p-5 border-t border-[var(--border)] bg-[var(--bg-surface-2)] flex flex-wrap items-center justify-between gap-3 text-xs">
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
                   <span className="font-bold text-[var(--text)]">PharmaCare Live Console</span>
                 </div>
-                <span className="font-mono text-emerald-600 dark:text-emerald-400 font-semibold">
-                  M-Pesa STK + AI Groq Connected
-                </span>
+                <a
+                  href="https://pharmacy-template-tier2.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-mono text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1"
+                >
+                  <span>pharmacy-template-tier2.vercel.app</span>
+                  <ExternalLink className="h-3 w-3" />
+                </a>
               </div>
             </div>
           </div>
@@ -444,6 +478,111 @@ export default function PharmacyPlatformPage() {
             >
               Get Started with Step 1 →
             </a>
+          </div>
+        </div>
+      </section>
+
+      {/* Direct Video Demonstration & Live Deployed Storefront Section */}
+      <section className="bg-[var(--section-alt)] py-16 lg:py-24 border-b border-[var(--border)]" id="video-demo">
+        <div className="site-wrap">
+          <div className="max-w-3xl mx-auto text-center pb-12">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-4">
+              <Play className="h-3.5 w-3.5 fill-current" />
+              <span>Full Video Walkthrough & Live Production Deployed Store</span>
+            </div>
+            <h2 className="site-title text-[var(--text)]">
+              Watch PharmaCare OS In Action.
+            </h2>
+            <p className="site-lead mx-auto mt-4 text-base lg:text-lg">
+              Watch the complete video demonstration below or launch the real live deployed website in your browser right now to test the store, 24/7 AI chatbot, and M-Pesa checkout.
+            </p>
+          </div>
+
+          <div className="grid lg:grid-cols-[1.3fr_0.7fr] gap-8 items-start">
+            {/* Embedded YouTube Video Player */}
+            <div className="luxury-card overflow-hidden border-2 border-emerald-500/30 bg-black shadow-2xl p-2 rounded-2xl">
+              <div className="relative aspect-video w-full rounded-xl overflow-hidden bg-black">
+                <iframe
+                  src="https://www.youtube-nocookie.com/embed/sdgmLqLf6B0?rel=0"
+                  title="PharmaCare OS Video Walkthrough"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                  allowFullScreen
+                  className="w-full h-full border-0"
+                />
+              </div>
+              <div className="p-4 flex flex-wrap items-center justify-between gap-3 text-xs bg-[var(--bg-surface-2)] mt-2 rounded-lg">
+                <div className="flex items-center gap-2 text-[var(--text)] font-semibold">
+                  <Play className="h-4 w-4 text-red-500 fill-red-500" />
+                  <span>PharmaCare OS Complete Video Walkthrough</span>
+                </div>
+                <a
+                  href="https://youtu.be/sdgmLqLf6B0"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-emerald-600 dark:text-emerald-400 font-bold hover:underline flex items-center gap-1"
+                >
+                  <span>Watch on YouTube</span>
+                  <ExternalLink className="h-3.5 w-3.5" />
+                </a>
+              </div>
+            </div>
+
+            {/* Live Deployed Instance Launch Panel */}
+            <div className="luxury-card p-6 lg:p-8 border border-[var(--border-bright)] bg-[var(--card-bg)] space-y-6 flex flex-col justify-between h-full">
+              <div className="space-y-4">
+                <div className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-xs font-mono font-bold">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
+                  <span>LIVE DEPLOYED INSTANCE</span>
+                </div>
+
+                <h3 className="text-xl font-bold text-[var(--text)]">
+                  Experience The Live Customer Website
+                </h3>
+
+                <p className="text-xs sm:text-sm text-[var(--text-muted)] leading-relaxed">
+                  Our live demonstration instance is deployed and running on Vercel. Test real customer journeys:
+                </p>
+
+                <div className="space-y-2.5 pt-2 text-xs text-[var(--text)]">
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span><strong>Browse OTC Medicines:</strong> Add products to cart and simulate delivery or pickup.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span><strong>Test 24/7 AI Health Chatbot:</strong> Ask clinical dosage, availability, and pricing questions.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span><strong>Book In-Clinic Services:</strong> Select wellness slots for BP checks & vaccinations.</span>
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <CheckCircle2 className="h-4 w-4 text-emerald-500 shrink-0 mt-0.5" />
+                    <span><strong>Test M-Pesa Checkout:</strong> Seamless mobile payment flow and instant receipts.</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-3 pt-6 border-t border-[var(--border)]">
+                <a
+                  href="https://pharmacy-template-tier2.vercel.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full block py-3 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm text-center transition-all shadow-md"
+                >
+                  <span>Launch Live Deployed Website ↗</span>
+                </a>
+
+                <a
+                  href={whatsappUrl("Hi GTSS, I tested the live pharmacy website at https://pharmacy-template-tier2.vercel.app/ and want to deploy this for my business.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full block py-3 px-4 rounded-xl border border-[var(--border-bright)] hover:border-emerald-500 bg-[var(--bg-surface-2)] text-[var(--text)] font-semibold text-xs text-center transition-colors"
+                >
+                  <span>WhatsApp GTSS to Deploy This →</span>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

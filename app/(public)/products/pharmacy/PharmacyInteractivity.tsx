@@ -26,6 +26,8 @@ import {
   Activity,
   HeartPulse,
   Plus,
+  ArrowUpRight,
+  Play,
 } from "lucide-react";
 import { whatsappUrl } from "@/data/site";
 
@@ -255,59 +257,81 @@ export function PharmacyInteractivity() {
 
   return (
     <div className="luxury-card overflow-hidden border border-[var(--border-bright)] bg-[var(--card-bg)] shadow-2xl">
-      {/* Simulation Mode Tabs */}
-      <div className="flex flex-wrap border-b border-[var(--border)] bg-[var(--bg-surface-2)] p-2 gap-2">
-        <button
-          type="button"
-          onClick={() => setActiveSimTab("ai")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            activeSimTab === "ai"
-              ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
-              : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
-          }`}
-        >
-          <Bot className="h-4 w-4" />
-          <span>24/7 AI Health Chatbot</span>
-        </button>
+      {/* Simulation Mode Tabs & Live Deployed Hub */}
+      <div className="flex flex-wrap items-center justify-between border-b border-[var(--border)] bg-[var(--bg-surface-2)] p-2 gap-2">
+        <div className="flex flex-wrap items-center gap-1.5 sm:gap-2">
+          <button
+            type="button"
+            onClick={() => setActiveSimTab("ai")}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeSimTab === "ai"
+                ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
+                : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
+            }`}
+          >
+            <Bot className="h-4 w-4" />
+            <span>24/7 AI Chatbot</span>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveSimTab("caregiver")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            activeSimTab === "caregiver"
-              ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
-              : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
-          }`}
-        >
-          <Users className="h-4 w-4" />
-          <span>Patient & Caregiver Portal</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveSimTab("caregiver")}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeSimTab === "caregiver"
+                ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
+                : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
+            }`}
+          >
+            <Users className="h-4 w-4" />
+            <span>Patient Portal</span>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveSimTab("fefo")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            activeSimTab === "fefo"
-              ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
-              : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
-          }`}
-        >
-          <Layers className="h-4 w-4" />
-          <span>FEFO Stock Lot Engine</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveSimTab("fefo")}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeSimTab === "fefo"
+                ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
+                : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
+            }`}
+          >
+            <Layers className="h-4 w-4" />
+            <span>FEFO Lots</span>
+          </button>
 
-        <button
-          type="button"
-          onClick={() => setActiveSimTab("roi")}
-          className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-            activeSimTab === "roi"
-              ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
-              : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
-          }`}
-        >
-          <TrendingUp className="h-4 w-4" />
-          <span>Revenue & ROI Estimator</span>
-        </button>
+          <button
+            type="button"
+            onClick={() => setActiveSimTab("roi")}
+            className={`flex items-center gap-2 px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              activeSimTab === "roi"
+                ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-md"
+                : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[var(--bg-surface-3)]"
+            }`}
+          >
+            <TrendingUp className="h-4 w-4" />
+            <span>Revenue ROI</span>
+          </button>
+        </div>
+
+        <div className="flex items-center gap-2 px-1">
+          <a
+            href="https://pharmacy-template-tier2.vercel.app/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-[11px] flex items-center gap-1.5 transition-colors shadow-sm"
+          >
+            <span>Live App ↗</span>
+          </a>
+          <a
+            href="https://youtu.be/sdgmLqLf6B0"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 rounded-lg border border-[var(--border)] bg-[var(--card-bg)] text-[var(--text)] hover:text-red-500 font-semibold text-[11px] flex items-center gap-1.5 transition-colors"
+          >
+            <Play className="h-3 w-3 text-red-500 fill-red-500/20" />
+            <span>Watch Video</span>
+          </a>
+        </div>
       </div>
 
       {/* Tab 1: AI Chatbot Experience */}
