@@ -1,117 +1,213 @@
 import Link from "next/link";
 import Image from "next/image";
-import { ArrowLeft, Check } from "lucide-react";
+import { redirect } from "next/navigation";
+import { ArrowLeft, Check, ExternalLink } from "lucide-react";
+import { prisma } from "@/lib/prisma";
+import { SiteCTA } from "@/components/site/SiteCTA";
 
-const productData: Record<string, {
+// Static fallback details for offline/static rendering
+const fallbackProductMap: Record<string, {
+  id: string;
+  dbId: string;
   title: string;
   subtitle: string;
+  category: string;
   description: string;
-  features: { title: string; desc: string }[];
-  image: string;
   pricing: string;
-  pricingNote: string;
-  ctaVerb?: string;
-  ctaDemoText?: string;
+  priceUSD?: number;
+  priceKES?: number;
+  websiteUrl?: string;
+  image: string;
+  logoUrl?: string;
+  gallery?: string[];
+  features: { title: string; desc: string }[];
 }> = {
-  "restaurant-manager": {
-    title: "Restaurant Manager",
-    subtitle: "Hospitality POS System",
-    description: "A complete point-of-sale system for restaurants, cafes, and eateries. QR-based ordering sends orders straight to the kitchen, tables are managed in real time, and everything works offline. When the network comes back, data syncs automatically. M-Pesa and Airtel Money are built in, so your customers pay the way they expect.",
-    features: [
-      { title: "QR-Based Ordering", desc: "Guests scan a QR code at their table to browse the menu and place orders directly to the kitchen." },
-      { title: "Kitchen Display System", desc: "Real-time order routing to kitchen displays eliminates hand-written tickets and confusion." },
-      { title: "Offline-First Architecture", desc: "The entire system runs on your local network. No internet required for day-to-day operations." },
-      { title: "Staff Dashboard", desc: "Manage orders, tables, inventory, and shift reports from a single interface." },
-      { title: "M-Pesa & Local Payments", desc: "Accept M-Pesa, Airtel Money, bank transfer, and card payments out of the box." },
-      { title: "Reporting & Analytics", desc: "Track sales, inventory, and operational metrics with built-in reporting tools." },
-    ],
-    image: "/images/waiter_handheld_offline_pos_1777357237751.png",
-    pricing: "Subscription",
-    pricingNote: "Monthly or yearly plans with cloud hosting and support included.",
-  },
-  "ecommerce": {
-    title: "E-commerce Platform",
-    subtitle: "Online Storefront",
-    description: "Launch your online store with everything you need to sell products across East Africa. M-Pesa and card payments are built in, inventory tracks itself, and orders flow from placement to delivery in one dashboard.",
-    features: [
-      { title: "Product Catalog", desc: "Easy product listing with images, descriptions, and pricing in KES or USD." },
-      { title: "Inventory Tracking", desc: "Real-time stock management across all your products and variants." },
-      { title: "Order Management", desc: "Process and track orders from placement through delivery." },
-      { title: "Local Payment Integration", desc: "M-Pesa, Airtel Money, bank transfers, and card payments supported." },
-      { title: "Customer Portal", desc: "Customers can browse, order, and track purchases from any device." },
-      { title: "Cloud Hosting Included", desc: "No infrastructure management required. We handle hosting, updates, and security." },
-    ],
-    image: "/images/gtss_bento.png",
-    pricing: "Subscription",
-    pricingNote: "Monthly or yearly plans. Cloud hosting, updates, and support included.",
-  },
-  "church": {
+  "cmkwpx6t3000004i89mcou9z5": {
+    id: "cmkwpx6t3000004i89mcou9z5",
+    dbId: "cmkwpx6t3000004i89mcou9z5",
     title: "Church Management System",
-    subtitle: "Congregation Tools",
-    description: "A comprehensive administration system built for churches and religious organizations. Track members, record contributions, schedule events, and manage communications from one place.",
-    features: [
-      { title: "Member Database", desc: "Track members, families, and attendance in a searchable, organized database." },
-      { title: "Contribution Tracking", desc: "Record tithes, offerings, and special donations with multiple payment method support." },
-      { title: "Event Management", desc: "Schedule and manage church events, services, and activities." },
-      { title: "Group Management", desc: "Organize small groups, ministries, and departments with dedicated communication channels." },
-      { title: "Financial Reports", desc: "Generate contribution, attendance, and financial reports for transparency." },
-      { title: "Priority Support", desc: "Dedicated assistance for church administrators who need extra help." },
+    subtitle: "GTS-ENT-6990 · Enterprise",
+    category: "Enterprise",
+    description: "A holistic digital ecosystem designed to streamline ministry operations, enhance member engagement, track contributions (M-Pesa, cash, and bank), and foster spiritual growth.",
+    pricing: "Subscription — $16/mo / KES 2,000/mo",
+    priceUSD: 16,
+    priceKES: 2000,
+    websiteUrl: "https://zion-hill.vercel.app",
+    image: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769525614/gtss/products/mxabcttbqh9kv2mxt8xz.jpg",
+    logoUrl: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769523393/gtss/products/czoxq2embhckyvvjfkml.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769525614/gtss/products/mxabcttbqh9kv2mxt8xz.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769525683/gtss/products/nnk1xvwkluqr8tqno9uz.jpg"
     ],
-    image: "/images/gtss_bento.png",
-    pricing: "Subscription",
-    pricingNote: "Affordable monthly plans designed for churches of all sizes.",
-    ctaVerb: "ministry",
-    ctaDemoText: "walkthrough",
-  },
-  "hotel-ordering": {
-    title: "Hotel Ordering System",
-    subtitle: "Guest Services Platform",
-    description: "Transform the guest experience with in-room QR ordering, kitchen routing, and housekeeping management. The system runs on your local network — no internet needed. Pay once and own it forever.",
     features: [
-      { title: "QR-Based Room Ordering", desc: "Guests scan a QR code in their room to order food, drinks, or services." },
-      { title: "Kitchen Routing", desc: "Orders go directly to the kitchen display, eliminating phone calls and paper tickets." },
-      { title: "Housekeeping Requests", desc: "Guests can request housekeeping, extra towels, or maintenance from their room." },
-      { title: "Front Desk Management", desc: "Manage check-ins, check-outs, room assignments, and billing from one screen." },
-      { title: "One-Time Payment", desc: "Pay once, own forever. No recurring software fees. On-premise deployment included." },
-      { title: "Offline-First", desc: "Runs on your local network. Full functionality without internet connectivity." },
+      { title: "Integrated Ministry & Pastoral Care", desc: "Track member profiles, family relationships, discipleship journeys, and pastoral visits." },
+      { title: "M-Pesa & Bank Contribution Ledger", desc: "Single unified ledger for tithes, offerings, and building funds via M-Pesa, bank, and cash." },
+      { title: "Event & Service Scheduling", desc: "Manage church calendars, volunteer rotas, and service attendance effortlessly." },
+      { title: "Small Groups & Department Management", desc: "Organize ministries, youth groups, and committees with dedicated communications." },
     ],
-    image: "/images/gtss_local_server_router_1777357301707.png",
-    pricing: "One-Time Payment",
-    pricingNote: "Pay once, own forever. Includes 1 year of technical support.",
   },
-  "just-in-time": {
+  "cmkwvzp9n000004ieieyhqcde": {
+    id: "cmkwvzp9n000004ieieyhqcde",
+    dbId: "cmkwvzp9n000004ieieyhqcde",
+    title: "Commersely",
+    subtitle: "GTS-SAA-7111 · SaaS",
+    category: "SaaS",
+    description: "Commersely is a premium, enterprise-grade e-commerce ecosystem designed to empower brands with a sophisticated digital presence built on Next.js 15, integrated M-Pesa, card payments, and inventory management.",
+    pricing: "Subscription — $8/mo / KES 1,000/mo",
+    priceUSD: 8,
+    priceKES: 1000,
+    websiteUrl: "https://commerseley.vercel.app",
+    image: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769535840/gtss/products/outu9egsgeql8bax6epq.jpg",
+    logoUrl: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769534690/gtss/products/g3zztu8dxqmmhgju0has.png",
+    gallery: [
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769535840/gtss/products/outu9egsgeql8bax6epq.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769535859/gtss/products/nhiklexfazkq8sadi9si.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769535877/gtss/products/lnmhcrih9vvjzq1afwzb.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769535895/gtss/products/okrm64jjavjmb4kgo2he.jpg"
+    ],
+    features: [
+      { title: "Next.js 15 High Performance Storefront", desc: "Ultra-fast product browsing, SEO optimized pages, and mobile-first responsive design." },
+      { title: "M-Pesa & Card Checkout", desc: "Instant checkout with automated STK push for M-Pesa, Visa, and Mastercard." },
+      { title: "Real-Time Inventory Tracking", desc: "Automated stock adjustments, variant management, and low stock alerts." },
+      { title: "Bespoke GTSS Setup & Hosting", desc: "Fully managed deployment, domain configuration, and ongoing security updates." },
+    ],
+  },
+  "cmkwy2mpv000004laf6le04kd": {
+    id: "cmkwy2mpv000004laf6le04kd",
+    dbId: "cmkwy2mpv000004laf6le04kd",
     title: "JustInTime",
-    subtitle: "Service Marketplace",
-    description: "A community marketplace that connects clients with service providers quickly and efficiently. Job matching, payment processing, and tracking for both online and on-ground services.",
-    features: [
-      { title: "Fast Matching", desc: "Quickly connect clients with available, vetted service providers in their area." },
-      { title: "Payment Processing", desc: "Integrated payment handling with M-Pesa, Airtel Money, and card support." },
-      { title: "Job Tracking", desc: "Real-time status updates on service delivery from start to finish." },
-      { title: "Provider Dashboard", desc: "Service providers manage availability, services, and earnings from one place." },
-      { title: "Ratings & Reviews", desc: "Build trust through a transparent ratings and review system." },
-      { title: "Pay as You Grow", desc: "Transaction-based pricing means minimal upfront cost and scaling with usage." },
+    subtitle: "GTS-PLA-8158 · Platform",
+    category: "Platform",
+    description: "JustInTime is a hyperlocal skill marketplace designed to bridge the gap between service talent and clients. Provides secure location-based job matching, automated dispatch, and payment escrow.",
+    pricing: "Free Platform Access",
+    websiteUrl: "https://justintimeservices.vercel.app",
+    image: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769539313/gtss/products/h16tvll5gxqgevm869ls.jpg",
+    logoUrl: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769538097/gtss/products/r0ygqexppc3pip4ms1y1.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769539313/gtss/products/h16tvll5gxqgevm869ls.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769539328/gtss/products/fujhipjfpti3wdqytk84.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769539343/gtss/products/ptgvoy1noy9brvlrxwme.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769539364/gtss/products/bytl1vdwxmeqmgcefyki.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769539377/gtss/products/bsibvmpxlsczvkjynf4v.jpg"
     ],
-    image: "/images/gtss_bento.png",
-    pricing: "Platform Access",
-    pricingNote: "Usage-based pricing. Pay only when transactions happen.",
+    features: [
+      { title: "Hyperlocal Skill & Service Matching", desc: "Instantly match local requests with nearby verified professionals." },
+      { title: "Job Dispatch & Milestone Tracking", desc: "Track job progress from dispatch, arrival, execution, to final approval." },
+      { title: "M-Pesa Payment Protection", desc: "Integrated local payment processing and secure job completion receipts." },
+      { title: "Ratings & Provider Reputation", desc: "Built-in review system to maintain high quality service standards across the platform." },
+    ],
   },
+  "cmkxqm2ag000004kz7vhkvpza": {
+    id: "cmkxqm2ag000004kz7vhkvpza",
+    dbId: "cmkxqm2ag000004kz7vhkvpza",
+    title: "Kampus",
+    subtitle: "GTS-MOB-1511 · Mobile App",
+    category: "Mobile App",
+    description: "Kampus is a university-centric social ecosystem that bridges social networking and campus utility. Gives students a hyperlocal space to connect, buy/sell items, and discover campus events.",
+    pricing: "Free Mobile App",
+    websiteUrl: "https://expo.dev/accounts/elvinoacer/projects/uni-link/builds/34c51c8e-db93-4e55-a791-39ba89bee689",
+    image: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769587269/gtss/products/d3ugdikylmwyfzym4sh7.jpg",
+    logoUrl: "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769586597/gtss/products/abvufrhnpwa0ubrzhzfs.jpg",
+    gallery: [
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769587269/gtss/products/d3ugdikylmwyfzym4sh7.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769587283/gtss/products/yvqfimcpidgt3g3wb2z1.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769587295/gtss/products/j5hq7l3powlzrkzuxpuk.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769587309/gtss/products/b9ubpwkqbhy2clfmwwho.jpg",
+      "https://res.cloudinary.com/dmdc0ijcv/image/upload/v1769587321/gtss/products/lk2lnbgvxp9citrgzuf1.jpg"
+    ],
+    features: [
+      { title: "Hyperlocal Campus Social Feed", desc: "Connect with students in your university, hostel, or department." },
+      { title: "Student-to-Student Marketplace", desc: "Buy and sell textbooks, electronics, and room essentials securely." },
+      { title: "Event Discovery & RSVPs", desc: "Never miss campus events, club meetups, and academic hackathons." },
+      { title: "Independent Trust Network", desc: "Built with verification mechanisms designed specifically for student safety." },
+    ],
+  },
+};
+
+// Aliases for legacy slug routing
+const slugMap: Record<string, string> = {
+  "church": "cmkwpx6t3000004i89mcou9z5",
+  "church-management-system": "cmkwpx6t3000004i89mcou9z5",
+  "ecommerce": "cmkwvzp9n000004ieieyhqcde",
+  "commersely": "cmkwvzp9n000004ieieyhqcde",
+  "just-in-time": "cmkwy2mpv000004laf6le04kd",
+  "justintime": "cmkwy2mpv000004laf6le04kd",
+  "kampus": "cmkxqm2ag000004kz7vhkvpza",
 };
 
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
-  const product = productData[id];
 
-  if (!product) {
+  // Restaurant Manager dedicated page redirect
+  if (id === "restaurant-manager" || id === "cmkwglu7u000004jv50w2cmcj" || id === "GTS-SAA-3104") {
+    redirect("/products/restaurant-manager");
+  }
+
+  const targetId = slugMap[id] || id;
+
+  // Attempt database query
+  let dbProduct: any = null;
+  try {
+    dbProduct = await prisma.product.findFirst({
+      where: {
+        OR: [
+          { id: targetId },
+          { productId: targetId },
+        ]
+      },
+      include: {
+        features: { orderBy: { priority: "asc" } },
+        health: true,
+        reviews: true,
+      }
+    });
+  } catch (err) {
+    console.error("DB query failed in ProductDetailPage:", err);
+  }
+
+  // Fallback map check
+  const fallback = fallbackProductMap[targetId] || fallbackProductMap[slugMap[id]];
+
+  if (!dbProduct && !fallback) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-[var(--bg)]">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-[var(--text)] mb-4">Product Not Found</h1>
-          <p className="text-[var(--text-muted)] mb-6">The product you are looking for does not exist.</p>
-          <Link href="/products" className="text-[var(--accent)] font-semibold no-underline">Back to Products</Link>
-        </div>
+      <div className="min-h-[60vh] flex flex-col items-center justify-center bg-[var(--bg)] px-4 py-20 text-center">
+        <h1 className="text-3xl font-bold text-[var(--text)]">Product Not Found</h1>
+        <p className="mt-3 text-[var(--text-muted)] max-w-md">
+          The product &apos;{id}&apos; could not be located in the catalog.
+        </p>
+        <Link href="/products" className="site-btn site-btn-primary mt-8">
+          <ArrowLeft className="h-4 w-4" /> Back to Products
+        </Link>
       </div>
     );
   }
+
+  // Clean description string from markdown headers
+  const rawDescription = dbProduct?.description || fallback?.description || "";
+  const cleanDescription = rawDescription.replace(/^#+\s.*$/gm, "").trim();
+
+  const title = dbProduct?.name || fallback?.title || "GTSS Software";
+  const category = dbProduct?.category || fallback?.category || "Software";
+  const productIdCode = dbProduct?.productId || fallback?.subtitle || "";
+  const tagline = dbProduct?.tagline || cleanDescription.slice(0, 180);
+  const websiteUrl = dbProduct?.websiteUrl || fallback?.websiteUrl;
+  const logoUrl = dbProduct?.logoUrl || fallback?.logoUrl;
+  const primaryImage = dbProduct?.images?.[0] || dbProduct?.logoUrl || fallback?.image || "/images/gtss_bento.png";
+  const gallery = dbProduct?.images && dbProduct.images.length > 0 ? dbProduct.images : (fallback?.gallery || [primaryImage]);
+
+  const priceFormatted = dbProduct
+    ? (dbProduct.pricingModel === "free"
+        ? "Free Access"
+        : dbProduct.priceUSD
+        ? `$${dbProduct.priceUSD} / mo`
+        : dbProduct.priceKES
+        ? `KES ${dbProduct.priceKES} / mo`
+        : dbProduct.pricing)
+    : (fallback?.pricing || "Contact for pricing");
+
+  const featuresList = dbProduct?.features && dbProduct.features.length > 0
+    ? dbProduct.features.map(f => ({ title: f.title, desc: f.description }))
+    : (fallback?.features || []);
 
   return (
     <div>
@@ -119,62 +215,102 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
         <Link href="/products" className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] no-underline hover:text-[var(--accent)]">
           <ArrowLeft className="h-4 w-4" /> All products
         </Link>
+
         <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
           <div>
-            <p className="site-kicker">{product.subtitle}</p>
-            <h1 className="site-display mt-4">{product.title}</h1>
-            <p className="site-lead mt-5">{product.description}</p>
-            <p className="mt-5 flex flex-wrap gap-2 text-xs">
-              <span className="border border-[var(--border)] px-2.5 py-1">{product.pricing}</span>
-              <span className="border border-[var(--border)] px-2.5 py-1">Offline-first</span>
-              <span className="border border-[var(--border)] px-2.5 py-1">M-Pesa ready</span>
-            </p>
-            <p className="mt-4 text-sm text-[var(--text-muted)]">{product.pricingNote}</p>
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Link href="/demo" className="site-btn site-btn-primary">Request a walkthrough</Link>
-              <Link href="/pricing" className="site-btn site-btn-ghost">View pricing</Link>
+            <div className="flex items-center gap-3">
+              {logoUrl ? (
+                <div className="relative h-12 w-12 overflow-hidden rounded-lg border border-[var(--border)] bg-black p-1">
+                  <Image src={logoUrl} alt={title} width={48} height={48} className="h-full w-full object-cover" />
+                </div>
+              ) : null}
+              <div>
+                <p className="site-kicker">{category} · {productIdCode}</p>
+                <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text)] mt-1">{title}</h1>
+              </div>
+            </div>
+
+            <p className="site-lead mt-5 text-[var(--text)] font-medium leading-relaxed">{tagline}</p>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)] whitespace-pre-line">{cleanDescription}</p>
+
+            <div className="mt-6 flex flex-wrap gap-2 text-xs font-mono">
+              <span className="border border-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1.5 font-semibold text-[var(--accent)]">
+                {priceFormatted}
+              </span>
+              {dbProduct?.priceKES ? (
+                <span className="border border-[var(--border)] px-3 py-1.5 text-[var(--text)]">
+                  KES {dbProduct.priceKES.toLocaleString()}
+                </span>
+              ) : null}
+              <span className="border border-[var(--border)] px-3 py-1.5 text-[var(--text-muted)]">
+                Status: {dbProduct?.status || "Live"}
+              </span>
+            </div>
+
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <Link href="/demo" className="site-btn site-btn-primary">
+                Book a walkthrough
+              </Link>
+              {websiteUrl ? (
+                <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="site-btn site-btn-ghost flex items-center gap-2">
+                  Visit Live System
+                  <ExternalLink className="h-4 w-4" />
+                </a>
+              ) : null}
             </div>
           </div>
-          <div className="overflow-hidden border border-[var(--card-border)]">
-            <Image src={product.image} alt="" width={800} height={500} className="h-auto w-full object-cover" />
+
+          <div className="space-y-4">
+            <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-[var(--card-border)] bg-black">
+              <Image
+                src={primaryImage}
+                alt={title}
+                fill
+                sizes="(max-width: 1024px) 100vw, 45vw"
+                className="object-cover"
+                priority
+              />
+            </div>
+
+            {gallery.length > 1 ? (
+              <div className="grid grid-cols-4 gap-2">
+                {gallery.map((img, idx) => (
+                  <div key={idx} className="relative aspect-[16/10] overflow-hidden rounded border border-[var(--border)] bg-black">
+                    <Image src={img} alt={`${title} screenshot ${idx + 1}`} fill sizes="120px" className="object-cover hover:scale-105 transition-transform" />
+                  </div>
+                ))}
+              </div>
+            ) : null}
           </div>
         </div>
       </section>
 
-      <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
-        <div className="site-wrap py-16">
-          <h2 className="site-title">What it actually does</h2>
-          <ol className="mt-10 grid list-none gap-8 p-0 md:grid-cols-2">
-            {product.features.map((feature, index) => (
-              <li key={feature.title} className="border-t border-[var(--border)] pt-5">
-                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">0{index + 1}</p>
-                <h3 className="mt-2 flex items-center gap-2 text-lg font-semibold text-[var(--text)]">
-                  <Check className="h-4 w-4 text-[var(--accent)]" />
-                  {feature.title}
-                </h3>
-                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{feature.desc}</p>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      {featuresList.length > 0 ? (
+        <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
+          <div className="site-wrap py-16">
+            <h2 className="site-title">System Features & Capabilities</h2>
+            <ol className="mt-10 grid list-none gap-8 p-0 md:grid-cols-2">
+              {featuresList.map((feature, index) => (
+                <li key={index} className="border-t border-[var(--border)] pt-5">
+                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">0{index + 1}</p>
+                  <h3 className="mt-2 flex items-center gap-2 text-lg font-semibold text-[var(--text)]">
+                    <Check className="h-4 w-4 text-[var(--accent)]" />
+                    {feature.title}
+                  </h3>
+                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{feature.desc}</p>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </section>
+      ) : null}
 
-      <section className="bg-[var(--ink-band)] py-16 text-[var(--footer-text)]">
-        <div className="site-wrap grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
-          <div>
-            <h2 className="max-w-[18ch] font-[family-name:var(--font-display)] text-3xl leading-tight">
-              See {product.title} against your {product.ctaVerb || "operation"}.
-            </h2>
-            <p className="mt-3 max-w-xl text-sm text-[var(--footer-text-muted)]">
-              A live {product.ctaDemoText || "demo"}, a written price, and a three-week rollout window. We reply within 24 hours.
-            </p>
-          </div>
-          <div className="flex flex-col gap-3 sm:flex-row">
-            <Link href="/demo" className="site-btn site-btn-primary">Book a walkthrough</Link>
-            <Link href="/contact" className="site-btn site-btn-ghost border-white/20 text-white hover:text-white">Contact</Link>
-          </div>
-        </div>
-      </section>
+      <SiteCTA
+        title={`Ready to deploy ${title}?`}
+        copy="Book a 30-minute walkthrough on your actual workflow. We provide clear pricing and a 3-week rollout window."
+        primary={{ href: "/demo", label: "Request a walkthrough" }}
+        secondary={{ href: "/contact", label: "Contact GTSS" }}
+      />
     </div>
   );
 }

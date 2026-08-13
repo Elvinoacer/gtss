@@ -56,10 +56,12 @@ export function PublicProductCard({
 }: PublicProductCardProps) {
   const summary = stripMarkdown(tagline || description);
   const price = formatPrice(pricing, pricingModel, priceUSD, priceKES);
+  const isRestaurantManager = name.toLowerCase().includes("restaurant") || id === "cmkwglu7u000004jv50w2cmcj" || id === "restaurant-manager";
+  const href = isRestaurantManager ? "/products/restaurant-manager" : `/products/${id}`;
 
   return (
     <article className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-[var(--border-bright)] hover:shadow-[var(--glow-gold-dim)] overflow-hidden">
-      <Link href={`/products/${id}`} className="flex flex-col cursor-none">
+      <Link href={href} className="flex flex-col cursor-none">
         {/* Visual Feed */}
         <div className="relative h-48 overflow-hidden border-b border-[var(--border)]">
           {images[0] ? (
