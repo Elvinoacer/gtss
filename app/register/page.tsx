@@ -1,20 +1,24 @@
-import { Suspense } from 'react';
-import { RegisterForm } from '@/components/auth/RegisterForm';
-import { VisualPanel } from '@/components/auth/VisualPanel';
+import { Suspense } from "react";
+import Link from "next/link";
+import Image from "next/image";
+import { RegisterForm } from "@/components/auth/RegisterForm";
+import { ThemeToggle } from "@/components/landing/ThemeToggle";
+import { site } from "@/data/site";
 
 export default function RegisterPage() {
   return (
-    <div className="dark-canvas min-h-screen flex flex-col bg-[var(--black)]">
-      <main className="flex-1 flex flex-col lg:grid lg:grid-cols-[1fr_1.2fr] h-screen overflow-hidden">
-        {/* Left Side: Register Form */}
-        <div className="flex-1 flex items-center justify-center p-8 sm:p-12 lg:p-20 bg-[var(--black)] relative z-30 overflow-y-auto">
-          <Suspense fallback={<div className="font-mono-dm text-[10px] text-[var(--gold-dim)] animate-pulse">SYNCHRONIZING_PERSONNEL_REGISTRY...</div>}>
-            <RegisterForm />
-          </Suspense>
-        </div>
-
-        {/* Right Side: Visual Panel */}
-        <VisualPanel />
+    <div id="main-content" className="min-h-screen bg-[var(--bg)] text-[var(--text)]">
+      <header className="site-wrap flex h-16 items-center justify-between">
+        <Link href="/" className="flex items-center gap-2 no-underline">
+          <Image src="/images/GTSS-logo.png" alt="" width={28} height={28} className="h-7 w-7 rounded-sm" />
+          <span className="text-sm font-semibold text-[var(--text)]">{site.shortName}</span>
+        </Link>
+        <ThemeToggle />
+      </header>
+      <main className="site-wrap py-10">
+        <Suspense fallback={<p className="text-sm text-[var(--text-muted)]">Loading…</p>}>
+          <RegisterForm />
+        </Suspense>
       </main>
     </div>
   );

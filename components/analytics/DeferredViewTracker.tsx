@@ -1,16 +1,15 @@
 "use client";
 
-import dynamic from "next/dynamic";
-
-import type { ViewTrackerProps } from "./ViewTracker";
-
-const ViewTracker = dynamic(
-  () => import("./ViewTracker").then((mod) => mod.ViewTracker),
-  {
-    ssr: false,
-  },
-);
+import { useEffect, useState } from "react";
+import { ViewTracker, type ViewTrackerProps } from "./ViewTracker";
 
 export function DeferredViewTracker(props: ViewTrackerProps) {
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    setReady(true);
+  }, []);
+
+  if (!ready) return null;
   return <ViewTracker {...props} />;
 }

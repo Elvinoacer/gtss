@@ -1,311 +1,147 @@
-"use client";
-
+import type { Metadata } from "next";
 import Link from "next/link";
-import {
-  Check,
-  Zap,
-  CreditCard,
-  HelpCircle,
-  ChevronDown,
-  ArrowRight,
-  WifiOff,
-  Cloud,
-  Layout,
-} from "lucide-react";
+import { Check } from "lucide-react";
+import { PageHeader } from "@/components/site/PageHeader";
+import { SiteCTA } from "@/components/site/SiteCTA";
+
+export const metadata: Metadata = {
+  title: "Pricing",
+  description:
+    "One-time licenses, subscriptions, and usage-based pricing for GTSS products. KES and USD. No hidden fees.",
+};
 
 const tiers = [
   {
-    name: "One-Time Payment",
-    subtitle: "Pay once, own forever",
-    description: "For standalone systems that need to work without ongoing costs or internet dependency.",
-    icon: WifiOff,
-    color: "var(--accent)",
-    highlighted: false,
+    name: "One-time license",
     price: "From KES 150,000",
-    priceUsd: "≈ USD 1,000",
-    priceNote: "One-time payment",
+    note: "≈ USD 1,000 · pay once",
+    best: "Hotels and custom systems you want to own",
     features: [
-      "Offline-First Architecture",
-      "Local Network Deployment",
-      "Lifetime Core License",
-      "1 Year Technical Support",
-      "Manual Data Backups",
+      "Runs on your local network",
+      "Lifetime core license",
+      "One year of support",
+      "Staff training included",
     ],
-    cta: "Get Started",
-    href: "/contact",
+    highlight: false,
   },
   {
     name: "Subscription",
-    subtitle: "Monthly or yearly",
-    description: "For cloud-based solutions requiring ongoing updates, multi-branch sync, and priority support.",
-    icon: Cloud,
-    color: "var(--accent)",
-    highlighted: true,
-    price: "From KES 5,000/mo",
-    priceUsd: "≈ USD 33/mo",
-    priceNote: "KES 50,000/yr (≈ USD 330/yr)",
+    price: "From KES 5,000 / month",
+    note: "≈ USD 33 / month · or KES 50,000 / year",
+    best: "Restaurants, shops, and churches that want updates hosted for them",
     features: [
-      "Everything in One-Time",
-      "Multi-Branch Networking",
-      "Real-time Cloud Sync",
-      "Priority 24/7 Support",
-      "Automated Cloud Backups",
-      "Custom Dashboard Access",
+      "Everything in a one-time license",
+      "Cloud hosting and backups",
+      "Multi-branch sync",
+      "Priority support",
     ],
-    cta: "Get Started",
-    href: "/contact",
+    highlight: true,
   },
   {
-    name: "Platform Access",
-    subtitle: "Usage-based",
-    description: "For marketplace and community platforms. Scale your costs with your growth.",
-    icon: Layout,
-    color: "var(--gold)",
-    highlighted: false,
-    price: "From KES 500/transaction",
-    priceUsd: "≈ USD 3.30/transaction",
-    priceNote: "No setup fee",
+    name: "Platform access",
+    price: "From KES 500 / transaction",
+    note: "≈ USD 3.30 · no setup fee",
+    best: "Marketplaces that want cost to follow volume",
     features: [
-      "Pay-as-you-grow model",
-      "Community Features",
-      "Transaction-based Pricing",
-      "Vendor Analytics",
-      "Local Payment Integration",
+      "Pay only when money moves",
+      "Vendor tools and ratings",
+      "Local payment rails",
+      "Usage analytics",
     ],
-    cta: "Get Started",
-    href: "/contact",
-  },
-];
-
-const paymentMethods = [
-  {
-    name: "M-Pesa",
-    description: "Kenya's leading mobile money platform",
-  },
-  {
-    name: "Airtel Money",
-    description: "Widely used across East Africa",
-  },
-  {
-    name: "Bank Transfer",
-    description: "Direct bank-to-bank payments",
-  },
-  {
-    name: "Card Payments",
-    description: "Visa and Mastercard accepted",
+    highlight: false,
   },
 ];
 
 const faqs = [
   {
-    question: "Can I switch between pricing models later?",
-    answer:
-      "Yes. If your business needs change, you can upgrade from a one-time license to a subscription, or move from subscription to platform access. We'll work with you to ensure a smooth transition without data loss or downtime.",
+    q: "Can I change model later?",
+    a: "Yes. A one-time license can move to a subscription if you need multi-branch sync. We migrate data with you.",
   },
   {
-    question: "Are there any hidden fees or long-term contracts?",
-    answer:
-      "No. GTSS pricing is transparent. One-time payments give you lifetime ownership of the core product. Subscriptions are billed monthly or yearly with no lock-in — cancel anytime. Platform access is purely transaction-based with no upfront commitment.",
+    q: "Are there lock-in contracts?",
+    a: "No. Subscriptions cancel at the end of the billed month or year. One-time licenses keep working after support ends.",
   },
   {
-    question: "What happens after the first year of support on a one-time license?",
-    answer:
-      "After the included first year, you can optionally purchase an extended support plan. Your software continues to work without it — you just won't receive updates or priority assistance. Many businesses find the core system runs perfectly without ongoing support.",
+    q: "What happens after the first year of a one-time license?",
+    a: "The software stays yours. Extended support is optional. Many sites run the core system without it.",
   },
 ];
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-[var(--bg)]">
-      {/* Hero */}
-      <section className="px-6 lg:px-20 py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl">
-            <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4 flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-[var(--accent)]" />
-              Pricing
-            </div>
-            <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Transparent pricing for{" "}
-              <span className="text-[var(--accent)]">every business size.</span>
-            </h1>
-            <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              No hidden fees, no vendor lock-in. Choose the model that fits your
-              operations and budget — from a single one-time purchase to flexible
-              pay-as-you-grow access.
-            </p>
-          </div>
+    <div>
+      <PageHeader
+        kicker="Pricing"
+        title="Three ways to pay. None of them hide the number."
+        description="Choose ownership, a hosted subscription, or usage. We quote in Kenyan shillings and show the dollar equivalent."
+      />
+
+      <section className="site-wrap grid gap-4 pb-16 lg:grid-cols-3">
+        {tiers.map((tier) => (
+          <article
+            key={tier.name}
+            className={`flex flex-col border bg-[var(--card-bg)] p-6 lg:p-8 ${
+              tier.highlight ? "border-[var(--accent)]" : "border-[var(--card-border)]"
+            }`}
+          >
+            {tier.highlight ? (
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">Most teams pick this</p>
+            ) : (
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-dim)]">Model</p>
+            )}
+            <h2 className="mt-3 text-2xl font-semibold text-[var(--text)]">{tier.name}</h2>
+            <p className="mt-4 font-[family-name:var(--font-display)] text-3xl text-[var(--text)]">{tier.price}</p>
+            <p className="mt-1 text-sm text-[var(--text-muted)]">{tier.note}</p>
+            <p className="mt-4 text-sm text-[var(--text-muted)]">{tier.best}</p>
+            <ul className="mt-6 flex-1 space-y-2.5 p-0">
+              {tier.features.map((feature) => (
+                <li key={feature} className="flex gap-2 text-sm text-[var(--text)]">
+                  <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
+                  {feature}
+                </li>
+              ))}
+            </ul>
+            <Link
+              href="/contact"
+              className={`site-btn mt-8 ${tier.highlight ? "site-btn-primary" : "site-btn-ghost"}`}
+            >
+              Get a quote
+            </Link>
+          </article>
+        ))}
+      </section>
+
+      <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
+        <div className="site-wrap py-14">
+          <h2 className="site-title">You can pay how your customers already pay.</h2>
+          <ul className="mt-8 grid list-none grid-cols-2 gap-4 p-0 md:grid-cols-4">
+            {["M-Pesa", "Airtel Money", "Bank transfer", "Visa / Mastercard"].map((method) => (
+              <li key={method} className="border border-[var(--card-border)] bg-[var(--card-bg)] px-4 py-5 text-sm font-semibold text-[var(--text)]">
+                {method}
+              </li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* Pricing Tiers */}
-      <section className="px-6 lg:px-20 pb-20">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-6">
-          {tiers.map((tier) => (
-            <div
-              key={tier.name}
-              className={`relative rounded-xl border p-6 lg:p-8 transition-all ${
-                tier.highlighted
-                  ? "border-[var(--accent)] border-2 bg-[var(--card-bg)] shadow-[var(--accent-glow)] scale-[1.02]"
-                  : "border-[var(--card-border)] bg-[var(--card-bg)] hover:border-[var(--card-hover-border)] hover:shadow-[var(--card-hover-shadow)]"
-              }`}
-            >
-              {tier.highlighted && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                  <span className="inline-flex items-center gap-1.5 text-xs font-bold text-white bg-[var(--accent)] px-4 py-1.5 rounded-full shadow-[var(--accent-glow)]">
-                    <Zap className="w-3 h-3" />
-                    Most Popular
-                  </span>
-                </div>
-              )}
-
-              <div className="flex items-center gap-3 mb-5">
-                <div
-                  className="w-10 h-10 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)]"
-                  style={{ color: tier.color }}
-                >
-                  <tier.icon className="w-5 h-5" />
-                </div>
-                <div>
-                  <h2 className="text-lg font-semibold text-[var(--text)]">
-                    {tier.name}
-                  </h2>
-                  <span className="text-xs text-[var(--text-muted)]">{tier.subtitle}</span>
-                </div>
-              </div>
-
-              <p className="text-sm text-[var(--text-muted)] leading-relaxed mb-6">
-                {tier.description}
-              </p>
-
-              {/* Price */}
-              <div className="mb-6 pb-6 border-b border-[var(--border)]">
-                <div className="text-2xl font-bold text-[var(--text)]">
-                  {tier.price}
-                </div>
-                <div className="text-sm text-[var(--text-muted)] mt-1">
-                  {tier.priceUsd}
-                </div>
-                <div className="text-xs text-[var(--accent)] mt-1 font-medium">
-                  {tier.priceNote}
-                </div>
-              </div>
-
-              <ul className="space-y-3 mb-8">
-                {tier.features.map((feature) => (
-                  <li key={feature} className="flex items-start gap-3">
-                    <Check
-                      className="w-4 h-4 mt-0.5 shrink-0"
-                      style={{ color: tier.color }}
-                    />
-                    <span className="text-sm text-[var(--text)]">{feature}</span>
-                  </li>
-                ))}
-              </ul>
-
-              <Link
-                href={tier.href}
-                className={`inline-flex items-center justify-center gap-2 w-full text-sm font-semibold px-6 py-3.5 rounded-lg no-underline transition-all ${
-                  tier.highlighted
-                    ? "text-white bg-[var(--accent)] hover:bg-[var(--accent-bright)] hover:shadow-[var(--accent-glow)]"
-                    : "text-[var(--text)] bg-transparent border border-[var(--border)] hover:border-[var(--accent)] hover:text-[var(--accent)]"
-                }`}
-              >
-                {tier.cta}
-              </Link>
-            </div>
+      <section className="site-wrap py-16">
+        <h2 className="site-title">Pricing questions</h2>
+        <div className="mt-8 max-w-3xl space-y-3">
+          {faqs.map((faq) => (
+            <details key={faq.q} className="group border border-[var(--card-border)] bg-[var(--card-bg)]">
+              <summary className="cursor-pointer list-none px-5 py-4 text-sm font-semibold text-[var(--text)]">
+                {faq.q}
+              </summary>
+              <p className="px-5 pb-5 text-sm leading-relaxed text-[var(--text-muted)]">{faq.a}</p>
+            </details>
           ))}
         </div>
       </section>
 
-      {/* Payment Methods */}
-      <section className="px-6 lg:px-20 py-16 lg:py-20 bg-[var(--section-alt)] border-t border-b border-[var(--border)]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-10">
-            <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4 inline-flex items-center gap-3">
-              <CreditCard className="w-3.5 h-3.5" />
-              Payment Methods
-            </div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-[var(--text)] tracking-tight">
-              Pay the way that works for you.
-            </h2>
-          </div>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-            {paymentMethods.map((method) => (
-              <div
-                key={method.name}
-                className="rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] p-6 text-center transition-all hover:border-[var(--card-hover-border)]"
-              >
-                <div className="w-10 h-10 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] mx-auto mb-4" style={{ color: "var(--green)" }}>
-                  <CreditCard className="w-5 h-5" />
-                </div>
-                <h3 className="text-sm font-semibold text-[var(--text)] mb-1">
-                  {method.name}
-                </h3>
-                <p className="text-xs text-[var(--text-muted)]">
-                  {method.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ */}
-      <section className="px-6 lg:px-20 py-16 lg:py-20">
-        <div className="max-w-3xl mx-auto">
-          <div className="mb-10">
-            <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4 flex items-center gap-3">
-              <HelpCircle className="w-3.5 h-3.5" />
-              FAQ
-            </div>
-            <h2 className="text-2xl lg:text-3xl font-bold text-[var(--text)] tracking-tight">
-              Common pricing questions.
-            </h2>
-          </div>
-
-          <div className="space-y-4">
-            {faqs.map((faq) => (
-              <details
-                key={faq.question}
-                className="group rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)] transition-all hover:border-[var(--card-hover-border)]"
-              >
-                <summary className="flex items-center justify-between cursor-pointer p-6 lg:p-8 list-none">
-                  <span className="text-sm lg:text-base font-semibold text-[var(--text)] pr-4">
-                    {faq.question}
-                  </span>
-                  <ChevronDown className="w-5 h-5 text-[var(--text-muted)] shrink-0 transition-transform group-open:rotate-180" />
-                </summary>
-                <div className="px-6 lg:px-8 pb-6 lg:pb-8 -mt-2">
-                  <p className="text-sm text-[var(--text-muted)] leading-relaxed">
-                    {faq.answer}
-                  </p>
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="px-6 lg:px-20 py-16 lg:py-24 bg-[var(--section-alt)] border-t border-[var(--border)] text-center">
-        <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl lg:text-4xl font-bold text-[var(--text)] mb-4 tracking-tight">
-            Need a custom pricing model?
-          </h2>
-          <p className="text-base text-[var(--text-muted)] mb-8 leading-relaxed">
-            If your business has unique requirements, we can build a tailored plan
-            that fits your budget and operational needs.
-          </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-[var(--accent)] px-8 py-3.5 rounded-lg no-underline transition-all hover:bg-[var(--accent-bright)] hover:shadow-[var(--accent-glow)]"
-          >
-            Talk to Our Team <ArrowRight className="w-4 h-4" />
-          </Link>
-        </div>
-      </section>
+      <SiteCTA
+        title="Need a number for a specific site?"
+        copy="Tell us the product and how many locations. We send a written quote."
+      />
     </div>
   );
 }

@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 export const metadata: Metadata = {
-  title: "Accessibility Statement | GTSS",
+  title: "Accessibility",
   description:
     "GTSS is committed to making our software accessible to all users. Learn about our accessibility standards and ongoing improvements.",
 };
@@ -45,7 +45,7 @@ const sections = [
         </a>{" "}
         or call{" "}
         <a href="tel:+254792156094" className="text-[var(--accent)] no-underline hover:underline">
-          +254 790 670 542
+          +254 792 156 094
         </a>
         . Please include the product name, the specific issue you encountered, and the assistive technology you are
         using. We aim to respond within 48 hours and resolve issues in our next release cycle.
@@ -56,28 +56,15 @@ const sections = [
 
 export default function AccessibilityPage() {
   return (
-    <div className="min-h-screen bg-[var(--bg)]">
-      {/* Hero */}
-      <section className="px-6 lg:px-20 py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl">
-            <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4 flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-[var(--accent)]" />
-              Accessibility
-            </div>
-            <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Accessibility <span className="text-[var(--accent)]">Statement</span>
-            </h1>
-            <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              GTSS is committed to making our software accessible to all users.
-            </p>
-          </div>
-        </div>
-      </section>
+    <div>
+      <header className="site-wrap pt-14 pb-10 lg:pt-20">
+        <p className="site-kicker">Accessibility</p>
+        <h1 className="site-display mt-4">Accessibility statement</h1>
+        <p className="site-lead mt-5">GTSS is committed to making our software usable by everyone.</p>
+      </header>
 
-      {/* Content Sections */}
-      <section className="px-6 lg:px-20 pb-20">
-        <div className="max-w-4xl mx-auto space-y-12">
+      <section className="site-wrap pb-20">
+        <div className="max-w-3xl space-y-8">
           {sections.map((section) => (
             <div
               key={section.title}

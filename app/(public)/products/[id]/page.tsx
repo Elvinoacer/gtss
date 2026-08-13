@@ -114,61 +114,64 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   }
 
   return (
-    <div className="min-h-screen bg-[var(--bg)]">
-      <section className="px-6 lg:px-20 py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto">
-          <Link href="/products" className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] no-underline hover:text-[var(--accent)] transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Back to Products
-          </Link>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <span className="text-xs tracking-[0.15em] text-[var(--accent)] uppercase font-semibold">{product.subtitle}</span>
-              <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mt-3 mb-6">{product.title}</h1>
-              <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed mb-8">{product.description}</p>
-              <div className="flex flex-wrap gap-3 mb-6">
-                <span className="text-xs font-medium text-[var(--accent)] bg-[var(--bg-surface-2)] px-3 py-1.5 rounded-full border border-[var(--card-border)]">{product.pricing}</span>
-                <span className="text-xs font-medium text-[var(--green)] bg-[var(--bg-surface-2)] px-3 py-1.5 rounded-full border border-[var(--card-border)]">Offline-first</span>
-                <span className="text-xs font-medium text-[var(--green)] bg-[var(--bg-surface-2)] px-3 py-1.5 rounded-full border border-[var(--card-border)]">M-Pesa ready</span>
-              </div>
-              <p className="text-sm text-[var(--text-muted)] mb-6">{product.pricingNote}</p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <Link href="/contact" className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[var(--accent)] px-8 py-3.5 rounded-lg no-underline transition-all hover:bg-[var(--accent-bright)]">Request a Demo</Link>
-                <Link href="/pricing" className="inline-flex items-center justify-center text-sm font-semibold text-[var(--text)] bg-transparent px-8 py-3.5 rounded-lg border border-[var(--border)] no-underline transition-all hover:border-[var(--accent)]">View Pricing</Link>
-              </div>
+    <div>
+      <section className="site-wrap py-14 lg:py-20">
+        <Link href="/products" className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] no-underline hover:text-[var(--accent)]">
+          <ArrowLeft className="h-4 w-4" /> All products
+        </Link>
+        <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
+          <div>
+            <p className="site-kicker">{product.subtitle}</p>
+            <h1 className="site-display mt-4">{product.title}</h1>
+            <p className="site-lead mt-5">{product.description}</p>
+            <p className="mt-5 flex flex-wrap gap-2 text-xs">
+              <span className="border border-[var(--border)] px-2.5 py-1">{product.pricing}</span>
+              <span className="border border-[var(--border)] px-2.5 py-1">Offline-first</span>
+              <span className="border border-[var(--border)] px-2.5 py-1">M-Pesa ready</span>
+            </p>
+            <p className="mt-4 text-sm text-[var(--text-muted)]">{product.pricingNote}</p>
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <Link href="/demo" className="site-btn site-btn-primary">Request a walkthrough</Link>
+              <Link href="/pricing" className="site-btn site-btn-ghost">View pricing</Link>
             </div>
-            <div className="relative rounded-xl overflow-hidden border border-[var(--card-border)]">
-              <Image src={product.image} alt={product.title} width={800} height={500} className="w-full h-auto object-cover" />
-            </div>
+          </div>
+          <div className="overflow-hidden border border-[var(--card-border)]">
+            <Image src={product.image} alt="" width={800} height={500} className="h-auto w-full object-cover" />
           </div>
         </div>
       </section>
 
-      <section className="px-6 lg:px-20 py-16 bg-[var(--section-alt)]">
-        <div className="max-w-7xl mx-auto">
-          <h2 className="text-2xl lg:text-3xl font-bold text-[var(--text)] mb-10">Key Features</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {product.features.map((feature) => (
-              <div key={feature.title} className="p-6 rounded-xl border border-[var(--card-border)] bg-[var(--card-bg)]">
-                <div className="flex items-center gap-3 mb-3">
-                  <div className="w-6 h-6 rounded-full bg-[var(--accent)] flex items-center justify-center">
-                    <Check className="w-3.5 h-3.5 text-white" />
-                  </div>
-                  <h3 className="text-base font-semibold text-[var(--text)]">{feature.title}</h3>
-                </div>
-                <p className="text-sm text-[var(--text-muted)] leading-relaxed">{feature.desc}</p>
-              </div>
+      <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
+        <div className="site-wrap py-16">
+          <h2 className="site-title">What it actually does</h2>
+          <ol className="mt-10 grid list-none gap-8 p-0 md:grid-cols-2">
+            {product.features.map((feature, index) => (
+              <li key={feature.title} className="border-t border-[var(--border)] pt-5">
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">0{index + 1}</p>
+                <h3 className="mt-2 flex items-center gap-2 text-lg font-semibold text-[var(--text)]">
+                  <Check className="h-4 w-4 text-[var(--accent)]" />
+                  {feature.title}
+                </h3>
+                <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{feature.desc}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      <section className="px-6 lg:px-20 py-16 border-t border-[var(--border)]">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl lg:text-4xl font-bold text-[var(--text)] mb-4">Ready to get started with {product.title}?</h2>
-          <p className="text-base text-[var(--text-muted)] mb-8 leading-relaxed">Contact our team for a live {product.ctaDemoText || "demo"}, pricing details, or to discuss how {product.title} can fit your {product.ctaVerb || "business"}. We respond within 24 hours.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="inline-flex items-center justify-center text-sm font-semibold text-white bg-[var(--accent)] px-8 py-3.5 rounded-lg no-underline transition-all hover:bg-[var(--accent-bright)]">Schedule a {product.ctaDemoText ? `Live ${product.ctaDemoText}` : "Demo"}</Link>
-            <Link href="/pricing" className="inline-flex items-center justify-center text-sm font-semibold text-[var(--text)] bg-transparent px-8 py-3.5 rounded-lg border border-[var(--border)] no-underline transition-all hover:border-[var(--accent)]">See All Pricing</Link>
+      <section className="bg-[var(--ink-band)] py-16 text-[var(--footer-text)]">
+        <div className="site-wrap grid gap-6 lg:grid-cols-[1fr_auto] lg:items-end">
+          <div>
+            <h2 className="max-w-[18ch] font-[family-name:var(--font-display)] text-3xl leading-tight">
+              See {product.title} against your {product.ctaVerb || "operation"}.
+            </h2>
+            <p className="mt-3 max-w-xl text-sm text-[var(--footer-text-muted)]">
+              A live {product.ctaDemoText || "demo"}, a written price, and a three-week rollout window. We reply within 24 hours.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <Link href="/demo" className="site-btn site-btn-primary">Book a walkthrough</Link>
+            <Link href="/contact" className="site-btn site-btn-ghost border-white/20 text-white hover:text-white">Contact</Link>
           </div>
         </div>
       </section>

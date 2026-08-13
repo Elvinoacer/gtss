@@ -1,80 +1,74 @@
-import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { whatsappUrl } from "@/data/site";
+
+const proofs = [
+  { title: "Works offline", copy: "Orders and records continue on the local network." },
+  { title: "Pays the Kenyan way", copy: "M-Pesa, Airtel Money, cash, card, and bank." },
+  { title: "Live in three weeks", copy: "Setup, training, and handover included." },
+];
 
 export function Hero() {
   return (
-    <section className="relative z-10 min-h-[100dvh] grid lg:grid-cols-2 items-center px-6 lg:px-20 py-24 lg:py-32 gap-12 lg:gap-20 overflow-hidden bg-[var(--hero-gradient)]">
-      {/* Subtle decorative gradient */}
-      <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[var(--accent)] opacity-[0.04] rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[var(--green)] opacity-[0.03] rounded-full blur-[100px] pointer-events-none" />
-
-      <div className="relative">
-        {/* Kicker / Identity line */}
-        <div className="flex items-center gap-2.5 text-xs tracking-[0.15em] text-[var(--accent)] uppercase font-semibold mb-6 lg:mb-8">
-          <div className="w-8 h-[1px] bg-[var(--accent)]" />
-          Nairobi-based software for East African businesses
+    <section className="relative overflow-hidden bg-[var(--hero-gradient)]">
+      <div className="site-wrap grid items-end gap-12 py-16 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,0.85fr)] lg:gap-16 lg:py-24">
+        <div className="reveal">
+          <p className="site-kicker">Nairobi · East Africa</p>
+          <h1 className="site-display mt-5 max-w-[14ch]">
+            Software that keeps the floor moving when the network does not.
+          </h1>
+          <p className="site-lead mt-6">
+            GTSS builds systems for hotels, restaurants, shops, and churches. They look calm in front of
+            customers, stay usable for staff, and keep working through the power cuts and dropped connections
+            that are part of real operations here.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <Link href="/products" className="site-btn site-btn-primary">
+              See the products
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+            <Link href="/demo" className="site-btn site-btn-ghost">
+              Book a walkthrough
+            </Link>
+            <a href={whatsappUrl()} target="_blank" rel="noopener noreferrer" className="site-btn site-btn-whatsapp">
+              WhatsApp
+            </a>
+          </div>
         </div>
 
-        {/* Headline */}
-        <h1 className="text-[clamp(32px,6vw,64px)] leading-[1.1] font-bold tracking-tight text-[var(--text)] mb-6 lg:mb-8">
-          Software that keeps your business running —{" "}
-          <span className="text-[var(--accent)]">even when the network doesn&apos;t.</span>
-        </h1>
-
-        {/* Body */}
-        <p className="text-base lg:text-lg leading-relaxed text-[var(--text-muted)] max-w-[560px] mb-8 lg:mb-10">
-          GTSS builds practical software for hotels, restaurants, shops, and churches
-          across East Africa. Our systems work offline, accept M-Pesa and Airtel Money
-          out of the box, and come with hands-on staff training — so your team is
-          productive on day one, not week three.
-        </p>
-
-        {/* CTAs */}
-        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-          <Link
-            href="/products"
-            className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-white bg-[var(--accent)] px-8 py-3.5 rounded-lg no-underline transition-all hover:bg-[var(--accent-bright)] hover:shadow-[var(--accent-glow)]"
-          >
-            Explore Products
-            <ArrowRight className="w-4 h-4" />
-          </Link>
-          <Link
-            href="/contact"
-            className="inline-flex items-center justify-center gap-2 text-sm font-semibold text-[var(--text)] bg-transparent px-8 py-3.5 rounded-lg border border-[var(--border)] no-underline transition-all hover:border-[var(--accent)] hover:text-[var(--accent)]"
-          >
-            Request a Demo
-          </Link>
-        </div>
-
-        {/* Proof chips */}
-        <div className="flex flex-wrap items-center gap-3 mt-8 lg:mt-10">
-          {["Offline-first", "M-Pesa ready", "Deployment included"].map((chip) => (
-            <span
-              key={chip}
-              className="inline-flex items-center gap-1.5 text-xs font-medium text-[var(--green)] bg-[var(--bg-surface-2)] px-3 py-1.5 rounded-full border border-[var(--card-border)]"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-[var(--green)]" />
-              {chip}
+        <div className="reveal reveal-delay-2 relative">
+          <figure className="overflow-hidden border border-[var(--card-border)] bg-[var(--card-bg)]">
+            <Image
+              src="/images/gtss_hero.png"
+              alt="GTSS operations dashboard used by a hospitality team"
+              width={1400}
+              height={1050}
+              priority
+              className="h-auto w-full object-cover"
+            />
+          </figure>
+          <p className="absolute -bottom-4 left-4 right-4 border border-[var(--card-border)] bg-[var(--card-bg)] px-4 py-3 text-sm text-[var(--text)] shadow-[var(--card-hover-shadow)] sm:left-auto sm:right-[-0.75rem] sm:w-64">
+            <span className="block text-xs font-semibold uppercase tracking-[0.06em] text-[var(--accent)]">
+              3-week rollout
             </span>
-          ))}
+            From first call to a trained team on a live system.
+          </p>
         </div>
       </div>
 
-      {/* Hero Image Panel */}
-      <div className="relative w-full flex items-center justify-center lg:justify-end mt-8 lg:mt-0">
-        <div className="relative w-full max-w-[600px] rounded-2xl overflow-hidden border border-[var(--card-border)] shadow-lg">
-          <Image
-            src="/images/gtss_hero.png"
-            alt="GTSS software dashboard showing real-time business operations"
-            width={1400}
-            height={1050}
-            priority
-            className="w-full h-auto object-cover"
-          />
-          <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-[var(--bg)] via-transparent to-transparent h-24 pointer-events-none" />
-        </div>
-      </div>
+      <ol className="site-wrap mt-6 grid gap-px overflow-hidden border border-[var(--border)] bg-[var(--border)] sm:grid-cols-3">
+        {proofs.map((item, index) => (
+          <li key={item.title} className="bg-[var(--stat-bg)] p-5 lg:p-6">
+            <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">
+              0{index + 1}
+            </p>
+            <p className="mt-2 text-lg font-semibold text-[var(--text)]">{item.title}</p>
+            <p className="mt-1 text-sm leading-relaxed text-[var(--text-muted)]">{item.copy}</p>
+          </li>
+        ))}
+      </ol>
+      <div className="h-12 lg:h-16" />
     </section>
   );
 }

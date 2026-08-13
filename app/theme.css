@@ -1,64 +1,51 @@
 /* =============================================
-   GTSS Dual-Theme System
-   Light (default for public) / Dark (default for dashboard & enterprise)
+   GTSS theme
+   Light (public default) / Dark (same brand, lower luminance)
 
-   IMPORTANT — "dark canvas" pages:
-   Several public/dashboard pages (restaurant-manager, pricing, security,
-   enterprise, demo, login, register, product-detail, dashboard) were designed
-   for a dark background and use `text-white`, `border-white/10`, `bg-white/5`,
-   etc. These pages MUST always render on a dark canvas regardless of the
-   global light/dark theme toggle, otherwise white-on-white cloaked text
-   appears (accessibility / WCAG 1.4.3 failure).
-
-   To enforce this, those page roots carry the `.dark-canvas` utility class
-   (defined below), which locally scopes the CSS custom properties to the dark
-   palette. The global `:root` / `[data-theme]` blocks remain theme-aware for
-   pages that are genuinely theme-aware (home page, navbar, footer, etc.).
+   Marketing pages use these tokens and follow the toggle.
+   Dashboard and a few product canvases keep `.dark-canvas` so
+   hard-coded light-on-dark UI cannot invert.
    ============================================= */
 
-/* ─── LIGHT THEME (public default) ─── */
 :root,
 [data-theme="light"] {
-  --bg: #F8FAFC;
-  --bg-surface: #FFFFFF;
-  --bg-surface-2: #F1F5F9;
-  --bg-surface-3: #E2E8F0;
-  --accent: #2563EB;
-  --accent-bright: #3B82F6;
-  --accent-dim: #1D4ED8;
-  --accent-glow: 0 0 30px rgba(37, 99, 235, 0.15);
-  --green: #10B981;
-  --green-dim: #059669;
-  --cyan: #0EA5E9;
-  --red: #EF4444;
-  --gold: #D97706;
-  --gold-bright: #F59E0B;
-  --gold-dim: #92400E;
-  --text: #0F172A;
-  --text-muted: #6B7280;
-  --text-dim: #94A3B8;
-  --border: rgba(15, 23, 42, 0.10);
-  --border-bright: rgba(15, 23, 42, 0.20);
-  --hero-gradient: linear-gradient(135deg, #EFF6FF 0%, #F8FAFC 50%, #ECFDF5 100%);
-  --section-alt: #F1F5F9;
-  --cta-gradient: linear-gradient(135deg, #2563EB 0%, #1D4ED8 100%);
-  --card-bg: rgba(255, 255, 255, 0.8);
-  --card-border: rgba(15, 23, 42, 0.08);
-  --card-hover-border: rgba(37, 99, 235, 0.25);
-  --card-hover-shadow: 0 8px 30px rgba(37, 99, 235, 0.08);
-  --stat-bg: rgba(241, 245, 249, 0.8);
-  --nav-bg: rgba(248, 250, 252, 0.85);
-  --footer-bg: #0F172A;
-  --footer-text: #E2E8F0;
-  --footer-text-muted: #94A3B8;
-  --footer-border: rgba(255, 255, 255, 0.08);
+  color-scheme: light;
+  --bg: #f4efe6;
+  --bg-surface: #fffdf8;
+  --bg-surface-2: #ebe4d6;
+  --bg-surface-3: #ddd4c4;
+  --accent: #1d4ed8;
+  --accent-bright: #2563eb;
+  --accent-dim: #1e3a8a;
+  --accent-glow: 0 10px 30px rgba(29, 78, 216, 0.16);
+  --accent-fg: #ffffff;
+  --green: #047857;
+  --green-dim: #065f46;
+  --cyan: #0369a1;
+  --red: #b91c1c;
+  --gold: #b45309;
+  --gold-bright: #d97706;
+  --gold-dim: #92400e;
+  --text: #122033;
+  --text-muted: #4b5568;
+  --text-dim: #6b7280;
+  --border: rgba(18, 32, 51, 0.12);
+  --border-bright: rgba(18, 32, 51, 0.22);
+  --hero-gradient: linear-gradient(180deg, #efe8d8 0%, #f4efe6 42%, #f4efe6 100%);
+  --section-alt: #ebe4d6;
+  --cta-gradient: linear-gradient(135deg, #1d4ed8 0%, #1e3a8a 100%);
+  --card-bg: #fffdf8;
+  --card-border: rgba(18, 32, 51, 0.1);
+  --card-hover-border: rgba(29, 78, 216, 0.35);
+  --card-hover-shadow: 0 16px 40px rgba(18, 32, 51, 0.08);
+  --stat-bg: #fffdf8;
+  --nav-bg: rgba(244, 239, 230, 0.88);
+  --footer-bg: #0c1524;
+  --footer-text: #e8edf5;
+  --footer-text-muted: #9aa6b8;
+  --footer-border: rgba(232, 237, 245, 0.1);
+  --ink-band: #0c1524;
 
-  /* ── Dark-canvas palette (always dark, regardless of theme) ──
-     These variables were previously only defined in app/landing.css,
-     which was never imported. They are required by every page that uses
-     `bg-[var(--black)]`, `bg-[var(--surface-3)]`, `text-[var(--glow-gold)]`,
-     etc. We define them with the dark palette values in BOTH themes because
-     the pages that consume them are designed exclusively for dark canvases. */
   --black: #030508;
   --deep: #080b12;
   --surface: #0d1018;
@@ -69,43 +56,44 @@
   --glow-cyan: 0 0 40px rgba(0, 216, 240, 0.2);
 }
 
-/* ─── DARK THEME (dashboard & enterprise default) ─── */
 [data-theme="dark"] {
-  --bg: #030508;
-  --bg-surface: #080b12;
-  --bg-surface-2: #0d1018;
-  --bg-surface-3: #181c28;
-  --accent: #C9A045;
-  --accent-bright: #E8BC5A;
-  --accent-dim: #7a6128;
-  --accent-glow: 0 0 40px rgba(201, 160, 69, 0.3);
-  --green: #00FF9D;
-  --green-dim: #003d25;
-  --cyan: #00D8F0;
-  --red: #FF4444;
-  --gold: #C9A045;
-  --gold-bright: #E8BC5A;
-  --gold-dim: #7a6128;
-  --text: #EDE8DF;
-  --text-muted: #6b7080;
-  --text-dim: #3a3d4a;
-  --border: rgba(201, 160, 69, 0.15);
-  --border-bright: rgba(201, 160, 69, 0.4);
-  --hero-gradient: linear-gradient(135deg, #030508 0%, #080b12 50%, #030508 100%);
-  --section-alt: rgba(3, 5, 8, 0.3);
-  --cta-gradient: linear-gradient(135deg, #C9A045 0%, #E8BC5A 100%);
-  --card-bg: rgba(3, 5, 8, 0.6);
-  --card-border: rgba(201, 160, 69, 0.15);
-  --card-hover-border: rgba(201, 160, 69, 0.3);
-  --card-hover-shadow: 0 0 30px rgba(201, 160, 69, 0.05);
-  --stat-bg: rgba(3, 5, 8, 0.85);
-  --nav-bg: rgba(3, 5, 8, 0.75);
-  --footer-bg: #030508;
-  --footer-text: #EDE8DF;
-  --footer-text-muted: #6b7080;
-  --footer-border: rgba(201, 160, 69, 0.15);
+  color-scheme: dark;
+  --bg: #0c1524;
+  --bg-surface: #152033;
+  --bg-surface-2: #1b2940;
+  --bg-surface-3: #24344f;
+  --accent: #60a5fa;
+  --accent-bright: #93c5fd;
+  --accent-dim: #1d4ed8;
+  --accent-glow: 0 10px 30px rgba(96, 165, 250, 0.18);
+  --accent-fg: #0c1524;
+  --green: #34d399;
+  --green-dim: #059669;
+  --cyan: #38bdf8;
+  --red: #f87171;
+  --gold: #fbbf24;
+  --gold-bright: #fcd34d;
+  --gold-dim: #b45309;
+  --text: #e8edf5;
+  --text-muted: #9aa6b8;
+  --text-dim: #6b778c;
+  --border: rgba(232, 237, 245, 0.12);
+  --border-bright: rgba(232, 237, 245, 0.22);
+  --hero-gradient: linear-gradient(180deg, #101b2e 0%, #0c1524 50%, #0c1524 100%);
+  --section-alt: #101b2e;
+  --cta-gradient: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --card-bg: #152033;
+  --card-border: rgba(232, 237, 245, 0.1);
+  --card-hover-border: rgba(96, 165, 250, 0.4);
+  --card-hover-shadow: 0 16px 40px rgba(0, 0, 0, 0.28);
+  --stat-bg: #152033;
+  --nav-bg: rgba(12, 21, 36, 0.88);
+  --footer-bg: #080f1b;
+  --footer-text: #e8edf5;
+  --footer-text-muted: #9aa6b8;
+  --footer-border: rgba(232, 237, 245, 0.1);
+  --ink-band: #080f1b;
 
-  /* Dark-canvas palette (same values in dark theme — always dark) */
   --black: #030508;
   --deep: #080b12;
   --surface: #0d1018;
@@ -116,31 +104,23 @@
   --glow-cyan: 0 0 40px rgba(0, 216, 240, 0.2);
 }
 
-/* ─── DARK CANVAS SCOPE ───
-   Apply `.dark-canvas` to any page root that is designed for a dark
-   background (uses `text-white`, `border-white/10`, `bg-white/5`, etc.).
-   This locally overrides the theme-aware text/border/gold variables to
-   their dark-palette values so that text is always light-on-dark,
-   regardless of the global theme toggle.
-
-   This prevents the white-on-white cloaked-text accessibility failure
-   (WCAG 1.4.3 Contrast Minimum) that occurred when the global theme
-   was set to "light" but the page content assumed a dark canvas. */
+/* Dashboard / locked product canvases — never invert with the public toggle */
 .dark-canvas {
   --bg: #030508;
   --bg-surface: #080b12;
   --bg-surface-2: #0d1018;
   --bg-surface-3: #181c28;
-  --accent: #C9A045;
-  --accent-bright: #E8BC5A;
+  --accent: #c9a045;
+  --accent-bright: #e8bc5a;
   --accent-dim: #7a6128;
   --accent-glow: 0 0 40px rgba(201, 160, 69, 0.3);
-  --gold: #C9A045;
-  --gold-bright: #E8BC5A;
+  --accent-fg: #030508;
+  --gold: #c9a045;
+  --gold-bright: #e8bc5a;
   --gold-dim: #7a6128;
-  --text: #EDE8DF;
-  --text-muted: #6b7080;
-  --text-dim: #3a3d4a;
+  --text: #ede8df;
+  --text-muted: #9aa0ad;
+  --text-dim: #6b7080;
   --border: rgba(201, 160, 69, 0.15);
   --border-bright: rgba(201, 160, 69, 0.4);
   --card-bg: rgba(3, 5, 8, 0.6);
@@ -150,71 +130,153 @@
   --stat-bg: rgba(3, 5, 8, 0.85);
   --nav-bg: rgba(3, 5, 8, 0.75);
   --section-alt: rgba(3, 5, 8, 0.3);
-
   background: var(--black);
   color: var(--text);
 }
 
-/* ─── PUBLIC UTILITY CLASSES ───
-   These classes were referenced across the restaurant-manager page,
-   landing components, and lead forms but were never defined in any
-   stylesheet. Defining them here ensures consistent styling and
-   prevents unstyled/invisible content. They are scoped to dark-canvas
-   pages by default (gold-on-dark aesthetic). */
+/* ── Layout primitives ── */
+.site-wrap {
+  width: min(72rem, calc(100% - 2.5rem));
+  margin-inline: auto;
+}
 
-.public-kicker {
-  display: inline-block;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.2em;
+@media (min-width: 1024px) {
+  .site-wrap {
+    width: min(74rem, calc(100% - 5rem));
+  }
+}
+
+.site-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.75rem;
+  font-weight: 650;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
-  color: var(--gold);
-  padding: 6px 14px;
-  border: 1px solid var(--gold-dim);
+  color: var(--accent);
+}
+
+.site-display {
+  font-family: var(--font-display), "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
+  color: var(--text);
+  font-size: clamp(2.15rem, 5.4vw, 4.15rem);
+}
+
+.site-title {
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
+  color: var(--text);
+  font-size: clamp(1.75rem, 3.6vw, 2.85rem);
+}
+
+.site-lead {
+  color: var(--text-muted);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+  max-width: 38rem;
+}
+
+.site-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.25rem;
+}
+
+.site-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.85rem;
+  padding: 0.7rem 1.25rem;
+  border-radius: 0.2rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background-color 160ms ease, color 160ms ease, border-color 160ms ease, transform 160ms ease;
+}
+
+.site-btn-primary {
+  color: var(--accent-fg);
+  background: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.site-btn-primary:hover {
+  background: var(--accent-bright);
+  border-color: var(--accent-bright);
+}
+
+.site-btn-ghost {
+  color: var(--text);
+  background: transparent;
+  border: 1px solid var(--border-bright);
+}
+
+.site-btn-ghost:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.site-btn-whatsapp {
+  color: #fff;
+  background: #128c4b;
+  border: 1px solid #128c4b;
+}
+
+.site-btn-whatsapp:hover {
+  background: #0f7a41;
+}
+
+/* Public utilities — theme tokens, not gold lock-in */
+.public-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--border);
   border-radius: 999px;
-  background: rgba(201, 160, 69, 0.08);
+  background: var(--bg-surface);
 }
 
 .public-section-title {
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.05;
+  font-family: var(--font-display), Georgia, serif;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+  line-height: 1.1;
 }
 
-.public-panel {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1.5rem;
-}
-
-.public-panel-strong {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(201, 160, 69, 0.2);
-  border-radius: 1.5rem;
-  box-shadow: 0 0 60px -30px rgba(201, 160, 69, 0.15);
-}
-
+.public-panel,
+.public-panel-strong,
 .public-card-outline {
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: 0.35rem;
 }
 
 .public-chip {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-family: var(--font-geist-mono), ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 0.72rem;
   font-weight: 600;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--gold);
-  padding: 4px 10px;
-  border: 1px solid var(--gold-dim);
-  border-radius: 4px;
-  background: rgba(201, 160, 69, 0.06);
+  letter-spacing: 0.04em;
+  color: var(--text);
+  padding: 0.3rem 0.65rem;
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  background: var(--bg-surface-2);
 }
 
 .public-button-primary {
@@ -222,34 +284,19 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-  color: #030508;
-  background: linear-gradient(135deg, var(--gold-bright) 0%, var(--gold) 100%);
+  font-weight: 650;
+  font-size: 0.9375rem;
+  color: var(--accent-fg);
+  background: var(--accent);
   border: none;
-  border-radius: 0.75rem;
-  padding: 16px 32px;
+  border-radius: 0.2rem;
+  padding: 0.85rem 1.4rem;
   cursor: pointer;
-  transition: transform 0.15s ease, box-shadow 0.2s ease, filter 0.2s ease;
-  box-shadow: 0 8px 30px -10px rgba(201, 160, 69, 0.5);
+  transition: background-color 160ms ease, transform 160ms ease;
 }
 
 .public-button-primary:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.08);
-  box-shadow: 0 12px 40px -10px rgba(201, 160, 69, 0.65);
-}
-
-.public-button-primary:active {
-  transform: translateY(0);
-}
-
-.public-button-primary:focus-visible {
-  outline: 2px solid var(--gold-bright);
-  outline-offset: 3px;
+  background: var(--accent-bright);
 }
 
 .public-button-secondary {
@@ -257,34 +304,50 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
   font-weight: 600;
-  font-size: 14px;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
+  font-size: 0.9375rem;
   color: var(--text);
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 0.75rem;
-  padding: 16px 32px;
+  border: 1px solid var(--border-bright);
+  border-radius: 0.2rem;
+  padding: 0.85rem 1.4rem;
   cursor: pointer;
-  transition: background 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+  transition: border-color 160ms ease, color 160ms ease;
 }
 
 .public-button-secondary:hover {
-  background: rgba(255, 255, 255, 0.06);
-  border-color: rgba(201, 160, 69, 0.4);
-  transform: translateY(-1px);
+  border-color: var(--accent);
+  color: var(--accent);
 }
 
-.public-button-secondary:focus-visible {
-  outline: 2px solid var(--gold-bright);
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 10000;
+  padding: 0.65rem 1rem;
+  background: var(--accent);
+  color: var(--accent-fg);
+  font-weight: 650;
+  border-radius: 0.2rem;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  top: 0.75rem;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid var(--accent);
   outline-offset: 3px;
 }
 
-/* ─── ACCESSIBILITY: focus-visible defaults ───
-   Ensure all interactive elements have a visible focus indicator
-   for keyboard users (WCAG 2.4.7 Focus Visible). */
 .dark-canvas a:focus-visible,
 .dark-canvas button:focus-visible,
 .dark-canvas input:focus-visible,
@@ -292,19 +355,42 @@
 .dark-canvas textarea:focus-visible {
   outline: 2px solid var(--gold-bright);
   outline-offset: 2px;
-  border-radius: 4px;
 }
 
-/* ─── ACCESSIBILITY: reduced motion ───
-   Respect user preference for reduced motion (WCAG 2.3.3 Animation
-   from Interactions). */
-@media (prefers-reduced-motion: reduce) {
-  .public-button-primary,
-  .public-button-secondary {
-    transition: none;
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    animation: reveal-up 0.55s ease both;
   }
+
+  .reveal-delay-1 { animation-delay: 80ms; }
+  .reveal-delay-2 { animation-delay: 140ms; }
+  .reveal-delay-3 { animation-delay: 200ms; }
+
+  @keyframes reveal-up {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
   .public-button-primary:hover,
-  .public-button-secondary:hover {
+  .public-button-secondary:hover,
+  .site-btn:hover {
     transform: none;
   }
 }

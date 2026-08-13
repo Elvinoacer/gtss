@@ -1,70 +1,41 @@
-import { Cookie } from "lucide-react";
-
 export function CookiesClient() {
   return (
-    <div className="pt-24 pb-24">
-      <section className="max-w-4xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-400 mb-6">
-            <Cookie className="w-5 h-5" />
-            <span className="text-sm font-bold uppercase tracking-wider">
-              Legal
-            </span>
-          </div>
-          <h1 className="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-6 tracking-tight">
-            Cookie Policy
-          </h1>
-          <p className="text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
-            This policy explains how we use cookies and similar technologies to
-            recognize you when you visit our website.
+    <div>
+      <header className="site-wrap pt-14 pb-10 lg:pt-20">
+        <p className="site-kicker">Legal</p>
+        <h1 className="site-display mt-4">Cookie policy</h1>
+        <p className="site-lead mt-5">
+          How we use cookies and similar technologies when you visit this website.
+        </p>
+      </header>
+      <section className="site-wrap max-w-3xl space-y-8 pb-20 text-sm leading-relaxed text-[var(--text-muted)]">
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text)]">What cookies are</h2>
+          <p className="mt-2">
+            Cookies are small files stored on your device. Sites use them to work correctly, remember preferences, and
+            understand traffic.
           </p>
         </div>
-
-        <div className="prose prose-slate dark:prose-invert max-w-none bg-white dark:bg-slate-900 p-8 md:p-12 rounded-[2rem] border border-slate-200 dark:border-slate-800 shadow-sm">
-          <h3>1. What are cookies?</h3>
-          <p>
-            Cookies are small data files that are placed on your computer or
-            mobile device when you visit a website. Cookies are widely used by
-            website owners to make their websites work, or to work more
-            efficiently, as well as to provide reporting information.
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text)]">Why we use them</h2>
+          <p className="mt-2">
+            Some cookies are required for the site to function. Others help us see which pages are useful. We do not
+            use cookies to sell your data.
           </p>
-
-          <h3>2. Why do we use cookies?</h3>
-          <p>
-            We use first-party and third-party cookies for several reasons. Some
-            cookies are required for technical reasons in order for our website
-            to operate, and we refer to these as &quot;essential&quot; or
-            &quot;strictly necessary&quot; cookies.
-          </p>
-
-          <h3>3. Types of cookies we use</h3>
-          <ul>
-            <li>
-              <strong>Essential cookies:</strong> Necessary for the website to
-              function.
-            </li>
-            <li>
-              <strong>Analytics cookies:</strong> Help us understand how
-              visitors interact with the website.
-            </li>
-            <li>
-              <strong>Functional cookies:</strong> Remember your preferences and
-              settings.
-            </li>
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text)]">Types we use</h2>
+          <ul className="mt-2 list-disc space-y-1 pl-5">
+            <li>Essential — sign-in, security, and theme preference</li>
+            <li>Analytics — anonymous page views so we can improve the site</li>
+            <li>Functional — remembered settings such as light or dark mode</li>
           </ul>
-
-          <h3>4. How can I control cookies?</h3>
-          <p>
-            You have the right to decide whether to accept or reject cookies.
-            You can set or amend your web browser controls to accept or refuse
-            cookies.
-          </p>
-
-          <h3>5. Updates to this policy</h3>
-          <p>
-            We may update this Cookie Policy from time to time in order to
-            reflect changes to the cookies we use or for other operational,
-            legal, or regulatory reasons.
+        </div>
+        <div>
+          <h2 className="text-lg font-semibold text-[var(--text)]">How to control them</h2>
+          <p className="mt-2">
+            You can block or delete cookies in your browser. Essential cookies may be required for sign-in and the
+            theme toggle to work.
           </p>
         </div>
       </section>

@@ -6,320 +6,257 @@ import {
   ShieldCheck,
   Zap,
   WifiOff,
-  Server,
   Smartphone,
-  FileWarning,
   BarChart3,
   Receipt,
   UserX,
   Clock,
   Wrench,
   Wifi,
-  Quote,
   Check,
   PlayCircle,
 } from "lucide-react";
+import { SiteCTA } from "@/components/site/SiteCTA";
 
 export const dynamic = "force-static";
 
 export const metadata: Metadata = {
-  title: "GTSS Restaurant Manager - Offline-First Hotel & POS System",
+  title: "Restaurant Manager",
   description:
-    "Offline-first restaurant and hotel operations platform for African hospitality with M-Pesa and Business Central integrations.",
+    "Offline-first restaurant and hotel POS for East African hospitality. QR ordering, kitchen display, M-Pesa, and a local server that keeps the floor moving.",
 };
+
+const problems = [
+  { icon: Zap, title: "No visibility when the line drops", desc: "Managers cannot see occupancy or revenue. The floor is flying blind." },
+  { icon: UserX, title: "Paper tickets hide mistakes", desc: "Kitchen and till drift apart. Discrepancies show up too late." },
+  { icon: Receipt, title: "End-of-day never matches", desc: "M-Pesa, cash, and the till take hours to reconcile." },
+  { icon: WifiOff, title: "Orders vanish in outages", desc: "Guests walk out. That revenue does not come back." },
+  { icon: BarChart3, title: "No data to decide", desc: "What is selling, who is performing, where money leaks — you are guessing." },
+];
+
+const steps = [
+  { step: "01", icon: Wrench, title: "We install the local server", desc: "On site, in a day. You do not need an IT team." },
+  { step: "02", icon: Clock, title: "Staff go live on day two", desc: "Waiters, kitchen, and admin are trained. We stay until they can run a shift." },
+  { step: "03", icon: Wifi, title: "The cloud syncs when it can", desc: "ERP and reports catch up automatically. The floor never waited." },
+];
+
+const benefits = [
+  { icon: Smartphone, text: "Guests order in about a minute — scan, no app, no login." },
+  { icon: ShieldCheck, text: "Every ticket is tracked and timestamped. No paper, no missing orders." },
+  { icon: Receipt, text: "M-Pesa reconciliation is automatic. Close the books in minutes." },
+  { icon: WifiOff, text: "The kitchen still gets tickets when the internet does not." },
+];
+
+const plans = [
+  {
+    name: "Core",
+    price: "$40",
+    audience: "Cafés and small restaurants",
+    features: ["Local server included", "Guest QR ordering", "Kitchen display", "M-Pesa", "Daily CSV exports"],
+    highlight: false,
+  },
+  {
+    name: "Pro",
+    price: "$100",
+    audience: "Busy restaurants and boutique hotels",
+    features: ["Everything in Core", "Multi-floor", "Staff tracking", "Commission reconciliation", "Live occupancy", "Unlimited tables"],
+    highlight: true,
+  },
+  {
+    name: "Nexus",
+    price: "$250+",
+    audience: "Large hotels and chains",
+    features: ["Everything in Pro", "Multi-branch", "ERP / Business Central", "Priority SLA", "Custom integrations"],
+    highlight: false,
+  },
+];
 
 export default function RestaurantManagerPage() {
   return (
-    <div className="dark-canvas resmg-page relative px-3 pb-32 pt-8 sm:px-6 lg:px-8 lg:pt-10 bg-[var(--black)] text-[var(--text)]">
-      <div className="resmg-halo resmg-halo-a" aria-hidden="true" />
-      <div className="resmg-halo resmg-halo-b" aria-hidden="true" />
-
-      <div className="relative z-10 mx-auto max-w-7xl space-y-32">
-        
-        {/* Hero Section: The Narrative Start */}
-        <section className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div className="max-w-2xl">
-            <span className="public-kicker">The GTSS Story</span>
-            <h1 className="public-section-title mt-6 text-5xl text-white sm:text-7xl lg:text-8xl">
-              YOUR RESTAURANT <br />
-              <span className="resmg-title-accent">NEVER STOPS.</span>
-            </h1>
-            <p className="mt-8 text-lg leading-relaxed text-white/70 sm:text-xl">
-              Even when the internet does. GTSS Restaurant Manager is built for the realities of local hospitality — where connectivity is a luxury, but service is non-negotiable.
-            </p>
-            <div className="mt-10 flex flex-col gap-4 sm:flex-row">
-              <Link href="/products/restaurant-manager/experience" className="public-button-primary px-8 py-5 text-lg w-full sm:w-auto text-center">
-                EXPLORE THE EXPERIENCE
-                <ArrowRight className="h-5 w-5" />
-              </Link>
-            </div>
-          </div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10 shadow-2xl">
-            <Image 
-              src="/images/waiter_handheld_offline_pos_1777357237751.png" 
-              alt="Waiter using GTSS Handheld" 
-              fill 
-              className="object-cover"
-              priority
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-[var(--black)]/60 to-transparent"></div>
-          </div>
-        </section>
-
-        {/* Section 01: The Chaos (The Problem) */}
-        <section className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div className="order-2 lg:order-1 relative aspect-video overflow-hidden rounded-3xl border border-white/10 opacity-80 mix-blend-luminosity hover:opacity-100 transition-opacity">
-            <Image 
-              src="/images/stressed_kitchen_system_failure_1777357211810.png" 
-              alt="System Failure Chaos" 
-              fill 
-              className="object-cover"
-            />
-            <div className="absolute inset-0 flex items-center justify-center bg-black/40">
-              <div className="flex flex-col items-center gap-4 text-red-400">
-                <WifiOff className="h-12 w-12" />
-                <span className="font-mono text-sm tracking-widest">CONNECTION_LOST</span>
-              </div>
-            </div>
-          </div>
-          <div className="order-1 lg:order-2 max-w-xl lg:pl-12">
-            <h2 className="public-section-title text-4xl text-white sm:text-5xl">
-              THE SILENT REVENUE KILLER.
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-white/60">
-              When the cloud goes down, your operation shouldn&apos;t. Traditional POS systems leave staff blind and guests frustrated during outages. Manual tickets lead to errors, lost revenue, and damaged trust.
-            </p>
-            <div className="mt-8 grid gap-5">
-              {[
-                { icon: Zap, title: "Loss of Visibility", desc: "Managers can't track occupancy or revenue in real-time during drops. You're flying blind." },
-                { icon: UserX, title: "Staff Errors & Theft", desc: "Paper tickets are untraceable. Discrepancies between the kitchen and the till go unnoticed until it's too late." },
-                { icon: Receipt, title: "Reconciliation Chaos", desc: "M-Pesa vs cash vs till never match at end of day. Hours lost chasing numbers that should reconcile themselves." },
-                { icon: WifiOff, title: "Lost Orders During Outages", desc: "Guests who walked out because their order got lost when the internet dropped. Revenue you'll never recover." },
-                { icon: BarChart3, title: "No Data to Decide", desc: "What's selling? Who's performing? Where are you bleeding money? Without data, you're guessing." },
-              ].map((item) => (
-                <div key={item.title} className="flex gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/5 border border-white/10">
-                    <item.icon className="h-5 w-5 text-[var(--gold)]" />
-                  </div>
-                  <div>
-                    <h4 className="font-semibold text-white">{item.title}</h4>
-                    <p className="text-sm text-white/50">{item.desc}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
-            <div className="mt-10">
-              <Link href="/products/restaurant-manager/experience" className="public-button-secondary px-8 py-4 text-base border-white/10 hover:bg-white/5 inline-flex">
-                <PlayCircle className="h-5 w-5 mr-2 text-[var(--gold)]" />
-                SEE HOW WE FIX THIS
-              </Link>
-            </div>
-          </div>
-        </section>
-
-        {/* Section 02: The Local Core (The Solution) */}
-        <section className="bg-white/3 border border-white/5 rounded-[3rem] p-8 lg:p-20 relative overflow-hidden">
-          <div className="absolute top-0 right-0 p-12 opacity-10">
-            <Server className="h-64 w-64" />
-          </div>
-          <div className="max-w-3xl relative z-10">
-            <span className="public-kicker">The Architecture</span>
-            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-6xl">
-              LOCAL FIRST, <br />
-              <span className="resmg-title-accent">CLOUD SECOND.</span>
-            </h2>
-            <p className="mt-8 text-xl leading-relaxed text-white/70">
-              Your restaurant runs on its own engine — so you&apos;re never at the mercy of your ISP, your cloud provider, or a Safaricom outage. We deploy a dedicated local server on your premises. All orders, payments, and kitchen alerts run instantly on your local network. When internet returns, everything syncs automatically to the cloud and your ERP.
-            </p>
-            <div className="mt-12 grid gap-8 sm:grid-cols-2">
-              <div className="p-6 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md">
-                <h4 className="text-xl font-bold text-white mb-2">100% Uptime</h4>
-                <p className="text-sm text-white/50">Service continues uninterrupted even if your ISP fails completely.</p>
-              </div>
-              <div className="p-6 rounded-2xl border border-white/10 bg-black/40 backdrop-blur-md">
-                <h4 className="text-xl font-bold text-white mb-2">Instant Sync</h4>
-                <p className="text-sm text-white/50">Seamless M-Pesa reconciliation and Business Central integration.</p>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Social Proof */}
-        <section className="relative">
-          <div className="mx-auto max-w-3xl text-center">
-            <div className="p-8 lg:p-12 rounded-[2rem] border border-white/8 bg-white/[0.02]">
-              <Quote className="mx-auto h-10 w-10 text-[var(--gold)] opacity-40 mb-6" />
-              <blockquote className="text-xl sm:text-2xl leading-relaxed text-white/85 italic">
-                &ldquo;Orders used to get lost every time the internet dropped. With GTSS, the kitchen keeps running regardless. We stopped losing revenue we didn&apos;t even know we were losing.&rdquo;
-              </blockquote>
-              <div className="mt-6 flex items-center justify-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-gradient-to-br from-[var(--gold)] to-[#8fd8ff] flex items-center justify-center text-black font-bold text-sm">JK</div>
-                <div className="text-left">
-                  <p className="text-sm font-semibold text-white">James K.</p>
-                  <p className="text-xs text-white/50">Nairobi Grand Hotel · Pilot Customer</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* How It Works — 3 Steps */}
-        <section>
-          <div className="text-center mb-12">
-            <span className="public-kicker">How It Works</span>
-            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
-              LIVE IN <span className="resmg-title-accent">THREE STEPS.</span>
-            </h2>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {[
-              { step: "01", icon: Wrench, title: "We deploy your local server", desc: "Our team sets it up on-site. Takes one day. No IT team required on your end." },
-              { step: "02", icon: Clock, title: "Staff go live on day 2", desc: "Waiters, kitchen, and admin are all trained and running. We don't leave until you're confident." },
-              { step: "03", icon: Wifi, title: "Internet syncs automatically", desc: "Your ERP always has clean, reconciled data. Cloud and local stay perfectly in sync." },
-            ].map((item) => (
-              <div key={item.step} className="relative p-6 lg:p-8 rounded-2xl border border-white/10 bg-white/[0.03]">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="text-xs font-mono font-bold text-[var(--gold)] tracking-widest">{item.step}</span>
-                  <item.icon className="h-5 w-5 text-white/40" />
-                </div>
-                <h4 className="text-lg font-bold text-white mb-2">{item.title}</h4>
-                <p className="text-sm text-white/55 leading-relaxed">{item.desc}</p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-10 text-center flex flex-col items-center">
-            <p className="text-sm text-white/40 mb-6">That&apos;s it. No IT team required. No downtime.</p>
-            <Link href="/products/restaurant-manager/experience" className="public-button-secondary px-8 py-4 text-base border-white/10 hover:bg-white/5 inline-flex">
-              <PlayCircle className="h-5 w-5 mr-2 text-[var(--gold)]" />
-              EXPLORE THE FLOW
+    <div>
+      <section className="site-wrap grid items-end gap-12 py-14 lg:grid-cols-2 lg:py-20">
+        <div>
+          <p className="site-kicker">Restaurant Manager</p>
+          <h1 className="site-display mt-4">Your restaurant never stops — even when the network does.</h1>
+          <p className="site-lead mt-5">
+            QR ordering, kitchen display, and till control that run on your local network. M-Pesa is built in. Staff
+            are trained on the floor.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <Link href="/products/restaurant-manager/experience" className="site-btn site-btn-primary">
+              Walk the service flow
+              <PlayCircle className="h-4 w-4" />
+            </Link>
+            <Link href="/demo" className="site-btn site-btn-ghost">
+              Book a live demo
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-        </section>
+        </div>
+        <div className="relative aspect-[4/3] overflow-hidden border border-[var(--card-border)]">
+          <Image
+            src="/images/waiter_handheld_offline_pos_1777357237751.png"
+            alt="Waiter using a GTSS handheld on the floor"
+            fill
+            className="object-cover"
+            priority
+          />
+        </div>
+      </section>
 
-        {/* Section 03: The Experience (The Benefit) */}
-        <section className="grid gap-12 lg:grid-cols-2 lg:items-center">
-          <div className="max-w-xl">
-            <h2 className="public-section-title text-4xl text-white sm:text-5xl">
-              SMOOTH FOR GUESTS. <br />
-              POWERFUL FOR STAFF.
-            </h2>
-            <p className="mt-6 text-lg leading-relaxed text-white/60">
-              Guests scan a QR code and order from their own phones. No app downloads. No logins. Just instant service. Waiters get alerts where they are, and kitchen staff stay focused on the next ticket.
-            </p>
-            <div className="mt-10 space-y-5">
-              {[
-                { icon: Smartphone, text: "Your guests order in 60 seconds flat — no app, no login, just scan and go." },
-                { icon: ShieldCheck, text: "No more paper tickets. No more fraud. Every order is tracked, timestamped, and audited." },
-                { icon: Receipt, text: "Reconcile M-Pesa automatically — close the books in minutes, not hours." },
-                { icon: WifiOff, text: "Your kitchen never misses a ticket — even when the internet does." },
-              ].map((item) => (
-                <div key={item.text} className="flex items-start gap-3">
-                  <div className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--gold)]/15">
-                    <item.icon className="h-3.5 w-3.5 text-[var(--gold)]" />
-                  </div>
-                  <span className="text-white/80 text-sm leading-relaxed">{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="relative aspect-square overflow-hidden rounded-3xl border border-white/10">
-            <Image 
-              src="/images/guest_qr_scan_menu_1777357267301.png" 
-              alt="Guest QR Scan" 
-              fill 
+      <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
+        <div className="site-wrap grid gap-12 py-16 lg:grid-cols-2 lg:items-center">
+          <div className="relative aspect-video overflow-hidden border border-[var(--card-border)]">
+            <Image
+              src="/images/stressed_kitchen_system_failure_1777357211810.png"
+              alt="A kitchen under pressure when the system is down"
+              fill
               className="object-cover"
             />
           </div>
-        </section>
-
-        {/* Pricing Section */}
-        <section>
-          <div className="text-center mb-12">
-            <span className="public-kicker">Transparent Pricing</span>
-            <h2 className="public-section-title mt-6 text-4xl text-white sm:text-5xl">
-              PLANS THAT <span className="resmg-title-accent">SCALE WITH YOU.</span>
-            </h2>
-            <p className="mt-4 text-white/50 max-w-2xl mx-auto">From a single cafe to a hotel chain. Pick the plan that fits — upgrade anytime.</p>
-          </div>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {/* Core Plan */}
-            <div className="p-6 lg:p-8 rounded-2xl border border-white/10 bg-white/[0.03]">
-              <p className="text-xs font-bold tracking-[0.2em] text-white/50 uppercase">GTSS Core</p>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">$40</span>
-                <span className="text-sm text-white/40">/mo</span>
-              </div>
-              <p className="mt-2 text-sm text-white/50">Cafes & small restaurants</p>
-              <div className="mt-6 space-y-3">
-                {["Local server included", "Guest QR ordering", "Kitchen display board", "M-Pesa integration", "Daily CSV exports"].map((f) => (
-                  <div key={f} className="flex items-center gap-2 text-sm text-white/70">
-                    <Check className="h-4 w-4 text-[var(--gold)] shrink-0" />
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Pro Plan */}
-            <div className="relative p-6 lg:p-8 rounded-2xl border border-[var(--gold)]/40 bg-[var(--gold)]/[0.04] shadow-[0_0_60px_-30px_rgba(232,184,75,0.3)]">
-              <div className="absolute -top-3 left-6 px-3 py-1 rounded-full bg-[var(--gold)] text-black text-[10px] font-bold tracking-widest uppercase">Most Popular</div>
-              <p className="text-xs font-bold tracking-[0.2em] text-[var(--gold)] uppercase">GTSS Pro</p>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">$100</span>
-                <span className="text-sm text-white/40">/mo</span>
-              </div>
-              <p className="mt-2 text-sm text-white/50">Busy restaurants & boutique hotels</p>
-              <div className="mt-6 space-y-3">
-                {["Everything in Core", "Multi-floor support", "Staff accountability & tracking", "Commission reconciliation", "Live occupancy view", "Unlimited tables"].map((f) => (
-                  <div key={f} className="flex items-center gap-2 text-sm text-white/70">
-                    <Check className="h-4 w-4 text-[var(--gold)] shrink-0" />
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </div>
-            {/* Nexus Plan */}
-            <div className="p-6 lg:p-8 rounded-2xl border border-white/10 bg-white/[0.03]">
-              <p className="text-xs font-bold tracking-[0.2em] text-white/50 uppercase">GTSS Nexus</p>
-              <div className="mt-3 flex items-baseline gap-1">
-                <span className="text-4xl font-bold text-white">$250+</span>
-                <span className="text-sm text-white/40">/mo</span>
-              </div>
-              <p className="mt-2 text-sm text-white/50">Large hotels & chains</p>
-              <div className="mt-6 space-y-3">
-                {["Everything in Pro", "Multi-branch management", "ERP & Business Central sync", "Priority support SLA", "Custom integrations"].map((f) => (
-                  <div key={f} className="flex items-center gap-2 text-sm text-white/70">
-                    <Check className="h-4 w-4 text-[var(--gold)] shrink-0" />
-                    {f}
-                  </div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </section>
-
-        {/* Push to Experience CTA Section */}
-        <section className="relative overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(232,184,75,0.15),transparent_70%)]"></div>
-          <div className="public-panel-strong public-card-outline rounded-4xl p-10 lg:p-16 text-center relative z-10">
-            <span className="public-kicker text-[var(--gold)] mb-6">Interactive Tour</span>
-            <h2 className="text-4xl lg:text-6xl font-bold text-white mt-4 mb-6 leading-tight">
-              SEE GTSS IN YOUR<br />REAL SERVICE FLOW.
-            </h2>
-            <p className="mt-6 text-white/60 leading-relaxed max-w-2xl mx-auto text-lg mb-10">
-              Stop guessing if the software will work for your team. Take our interactive journey through the eyes of a Guest, Waiter, Kitchen, and Admin.
+          <div>
+            <p className="site-kicker">The problem</p>
+            <h2 className="site-title mt-4">A cloud outage should not close the kitchen.</h2>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)]">
+              When a typical POS loses the internet, staff go back to paper. Tickets get lost. Guests wait. The till
+              does not match M-Pesa at close.
             </p>
-            <div className="flex flex-col items-center justify-center gap-6">
-              <Link href="/products/restaurant-manager/experience" className="public-button-primary px-10 py-5 text-xl w-full sm:w-auto shadow-[0_0_40px_rgba(232,184,75,0.4)]">
-                ENTER THE EXPERIENCE
-                <ArrowRight className="h-6 w-6" />
-              </Link>
-              <p className="text-xs tracking-[0.15em] text-white/40 font-mono uppercase">
-                35+ Screens · Full System Flow · Real UI
-              </p>
-            </div>
+            <ul className="mt-8 space-y-4 p-0">
+              {problems.map((item) => (
+                <li key={item.title} className="flex gap-3">
+                  <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
+                  <div>
+                    <p className="font-semibold text-[var(--text)]">{item.title}</p>
+                    <p className="text-sm text-[var(--text-muted)]">{item.desc}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
+
+      <section className="site-wrap py-16 lg:py-20">
+        <p className="site-kicker">How it is built</p>
+        <h2 className="site-title mt-4 max-w-xl">Local first. Cloud when the line is back.</h2>
+        <p className="site-lead mt-5">
+          A server on your premises runs orders, payments, and kitchen alerts. When internet returns, data syncs to
+          the cloud and your ERP. You are not waiting on Safaricom to serve the next table.
+        </p>
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          <div className="border border-[var(--card-border)] bg-[var(--card-bg)] p-6">
+            <h3 className="text-lg font-semibold">The floor stays up</h3>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">Service continues if the ISP fails completely.</p>
+          </div>
+          <div className="border border-[var(--card-border)] bg-[var(--card-bg)] p-6">
+            <h3 className="text-lg font-semibold">Books still close</h3>
+            <p className="mt-2 text-sm text-[var(--text-muted)]">M-Pesa and Business Central catch up automatically.</p>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
+        <div className="site-wrap py-16">
+          <p className="site-kicker">From a Nairobi hotel</p>
+          <blockquote className="mt-6 max-w-3xl font-[family-name:var(--font-display)] text-2xl leading-snug text-[var(--text)] lg:text-3xl">
+            “Orders used to get lost every time the internet dropped. With GTSS, the kitchen keeps running. We stopped
+            losing revenue we did not even know we were losing.”
+          </blockquote>
+          <p className="mt-6 text-sm font-semibold text-[var(--text)]">James K.</p>
+          <p className="text-sm text-[var(--text-muted)]">Nairobi Grand Hotel · Pilot customer</p>
+        </div>
+      </section>
+
+      <section className="site-wrap py-16 lg:py-20">
+        <p className="site-kicker">Rollout</p>
+        <h2 className="site-title mt-4">Live in three steps.</h2>
+        <ol className="mt-10 grid list-none gap-8 p-0 sm:grid-cols-3">
+          {steps.map((item) => (
+            <li key={item.step} className="border-t border-[var(--border)] pt-5">
+              <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">
+                {item.step} · <item.icon className="mb-0.5 inline h-3.5 w-3.5" />
+              </p>
+              <h3 className="mt-2 text-lg font-semibold">{item.title}</h3>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">{item.desc}</p>
+            </li>
+          ))}
+        </ol>
+      </section>
+
+      <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
+        <div className="site-wrap grid items-center gap-12 py-16 lg:grid-cols-2">
+          <div>
+            <p className="site-kicker">On the floor</p>
+            <h2 className="site-title mt-4">Calm for guests. Clear for staff.</h2>
+            <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)]">
+              Guests scan a QR code and order from their phone. Waiters get alerts where they are. Kitchen stays on
+              the next ticket.
+            </p>
+            <ul className="mt-8 space-y-3 p-0">
+              {benefits.map((item) => (
+                <li key={item.text} className="flex gap-3 text-sm text-[var(--text)]">
+                  <item.icon className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
+                  {item.text}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="relative aspect-square overflow-hidden border border-[var(--card-border)]">
+            <Image
+              src="/images/guest_qr_scan_menu_1777357267301.png"
+              alt="Guest scanning a table QR code to open the menu"
+              fill
+              className="object-cover"
+            />
+          </div>
+        </div>
+      </section>
+
+      <section className="site-wrap py-16 lg:py-20">
+        <p className="site-kicker">Pricing</p>
+        <h2 className="site-title mt-4">Plans that match the size of the floor.</h2>
+        <p className="site-lead mt-4">Quoted in USD. We can invoice in KES. Upgrade when you add rooms or branches.</p>
+        <div className="mt-10 grid gap-4 lg:grid-cols-3">
+          {plans.map((plan) => (
+            <article
+              key={plan.name}
+              className={`flex flex-col border bg-[var(--card-bg)] p-6 ${
+                plan.highlight ? "border-[var(--accent)]" : "border-[var(--card-border)]"
+              }`}
+            >
+              {plan.highlight ? (
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">Most teams pick this</p>
+              ) : (
+                <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--text-dim)]">Plan</p>
+              )}
+              <h3 className="mt-2 text-xl font-semibold">{plan.name}</h3>
+              <p className="mt-3 font-[family-name:var(--font-display)] text-3xl">
+                {plan.price}
+                <span className="text-base text-[var(--text-muted)]"> / month</span>
+              </p>
+              <p className="mt-2 text-sm text-[var(--text-muted)]">{plan.audience}</p>
+              <ul className="mt-6 flex-1 space-y-2 p-0 text-sm">
+                {plan.features.map((feature) => (
+                  <li key={feature} className="flex gap-2">
+                    <Check className="mt-0.5 h-4 w-4 shrink-0 text-[var(--accent)]" />
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/contact" className={`site-btn mt-8 ${plan.highlight ? "site-btn-primary" : "site-btn-ghost"}`}>
+                Get a quote
+              </Link>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <SiteCTA
+        title="See the product in a real service flow."
+        copy="Walk through guest, waiter, kitchen, and admin — or book a live demo on your own menu."
+        primary={{ href: "/products/restaurant-manager/experience", label: "Open the tour" }}
+        secondary={{ href: "/demo", label: "Book a demo" }}
+      />
     </div>
   );
 }

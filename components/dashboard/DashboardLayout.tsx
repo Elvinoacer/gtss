@@ -22,7 +22,7 @@ export function DashboardLayout({ children, user }: DashboardLayoutProps) {
     <div className="dark-canvas font-rajdhani bg-[var(--black)] text-[var(--text)] h-screen overflow-hidden flex selection:bg-[var(--gold)] selection:text-[var(--black)]">
       <Sidebar user={user} isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
 
-      <main className="flex-1 flex flex-col min-w-0 bg-[var(--black)] relative overflow-hidden">
+      <main id="main-content" className="flex-1 flex flex-col min-w-0 bg-[var(--black)] relative overflow-hidden">
         {/* Background Decorative Element */}
         <div className="absolute top-0 right-0 w-full h-full pointer-events-none opacity-[0.03] overflow-hidden">
           <div className="absolute top-0 left-0 w-full h-full bg-[url('/grid.svg')] bg-repeat opacity-20" />

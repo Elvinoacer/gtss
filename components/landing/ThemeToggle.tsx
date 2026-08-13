@@ -6,20 +6,18 @@ import { useTheme } from "@/components/providers/ThemeProvider";
 export function ThemeToggle() {
   const { theme, toggleTheme, mounted } = useTheme();
 
-  if (!mounted) {
-    return <div className="w-9 h-9" />;
-  }
-
   return (
     <button
+      type="button"
       onClick={toggleTheme}
-      className="relative w-9 h-9 rounded-full border border-[var(--border)] bg-[var(--bg-surface)] flex items-center justify-center transition-all hover:border-[var(--accent)] hover:shadow-[var(--accent-glow)]"
-      aria-label={`Switch to ${theme === "light" ? "dark" : "light"} theme`}
+      className="inline-flex h-10 w-10 items-center justify-center rounded-sm border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text)]"
+      aria-label={theme === "dark" ? "Switch to light mode" : "Switch to dark mode"}
+      aria-pressed={theme === "dark"}
     >
-      {theme === "light" ? (
-        <Moon className="w-4 h-4 text-[var(--text-muted)]" />
+      {mounted ? (
+        theme === "light" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />
       ) : (
-        <Sun className="w-4 h-4 text-[var(--gold)]" />
+        <span className="h-4 w-4" aria-hidden />
       )}
     </button>
   );

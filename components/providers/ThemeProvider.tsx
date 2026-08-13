@@ -8,12 +8,14 @@ type Theme = "light" | "dark";
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  setTheme: (theme: Theme) => void;
   mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType>({
   theme: "light",
   toggleTheme: () => {},
+  setTheme: () => {},
   mounted: false,
 });
 
@@ -21,48 +23,42 @@ export function useTheme() {
   return useContext(ThemeContext);
 }
 
-interface ThemeProviderProps {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
+function applyTheme(theme: Theme) {
+  const root = document.documentElement;
+  root.setAttribute("data-theme", theme);
+  root.classList.toggle("dark", theme === "dark");
+  localStorage.setItem("gtss-theme", theme);
 }
 
-export function ThemeProvider({ children, defaultTheme = "light" }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
+export function ThemeProvider({
+  children,
+  defaultTheme = "light",
+}: {
+  children: React.ReactNode;
+  defaultTheme?: Theme;
+}) {
+  const [theme, setThemeState] = useState<Theme>(defaultTheme);
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
+    const current = document.documentElement.getAttribute("data-theme");
+    if (current === "light" || current === "dark") {
+      setThemeState(current);
+    }
     setMounted(true);
-    const stored = localStorage.getItem("gtss-theme") as Theme | null;
-    if (stored) {
-      setTheme(stored);
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : defaultTheme);
-    }
-  }, [defaultTheme]);
+  }, []);
 
-  useEffect(() => {
-    if (mounted) {
-      const root = document.documentElement;
-      // Set the data-theme attribute for our custom CSS variables (theme.css)
-      root.setAttribute("data-theme", theme);
-      // Toggle the .dark class for Tailwind's dark: variants (globals.css, shadcn/ui)
-      // This ensures both theme systems stay in sync.
-      if (theme === "dark") {
-        root.classList.add("dark");
-      } else {
-        root.classList.remove("dark");
-      }
-      localStorage.setItem("gtss-theme", theme);
-    }
-  }, [theme, mounted]);
+  const setTheme = (next: Theme) => {
+    setThemeState(next);
+    applyTheme(next);
+  };
 
   const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
+    setTheme(theme === "light" ? "dark" : "light");
   };
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, mounted }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, setTheme, mounted }}>
       {children}
     </ThemeContext.Provider>
   );

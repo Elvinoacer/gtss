@@ -2,7 +2,7 @@ import { Scale } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Terms of Service | GTSS",
+  title: "Terms of service",
   description:
     "Terms of Service for Great Thumbs Software Solutions. By using our products and services, you agree to these terms.",
 };
@@ -58,7 +58,7 @@ const sections = [
       <>
         Phone:{" "}
         <a href="tel:+254792156094" className="text-[var(--accent)] no-underline hover:underline">
-          +254 790 670 542
+          +254 792 156 094
         </a>
       </>,
       "We recommend reviewing these terms periodically to stay informed of any updates.",
@@ -68,28 +68,15 @@ const sections = [
 
 export default function TermsPage() {
   return (
-    <div className="min-h-screen bg-[var(--bg)]">
-      {/* Hero */}
-      <section className="px-6 lg:px-20 py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl">
-            <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4 flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-[var(--accent)]" />
-              Legal
-            </div>
-            <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Terms of <span className="text-[var(--accent)]">Service</span>
-            </h1>
-            <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              Last updated: June 2026. By using GTSS products and services, you agree to these terms.
-            </p>
-          </div>
-        </div>
-      </section>
+    <div>
+      <header className="site-wrap pt-14 pb-10 lg:pt-20">
+        <p className="site-kicker">Legal</p>
+        <h1 className="site-display mt-4">Terms of service</h1>
+        <p className="site-lead mt-5">Last updated: June 2026. By using GTSS products and services, you agree to these terms.</p>
+      </header>
 
-      {/* Content */}
-      <section className="px-6 lg:px-20 pb-20">
-        <div className="max-w-4xl mx-auto space-y-10">
+      <section className="site-wrap pb-20">
+        <div className="max-w-3xl space-y-10">
           {sections.map((section) => (
             <div key={section.title}>
               <div className="flex items-center gap-3 mb-4">

@@ -1,8 +1,7 @@
-import { FileText } from "lucide-react";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | GTSS",
+  title: "Privacy policy",
   description: "Learn how Great Thumbs Software Solutions collects, uses, and protects your personal information.",
 };
 
@@ -57,7 +56,7 @@ const sections = [
       <>
         Phone:{" "}
         <a href="tel:+254792156094" className="text-[var(--accent)] no-underline hover:underline">
-          +254 790 670 542
+          +254 792 156 094
         </a>
       </>,
       "We will respond to all privacy-related inquiries within 48 hours.",
@@ -67,37 +66,20 @@ const sections = [
 
 export default function PrivacyPage() {
   return (
-    <div className="min-h-screen bg-[var(--bg)]">
-      {/* Hero */}
-      <section className="px-6 lg:px-20 py-16 lg:py-24">
-        <div className="max-w-7xl mx-auto">
-          <div className="max-w-2xl">
-            <div className="text-xs tracking-[0.2em] text-[var(--accent)] uppercase font-semibold mb-4 flex items-center gap-3">
-              <div className="w-8 h-[1px] bg-[var(--accent)]" />
-              Legal
-            </div>
-            <h1 className="text-3xl lg:text-5xl font-bold text-[var(--text)] tracking-tight mb-6">
-              Privacy <span className="text-[var(--accent)]">Policy</span>
-            </h1>
-            <p className="text-base lg:text-lg text-[var(--text-muted)] leading-relaxed">
-              Last updated: June 2026. This policy describes how Great Thumbs Software Solutions collects, uses, and
-              protects your personal information.
-            </p>
-          </div>
-        </div>
-      </section>
+    <div>
+      <header className="site-wrap pt-14 pb-10 lg:pt-20">
+        <p className="site-kicker">Legal</p>
+        <h1 className="site-display mt-4">Privacy policy</h1>
+        <p className="site-lead mt-5">
+          Last updated: June 2026. How Great Thumbs Software Solutions collects, uses, and protects personal information.
+        </p>
+      </header>
 
-      {/* Content */}
-      <section className="px-6 lg:px-20 pb-20">
-        <div className="max-w-4xl mx-auto space-y-10">
+      <section className="site-wrap pb-20">
+        <div className="max-w-3xl space-y-10">
           {sections.map((section) => (
             <div key={section.title}>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-8 h-8 rounded-lg border border-[var(--card-border)] flex items-center justify-center bg-[var(--bg-surface)] shrink-0">
-                  <FileText className="w-4 h-4 text-[var(--accent)]" />
-                </div>
-                <h2 className="text-lg font-semibold text-[var(--text)]">{section.title}</h2>
-              </div>
+              <h2 className="mb-4 text-lg font-semibold text-[var(--text)]">{section.title}</h2>
               <div className="space-y-3 pl-11">
                 {section.paragraphs.map((paragraph, i) => (
                   <p key={i} className="text-sm text-[var(--text-muted)] leading-relaxed">
