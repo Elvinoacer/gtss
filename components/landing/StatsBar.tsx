@@ -82,16 +82,16 @@ export function StatsBar() {
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 sm:gap-3">
             {sectors.map((sec) => {
               const Icon = sec.icon;
               return (
                 <div
                   key={sec.name}
-                  className="flex items-center gap-2.5 px-3.5 py-2.5 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text)] text-xs font-medium transition-all hover:border-[var(--gold-border)] hover:bg-[var(--bg-surface-2)]"
+                  className="flex items-center gap-2 p-2.5 sm:px-3.5 sm:py-2.5 rounded-lg border border-[var(--border)] bg-[var(--bg-surface)] text-[var(--text)] text-xs font-medium transition-all hover:border-[var(--gold-border)] hover:bg-[var(--bg-surface-2)]"
                 >
                   <Icon className="h-3.5 w-3.5 text-[var(--gold-luxury)] shrink-0" />
-                  <span className="truncate">{sec.name}</span>
+                  <span className="leading-tight">{sec.name}</span>
                 </div>
               );
             })}

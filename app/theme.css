@@ -172,26 +172,31 @@
 .site-display {
   font-family: var(--font-display), "Iowan Old Style", "Palatino Linotype", Palatino, Georgia, serif;
   font-weight: 400;
-  letter-spacing: -0.03em;
-  line-height: 1.08;
+  letter-spacing: -0.025em;
+  line-height: 1.12;
   color: var(--text);
-  font-size: clamp(2.15rem, 5.4vw, 4.15rem);
+  font-size: clamp(2rem, 4.2vw, 3.75rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .site-title {
   font-family: var(--font-display), Georgia, serif;
   font-weight: 400;
-  letter-spacing: -0.025em;
-  line-height: 1.12;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
   color: var(--text);
-  font-size: clamp(1.75rem, 3.6vw, 2.85rem);
+  font-size: clamp(1.65rem, 3.2vw, 2.5rem);
+  text-wrap: balance;
+  overflow-wrap: break-word;
 }
 
 .site-lead {
   color: var(--text-muted);
   font-size: 1.0625rem;
   line-height: 1.65;
-  max-width: 38rem;
+  max-width: 42rem;
+  text-wrap: pretty;
 }
 
 .site-card {

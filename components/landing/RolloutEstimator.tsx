@@ -107,7 +107,7 @@ I'd like to schedule an operational audit and discuss deployment timeline.`;
               <p className="text-xs font-bold uppercase tracking-wider text-[var(--gold-luxury)] mb-3">
                 02. Operating Scale & Outlets
               </p>
-              <div className="grid grid-cols-3 gap-2.5">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
                 {branchScales.map((scale) => {
                   const isSelected = selectedScale.id === scale.id;
                   return (

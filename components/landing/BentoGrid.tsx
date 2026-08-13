@@ -60,13 +60,13 @@ export function BentoGrid() {
           </div>
 
           {/* Category Filter Pills */}
-          <div className="flex flex-wrap gap-1.5 p-1.5 rounded-xl border border-[var(--border)] bg-[var(--bg-surface-2)]">
+          <div className="flex overflow-x-auto scrollbar-none flex-nowrap sm:flex-wrap gap-1.5 p-1.5 rounded-xl border border-[var(--border)] bg-[var(--bg-surface-2)] max-w-full">
             {filterCategories.map((cat) => (
               <button
                 key={cat.id}
                 type="button"
                 onClick={() => setActiveCategory(cat.id)}
-                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all cursor-pointer ${
+                className={`px-3.5 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all cursor-pointer shrink-0 ${
                   activeCategory === cat.id
                     ? "bg-[var(--accent)] text-[var(--accent-fg)] shadow-sm"
                     : "text-[var(--text-muted)] hover:text-[var(--text)]"

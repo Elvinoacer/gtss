@@ -37,7 +37,7 @@ export function CTA() {
               </h2>
 
               <p className="mt-5 text-sm sm:text-base text-slate-300 max-w-xl leading-relaxed">
-                Tell us what you operate — a restaurant, lodge, retail chain, church, or campus ecosystem.
+                Tell us what you operate — a pharmacy, clinic, restaurant, lodge, retail chain, church, or campus ecosystem.
                 Our engineers will specify the exact architecture stack, hardware configuration, and rollout
                 timeline in under 24 hours.
               </p>
