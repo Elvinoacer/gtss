@@ -5,6 +5,7 @@ import Link from "next/link";
 import { experienceAssets } from "./experience-data";
 import { YouTubePlayer } from "./YouTubePlayer";
 import { RestaurantManagerLeadForm } from "../RestaurantManagerLeadForm";
+import { ThemeToggle } from "@/components/landing/ThemeToggle";
 import "./role-experience.css";
 
 /* ── PARTICLES BACKGROUND ────────────────────────────── */
@@ -27,7 +28,6 @@ function Particles() {
     resize();
     window.addEventListener("resize", resize);
 
-    const GOLD = "rgba(232,184,75,";
     const N = 90;
 
     for (let i = 0; i < N; i++) {
@@ -44,6 +44,9 @@ function Particles() {
     let animationId: number;
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
+      const isLight = document.documentElement.getAttribute("data-theme") === "light";
+      const GOLD = isLight ? "rgba(180,83,9," : "rgba(232,184,75,";
+
       for (const p of particles) {
         p.x += p.vx;
         p.y += p.vy;
@@ -118,7 +121,13 @@ export function RoleExperience() {
 
       {/* ── STICKY ROLE NAV ────────────────────────────── */}
       <nav className="role-nav">
-        <div className="nav-brand">GTSS · SYSTEM JOURNEY</div>
+        <Link
+          href="/products/restaurant-manager"
+          className="nav-brand"
+          title="Back to Restaurant Manager Overview"
+        >
+          <span>← RESTAURANT MANAGER</span>
+        </Link>
         <div className="role-tabs">
           <a
             href="#guest"
@@ -161,18 +170,19 @@ export function RoleExperience() {
             ADMIN
           </a>
         </div>
-        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "20px" }}>
-          <div style={{ fontFamily: "var(--font-mono)", fontSize: "8px", letterSpacing: "0.15em", color: "var(--text-dim)", display: "flex", alignItems: "center", gap: "6px" }}>
-            <div style={{ width: "5px", height: "5px", borderRadius: "50%", background: "#4CAF50", boxShadow: "0 0 10px rgba(76,175,80,0.4)" }}></div>
-            ALL SYSTEMS NOMINAL
+        <div style={{ marginLeft: "auto", display: "flex", alignItems: "center", gap: "14px" }}>
+          <div className="hidden md:flex" style={{ fontFamily: "var(--font-mono)", fontSize: "9px", letterSpacing: "0.15em", color: "var(--text-dim)", alignItems: "center", gap: "6px" }}>
+            <div style={{ width: "6px", height: "6px", borderRadius: "50%", background: "#10b981", boxShadow: "0 0 10px rgba(16,185,129,0.4)" }}></div>
+            0.4ms INTRANET
           </div>
+          <ThemeToggle />
           <button
             onClick={() => window.open('https://t.me/gtss_copilot', '_blank')}
             className="btn-primary"
             title="Chat with our AI demo assistant on Telegram"
-            style={{ padding: "6px 14px", fontSize: "9px", height: "auto", background: "var(--gold)", color: "#000", borderRadius: "2px", clipPath: "polygon(5% 0%, 100% 0%, 95% 100%, 0% 100%)" }}
+            style={{ padding: "8px 16px", fontSize: "10px", height: "auto", background: "var(--gold)", color: "#000", borderRadius: "3px" }}
           >
-            COPILOT TEST
+            COPILOT
           </button>
         </div>
       </nav>

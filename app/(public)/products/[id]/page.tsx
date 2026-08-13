@@ -1,9 +1,22 @@
 import Link from "next/link";
 import Image from "next/image";
 import { redirect } from "next/navigation";
-import { ArrowLeft, Check, ExternalLink } from "lucide-react";
+import {
+  ArrowLeft,
+  Check,
+  ExternalLink,
+  ShieldCheck,
+  Zap,
+  Server,
+  CreditCard,
+  Sparkles,
+  Layers,
+  ArrowRight,
+  Clock,
+} from "lucide-react";
 import { prisma } from "@/lib/prisma";
 import { SiteCTA } from "@/components/site/SiteCTA";
+import { whatsappUrl } from "@/data/site";
 
 // Static fallback details for offline/static rendering
 const fallbackProductMap: Record<string, {
@@ -27,7 +40,7 @@ const fallbackProductMap: Record<string, {
     dbId: "cmkwpx6t3000004i89mcou9z5",
     title: "Church Management System",
     subtitle: "GTS-ENT-6990 · Enterprise",
-    category: "Enterprise",
+    category: "Faith & Ministry Platform",
     description: "A holistic digital ecosystem designed to streamline ministry operations, enhance member engagement, track contributions (M-Pesa, cash, and bank), and foster spiritual growth.",
     pricing: "Subscription — $16/mo / KES 2,000/mo",
     priceUSD: 16,
@@ -51,7 +64,7 @@ const fallbackProductMap: Record<string, {
     dbId: "cmkwvzp9n000004ieieyhqcde",
     title: "Commersely",
     subtitle: "GTS-SAA-7111 · SaaS",
-    category: "SaaS",
+    category: "Enterprise Commerce Storefront",
     description: "Commersely is a premium, enterprise-grade e-commerce ecosystem designed to empower brands with a sophisticated digital presence built on Next.js 15, integrated M-Pesa, card payments, and inventory management.",
     pricing: "Subscription — $8/mo / KES 1,000/mo",
     priceUSD: 8,
@@ -77,7 +90,7 @@ const fallbackProductMap: Record<string, {
     dbId: "cmkwy2mpv000004laf6le04kd",
     title: "JustInTime",
     subtitle: "GTS-PLA-8158 · Platform",
-    category: "Platform",
+    category: "Hyperlocal Service Marketplace",
     description: "JustInTime is a hyperlocal skill marketplace designed to bridge the gap between service talent and clients. Provides secure location-based job matching, automated dispatch, and payment escrow.",
     pricing: "Free Platform Access",
     websiteUrl: "https://justintimeservices.vercel.app",
@@ -102,7 +115,7 @@ const fallbackProductMap: Record<string, {
     dbId: "cmkxqm2ag000004kz7vhkvpza",
     title: "Kampus",
     subtitle: "GTS-MOB-1511 · Mobile App",
-    category: "Mobile App",
+    category: "Campus Social & Utility Ecosystem",
     description: "Kampus is a university-centric social ecosystem that bridges social networking and campus utility. Gives students a hyperlocal space to connect, buy/sell items, and discover campus events.",
     pricing: "Free Mobile App",
     websiteUrl: "https://expo.dev/accounts/elvinoacer/projects/uni-link/builds/34c51c8e-db93-4e55-a791-39ba89bee689",
@@ -171,12 +184,12 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
   if (!dbProduct && !fallback) {
     return (
       <div className="min-h-[60vh] flex flex-col items-center justify-center bg-[var(--bg)] px-4 py-20 text-center">
-        <h1 className="text-3xl font-bold text-[var(--text)]">Product Not Found</h1>
+        <h1 className="text-3xl font-bold text-[var(--text)]">System Not Found</h1>
         <p className="mt-3 text-[var(--text-muted)] max-w-md">
-          The product &apos;{id}&apos; could not be located in the catalog.
+          The requested product &apos;{id}&apos; is not currently cataloged.
         </p>
-        <Link href="/products" className="site-btn site-btn-primary mt-8">
-          <ArrowLeft className="h-4 w-4" /> Back to Products
+        <Link href="/products" className="luxury-btn-primary mt-8">
+          <ArrowLeft className="h-4 w-4" /> Back to Products Catalog
         </Link>
       </div>
     );
@@ -197,118 +210,246 @@ export default async function ProductDetailPage({ params }: { params: Promise<{ 
 
   const priceFormatted = dbProduct
     ? (dbProduct.pricingModel === "free"
-        ? "Free Access"
+        ? "Free Platform Access"
         : dbProduct.priceUSD
-        ? `$${dbProduct.priceUSD} / mo`
+        ? `$${dbProduct.priceUSD} / month`
         : dbProduct.priceKES
-        ? `KES ${dbProduct.priceKES} / mo`
+        ? `KES ${dbProduct.priceKES.toLocaleString()} / month`
         : dbProduct.pricing)
     : (fallback?.pricing || "Contact for pricing");
 
   const featuresList = dbProduct?.features && dbProduct.features.length > 0
-    ? dbProduct.features.map(f => ({ title: f.title, desc: f.description }))
+    ? dbProduct.features.map((f: any) => ({ title: f.title, desc: f.description }))
     : (fallback?.features || []);
 
   return (
-    <div>
-      <section className="site-wrap py-14 lg:py-20">
-        <Link href="/products" className="inline-flex items-center gap-2 text-sm text-[var(--text-muted)] no-underline hover:text-[var(--accent)]">
-          <ArrowLeft className="h-4 w-4" /> All products
-        </Link>
+    <div className="bg-[var(--bg)] min-h-screen">
+      {/* Product Hero Section */}
+      <section className="relative overflow-hidden bg-[var(--hero-gradient)] pt-8 pb-16 lg:pt-12 lg:pb-24 border-b border-[var(--border)]">
+        <div
+          className="luxury-glow-radial -top-40 left-1/2 -translate-x-1/2 w-[600px] h-[400px] bg-[var(--gold)] opacity-10"
+          aria-hidden="true"
+        />
 
-        <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-          <div>
-            <div className="flex items-center gap-3">
-              {logoUrl ? (
-                <div className="relative h-12 w-12 overflow-hidden rounded-lg border border-[var(--border)] bg-black p-1">
-                  <Image src={logoUrl} alt={title} width={48} height={48} className="h-full w-full object-cover" />
-                </div>
-              ) : null}
-              <div>
-                <p className="site-kicker">{category} · {productIdCode}</p>
-                <h1 className="text-3xl lg:text-4xl font-bold tracking-tight text-[var(--text)] mt-1">{title}</h1>
-              </div>
-            </div>
+        <div className="site-wrap relative z-10">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center justify-between pb-6 border-b border-[var(--border)]">
+            <Link
+              href="/products"
+              className="inline-flex items-center gap-2 text-xs font-semibold text-[var(--text-muted)] hover:text-[var(--gold-luxury)] transition-colors"
+            >
+              <ArrowLeft className="h-3.5 w-3.5" />
+              <span>Back to All Products</span>
+            </Link>
 
-            <p className="site-lead mt-5 text-[var(--text)] font-medium leading-relaxed">{tagline}</p>
-            <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)] whitespace-pre-line">{cleanDescription}</p>
-
-            <div className="mt-6 flex flex-wrap gap-2 text-xs font-mono">
-              <span className="border border-[var(--accent)] bg-[var(--accent)]/10 px-3 py-1.5 font-semibold text-[var(--accent)]">
-                {priceFormatted}
-              </span>
-              {dbProduct?.priceKES ? (
-                <span className="border border-[var(--border)] px-3 py-1.5 text-[var(--text)]">
-                  KES {dbProduct.priceKES.toLocaleString()}
-                </span>
-              ) : null}
-              <span className="border border-[var(--border)] px-3 py-1.5 text-[var(--text-muted)]">
-                Status: {dbProduct?.status || "Live"}
-              </span>
-            </div>
-
-            <div className="mt-8 flex flex-wrap items-center gap-3">
-              <Link href="/demo" className="site-btn site-btn-primary">
-                Book a walkthrough
-              </Link>
-              {websiteUrl ? (
-                <a href={websiteUrl} target="_blank" rel="noopener noreferrer" className="site-btn site-btn-ghost flex items-center gap-2">
-                  Visit Live System
-                  <ExternalLink className="h-4 w-4" />
-                </a>
-              ) : null}
+            <div className="flex items-center gap-2 text-xs text-[var(--text-dim)]">
+              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <span>GTSS Certified Deployment</span>
             </div>
           </div>
 
-          <div className="space-y-4">
-            <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-[var(--card-border)] bg-black">
-              <Image
-                src={primaryImage}
-                alt={title}
-                fill
-                sizes="(max-width: 1024px) 100vw, 45vw"
-                className="object-cover"
-                priority
-              />
+          {/* Product Header & Media Grid */}
+          <div className="mt-8 grid gap-12 lg:grid-cols-[1.1fr_0.9fr] items-start">
+            <div>
+              <div className="flex items-center gap-3.5">
+                {logoUrl ? (
+                  <div className="relative h-12 w-12 rounded-xl overflow-hidden border border-[var(--gold-border)] bg-[var(--bg-surface-2)] shadow-sm shrink-0">
+                    <Image
+                      src={logoUrl}
+                      alt={title}
+                      width={48}
+                      height={48}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                ) : null}
+                <div>
+                  <span className="text-xs font-mono font-bold tracking-widest text-[var(--gold-luxury)]">
+                    {category} · {productIdCode}
+                  </span>
+                  <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight text-[var(--text)] mt-1">
+                    {title}
+                  </h1>
+                </div>
+              </div>
+
+              <p className="site-lead mt-6 text-base lg:text-lg font-medium text-[var(--text)] leading-relaxed">
+                {tagline}
+              </p>
+              <p className="mt-4 text-sm leading-relaxed text-[var(--text-muted)] whitespace-pre-line">
+                {cleanDescription}
+              </p>
+
+              {/* Pricing & Metric Chips */}
+              <div className="mt-6 flex flex-wrap gap-2.5 text-xs font-mono">
+                <span className="border border-[var(--gold-luxury)] bg-[rgba(197,155,39,0.08)] px-3.5 py-1.5 font-bold text-[var(--gold-luxury)] rounded-md">
+                  {priceFormatted}
+                </span>
+                {dbProduct?.priceKES && (
+                  <span className="border border-[var(--border)] bg-[var(--bg-surface-2)] px-3.5 py-1.5 font-semibold text-[var(--text)] rounded-md">
+                    KES {dbProduct.priceKES.toLocaleString()} / mo
+                  </span>
+                )}
+                <span className="border border-[var(--border)] bg-[var(--bg-surface-2)] px-3.5 py-1.5 text-[var(--text-muted)] rounded-md">
+                  Rollout: 14–21 Days
+                </span>
+              </div>
+
+              {/* CTAs */}
+              <div className="mt-8 flex flex-wrap items-center gap-3.5">
+                <a
+                  href={whatsappUrl(`Hi GTSS, I'd like to schedule a demonstration for ${title}.`)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="luxury-btn-gold text-xs"
+                >
+                  <span>Book Live Walkthrough</span>
+                  <ArrowRight className="h-3.5 w-3.5" />
+                </a>
+
+                {websiteUrl && (
+                  <a
+                    href={websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="luxury-btn-outline text-xs flex items-center gap-2"
+                  >
+                    <span>Visit Live System</span>
+                    <ExternalLink className="h-3.5 w-3.5" />
+                  </a>
+                )}
+              </div>
             </div>
 
-            {gallery.length > 1 ? (
-              <div className="grid grid-cols-4 gap-2">
-                {gallery.map((img, idx) => (
-                  <div key={idx} className="relative aspect-[16/10] overflow-hidden rounded border border-[var(--border)] bg-black">
-                    <Image src={img} alt={`${title} screenshot ${idx + 1}`} fill sizes="120px" className="object-cover hover:scale-105 transition-transform" />
-                  </div>
-                ))}
+            {/* Media Gallery */}
+            <div className="space-y-4">
+              <div className="relative aspect-[16/10] overflow-hidden rounded-2xl border border-[var(--border-bright)] bg-[var(--bg-surface-3)] shadow-xl">
+                <Image
+                  src={primaryImage}
+                  alt={title}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 45vw"
+                  className="object-cover"
+                  priority
+                />
               </div>
-            ) : null}
+
+              {gallery.length > 1 && (
+                <div className="grid grid-cols-4 gap-2.5">
+                  {gallery.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className="relative aspect-[16/10] overflow-hidden rounded-lg border border-[var(--border)] bg-[var(--bg-surface-2)] shadow-sm hover:border-[var(--gold-luxury)] transition-colors"
+                    >
+                      <Image
+                        src={img}
+                        alt={`${title} view ${idx + 1}`}
+                        fill
+                        sizes="120px"
+                        className="object-cover"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </section>
 
-      {featuresList.length > 0 ? (
-        <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">
-          <div className="site-wrap py-16">
-            <h2 className="site-title">System Features & Capabilities</h2>
-            <ol className="mt-10 grid list-none gap-8 p-0 md:grid-cols-2">
-              {featuresList.map((feature, index) => (
-                <li key={index} className="border-t border-[var(--border)] pt-5">
-                  <p className="text-xs font-semibold uppercase tracking-[0.08em] text-[var(--accent)]">0{index + 1}</p>
-                  <h3 className="mt-2 flex items-center gap-2 text-lg font-semibold text-[var(--text)]">
-                    <Check className="h-4 w-4 text-[var(--accent)]" />
+      {/* Capabilities & Features Grid */}
+      {featuresList.length > 0 && (
+        <section className="site-wrap py-16 lg:py-24">
+          <div className="max-w-2xl">
+            <span className="text-xs font-mono font-bold tracking-widest text-[var(--gold-luxury)]">
+              SYSTEM CAPABILITIES
+            </span>
+            <h2 className="site-title text-[var(--text)] mt-2">
+              Engineered for reliability on the floor.
+            </h2>
+          </div>
+
+          <div className="mt-10 grid gap-6 md:grid-cols-2">
+            {featuresList.map((feature: any, index: number) => (
+              <div
+                key={index}
+                className="luxury-card p-6 sm:p-7 border border-[var(--border)] flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between pb-3 border-b border-[var(--border)]">
+                    <span className="text-xs font-mono font-bold text-[var(--gold-luxury)]">
+                      0{index + 1}
+                    </span>
+                    <div className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex items-center justify-center">
+                      <Check className="h-3 w-3" />
+                    </div>
+                  </div>
+
+                  <h3 className="text-lg font-bold text-[var(--text)] mt-3">
                     {feature.title}
                   </h3>
-                  <p className="mt-2 text-sm leading-relaxed text-[var(--text-muted)]">{feature.desc}</p>
-                </li>
-              ))}
-            </ol>
+                  <p className="text-xs sm:text-sm leading-relaxed text-[var(--text-muted)] mt-2">
+                    {feature.desc}
+                  </p>
+                </div>
+              </div>
+            ))}
           </div>
         </section>
-      ) : null}
+      )}
 
+      {/* Deployment & Rollout Specifications */}
+      <section className="border-y border-[var(--border)] bg-[var(--section-alt)] py-16 lg:py-20">
+        <div className="site-wrap">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card-bg)]">
+              <Server className="h-5 w-5 text-[var(--gold-luxury)] mb-3" />
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text)]">
+                Deployment
+              </p>
+              <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                Cloud native or on-premise local edge server with zero internet lag.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card-bg)]">
+              <CreditCard className="h-5 w-5 text-emerald-500 mb-3" />
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text)]">
+                Payments
+              </p>
+              <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                Native M-Pesa STK Push, Airtel Money, Visa/Mastercard & cash reconciliations.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card-bg)]">
+              <Clock className="h-5 w-5 text-blue-500 mb-3" />
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text)]">
+                Rollout SLA
+              </p>
+              <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                Complete configuration, hardware mesh, and staff training in 14–21 days.
+              </p>
+            </div>
+
+            <div className="p-5 rounded-xl border border-[var(--border)] bg-[var(--card-bg)]">
+              <ShieldCheck className="h-5 w-5 text-[var(--gold-luxury)] mb-3" />
+              <p className="text-xs font-bold uppercase tracking-wider text-[var(--text)]">
+                Data Ownership
+              </p>
+              <p className="text-xs text-[var(--text-muted)] mt-1 leading-relaxed">
+                100% data sovereignty. Your transactions remain your business property.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Global Call to Action */}
       <SiteCTA
         title={`Ready to deploy ${title}?`}
-        copy="Book a 30-minute walkthrough on your actual workflow. We provide clear pricing and a 3-week rollout window."
-        primary={{ href: "/demo", label: "Request a walkthrough" }}
+        copy="Book an architecture walkthrough for your team. We provide clear rollout schedules and fixed pricing."
+        primary={{ href: "/demo", label: "Request Walkthrough" }}
         secondary={{ href: "/contact", label: "Contact GTSS" }}
       />
     </div>

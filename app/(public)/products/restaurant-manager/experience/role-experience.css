@@ -1,10 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
 
 /* ── TOKENS ───────────────────────────────────────────
-   NOTE: These tokens are scoped to `.exp-page` (NOT `:root`)
-   to prevent them from bleeding into the global Navbar/Footer
-   rendered by the root layout. The experience page is a
-   self-contained dark canvas with its own gold palette. */
+   Scoped to `.exp-page` and supports automatic dark/light theme switching */
 .exp-page {
   --gold:          #E8B84B;
   --gold-bright:   #F5C842;
@@ -15,6 +12,7 @@
   --bg-card:       #0d0d0d;
   --bg-elevated:   #131313;
   --bg-hover:      #181818;
+  --nav-bg:        rgba(7,7,7,0.92);
   --text:          #FFFFFF;
   --text-dim:      #aaaaa2;
   --text-mid:      #d8d8d0;
@@ -22,7 +20,7 @@
   --font-display:  'Bebas Neue', cursive;
   --font-mono:     var(--font-ibm-mono);
   --font-body:     var(--font-ibm-sans);
-  --r:             2px;
+  --r:             4px;
 
   background: var(--bg);
   color: var(--text);
@@ -31,6 +29,44 @@
   line-height: 1.65;
   overflow-x: hidden;
   position: relative;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Light mode for experience page */
+[data-theme="light"] .exp-page,
+html[data-theme="light"] .exp-page {
+  --gold:          #B45309;
+  --gold-bright:   #D97706;
+  --gold-dim:      rgba(180,83,9,0.08);
+  --gold-border:   rgba(180,83,9,0.25);
+  --gold-glow:     rgba(180,83,9,0.04);
+  --bg:            #FAF7F2;
+  --bg-card:       #FFFFFF;
+  --bg-elevated:   #F3EEE3;
+  --bg-hover:      #EAE2D2;
+  --nav-bg:        rgba(250,247,242,0.94);
+  --text:          #0F172A;
+  --text-dim:      #64748B;
+  --text-mid:      #334155;
+  --border:        rgba(15,23,42,0.12);
+}
+
+[data-theme="dark"] .exp-page,
+html[data-theme="dark"] .exp-page {
+  --gold:          #E8B84B;
+  --gold-bright:   #F5C842;
+  --gold-dim:      rgba(232,184,75,0.10);
+  --gold-border:   rgba(232,184,75,0.22);
+  --gold-glow:     rgba(232,184,75,0.06);
+  --bg:            #070707;
+  --bg-card:       #0d0d0d;
+  --bg-elevated:   #131313;
+  --bg-hover:      #181818;
+  --nav-bg:        rgba(7,7,7,0.92);
+  --text:          #FFFFFF;
+  --text-dim:      #aaaaa2;
+  --text-mid:      #d8d8d0;
+  --border:        rgba(255,255,255,0.15);
 }
 
 /* Hide global layout elements for this page */
@@ -55,14 +91,14 @@ main {
   position: fixed;
   top: 0; left: 0; right: 0;
   z-index: 100;
-  background: rgba(7,7,7,0.92);
+  background: var(--nav-bg);
   backdrop-filter: blur(16px);
   border-bottom: 1px solid var(--gold-border);
   display: flex;
   align-items: center;
-  padding: 0 32px;
-  height: 52px;
-  gap: 0;
+  padding: 0 24px;
+  height: 56px;
+  gap: 12px;
 }
 .nav-brand {
   font-family: var(--font-mono);
@@ -150,7 +186,7 @@ main {
   line-height: 1.0;
   letter-spacing: 0.01em;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text);
   margin-bottom: 48px;
   padding-top: 30px;
 }
@@ -274,7 +310,7 @@ main {
   font-family: var(--font-display);
   font-size: 64px;
   line-height: 1;
-  color: #fff;
+  color: var(--text);
 }
 .stat-unit {
   font-family: var(--font-mono);
@@ -331,7 +367,7 @@ main {
   font-size: clamp(64px, 7vw, 100px);
   text-transform: uppercase;
   line-height: 1.0;
-  color: #fff;
+  color: var(--text);
 }
 .section-title .accent { color: var(--gold); }
 .section-desc {
@@ -917,7 +953,7 @@ main {
   font-family: var(--font-display);
   font-size: 36px;
   text-transform: uppercase;
-  color: #fff;
+  color: var(--text);
   line-height: 1.1;
 }
 .step-narrative {
