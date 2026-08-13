@@ -7,12 +7,16 @@ import { whatsappUrl } from "@/data/site";
 
 const faqs = [
   {
+    q: "How does putting our pharmacy or clinic online with GTSS PharmaCare work?",
+    a: "GTSS deploys a dedicated, SEO-optimized digital storefront for your pharmacy. Customers in your local area find you on Google, browse your OTC medicine catalogue, and chat with a 24/7 AI health assistant that answers dosage and availability questions. Customers can book clinic services (e.g. blood pressure checks, consultations) and pay instantly via M-Pesa. Behind the scenes, you get a full operating system with FEFO lot tracking, prescription verification, automated refill reminders, and caregiver access.",
+  },
+  {
     q: "How does GTSS continue running when our internet or fiber connection dies?",
-    a: "Every GTSS installation includes a configured On-Premise Edge Intranet Hub. All waiter ordering tablets, kitchen display screens (KDS), bar stations, and thermal printers communicate over your local Wi-Fi intranet network without routing through external cloud servers. Floor operations never stop, even during total ISP blackouts.",
+    a: "Every GTSS installation includes a configured On-Premise Edge Intranet Hub. All waiter ordering tablets, dispensing stations, kitchen display screens (KDS), bar stations, and thermal printers communicate over your local Wi-Fi intranet network without routing through external cloud servers. Floor operations never stop, even during total ISP blackouts.",
   },
   {
     q: "Do we need to buy expensive proprietary hardware from GTSS?",
-    a: "No. Unlike foreign POS systems that force you to purchase locked $1,000+ proprietary tablets, GTSS is hardware-agnostic. You can use standard Android tablets, iPads, desktop PCs, laptops, and any standard 80mm ESC/POS USB or network thermal printers.",
+    a: "No. Unlike foreign POS systems that force you to purchase locked $1,000+ proprietary tablets, GTSS is hardware-agnostic. You can use standard Android tablets, iPads, desktop PCs, laptops, and any standard 80mm ESC/POS USB or network thermal printers and barcode scanners.",
   },
   {
     q: "How are M-Pesa STK Push and cash transactions reconciled?",
@@ -20,7 +24,7 @@ const faqs = [
   },
   {
     q: "Can you migrate our existing menu, inventory, or member data?",
-    a: "Yes. During Phase 02 (Days 4–14) of our 21-day white-glove rollout, our engineering team handles full data ingestion—menus, recipe costings, customer profiles, member lists, and inventory catalogs—ensuring a seamless transition with zero manual re-entry.",
+    a: "Yes. During Phase 02 (Days 4–14) of our 21-day white-glove rollout, our engineering team handles full data ingestion—medicine catalogues, barcode databases, menus, recipe costings, customer profiles, member lists, and inventory catalogs—ensuring a seamless transition with zero manual re-entry.",
   },
   {
     q: "What is your emergency support SLA during high-volume rush hours?",
@@ -28,7 +32,7 @@ const faqs = [
   },
   {
     q: "What pricing models are available?",
-    a: "We believe in transparent, predictable African pricing in KES. We offer One-Time permanent ownership licenses for offline systems like Restaurant Manager, as well as affordable flat monthly subscriptions for cloud-backed platforms like Commersely and Church Management.",
+    a: "We believe in transparent, predictable African pricing in KES. We offer One-Time permanent ownership licenses for offline systems like Restaurant Manager, as well as affordable flat monthly subscriptions for cloud-backed platforms like PharmaCare OS, Commersely, and Church Management.",
   },
 ];
 

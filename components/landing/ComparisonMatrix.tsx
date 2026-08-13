@@ -5,10 +5,17 @@ import Link from "next/link";
 
 const comparisons = [
   {
-    feature: "Network Failover & Offline Speed",
-    generic: "Freezes when fiber or Wi-Fi drops; orders lose sync, cashiers halt.",
+    feature: "24/7 Customer Care & AI Chatbot",
+    generic: "Requires staff to answer repeat phone calls for medicine stock, opening hours & pricing.",
     genericOk: false,
-    gtss: "100% Local Intranet Server; sub-millisecond table orders & KDS with 0kb internet.",
+    gtss: "Automated 24/7 AI assistant answers dosage, pricing & takes clinic bookings without staff calls.",
+    gtssOk: true,
+  },
+  {
+    feature: "Network Failover & Offline Speed",
+    generic: "Freezes when fiber or Wi-Fi drops; orders lose sync, cashiers and dispensing halt.",
+    genericOk: false,
+    gtss: "100% Local Intranet Server; sub-millisecond table orders, dispensing & KDS with 0kb internet.",
     gtssOk: true,
   },
   {
@@ -19,24 +26,24 @@ const comparisons = [
     gtssOk: true,
   },
   {
-    feature: "Floor Onboarding & Staff Training",
-    generic: "Generic self-serve video links; frontline staff left to figure it out.",
+    feature: "Inventory & FEFO Batch Expiry",
+    generic: "Basic SKU counts without batch lots; expired drugs get discovered at till or wasted.",
     genericOk: false,
-    gtss: "On-site white-glove floor training; waiters, cooks & cashiers certified on live floor.",
+    gtss: "Full First-Expired-First-Out (FEFO) batch tracking with auto-expiry alerts and barcode intake.",
     gtssOk: true,
   },
   {
-    feature: "Hardware Independence",
-    generic: "Locked into expensive proprietary $1,000+ terminals and proprietary stands.",
+    feature: "Floor Onboarding & Staff Training",
+    generic: "Generic self-serve video links; frontline staff left to figure it out.",
     genericOk: false,
-    gtss: "Runs on standard Android tablets, phones, PCs, and any ESC/POS thermal printer.",
+    gtss: "On-site white-glove floor training; pharmacists, waiters, cooks & cashiers certified on live floor.",
     gtssOk: true,
   },
   {
     feature: "Pricing Transparency & Currency",
-    generic: "Unpredictable USD billing with per-device, per-waiter, and per-feature markups.",
+    generic: "Unpredictable USD billing with per-device, per-user, and per-feature markups.",
     genericOk: false,
-    gtss: "Predictable KES pricing with One-Time permanent ownership or flat monthly plans.",
+    gtss: "Predictable KES pricing with One-Time permanent ownership or flat affordable monthly plans.",
     gtssOk: true,
   },
   {

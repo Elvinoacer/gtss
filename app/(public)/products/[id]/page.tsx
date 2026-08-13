@@ -151,6 +151,18 @@ const slugMap: Record<string, string> = {
 export default async function ProductDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
+  // Pharmacy & Clinic dedicated page redirect
+  if (
+    id === "pharmacy" ||
+    id === "pharmacy-platform" ||
+    id === "pharma-care" ||
+    id === "pharma" ||
+    id === "cmkwhlte000004hlth9001gtss" ||
+    id === "GTS-HLT-9001"
+  ) {
+    redirect("/products/pharmacy");
+  }
+
   // Restaurant Manager dedicated page redirect
   if (id === "restaurant-manager" || id === "cmkwglu7u000004jv50w2cmcj" || id === "GTS-SAA-3104") {
     redirect("/products/restaurant-manager");

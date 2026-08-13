@@ -56,8 +56,21 @@ export function PublicProductCard({
 }: PublicProductCardProps) {
   const summary = stripMarkdown(tagline || description);
   const price = formatPrice(pricing, pricingModel, priceUSD, priceKES);
-  const isRestaurantManager = name.toLowerCase().includes("restaurant") || id === "cmkwglu7u000004jv50w2cmcj" || id === "restaurant-manager";
-  const href = isRestaurantManager ? "/products/restaurant-manager" : `/products/${id}`;
+  const isPharmacy =
+    name.toLowerCase().includes("pharmacy") ||
+    name.toLowerCase().includes("pharmacare") ||
+    id === "cmkwhlte000004hlth9001gtss" ||
+    id === "pharmacy-platform" ||
+    id === "pharmacy";
+  const isRestaurantManager =
+    name.toLowerCase().includes("restaurant") ||
+    id === "cmkwglu7u000004jv50w2cmcj" ||
+    id === "restaurant-manager";
+  const href = isPharmacy
+    ? "/products/pharmacy"
+    : isRestaurantManager
+    ? "/products/restaurant-manager"
+    : `/products/${id}`;
 
   return (
     <article className="group relative border border-[var(--border)] bg-[rgba(3,5,8,0.6)] backdrop-blur-xl transition-all duration-500 hover:border-[var(--border-bright)] hover:shadow-[var(--glow-gold-dim)] overflow-hidden">

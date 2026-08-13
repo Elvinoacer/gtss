@@ -1,7 +1,7 @@
 export const site = {
   name: "Great Thumbs Software Solutions",
   shortName: "GTSS",
-  tagline: "Practical software for East African businesses",
+  tagline: "Practical software for East African businesses, healthcare & institutions",
   location: "Nairobi, Kenya",
   email: "info@gtss.software",
   phoneDisplay: "+254 792 156 094",
@@ -26,6 +26,28 @@ export const navLinks = [
 ] as const;
 
 export const catalog = [
+  {
+    id: "pharmacy-platform",
+    dbId: "cmkwhlte000004hlth9001gtss",
+    productId: "GTS-HLT-9001",
+    title: "PharmaCare OS",
+    subtitle: "Digital Pharmacy, Clinic & Patient Care Operating System",
+    audience: "Pharmacies, chemists, clinics & healthcare wellness centers",
+    description:
+      "Put your pharmacy online: Be found on Google, answer customer queries 24/7 with AI, manage clinic service bookings, sell OTC medicines online, and accept instant M-Pesa payments with FEFO inventory and prescription refills underneath.",
+    href: "/products/pharmacy",
+    image: "/images/pharmacy_platform_hero.jpg",
+    logoUrl: "/images/GTSS-logo.png",
+    pricing: "Subscription / KES 3,500/mo ($27/mo) or One-Time KES 75,000",
+    features: [
+      "Be Found Online & SEO",
+      "24/7 AI Health Chatbot",
+      "Clinic Service Bookings",
+      "Online OTC Storefront",
+      "Direct M-Pesa STK Push",
+      "FEFO Expiry & Prescriptions",
+    ],
+  },
   {
     id: "restaurant-manager",
     dbId: "cmkwglu7u000004jv50w2cmcj",

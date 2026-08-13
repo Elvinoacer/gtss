@@ -14,6 +14,7 @@ import {
   Sparkles,
   Smartphone,
   CreditCard,
+  HeartPulse,
   UtensilsCrossed,
   Church,
   ShoppingBag,
@@ -24,11 +25,26 @@ import { catalog, whatsappUrl } from "@/data/site";
 
 const consoleTabs = [
   {
+    id: "pharmacy-platform",
+    label: "Pharmacy & Clinic Command",
+    shortLabel: "PharmaCare OS (Flagship)",
+    icon: HeartPulse,
+    product: catalog[0],
+    stat: "KES 214,800 Today",
+    badge: "24/7 AI & M-Pesa Live",
+    latency: "0.2s Realtime",
+    metrics: [
+      { label: "OTC & Refill Orders", val: "68 Completed" },
+      { label: "AI Health Queries", val: "142 Answered" },
+      { label: "FEFO Stock Lots", val: "0 Expired / 100% OK" },
+    ],
+  },
+  {
     id: "restaurant-manager",
     label: "Hospitality Command",
     shortLabel: "Restaurant POS",
     icon: UtensilsCrossed,
-    product: catalog[0],
+    product: catalog[1],
     stat: "KES 148,500 Today",
     badge: "Offline Server Active",
     latency: "0.4ms Intranet",
@@ -43,7 +59,7 @@ const consoleTabs = [
     label: "Congregation Treasury",
     shortLabel: "Church System",
     icon: Church,
-    product: catalog[1],
+    product: catalog[2],
     stat: "KES 420,000 Tithes",
     badge: "M-Pesa Multi-Ledger",
     latency: "Real-time STK",
@@ -58,7 +74,7 @@ const consoleTabs = [
     label: "Commerce Storefront",
     shortLabel: "E-Commerce",
     icon: ShoppingBag,
-    product: catalog[2],
+    product: catalog[3],
     stat: "KES 89,200 GMV",
     badge: "Next.js 15 Fast",
     latency: "0.2s TTFB",
@@ -73,7 +89,7 @@ const consoleTabs = [
     label: "Gig Marketplace",
     shortLabel: "JustInTime",
     icon: Briefcase,
-    product: catalog[3],
+    product: catalog[4],
     stat: "34 Jobs Matched",
     badge: "Hyperlocal Escrow",
     latency: "< 3min Match",
@@ -88,7 +104,7 @@ const consoleTabs = [
     label: "Campus Ecosystem",
     shortLabel: "Kampus Social",
     icon: GraduationCap,
-    product: catalog[4],
+    product: catalog[5],
     stat: "12,400 Students",
     badge: "Campus Feeds Live",
     latency: "P2P Intranet",
@@ -186,8 +202,8 @@ export function Hero() {
             </h1>
 
             <p className="site-lead mt-6 text-base lg:text-lg">
-              GTSS architects polished, offline-first software systems for hotels, restaurants, retail,
-              and institutions across East Africa. Uncompromising elegance in front of guests. Indestructible
+              GTSS architects polished software systems for pharmacies, healthcare clinics, hotels, restaurants, retail,
+              and institutions across East Africa. Uncompromising elegance in front of customers. Indestructible
               reliability when internet lines drop.
             </p>
 

@@ -6,13 +6,13 @@ import { SiteCTA } from "@/components/site/SiteCTA";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Great Thumbs Software Solutions is a Nairobi-based company building practical systems for East African businesses.",
+    "Great Thumbs Software Solutions is a Nairobi-based company building practical systems for East African businesses, pharmacies, and healthcare clinics.",
 };
 
 const principles = [
   {
     title: "Built for the floor, not the demo",
-    copy: "A system that only works in a presentation is not a system. We design for busy lunch rushes, night audits, and the Tuesday when the fibre is down.",
+    copy: "A system that only works in a presentation is not a system. We design for busy pharmacy dispensary queues, lunch rushes, night audits, and the Tuesday when the fibre is down.",
   },
   {
     title: "Local realities are the spec",
@@ -20,7 +20,7 @@ const principles = [
   },
   {
     title: "Stay after launch",
-    copy: "Deployment is the start. We train the people who will live in the product and remain a short call away when the first real weekend hits.",
+    copy: "Deployment is the start. We train the people who will live in the product and remain a short call away when the first real rush hits.",
   },
 ];
 
@@ -30,7 +30,7 @@ export default function AboutPage() {
       <PageHeader
         kicker="About GTSS"
         title="A Nairobi software company that ships systems people can run."
-        description="Great Thumbs Software Solutions designs, deploys, and supports practical software for hotels, restaurants, shops, churches, and service teams across East Africa."
+        description="Great Thumbs Software Solutions designs, deploys, and supports practical software for pharmacies, healthcare clinics, hotels, restaurants, shops, churches, and service teams across East Africa."
       />
 
       <section className="border-y border-[var(--border)] bg-[var(--section-alt)]">

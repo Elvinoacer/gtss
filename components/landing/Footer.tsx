@@ -6,6 +6,7 @@ import { catalog, mailUrl, site, telUrl, whatsappUrl } from "@/data/site";
 import { ShieldCheck, ArrowUpRight, Phone, Mail, MapPin } from "lucide-react";
 
 const solutions = [
+  { href: "/products/pharmacy", label: "PharmaCare OS (Flagship)" },
   { href: "/products/restaurant-manager", label: "Hospitality & Restaurant POS" },
   { href: "/products/cmkwpx6t3000004i89mcou9z5", label: "Church & Ministry Ledgers" },
   { href: "/products/cmkwvzp9n000004ieieyhqcde", label: "Commersely E-Commerce" },

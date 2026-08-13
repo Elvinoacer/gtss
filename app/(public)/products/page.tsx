@@ -18,7 +18,7 @@ import { SiteCTA } from "@/components/site/SiteCTA";
 export const metadata: Metadata = {
   title: "Products & Systems",
   description:
-    "Explore GTSS flagship software products: Restaurant Manager, Church Management, Commersely, JustInTime, Kampus, and Custom Enterprise Intranets.",
+    "Explore GTSS flagship software products: PharmaCare OS, Restaurant Manager, Church Management, Commersely, JustInTime, Kampus, and Custom Enterprise Intranets.",
 };
 
 export default function ProductsPage() {
@@ -48,9 +48,9 @@ export default function ProductsPage() {
             </h1>
 
             <p className="site-lead mt-5 text-base lg:text-lg">
-              Five flagship product systems running live across East Africa. Every system is built
-              offline-first, integrates regional payment rails (M-Pesa, card & cash), and includes
-              full on-site hardware setup and staff training.
+              Six flagship product systems running live across East Africa. From our flagship PharmaCare OS
+              to hospitality POS, commerce, and institutions—every system is built for local operating realities,
+              integrates native M-Pesa rails, and includes white-glove setup and training.
             </p>
           </div>
 

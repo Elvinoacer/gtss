@@ -35,6 +35,15 @@ export const demoFeatures = [
 
 export const demoReviews = [
   {
+    name: "Dr. Faith Muthoni",
+    role: "Director & Lead Pharmacist, MetroCare Chemist (Nairobi)",
+    content:
+      "Putting our pharmacy online with GTSS changed our entire operation. Our customers now find us on Google, get automated answers to dosage questions, book clinic services, and order OTC meds via M-Pesa. Staff no longer spend all morning answering repetitive phone calls.",
+    avatar:
+      "https://images.unsplash.com/photo-1594824813591-1375d0d625d9?w=100&h=100&fit=crop",
+    rating: 5,
+  },
+  {
     name: "Grace Wanjiku",
     role: "Front Office Manager, Java House Hotels",
     content:
@@ -43,7 +52,6 @@ export const demoReviews = [
       "https://plus.unsplash.com/premium_photo-1686244745026-98fc15ad3400?q=80&w=387&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     rating: 5,
   },
-
   {
     name: "Brian Otieno",
     role: "Operations Lead, JustInTime Services (Nairobi)",

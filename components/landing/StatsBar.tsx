@@ -1,6 +1,6 @@
 "use client";
 
-import { Building2, UtensilsCrossed, ShoppingCart, Church, GraduationCap, Truck, ShieldCheck, Activity } from "lucide-react";
+import { HeartPulse, UtensilsCrossed, ShoppingCart, Church, GraduationCap, Building2, Activity } from "lucide-react";
 
 const stats = [
   {
@@ -26,12 +26,12 @@ const stats = [
 ];
 
 const sectors = [
-  { name: "Luxury Lodges & Hotels", icon: Building2 },
-  { name: "Fine Dining & Busy Kitchens", icon: UtensilsCrossed },
-  { name: "Retail & Multi-Branch Chains", icon: ShoppingCart },
+  { name: "Pharmacies & Health Clinics", icon: HeartPulse },
+  { name: "Fine Dining & Restaurants", icon: UtensilsCrossed },
+  { name: "Hotels & Safari Lodges", icon: Building2 },
+  { name: "Retail & Multi-Branch", icon: ShoppingCart },
   { name: "Faith & Ministry Ledgers", icon: Church },
-  { name: "Higher Education Campuses", icon: GraduationCap },
-  { name: "Distribution & Field Teams", icon: Truck },
+  { name: "University Campuses", icon: GraduationCap },
 ];
 
 export function StatsBar() {

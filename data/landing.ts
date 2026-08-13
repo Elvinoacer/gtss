@@ -32,12 +32,30 @@ export const landingFeatures = [
   },
 ];
 
+export const landingCompanies = [
+  "Pharmacies & Clinics",
+  "Hotels & Lodges",
+  "Restaurants & Cafés",
+  "Retail & Commerce",
+  "Faith Institutions",
+  "Campus Communities",
+];
+
 export const landingTestimonials = [
+  {
+    name: "Dr. Faith Muthoni",
+    role: "Lead Pharmacist & Director, MetroCare Chemist (Nairobi)",
+    content:
+      '"Putting our pharmacy online with GTSS changed everything. Customers find us on Google, get automated answers to dosage questions, book BP screenings, and pay via M-Pesa. Plus FEFO inventory tracking eliminated expired drug losses completely."',
+    avatar:
+      "https://images.unsplash.com/photo-1594824813591-1375d0d625d9?w=100&h=100&fit=crop",
+    rating: 5,
+  },
   {
     name: "David Kamau",
     role: "Hotel Manager, Sunset Lodge",
     content:
-      '"The GTSS rollout immediately made us look more organized. Orders, staff coordination, and reporting all started feeling like one connected system."',
+      '"The GTSS rollout immediately made us look more organized. Orders, staff coordination, and reporting all started feeling like one connected system with zero downtime."',
     avatar:
       "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop",
     rating: 5,
@@ -60,15 +78,6 @@ export const landingTestimonials = [
       "https://images.unsplash.com/photo-1589156280159-27698a70f29e?w=100&h=100&fit=crop",
     rating: 5,
   },
-];
-
-export const landingCompanies = [
-  "Hotels",
-  "Restaurants",
-  "Retail",
-  "Education",
-  "Service Teams",
-  "Distribution",
 ];
 
 export const landingHowItWorks = [
@@ -112,6 +121,8 @@ export const landingNavbarLinks = [
 
 export const landingFooterLinks = {
   product: [
+    { label: "PharmaCare OS", href: "/products/pharmacy" },
+    { label: "Restaurant Manager", href: "/products/restaurant-manager" },
     { label: "All Products", href: "/products" },
     { label: "Pricing", href: "/pricing" },
     { label: "Enterprise", href: "/enterprise" },
@@ -133,7 +144,7 @@ export const landingFooterLinks = {
 };
 
 export const landingHero = {
-  title: "Practical Software for Local Businesses",
+  title: "Practical Software for Local Businesses & Healthcare",
   description:
     "GTSS builds polished, deployment-ready software products for African operators who need systems that feel premium, hold up under pressure, and make day-to-day execution look effortless.",
   primaryCta: { label: "Explore Products", href: "/products" },
@@ -141,14 +152,15 @@ export const landingHero = {
   features: [
     { text: "Works offline when it matters" },
     { text: "Built for African operations" },
+    { text: "Native M-Pesa integration" },
   ],
-  image: "/images/gtss-banner.png",
+  image: "/images/pharmacy_platform_hero.jpg",
 };
 
 export const landingCTA = {
-  title: "Ready to transform your business?",
+  title: "Ready to put your business or pharmacy online?",
   description:
-    "From one flagship workflow to a full operational stack, GTSS helps ambitious teams launch software that looks expensive because it is designed with care.",
+    "From our flagship PharmaCare OS and hospitality suites to custom enterprise stacks, GTSS helps ambitious teams launch software that looks expensive because it is designed with care.",
   primaryCta: { label: "View Our Products", href: "/products" },
   secondaryCta: { label: "Contact Us", href: "/contact" },
 };

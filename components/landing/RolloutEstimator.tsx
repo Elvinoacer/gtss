@@ -14,10 +14,12 @@ import {
   ShieldAlert,
   ArrowRight,
   Sparkles,
+  HeartPulse,
 } from "lucide-react";
 import { whatsappUrl } from "@/data/site";
 
 const businessTypes = [
+  { id: "healthcare", label: "Pharmacy & Healthcare", icon: HeartPulse, product: "PharmaCare OS (Flagship Storefront + AI Chatbot + FEFO Inventory)" },
   { id: "hospitality", label: "Hospitality & Dining", icon: UtensilsCrossed, product: "Restaurant Manager (POS + KDS + Intranet Server)" },
   { id: "retail", label: "Retail & Commerce", icon: ShoppingBag, product: "Commersely Enterprise Storefront & Stock Control" },
   { id: "church", label: "Faith & Ministry", icon: Church, product: "GTSS Church Management System (M-Pesa Multi-Ledger)" },
@@ -26,16 +28,17 @@ const businessTypes = [
 ];
 
 const branchScales = [
-  { id: "single", label: "1 Location", time: "14 Days", hardware: "1 Local Edge Hub" },
+  { id: "single", label: "1 Location", time: "14 Days", hardware: "1 Local Edge Hub + Cloud Storefront" },
   { id: "multi", label: "2 – 5 Locations", time: "21 Days", hardware: "Distributed Local Edge Hubs + Central Cloud" },
   { id: "enterprise", label: "6+ Locations / Network", time: "30 Days", hardware: "Enterprise Intranet Mesh + Dedicated Cloud Sync" },
 ];
 
 const bottlenecks = [
+  { id: "expiry", label: "Expired medicine losses & lot confusion", impact: "Zero-waste FEFO automated lot tracking" },
+  { id: "calls", label: "Endless phone calls for stock & pricing", impact: "24/7 AI chatbot & online medicine catalogue" },
   { id: "network", label: "Internet drops lose orders & stall till", impact: "100% Offline Intranet failover" },
-  { id: "leakage", label: "Inventory shrinkage & unrecorded stock", impact: "Real-time automated recipe & stock deductions" },
   { id: "reconcile", label: "Manual M-Pesa / Cash reconciliation errors", impact: "Zero-discrepancy instant STK ledger tracking" },
-  { id: "speed", label: "Kitchen confusion & slow customer turnaround", impact: "+35% Faster ticket dispatch with live KDS" },
+  { id: "speed", label: "Manual prescription checks & slow refill pickup", impact: "Automated WhatsApp refill pings & fast queue" },
 ];
 
 export function RolloutEstimator() {

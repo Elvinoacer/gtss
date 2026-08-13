@@ -60,7 +60,7 @@ export function Navbar() {
         {/* Primary Desktop Nav */}
         <nav className="hidden items-center gap-1 lg:flex" aria-label="Primary">
           {navLinks.map((link) => {
-            const active = pathname === link.href || (link.href !== "/" && pathname.startsWith(`${link.href}/`));
+            const active = pathname === link.href || pathname.startsWith(`${link.href}/`);
             return (
               <Link
                 key={link.href}

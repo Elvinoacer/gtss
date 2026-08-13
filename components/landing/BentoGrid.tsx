@@ -20,6 +20,7 @@ import { catalog, whatsappUrl } from "@/data/site";
 
 const filterCategories = [
   { id: "all", label: "All Systems" },
+  { id: "healthcare", label: "Healthcare & Pharmacy (Flagship)" },
   { id: "hospitality", label: "Hospitality & Dining" },
   { id: "commerce", label: "Commerce & Retail" },
   { id: "institutions", label: "Faith & Institutions" },
@@ -31,6 +32,7 @@ export function BentoGrid() {
 
   const filteredProducts = catalog.filter((product) => {
     if (activeCategory === "all") return true;
+    if (activeCategory === "healthcare") return product.id === "pharmacy-platform";
     if (activeCategory === "hospitality") return product.id === "restaurant-manager";
     if (activeCategory === "commerce") return product.id === "commersely";
     if (activeCategory === "institutions") return product.id === "church-management-system";
@@ -81,7 +83,9 @@ export function BentoGrid() {
           {filteredProducts.map((product, index) => (
             <div
               key={product.id}
-              className="luxury-card overflow-hidden flex flex-col justify-between group relative"
+              className={`luxury-card overflow-hidden flex flex-col justify-between group relative ${
+                product.id === "pharmacy-platform" ? "ring-2 ring-emerald-500/40 shadow-emerald-500/10" : ""
+              }`}
             >
               {/* Top Card Image & Badge */}
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-[var(--bg-surface-3)]">
@@ -95,9 +99,17 @@ export function BentoGrid() {
                 <div className="absolute inset-0 bg-gradient-to-t from-[var(--card-bg)] via-transparent to-transparent opacity-90" />
 
                 <div className="absolute top-3 left-3 right-3 flex items-center justify-between">
-                  <span className="text-[10px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-md bg-[var(--card-bg)]/90 backdrop-blur-md border border-[var(--border)] text-[var(--gold-luxury)]">
-                    {product.productId}
-                  </span>
+                  <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-bold uppercase tracking-[0.16em] px-2.5 py-1 rounded-md bg-[var(--card-bg)]/90 backdrop-blur-md border border-[var(--border)] text-[var(--gold-luxury)]">
+                      {product.productId}
+                    </span>
+                    {product.id === "pharmacy-platform" && (
+                      <span className="text-[9px] font-bold uppercase tracking-wider px-2 py-0.5 rounded bg-emerald-600 text-white shadow-sm flex items-center gap-1">
+                        <Sparkles className="h-2.5 w-2.5" />
+                        FLAGSHIP
+                      </span>
+                    )}
+                  </div>
                   <span className="text-[11px] font-semibold px-2.5 py-1 rounded-md bg-[var(--card-bg)]/90 backdrop-blur-md border border-[var(--border)] text-[var(--text)]">
                     {product.pricing}
                   </span>

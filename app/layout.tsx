@@ -25,12 +25,18 @@ const instrumentSerif = Instrument_Serif({
 export const metadata: Metadata = {
   metadataBase: new URL("https://gtss.vercel.app"),
   title: {
-    default: "GTSS — Software for East African businesses",
+    default: "GTSS — Enterprise & Healthcare Systems for East Africa",
     template: "%s · GTSS",
   },
   description:
-    "Great Thumbs Software Solutions builds practical software for hotels, restaurants, shops, and churches across East Africa. Offline-first. M-Pesa ready. Deployed in three weeks.",
+    "Great Thumbs Software Solutions builds practical software for pharmacies, healthcare clinics, hotels, restaurants, retail, and faith institutions across East Africa. Offline-first. M-Pesa ready. Deployed in three weeks.",
   keywords: [
+    "Pharmacy Software",
+    "PharmaCare OS",
+    "Digital Pharmacy Nairobi",
+    "Pharmacy Management Kenya",
+    "Clinic System",
+    "OTC Medicine Online",
     "Software Solutions",
     "Africa",
     "Kenya",
@@ -52,27 +58,27 @@ export const metadata: Metadata = {
     icon: "/images/GTSS-logo.png",
   },
   openGraph: {
-    title: "GTSS — Software for East African businesses",
+    title: "GTSS — Enterprise & Healthcare Systems for East Africa",
     description:
-      "Practical systems for hotels, restaurants, shops, and churches. Offline-first, M-Pesa ready, deployed in three weeks.",
+      "Practical systems for pharmacies, healthcare clinics, hotels, restaurants, retail, and churches. Offline-first, M-Pesa ready, deployed in three weeks.",
     siteName: "GTSS",
     locale: "en_KE",
     type: "website",
     images: [
       {
-        url: "/images/marketing_banner.png",
+        url: "/images/pharmacy_platform_hero.jpg",
         width: 1456,
         height: 816,
-        alt: "GTSS — Software that keeps your business running",
+        alt: "GTSS — PharmaCare OS & Enterprise Software Solutions",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "GTSS — Software for East African businesses",
+    title: "GTSS — Enterprise & Healthcare Systems for East Africa",
     description:
-      "Practical. Offline-first. M-Pesa ready. Built in Nairobi for East African operators.",
-    images: ["/images/marketing_banner.png"],
+      "Practical. Offline-first. M-Pesa ready. Built in Nairobi for East African pharmacies and operators.",
+    images: ["/images/pharmacy_platform_hero.jpg"],
   },
 };
 
