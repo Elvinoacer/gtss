@@ -38,7 +38,7 @@ export const catalog = [
     href: "/products/pharmacy",
     image: "/images/pharmacy_platform_hero.jpg",
     logoUrl: "/images/GTSS-logo.png",
-    pricing: "Subscription / KES 3,500/mo ($27/mo) or One-Time KES 75,000",
+    pricing: "Subscription KES 1,000/mo or One-Time KES 10,000 (Informational Web: KES 5,000)",
     features: [
       "Be Found Online & SEO",
       "24/7 AI Health Chatbot",
