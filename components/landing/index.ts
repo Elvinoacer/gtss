@@ -1,8 +1,14 @@
 export { Navbar } from "./Navbar";
 export { Hero } from "./Hero";
 export { StatsBar } from "./StatsBar";
+export { ArchitectureEngine } from "./ArchitectureEngine";
 export { BentoGrid } from "./BentoGrid";
+export { RolloutEstimator } from "./RolloutEstimator";
 export { SequenceExecution } from "./SequenceExecution";
+export { ComparisonMatrix } from "./ComparisonMatrix";
+export { Testimonials } from "./Testimonials";
+export { FAQSection } from "./FAQSection";
+export { CTA } from "./CTA";
 export { Footer } from "./Footer";
 export { ThemeToggle } from "./ThemeToggle";
 export { WhatsAppButton } from "./WhatsAppButton";
